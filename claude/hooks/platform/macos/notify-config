@@ -1,0 +1,20 @@
+# ====================
+# Claude Code Notification Configuration
+# ====================
+# This file configures how notifications are sent from Claude Code hooks.
+#
+# NOTIFICATION_TYPE: The type of notification to send
+#   - "local": Send macOS native notifications (default)
+#   - "webhook": Send notifications via HTTP POST to a webhook URL
+#
+# LOCAL_SOUND_NAME: Sound to play for local notifications
+#   Available sounds: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse,
+#                     Ping, Pop, Purr, Sosumi, Submarine, Tink
+#   Default: Glass
+#
+# WEBHOOK_URL: URL to send webhook notifications to (required if NOTIFICATION_TYPE="webhook")
+#   Example: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+
+NOTIFICATION_TYPE="local"
+LOCAL_SOUND_NAME="Glass"
+WEBHOOK_URL=""
