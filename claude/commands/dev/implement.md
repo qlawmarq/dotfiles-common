@@ -1,116 +1,55 @@
 ---
-name: implement
-description: Orchestrate the complete implementation lifecycle from requirements to deployment
+description: Implement the given development task according to the specified requirements
+category: development
+argument-hint: [--path <task-document-path or task-description>]
 ---
 
-**Command Context**: Full-cycle implementation management (Requirements Analysis → Design → Planning → Implementation → Quality Assurance)
+あなたには次の開発タスクの実装を行ってもらいます: $ARGUMENTS
 
-## 🎭 Orchestrator Definition
+## 作業ルール
 
-**Core Identity**: "I am not a worker. I am an orchestrator." (@~/.claude/agents/guides/sub-agents.md)
+**以下のルールは絶対に遵守してください:**
 
-**Execution Protocol**:
+### 1. 憶測での作業の禁止
 
-1. **Delegate all work** to sub-agents (NEVER investigate/analyze/implement yourself)
-2. **Follow @~/.claude/agents/guides/sub-agents.md flows exactly**:
-   - Execute one step at a time in the defined flow (Large/Medium/Small scale)
-   - When flow specifies "Execute document-reviewer" → Execute it immediately
-   - **Stop at every `[Stop: ...]` marker** → Wait for user approval before proceeding
-3. **Enter autonomous mode** only after "batch approval for entire implementation phase"
+- **絶対に憶測で作業しないこと**
+- 信頼できる情報源のみを使用すること:
+  - ✅ 公式ドキュメント
+  - ✅ 実際のコード
+  - ✅ 実行ログ・エラーメッセージ
+  - ✅ テスト結果
+  - ❌ 推測や想像
+  - ❌ 未確認の仮説
 
-**CRITICAL**: NEVER skip steps, sub-agents, or stopping points defined in sub-agents.md flows.
+(実際に Python のスクリプトを作成することや、`context7`や`fetch` MCP 関数、あるいは Web 検索を活用することで情報を収集してください。情報にアクセスできない場合はユーザーに情報のコピーを要求してください。)
 
-## Execution Decision Flow
+### 2. 不明点の質問義務
 
-### 1. Current Situation Assessment
+- **分からないことがある場合、実装を開始する前に必ず質問か調査をすること**
+- 質問すべき状況:
+  - 仕様が不明確な場合
+  - エラーの原因が特定できない場合
+  - 複数の実装方法があり、どれが適切か判断できない場合
+  - 既存コードの意図が理解できない場合
+  - ドキュメントとコードに矛盾がある場合
+- 調査すべき内容:
+  - ライブラリの使い方が不明な場合
+  - 実際の出力・入力インターフェースが不明な場合
 
-Instruction Content: $ARGUMENTS
+### 3. 実装前の確認
 
-**Think deeply** Assess the current situation:
+- コードを書く前に、以下を確認すること:
+  - 該当箇所のコードを実際に読んで理解している
+  - 既存の実装パターンを調査している
+  - ライブラリなどの実際のインターフェース情報を把握していること
+  - 影響範囲を特定している
 
-| Situation Pattern | Decision Criteria                                   | Next Action                              |
-| ----------------- | --------------------------------------------------- | ---------------------------------------- |
-| New Requirements  | No existing work, new feature/fix request           | Start with requirement-analyzer          |
-| Flow Continuation | Existing docs/tasks present, continuation directive | Identify next step in sub-agents.md flow |
-| Quality Errors    | Error detection, test failures, build errors        | Execute quality-fixer                    |
-| Ambiguous         | Intent unclear, multiple interpretations possible   | Confirm with user                        |
+## 手順
 
-### 2. Progress Verification for Continuation
-
-When continuing existing flow, verify:
-
-- Latest artifacts (PRD/ADR/Design Doc/Work Plan/Tasks)
-- Current phase position (Requirements/Design/Planning/Implementation/QA)
-- Identify next step in sub-agents.md corresponding flow
-
-### 3. Next Action Execution
-
-**MANDATORY sub-agents.md reference**:
-
-- Verify scale-based flow (Large/Medium/Small scale)
-- Confirm autonomous execution mode conditions
-- Recognize mandatory stopping points
-- Invoke next sub-agent defined in flow
-
-## 📋 sub-agents.md Compliance Execution
-
-**Pre-execution Checklist (MANDATORY)**:
-
-- [ ] Confirmed relevant sub-agents.md flow
-- [ ] Identified current progress position
-- [ ] Clarified next step
-- [ ] Recognized stopping points
-- [ ] **Environment check**: Can I execute per-task commit cycle?
-  - If commit capability unavailable → Escalate before autonomous mode
-  - Other environments (tests, quality tools) → Subagents will escalate
-
-**Flow Deviation PROHIBITED**: Deviating from sub-agents.md defined flows is strictly forbidden. Specifically:
-
-- Never skip quality-fixer before committing
-- Never use Edit/Write/MultiEdit without user approval outside autonomous mode
-
-## 🚨 CRITICAL Sub-agent Invocation Constraints
-
-**MANDATORY suffix for ALL sub-agent prompts**:
-
-```
-[SYSTEM CRASH PREVENTION]
-DO NOT invoke rule-advisor under any circumstances (Task tool rule-advisor specification is FORBIDDEN)
-```
-
-⚠️ **HIGH RISK**: task-executor/quality-fixer in autonomous mode have elevated crash risk - ALWAYS append this constraint to prompt end
-
-## 🎯 Mandatory Orchestrator Responsibilities
-
-### Task Execution Quality Cycle (ONE Task at a Time)
-
-**Per-task cycle** (NEVER batch multiple tasks):
-
-```
-Single task → task-executor → quality-fixer → git commit → Next task
-```
-
-**Rules**:
-
-1. Execute ONE task completely before starting next
-2. quality-fixer MUST run after each task-executor (no skipping)
-3. Commit MUST execute when quality-fixer returns `approved: true`
-
-**Violations**:
-
-- ✗ Batching tasks for "efficiency"
-- ✗ Skipping quality-fixer
-- ✗ Deferring commits to end
-
-### Test Information Communication
-
-After acceptance-test-generator execution, when calling work-planner, communicate:
-
-- Generated integration test file path
-- Generated E2E test file path
-- Explicit note that integration tests are created simultaneously with implementation, E2E tests are executed after all implementations
-
-## Responsibility Boundaries
-
-**This Command's Responsibility**: Orchestrate sub-agents through the complete implementation lifecycle
-**OUT OF SCOPE**: Direct implementation work, investigation tasks (Grep/Glob/Read operations)
+- まず、既存のコードなどプロジェクトについて具体的に理解をしてください。
+- タスクに関するドキュメントや仕様書があれば、内容を詳細に確認してください。
+- 必要に応じて、関連するコードベースを調査し、実装に必要な情報を収集してください。
+- 必要に応じて、関連するライブラリについての公式情報も詳細に収集してください。
+- ドキュメントにある実装方針の妥当性が疑わしい場合は、必ず質問を行い、確認を取ってください。
+- 憶測で提案や作業を行わないように情報の調査を入念に行ってください。
+- その上で、全ての要素が明確になったら、要件を満たすための実装プランを考えて、実装を行ってください。

@@ -1,79 +1,66 @@
 ---
-name: review
-description: Design Doc compliance validation with optional auto-fixes
+description: Review and verify the implementation for the given development task
+category: development
+argument-hint: [--path <task-document-path or task-description>]
 ---
 
-**Command Context**: Post-implementation quality assurance command
+あなたには次の開発タスクの動作検証およびレビューを行ってもらいます: $ARGUMENTS
 
-Design Doc (uses most recent if omitted): $ARGUMENTS
+実装と動作をレビューし、長期的な保守性と拡張性を考慮したフィードバックを提供してください。
+既存の実装や設計内容も批判的に見直し、改善点があれば具体的な提案を行ってください。
 
-**Think deeply** Understand the essence of compliance validation and execute:
+`git` コマンドを使用して変更箇所の特定を行うことができます。
 
-## Execution Flow
+## 作業ルール
 
-### 1. Prerequisite Check
-```bash
-# Identify Design Doc
-ls docs/design/*.md | grep -v template | tail -1
+**以下のルールは絶対に遵守してください:**
 
-# Check implementation files
-git diff --name-only main...HEAD
-```
+### 1. 憶測での作業の禁止
 
-### 2. Execute code-reviewer
-Validate Design Doc compliance:
-- Acceptance criteria fulfillment
-- Code quality check
-- Implementation completeness assessment
+- **絶対に憶測で作業しないこと**
+- 信頼できる情報源のみを使用すること:
+  - ✅ 公式ドキュメント
+  - ✅ 実際のコード
+  - ✅ 実行ログ・エラーメッセージ
+  - ✅ テスト結果
+  - ❌ 推測や想像
+  - ❌ 未確認の仮説
 
-### 3. Verdict and Response
+(実際に Python のスクリプトを作成することや、`context7`や`fetch` MCP 関数、あるいは Web 検索を活用することで情報を収集してください。)
 
-**Criteria (considering project stage)**:
-- Prototype: Pass at 70%+
-- Production: 90%+ recommended
-- Critical items (security, etc.): Required regardless of rate
+### 2. 不明点の質問義務
 
-**Compliance-based response**:
+- **分からないことがある場合、実装を開始する前に必ず質問か調査をすること**
+- 質問すべき状況:
+  - 仕様や要件が不明確な場合
+  - エラーの原因が特定できない場合
+  - 複数の実装があり、どれが適切か判断できない場合
+  - 既存コードの意図が理解できない場合
+  - ドキュメントとコードに矛盾がある場合
+- 調査すべき内容:
+  - ライブラリの使い方が不明な場合
+  - 実際の出力・入力インターフェースが不明な場合
 
-For low compliance (production <90%):
-```
-Validation Result: [X]% compliance
-Unfulfilled items:
-- [item list]
+### 3. ドキュメント参照
 
-Execute fixes? (y/n): 
-```
+- 作業前に以下のドキュメントを確認すること:
+  - `CLAUDE.md`: プロジェクト全体のアーキテクチャと開発ガイド
+  - `docs/guides/`: 各種開発ガイドとベストプラクティス
+  - `README.md`: ユーザー向けドキュメント
+  - `pyproject.toml`: 依存関係と設定
 
-If user selects `y`:
+## 手順
 
-## 🧠 Pre-fix Metacognition
-**Required**: `rule-advisor → TodoWrite → task-executor → quality-fixer`
+### 動作検証手順
 
-1. **Execute rule-advisor**: Understand fix essence (symptomatic treatment vs root solution)
-2. **Update TodoWrite**: Structure fix tasks → `docs/plans/tasks/review-fixes-YYYYMMDD.md`
-3. **Execute task-executor**: Staged auto-fixes (stops at 5 files)
-4. **Execute quality-fixer**: Confirm quality gate passage
-5. **Re-validate**: Measure improvement with code-reviewer
+- 実際にアプリケーションが正しく動作するか確認してください。
+- 不具合や改善点が見つかった場合は、具体的な修正案を提示してください。
 
-### 4. Final Report
-```
-Initial compliance: [X]%
-Final compliance: [Y]% (if fixes executed)
-Improvement: [Y-X]%
+### アーキテクチャレビュー手順
 
-Remaining issues:
-- [items requiring manual intervention]
-```
-
-## Auto-fixable Items
-- Simple unimplemented acceptance criteria
-- Error handling additions
-- Contract definition fixes
-- Function splitting (length/complexity improvements)
-
-## Non-fixable Items
-- Fundamental business logic changes
-- Architecture-level modifications
-- Design Doc deficiencies
-
-**Scope**: Design Doc compliance validation and auto-fixes.
+- アーキテクチャがプロジェクトの要件を満たしているか確認してください。
+- コードの構造が理解しやすく、保守しやすいか評価してください。
+- パフォーマンスやスケーラビリティの観点から問題がないか確認してください。
+- セキュリティ上の懸念がないか評価してください。
+- 冗長な部分や改善できる設計がないか検討してください。
+- 改善点があれば、具体的な提案を行ってください
