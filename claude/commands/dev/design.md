@@ -1,11 +1,10 @@
 ---
 description: Design a detailed implementation plan for the given development task
 category: development
-tools: Read, Write, Edit, MultiEdit, Glob, LS, TodoWrite, WebSearch
 argument-hint: [--path <task-document-path or task-description>]
 ---
 
-次の開発タスクのプランニングを行ってもらいます : $ARGUMENTS
+次の開発タスクの設計を行ってもらいます : $ARGUMENTS
 
 **Think harder** 設計への影響を深く考慮し、まず要件の背景と目的を理解するため対話を行ってください。
 タスクの背景理解には以下の情報が含まれます：
