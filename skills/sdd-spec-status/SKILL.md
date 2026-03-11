@@ -1,7 +1,9 @@
 ---
-description: Show specification status and progress
-allowed-tools: Bash, Read, Glob, Write, Edit, MultiEdit, Update
-argument-hint: <feature-name>
+name: sdd-spec-status
+description: >-
+  Show specification status and progress for an SDD feature.
+  Displays current phase, completion percentages, and next actions.
+argument-hint: "<feature-name>"
 ---
 
 # Specification Status
@@ -18,15 +20,23 @@ argument-hint: <feature-name>
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Feature name** (required): The feature directory name in `docs/tasks/`
+
+If inputs were provided with this skill invocation, use them directly.
+Otherwise, ask the user for the feature name.
+
 ## Core Task
 
-Generate status report for feature **$1** showing progress across all phases.
+Generate status report for the specified feature showing progress across all phases.
 
 ## Execution Steps
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/$1/` first, then `docs/tasks/done/$1/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### Step 1: Load Spec Context
 
@@ -65,7 +75,7 @@ Create report in the language specified in spec.json covering:
 
 - **Read**: Load spec.json first, then other spec files as needed
 - **Parse carefully**: Extract completion data from tasks.md checkboxes
-- Use **Glob** to check which spec files exist
+- Use file search tools to check which spec files exist
 
 ## Output Description
 
@@ -87,7 +97,7 @@ Provide status report in the language specified in spec.json:
 
 **Spec Not Found**:
 
-- **Message**: "No spec found for `$1`. Check available specs in `docs/tasks/todo/` and `docs/tasks/done/`"
+- **Message**: "No spec found for the specified feature. Check available specs in `docs/tasks/todo/` and `docs/tasks/done/`"
 - **Action**: List available spec directories from both `docs/tasks/todo/` and `docs/tasks/done/`
 
 **Incomplete Spec**:

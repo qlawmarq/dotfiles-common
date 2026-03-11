@@ -1,7 +1,9 @@
 ---
-description: Execute spec tasks using TDD methodology
-allowed-tools: Bash, Read, Write, Edit, MultiEdit, Grep, Glob, LS, WebFetch, WebSearch
-argument-hint: <feature-name> [task-numbers]
+name: sdd-spec-impl
+description: >-
+  Execute SDD spec tasks using TDD methodology.
+  Implements approved tasks following Red-Green-Refactor cycle.
+argument-hint: "<feature-name> [task-numbers]"
 ---
 
 # Implementation Task Executor
@@ -19,15 +21,25 @@ argument-hint: <feature-name> [task-numbers]
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Feature name** (required): The feature directory name in `docs/tasks/`
+2. **Task numbers** (optional): Specific task numbers to execute (e.g., "1.1" or "1,2,3")
+
+If inputs were provided with this skill invocation, use them directly.
+Otherwise, ask the user for the feature name.
+If task numbers are not provided, all pending tasks will be executed.
+
 ## Core Task
 
-Execute implementation tasks for feature **$1** using Test-Driven Development.
+Execute implementation tasks for the specified feature using Test-Driven Development.
 
 ## Execution Steps
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/$1/` first, then `docs/tasks/done/$1/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### Step 1: Load Context
 
@@ -44,7 +56,7 @@ Execute implementation tasks for feature **$1** using Test-Driven Development.
 
 **Determine which tasks to execute**:
 
-- If `$2` provided: Execute specified task numbers (e.g., "1.1" or "1,2,3")
+- If task numbers were provided: Execute specified task numbers (e.g., "1.1" or "1,2,3")
 - Otherwise: Execute all pending tasks (unchecked `- [ ]` in tasks.md)
 
 ### Step 3: Execute with TDD
@@ -107,7 +119,7 @@ Provide brief summary in the language specified in spec.json:
 **Tasks Not Approved or Missing Spec Files**:
 
 - **Stop Execution**: All spec files must exist and tasks must be approved
-- **Suggested Action**: "Complete previous phases: `/sdd:spec-requirements`, `/sdd:spec-design`, `/sdd:spec-tasks`"
+- **Suggested Action**: "Complete previous phases: `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-tasks`"
 
 **Test Failures**:
 
@@ -118,9 +130,9 @@ Provide brief summary in the language specified in spec.json:
 
 **Execute specific task(s)**:
 
-- `/sdd:spec-impl $1 1.1` - Single task
-- `/sdd:spec-impl $1 1,2,3` - Multiple tasks
+- `/sdd-spec-impl <feature-name> 1.1` - Single task
+- `/sdd-spec-impl <feature-name> 1,2,3` - Multiple tasks
 
 **Execute all pending**:
 
-- `/sdd:spec-impl $1` - All unchecked tasks
+- `/sdd-spec-impl <feature-name>` - All unchecked tasks

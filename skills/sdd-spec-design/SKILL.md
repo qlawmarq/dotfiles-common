@@ -1,7 +1,9 @@
 ---
-description: Create comprehensive technical design for a specification
-allowed-tools: Bash, Glob, Grep, LS, Read, Write, Edit, MultiEdit, Update, WebSearch, WebFetch
-argument-hint: <feature-name> [-y]
+name: sdd-spec-design
+description: >-
+  Create comprehensive technical design for an SDD specification.
+  Translates requirements (WHAT) into architectural design (HOW).
+argument-hint: "<feature-name> [-y]"
 ---
 
 # Technical Design
@@ -21,17 +23,27 @@ argument-hint: <feature-name> [-y]
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Feature name** (required): The feature directory name in `docs/tasks/`
+2. **Auto-approve flag** (optional): `-y` to auto-approve the previous phase
+
+If inputs were provided with this skill invocation, use them directly.
+Otherwise, ask the user for the feature name.
+If the auto-approve flag is not provided, default to interactive approval mode.
+
 ## Core Task
 
 Understand requirements, research project architecture and the latest best practices.
 Concretize the design through dialogue with users.
-Write technical design document for feature **$1** based on approved requirements.
+Write technical design document for the specified feature based on approved requirements.
 
 ## Execution Steps
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/$1/` first, then `docs/tasks/done/$1/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### Step 1: Load Context
 
@@ -45,7 +57,7 @@ Write technical design document for feature **$1** based on approved requirement
 
 **Validate requirements approval**:
 
-- If `-y` flag provided ($2 == "-y"): Auto-approve requirements in spec.json
+- If auto-approve flag was provided: Auto-approve requirements in spec.json
 - Otherwise: Verify approval status (stop if unapproved, see Safety & Fallback)
 
 ### Step 2: Discovery & Analysis
@@ -88,7 +100,7 @@ Write technical design document for feature **$1** based on approved requirement
 
 4. **Persist Findings to Research Log**:
 
-- Create or update `docs/tasks/$1/research.md` using the shared template
+- Create or update `docs/tasks/<feature-name>/research.md` using the shared template
 - Summarize discovery scope and key findings (Summary section)
 - Record investigations in Research Log topics with sources and implications
 - Document architecture pattern evaluation, design decisions, and risks using the template sections
@@ -146,7 +158,7 @@ Write technical design document for feature **$1** based on approved requirement
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Status**: Confirm design document generated at `docs/tasks/$1/design.md`
+1. **Status**: Confirm design document generated at `docs/tasks/<feature-name>/design.md`
 2. **Discovery Type**: Which discovery process was executed (full/light/minimal)
 3. **Key Findings**: 2-3 critical insights from `research.md` that shaped the design
 4. **Next Action**: Approval workflow guidance (see Safety & Fallback)
@@ -164,13 +176,13 @@ Provide brief summary in the language specified in spec.json:
 
 - **Stop Execution**: Cannot proceed without approved requirements
 - **User Message**: "Requirements not yet approved. Approval required before design generation."
-- **Suggested Action**: "Run `/sdd:spec-design $1 -y` to auto-approve requirements and proceed"
+- **Suggested Action**: "Run `/sdd-spec-design <feature-name> -y` to auto-approve requirements and proceed"
 
 **Missing Requirements**:
 
 - **Stop Execution**: Requirements document must exist
-- **User Message**: "No requirements.md found at `docs/tasks/$1/requirements.md`"
-- **Suggested Action**: "Run `/sdd:spec-requirements $1` to generate requirements first"
+- **User Message**: "No requirements.md found at `docs/tasks/<feature-name>/requirements.md`"
+- **Suggested Action**: "Run `/sdd-spec-requirements <feature-name>` to generate requirements first"
 
 **Template Missing**:
 
@@ -194,13 +206,13 @@ Provide brief summary in the language specified in spec.json:
 
 **If Design Approved**:
 
-- Review generated design at `docs/tasks/$1/design.md`
-- **Optional**: Run `/sdd:validate-design $1` for interactive quality review
-- Then `/sdd:spec-tasks $1 -y` to generate implementation tasks
+- Review generated design at `docs/tasks/<feature-name>/design.md`
+- **Optional**: Run `/sdd-validate-design <feature-name>` for interactive quality review
+- Then `/sdd-spec-tasks <feature-name> -y` to generate implementation tasks
 
 **If Modifications Needed**:
 
-- Provide feedback and re-run `/sdd:spec-design $1`
+- Provide feedback and re-run `/sdd-spec-design <feature-name>`
 - Existing design used as reference (merge mode)
 
 **Note**: Design approval is mandatory before proceeding to task generation.

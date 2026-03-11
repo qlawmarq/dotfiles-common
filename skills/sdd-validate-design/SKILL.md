@@ -1,7 +1,9 @@
 ---
-description: Interactive technical design quality review and validation
-allowed-tools: Read, Glob, Grep
-argument-hint: <feature-name>
+name: sdd-validate-design
+description: >-
+  Interactive technical design quality review and validation.
+  Conducts GO/NO-GO assessment with balanced feedback.
+argument-hint: "<feature-name>"
 ---
 
 # Technical Design Validation
@@ -18,13 +20,21 @@ argument-hint: <feature-name>
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Feature name** (required): The feature directory name in `docs/tasks/`
+
+If inputs were provided with this skill invocation, use them directly.
+Otherwise, ask the user for the feature name.
+
 ## Core Task
 
-Interactive design quality review for feature **$1** based on approved requirements and design document.
+Interactive design quality review for the specified feature based on approved requirements and design document.
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/$1/` first, then `docs/tasks/done/$1/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
@@ -82,7 +92,7 @@ Provide output in the language specified in spec.json with:
 
 ### Error Scenarios
 
-- **Missing Design**: If design.md doesn't exist, stop with message: "Run `/sdd:spec-design $1` first to generate design document"
+- **Missing Design**: If design.md doesn't exist, stop with message: "Run `/sdd-spec-design <feature-name>` first to generate design document"
 - **Design Not Generated**: If design phase not marked as generated in spec.json, warn but proceed with review
 - **Empty Steering Directory**: Warn user that project context is missing and may affect review quality
 - **Language Undefined**: Default to English (`en`) if spec.json doesn't specify language
@@ -92,13 +102,13 @@ Provide output in the language specified in spec.json with:
 **If Design Passes Validation (GO Decision)**:
 
 - Review feedback and apply changes if needed
-- Run `/sdd:spec-tasks $1` to generate implementation tasks
-- Or `/sdd:spec-tasks $1 -y` to auto-approve and proceed directly
+- Run `/sdd-spec-tasks <feature-name>` to generate implementation tasks
+- Or `/sdd-spec-tasks <feature-name> -y` to auto-approve and proceed directly
 
 **If Design Needs Revision (NO-GO Decision)**:
 
 - Address critical issues identified
-- Re-run `/sdd:spec-design $1` with improvements
-- Re-validate with `/sdd:validate-design $1`
+- Re-run `/sdd-spec-design <feature-name>` with improvements
+- Re-validate with `/sdd-validate-design <feature-name>`
 
 **Note**: Design validation is recommended but optional. Quality review helps catch issues early.

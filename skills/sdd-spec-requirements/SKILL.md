@@ -1,7 +1,9 @@
 ---
-description: Generate comprehensive requirements for a specification
-allowed-tools: Bash, Glob, Grep, LS, Read, Write, Edit, MultiEdit, Update, WebSearch, WebFetch
-argument-hint: <feature-name>
+name: sdd-spec-requirements
+description: >-
+  Generate comprehensive requirements for an SDD specification.
+  Creates testable requirements in EARS format based on the project description.
+argument-hint: "<feature-name>"
 ---
 
 # Requirements Generation
@@ -19,13 +21,21 @@ argument-hint: <feature-name>
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Feature name** (required): The feature directory name in `docs/tasks/`
+
+If inputs were provided with this skill invocation, use them directly.
+Otherwise, ask the user for the feature name.
+
 ## Core Task
 
-Generate complete requirements for feature **$1** based on the project description in requirements.md.
+Generate complete requirements for the specified feature based on the project description in requirements.md.
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/$1/` first, then `docs/tasks/done/$1/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
@@ -102,15 +112,15 @@ Provide output in the language specified in spec.json with:
 
 **If Requirements Approved**:
 
-- Review generated requirements at `docs/tasks/$1/requirements.md`
+- Review generated requirements at `docs/tasks/<feature-name>/requirements.md`
 - **Optional Gap Analysis** (for existing codebases):
-  - Run `/sdd:validate-gap $1` to analyze implementation gap with current code
+  - Run `/sdd-validate-gap <feature-name>` to analyze implementation gap with current code
   - Identifies existing components, integration points, and implementation strategy
   - Recommended for brownfield projects; skip for greenfield
-- Then `/sdd:spec-design $1 -y` to proceed to design phase
+- Then `/sdd-spec-design <feature-name> -y` to proceed to design phase
 
 **If Modifications Needed**:
 
-- Provide feedback and re-run `/sdd:spec-requirements $1`
+- Provide feedback and re-run `/sdd-spec-requirements <feature-name>`
 
 **Note**: Approval is mandatory before proceeding to design phase.

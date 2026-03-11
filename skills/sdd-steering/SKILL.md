@@ -1,6 +1,8 @@
 ---
-description: Manage docs/steering/ as persistent project knowledge
-allowed-tools: Bash, Read, Write, Edit, MultiEdit, Glob, Grep, LS
+name: sdd-steering
+description: >-
+  Manage docs/steering/ as persistent project knowledge.
+  Bootstraps steering from codebase analysis or syncs existing steering with code changes.
 ---
 
 # Kiro Steering Management
@@ -29,7 +31,7 @@ allowed-tools: Bash, Read, Write, Edit, MultiEdit, Glob, Grep, LS
 
 Check `docs/steering/` status:
 
-**Bootstrap Mode**: Empty OR missing core files (product.md, tech.md, structure.md)  
+**Bootstrap Mode**: Empty OR missing core files (product.md, tech.md, structure.md)
 **Sync Mode**: All core files exist
 
 ---
@@ -38,9 +40,9 @@ Check `docs/steering/` status:
 
 1. Load templates from `docs/settings/templates/steering/`
 2. Analyze codebase (JIT):
-   - `glob_file_search` for source files
-   - `read_file` for README, package.json, etc.
-   - `grep` for patterns
+   - Use file search tools to find source files
+   - Read README, package.json, etc.
+   - Search for patterns in the codebase
 3. Extract patterns (not lists):
    - Product: Purpose, value, core capabilities
    - Tech: Frameworks, decisions, conventions
@@ -76,17 +78,17 @@ From `docs/settings/rules/steering-principles.md`:
 
 Document patterns and principles, not exhaustive lists.
 
-**Bad**: List every file in directory tree  
+**Bad**: List every file in directory tree
 **Good**: Describe organization pattern with examples
 
 </instructions>
 
 ## Tool guidance
 
-- `glob_file_search`: Find source/config files
-- `read_file`: Read steering, docs, configs
-- `grep`: Search patterns
-- `list_dir`: Analyze structure
+- Use file search tools to find source and config files
+- Read steering documents, project docs, and config files
+- Search for patterns in the codebase
+- List directory contents to analyze structure
 
 **JIT Strategy**: Fetch when needed, not upfront.
 
@@ -127,12 +129,12 @@ Review and approve as Source of Truth.
 
 ### Bootstrap
 
-**Input**: Empty steering, React TypeScript project  
+**Input**: Empty steering, React TypeScript project
 **Output**: 3 files with patterns - "Feature-first", "TypeScript strict", "React 19"
 
 ### Sync
 
-**Input**: Existing steering, new `/api` directory  
+**Input**: Existing steering, new `/api` directory
 **Output**: Updated structure.md, flagged non-compliant files, suggested api-standards.md
 
 ## Safety & Fallback

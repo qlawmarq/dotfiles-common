@@ -6,4 +6,4 @@
 
 ## Requirements
 
-<!-- Will be generated in /sdd:spec-requirements phase -->
+<!-- Will be generated in /sdd-spec-requirements phase -->

@@ -1,7 +1,9 @@
 ---
-description: Initialize a new specification with detailed project description
-allowed-tools: Bash, Read, Write, Glob
-argument-hint: <project-description>
+name: sdd-spec-init
+description: >-
+  Initialize a new SDD specification with detailed project description.
+  Creates directory structure and metadata for a new feature specification.
+argument-hint: "<project-description>"
 ---
 
 # Spec Initialization
@@ -18,9 +20,17 @@ argument-hint: <project-description>
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Project description** (required): A description of the feature or project to initialize
+
+If inputs were provided with this skill invocation, use them directly.
+Otherwise, ask the user for the project description.
+
 ## Core Task
 
-Generate a unique feature name from the project description ($ARGUMENTS) and initialize the specification structure.
+Generate a unique feature name from the project description and initialize the specification structure.
 
 ## Execution Steps
 
@@ -33,7 +43,7 @@ Generate a unique feature name from the project description ($ARGUMENTS) and ini
    - Replace placeholders:
      - `{{FEATURE_NAME}}` → generated feature name
      - `{{TIMESTAMP}}` → current ISO 8601 timestamp
-     - `{{PROJECT_DESCRIPTION}}` → $ARGUMENTS
+     - `{{PROJECT_DESCRIPTION}}` → the provided project description
    - Write `spec.json` and `requirements.md` to spec directory
 
 ## Important Constraints
@@ -47,9 +57,9 @@ Generate a unique feature name from the project description ($ARGUMENTS) and ini
 
 ## Tool Guidance
 
-- Use **Glob** to check existing spec directories for name uniqueness
-- Use **Read** to fetch templates: `init.json` and `requirements-init.md`
-- Use **Write** to create spec.json and requirements.md after placeholder replacement
+- Use file search tools to check existing spec directories for name uniqueness
+- Read templates: `init.json` and `requirements-init.md`
+- Write to create spec.json and requirements.md after placeholder replacement
 - Perform validation before any file write operation
 
 ## Output Description
@@ -59,7 +69,7 @@ Provide output in the language specified in `spec.json` with the following struc
 1. **Generated Feature Name**: `feature-name` format with 1-2 sentence rationale
 2. **Project Summary**: Brief summary (1 sentence)
 3. **Created Files**: Bullet list with full paths
-4. **Next Step**: Command block showing `/sdd:spec-requirements <feature-name>`
+4. **Next Step**: Command block showing `/sdd-spec-requirements <feature-name>`
 5. **Notes**: Explain why only initialization was performed (2-3 sentences on phase separation)
 
 **Format Requirements**:

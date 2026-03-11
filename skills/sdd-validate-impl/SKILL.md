@@ -1,7 +1,9 @@
 ---
-description: Validate implementation against requirements, design, and tasks
-allowed-tools: Bash, Glob, Grep, Read, LS
-argument-hint: [feature-name] [task-numbers]
+name: sdd-validate-impl
+description: >-
+  Validate implementation against requirements, design, and tasks.
+  Checks test coverage, requirements traceability, and design alignment.
+argument-hint: "[feature-name] [task-numbers]"
 ---
 
 # Implementation Validation
@@ -20,6 +22,15 @@ argument-hint: [feature-name] [task-numbers]
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Feature name** (optional): The feature directory name in `docs/tasks/`
+2. **Task numbers** (optional): Specific task numbers to validate (e.g., "1.1,1.2")
+
+If inputs were provided with this skill invocation, use them directly.
+If no inputs were provided, auto-detect from conversation history or scan for completed tasks.
+
 ## Core Task
 
 Validate implementation for feature(s) and task(s) based on approved specifications.
@@ -28,24 +39,24 @@ Validate implementation for feature(s) and task(s) based on approved specificati
 
 ### 0. Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/$1/` first, then `docs/tasks/done/$1/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### 1. Detect Validation Target
 
-**If no arguments provided** (`$1` empty):
+**If no feature name provided**:
 
-- Parse conversation history for `/sdd:spec-impl <feature> [tasks]` commands
+- Parse conversation history for `/sdd-spec-impl` invocations
 - Extract feature names and task numbers from each execution
 - Aggregate all implemented tasks by feature
 - Report detected implementations (e.g., "user-auth: 1.1, 1.2, 1.3")
 - If no history found, scan `docs/tasks/todo/` and `docs/tasks/done/` for features with completed tasks `[x]`
 
-**If feature provided** (`$1` present, `$2` empty):
+**If feature provided but no task numbers**:
 
 - Use specified feature
 - Detect all completed tasks `[x]` in `{spec_path}/tasks.md`
 
-**If both feature and tasks provided** (`$1` and `$2` present):
+**If both feature and tasks provided**:
 
 - Validate specified feature and tasks only (e.g., `user-auth 1.1,1.2`)
 
@@ -80,14 +91,14 @@ For each task, verify:
 #### Requirements Traceability
 
 - Identify EARS requirements related to the task
-- Use Grep to search implementation for evidence of requirement coverage
+- Search implementation for evidence of requirement coverage
 - If requirement not traceable to code, flag as "Requirement not implemented"
 
 #### Design Alignment
 
 - Check if design.md structure is reflected in implementation
 - Verify key interfaces, components, and modules exist
-- Use Grep/LS to confirm file structure matches design
+- Confirm file structure matches design
 - If misalignment found, flag as "Design deviation"
 
 #### Regression Check
@@ -116,11 +127,11 @@ Provide summary in the language specified in spec.json:
 
 ## Tool Guidance
 
-- **Conversation parsing**: Extract `/sdd:spec-impl` patterns from history
+- **Conversation parsing**: Extract `/sdd-spec-impl` patterns from history
 - **Read context**: Load all specs and steering before validation
 - **Bash for tests**: Execute test commands to verify pass status
-- **Grep for traceability**: Search codebase for requirement evidence
-- **LS/Glob for structure**: Verify file structure matches design
+- **Search for traceability**: Examine codebase for requirement evidence
+- **File structure checks**: Verify file structure matches design
 
 ## Output Description
 
@@ -135,14 +146,14 @@ Provide output in the language specified in spec.json with:
 **Format Requirements**:
 
 - Use Markdown headings and tables for clarity
-- Flag critical issues with ⚠️ or 🔴
+- Flag critical issues with warning indicators
 - Keep summary concise (under 400 words)
 
 ## Safety & Fallback
 
 ### Error Scenarios
 
-- **No Implementation Found**: If no `/sdd:spec-impl` in history and no `[x]` tasks, report "No implementations detected"
+- **No Implementation Found**: If no `/sdd-spec-impl` in history and no `[x]` tasks, report "No implementations detected"
 - **Test Command Unknown**: If test framework unclear, warn and skip test validation (manual verification required)
 - **Missing Spec Files**: If spec.json/requirements.md/design.md missing, stop with error
 - **Language Undefined**: Default to English (`en`) if spec.json doesn't specify language
@@ -157,7 +168,7 @@ Provide output in the language specified in spec.json with:
 **If NO-GO Decision**:
 
 - Address critical issues listed
-- Re-run `/sdd:spec-impl <feature> [tasks]` for fixes
-- Re-validate with `/sdd:validate-impl [feature] [tasks]`
+- Re-run `/sdd-spec-impl <feature-name> <task-numbers>` for fixes
+- Re-validate with `/sdd-validate-impl <feature-name> <task-numbers>`
 
 **Note**: Validation is recommended after implementation to ensure spec alignment and quality.

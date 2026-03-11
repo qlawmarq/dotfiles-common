@@ -1,7 +1,9 @@
 ---
-description: Generate implementation tasks for a specification
-allowed-tools: Read, Write, Edit, MultiEdit, Glob, Grep
-argument-hint: <feature-name> [-y] [--sequential]
+name: sdd-spec-tasks
+description: >-
+  Generate implementation tasks for an SDD specification.
+  Translates technical design into executable, properly-sized work items.
+argument-hint: "<feature-name> [-y] [--sequential]"
 ---
 
 # Implementation Tasks Generator
@@ -19,15 +21,27 @@ argument-hint: <feature-name> [-y] [--sequential]
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Feature name** (required): The feature directory name in `docs/tasks/`
+2. **Auto-approve flag** (optional): `-y` to auto-approve the previous phases
+3. **Sequential flag** (optional): `--sequential` to disable parallel task markers
+
+If inputs were provided with this skill invocation, use them directly.
+Otherwise, ask the user for the feature name.
+If the auto-approve flag is not provided, default to interactive approval mode.
+If the sequential flag is not provided, default to parallel-aware mode.
+
 ## Core Task
 
-Generate implementation tasks for feature **$1** based on approved requirements and design.
+Generate implementation tasks for the specified feature based on approved requirements and design.
 
 ## Execution Steps
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/$1/` first, then `docs/tasks/done/$1/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### Step 1: Load Context
 
@@ -39,7 +53,7 @@ Generate implementation tasks for feature **$1** based on approved requirements 
 
 **Validate approvals**:
 
-- If `-y` flag provided ($2 == "-y"): Auto-approve requirements and design in spec.json
+- If auto-approve flag was provided: Auto-approve requirements and design in spec.json
 - Otherwise: Verify both approved (stop if not, see Safety & Fallback)
 - Determine sequential mode based on presence of `--sequential`
 
@@ -67,7 +81,7 @@ Generate implementation tasks for feature **$1** based on approved requirements 
 
 **Write and update**:
 
-- Create/update `docs/tasks/$1/tasks.md`
+- Create/update `docs/tasks/<feature-name>/tasks.md`
 - Update spec.json metadata:
   - Set `phase: "tasks-generated"`
   - Set `approvals.tasks.generated: true, approved: false`
@@ -95,15 +109,15 @@ Generate implementation tasks for feature **$1** based on approved requirements 
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Status**: Confirm tasks generated at `docs/tasks/$1/tasks.md`
+1. **Status**: Confirm tasks generated at `docs/tasks/<feature-name>/tasks.md`
 2. **Task Summary**:
    - Total: X major tasks, Y sub-tasks
    - All Z requirements covered
    - Average task size: 1-3 hours per sub-task
 3. **Quality Validation**:
-   - ✅ All requirements mapped to tasks
-   - ✅ Task dependencies verified
-   - ✅ Testing tasks included
+   - All requirements mapped to tasks
+   - Task dependencies verified
+   - Testing tasks included
 4. **Next Action**: Review tasks and proceed when ready
 
 **Format**: Concise (under 200 words)
@@ -116,12 +130,12 @@ Provide brief summary in the language specified in spec.json:
 
 - **Stop Execution**: Cannot proceed without approved requirements and design
 - **User Message**: "Requirements and design must be approved before task generation"
-- **Suggested Action**: "Run `/sdd:spec-tasks $1 -y` to auto-approve both and proceed"
+- **Suggested Action**: "Run `/sdd-spec-tasks <feature-name> -y` to auto-approve both and proceed"
 
 **Missing Requirements or Design**:
 
 - **Stop Execution**: Both documents must exist
-- **User Message**: "Missing requirements.md or design.md at `docs/tasks/$1/`"
+- **User Message**: "Missing requirements.md or design.md at `docs/tasks/<feature-name>/`"
 - **Suggested Action**: "Complete requirements and design phases first"
 
 **Incomplete Requirements Coverage**:
@@ -141,19 +155,19 @@ Provide brief summary in the language specified in spec.json:
 
 **Before Starting Implementation**:
 
-- **IMPORTANT**: Clear conversation history and free up context before running `/sdd:spec-impl`
+- **IMPORTANT**: Clear conversation history and free up context before running `/sdd-spec-impl`
 - This applies when starting first task OR switching between tasks
 - Fresh context ensures clean state and proper task focus
 
 **If Tasks Approved**:
 
-- Execute specific task: `/sdd:spec-impl $1 1.1` (recommended: clear context between each task)
-- Execute multiple tasks: `/sdd:spec-impl $1 1.1,1.2` (use cautiously, clear context between tasks)
-- Without arguments: `/sdd:spec-impl $1` (executes all pending tasks - NOT recommended due to context bloat)
+- Execute specific task: `/sdd-spec-impl <feature-name> 1.1` (recommended: clear context between each task)
+- Execute multiple tasks: `/sdd-spec-impl <feature-name> 1.1,1.2` (use cautiously, clear context between tasks)
+- Without arguments: `/sdd-spec-impl <feature-name>` (executes all pending tasks - NOT recommended due to context bloat)
 
 **If Modifications Needed**:
 
-- Provide feedback and re-run `/sdd:spec-tasks $1`
+- Provide feedback and re-run `/sdd-spec-tasks <feature-name>`
 - Existing tasks used as reference (merge mode)
 
 **Note**: The implementation phase will guide you through executing tasks with appropriate context and validation.

@@ -1,7 +1,9 @@
 ---
-description: Analyze implementation gap between requirements and existing codebase
-allowed-tools: Bash, Glob, Grep, Read, Write, Edit, MultiEdit, WebSearch, WebFetch
-argument-hint: <feature-name>
+name: sdd-validate-gap
+description: >-
+  Analyze implementation gap between requirements and existing codebase.
+  Evaluates multiple implementation approaches for brownfield projects.
+argument-hint: "<feature-name>"
 ---
 
 # Implementation Gap Validation
@@ -19,13 +21,21 @@ argument-hint: <feature-name>
 
 <instructions>
 
+## Input
+
+This skill expects:
+1. **Feature name** (required): The feature directory name in `docs/tasks/`
+
+If inputs were provided with this skill invocation, use them directly.
+Otherwise, ask the user for the feature name.
+
 ## Core Task
 
-Analyze implementation gap for feature **$1** based on approved requirements and existing codebase.
+Analyze implementation gap for the specified feature based on approved requirements and existing codebase.
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/$1/` first, then `docs/tasks/done/$1/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
@@ -40,7 +50,7 @@ Analyze implementation gap for feature **$1** based on approved requirements and
 
 4. **Execute Gap Analysis**:
    - Follow gap-analysis.md framework for thorough investigation
-   - Analyze existing codebase using Grep and Read tools
+   - Analyze existing codebase using search and read tools
    - Use WebSearch/WebFetch for external dependency research if needed
    - Evaluate multiple implementation approaches (extend/new/hybrid)
    - Use language specified in spec.json for output
@@ -62,7 +72,7 @@ Analyze implementation gap for feature **$1** based on approved requirements and
 ## Tool Guidance
 
 - **Read first**: Load all context (spec, steering, rules) before analysis
-- **Grep extensively**: Search codebase for patterns, conventions, and integration points
+- **Search extensively**: Examine codebase for patterns, conventions, and integration points
 - **WebSearch/WebFetch**: Research external dependencies and best practices when needed
 - **Write last**: Generate analysis only after complete investigation
 
@@ -84,7 +94,7 @@ Provide output in the language specified in spec.json with:
 
 ### Error Scenarios
 
-- **Missing Requirements**: If requirements.md doesn't exist, stop with message: "Run `/sdd:spec-requirements $1` first to generate requirements"
+- **Missing Requirements**: If requirements.md doesn't exist, stop with message: "Run `/sdd-spec-requirements <feature-name>` first to generate requirements"
 - **Requirements Not Approved**: If requirements not approved, warn user but proceed (gap analysis can inform requirement revisions)
 - **Empty Steering Directory**: Warn user that project context is missing and may affect analysis quality
 - **Complex Integration Unclear**: Flag for comprehensive research in design phase rather than blocking
@@ -95,7 +105,7 @@ Provide output in the language specified in spec.json with:
 **If Gap Analysis Complete**:
 
 - Review gap analysis insights
-- Run `/sdd:spec-design $1` to create technical design document
-- Or `/sdd:spec-design $1 -y` to auto-approve requirements and proceed directly
+- Run `/sdd-spec-design <feature-name>` to create technical design document
+- Or `/sdd-spec-design <feature-name> -y` to auto-approve requirements and proceed directly
 
 **Note**: Gap analysis is optional but recommended for brownfield projects to inform design decisions.

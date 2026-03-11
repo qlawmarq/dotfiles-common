@@ -1,6 +1,8 @@
 ---
-description: Create custom steering documents for specialized project contexts
-allowed-tools: Bash, Read, Write, Edit, MultiEdit, Glob, Grep, LS
+name: sdd-steering-custom
+description: >-
+  Create custom steering documents for specialized project contexts.
+  Generates domain-specific project memory for areas like API standards, testing, security.
 ---
 
 # Kiro Custom Steering Creation
@@ -31,9 +33,9 @@ allowed-tools: Bash, Read, Write, Edit, MultiEdit, Glob, Grep, LS
    - Use as starting point, customize based on project
 
 3. **Analyze codebase** (JIT) for relevant patterns:
-   - **Glob** for related files
-   - **Read** for existing implementations
-   - **Grep** for specific patterns
+   - Use file search tools to find related files
+   - Read existing implementations
+   - Search for specific patterns in the codebase
 
 4. **Generate custom steering**:
    - Follow template structure if available
@@ -72,9 +74,8 @@ From `docs/settings/rules/steering-principles.md`:
 ## Tool guidance
 
 - **Read**: Load template, analyze existing code
-- **Glob**: Find related files for pattern analysis
-- **Grep**: Search for specific patterns
-- **LS**: Understand relevant structure
+- **File search**: Find related files for pattern analysis
+- **Search**: Look for specific patterns in the codebase
 
 **JIT Strategy**: Load template only when creating that type of steering.
 
@@ -106,14 +107,14 @@ Review and customize as needed.
 
 ### Success: API Standards
 
-**Input**: "Create API standards steering"  
-**Action**: Load template, analyze src/api/, extract patterns  
+**Input**: "Create API standards steering"
+**Action**: Load template, analyze src/api/, extract patterns
 **Output**: api-standards.md with project-specific REST conventions
 
 ### Success: Testing Strategy
 
-**Input**: "Document our testing approach"  
-**Action**: Load template, analyze test files, extract patterns  
+**Input**: "Document our testing approach"
+**Action**: Load template, analyze test files, extract patterns
 **Output**: testing.md with test organization and mocking strategies
 
 ## Safety & Fallback

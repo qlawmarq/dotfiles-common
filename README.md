@@ -21,11 +21,11 @@ Reusable skills compatible with Claude Code, Codex CLI, and Gemini CLI.
 - **debugger/**: Debug errors and test failures
 - **dx-optimizer/**: Optimize developer experience
 - **skill-creator/**: Guide for creating new skills
+- **sdd-\*/**: SDD (Spec-Driven Development) system (13 skills)
 
 ### Claude Code Configuration
 
 - **skills/**: Claude-only skills (transcripts, setup-hooks)
-- **commands/sdd/**: SDD system (Claude-specific, migration pending)
 - **tools/**: Additional tool integrations
 - **settings.json**: Claude Code settings with permission automation
 - **hooks/**: Hook scripts
@@ -54,14 +54,14 @@ dotfiles-common/
 │   ├── dev-design/
 │   ├── dev-implement/
 │   ├── git-commit/
+│   ├── sdd-*/              # SDD system (13 skills)
 │   ├── skill-creator/
 │   └── ...
 ├── claude/                 # Claude Code specific
 │   ├── settings.json
 │   ├── hooks/
 │   ├── tools/
-│   ├── skills/             # Claude-only skills
-│   └── commands/sdd/       # SDD system (Claude-specific, migration pending)
+│   └── skills/             # Claude-only skills
 ├── git/
 └── tmux/
     └── .tmux.conf          # Cross-platform tmux config
