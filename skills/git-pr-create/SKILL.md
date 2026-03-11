@@ -1,25 +1,19 @@
 ---
-description: Create a well-structured pull request
-category: version-control-git
-allowed-tools: Bash, Read, Glob
+name: git-pr-create
+description: >-
+  Create a well-structured pull request with comprehensive descriptions.
+  Use this skill when you need to push changes and create a PR with
+  proper title, description, and labels.
 ---
 
-# Claude Command: Create Pull Request
+# Skill: Create Pull Request
 
-This command helps you create well-structured pull requests with comprehensive descriptions.
+This skill helps you create well-structured pull requests with comprehensive descriptions.
 
-## Usage
-
-To create a pull request, just type:
-
-```
-/pr-create
-```
-
-## What This Command Does
+## What This Skill Does
 
 1. Checks the current branch and ensures it's not the main/master branch
-2. Verifies that changes have been committed (use `/commit` first if needed)
+2. Verifies that changes have been committed (use `/git-commit` first if needed)
 3. Runs `git log` and `git diff` to understand all commits that will be included in the PR
 4. Analyzes the changes to create a comprehensive PR description:
    - Summarizes the purpose of the changes
@@ -55,4 +49,4 @@ To create a pull request, just type:
 
 ## Additional Guidance
 
-$ARGUMENTS
+ユーザーから追加の指示がある場合は、それに従ってください。

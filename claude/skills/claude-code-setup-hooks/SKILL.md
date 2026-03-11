@@ -1,28 +1,22 @@
 ---
-description: Set up project-specific hooks for automated linting, formatting, and testing
-category: automation
-allowed-tools: Bash, Read, Write, Glob
+name: claude-code-setup-hooks
+description: >-
+  Set up project-specific hooks for automated linting, formatting, and testing.
+  Use this skill when you need to configure Claude Code hooks for code quality
+  automation in a project.
 argument-hint: [--type python|node|go|rust|auto]
 ---
 
-# Claude Command: Setup Hooks
+# Skill: Setup Hooks
 
-This command helps you set up project-specific hooks for automated code quality checks, formatting, and testing.
+This skill helps you set up project-specific hooks for automated code quality checks, formatting, and testing.
 
-## Usage
+## 起動方法
 
-Automatically detect project type and setup hooks:
-```
-/setup-hooks
-```
+ユーザーからプロジェクトの種類を受け取ってください。
+指定がない場合は、プロジェクトのファイル構成から自動検出します。
 
-Or specify the project type:
-```
-/setup-hooks --type node
-/setup-hooks --type python
-```
-
-## What This Command Does
+## What This Skill Does
 
 1. **Detects Project Type** by checking for:
    - `package.json` → Node.js/JavaScript/TypeScript
@@ -114,7 +108,7 @@ Generated script will run:
 
 ## Configuration Location
 
-The command will create:
+The skill will create:
 - `.claude/settings.json` - Project-level hook configuration (shared with team)
 - `.claude/hooks/` - Hook script files
 
@@ -130,7 +124,7 @@ These can be committed to version control for team sharing.
 
 ## Requirements
 
-The command will check for required tools and warn if they're not installed:
+The skill will check for required tools and warn if they're not installed:
 - Node.js: `npm`, `npx`, `prettier`, `eslint`
 - Python: `ruff`, `black`, `pytest`
 - Go: `gofmt`, `golangci-lint`
@@ -138,4 +132,4 @@ The command will check for required tools and warn if they're not installed:
 
 ## Additional Guidance
 
-$ARGUMENTS
+ユーザーから追加の指示がある場合は、それに従ってください。

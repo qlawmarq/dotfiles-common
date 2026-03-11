@@ -1,31 +1,22 @@
 ---
-description: Review a pull request and provide constructive feedback
-category: version-control-git
-allowed-tools: Bash, Read, Glob, WebFetch
+name: git-pr-review
+description: >-
+  Review a pull request and provide constructive feedback.
+  Use this skill when you need to perform code review, check for bugs,
+  security issues, and suggest improvements.
 argument-hint: [PR-number or PR-URL]
 ---
 
-# Claude Command: Review Pull Request
+# Skill: Review Pull Request
 
-This command helps you perform thorough code reviews and provide constructive feedback on pull requests.
+This skill helps you perform thorough code reviews and provide constructive feedback on pull requests.
 
-## Usage
+## 起動方法
 
-To review a pull request:
+ユーザーから PR 番号または PR の URL を受け取ってください。
+まだ提供されていない場合は、どの PR をレビューすべきか質問してください。
 
-```
-/pr-review 123
-```
-
-Or with a URL:
-
-```
-/pr-review https://github.com/owner/repo/pull/123
-```
-
-If no argument is provided, Claude will ask which PR you want to review.
-
-## What This Command Does
+## What This Skill Does
 
 1. Fetches the PR details using `gh pr view <number>`:
    - Title and description
@@ -92,4 +83,4 @@ If no argument is provided, Claude will ask which PR you want to review.
 
 ## Additional Guidance
 
-$ARGUMENTS
+ユーザーから追加の指示がある場合は、それに従ってください。

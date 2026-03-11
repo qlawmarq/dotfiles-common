@@ -1,28 +1,16 @@
 ---
-description: Create well-formatted git commits with conventional commit messages
-category: version-control-git
-allowed-tools: Bash, Read, Glob
+name: git-commit
+description: >-
+  Create well-formatted git commits with conventional commit messages.
+  Use this skill when you need to commit changes with proper formatting,
+  pre-commit checks, and atomic commit practices.
 ---
 
-# Claude Command: Commit
+# Skill: Commit
 
-This command helps you create well-formatted commits with conventional commit messages.
+This skill helps you create well-formatted commits with conventional commit messages.
 
-## Usage
-
-To create a commit, just type:
-
-```
-/commit
-```
-
-Or with options:
-
-```
-/commit --no-verify
-```
-
-## What This Command Does
+## What This Skill Does
 
 1. Unless specified with `--no-verify`, automatically runs pre-commit checks:
    - Detect package manager (npm, pnpm, yarn, bun) and run appropriate commands
@@ -61,4 +49,4 @@ Or with options:
 
 ## Additional Guidance
 
-$ARGUMENTS
+ユーザーから追加の指示がある場合は、それに従ってください。

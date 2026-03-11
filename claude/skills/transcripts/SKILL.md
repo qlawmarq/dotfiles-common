@@ -1,13 +1,15 @@
 ---
-description: Restore conversation after compact or manage past transcripts
-category: session-management
-allowed-tools: Bash, Read, Glob, Write
+name: transcripts
+description: >-
+  Restore conversation after compact or manage past transcripts.
+  Use this skill to recover context after compaction events or
+  search through conversation history.
 argument-hint: (No arguments = restore full conversation) OR describe what you want (e.g., "export this chat", "find when we talked about X")
 ---
 
-# Claude Command: Transcripts
+# Skill: Transcripts
 
-## 🔴 CRITICAL: NEVER REDIRECT OUTPUT ON FIRST RUN 🔴
+## CRITICAL: NEVER REDIRECT OUTPUT ON FIRST RUN
 
 **The transcript_manager.py tool MUST output directly to stdout to load content into context.**
 **NEVER use `>` or `|` - this BREAKS the entire purpose of the tool!**
@@ -18,11 +20,8 @@ Help users manage and restore conversation transcripts, especially after compact
 
 ## Understanding User Intent
 
-User request: $ARGUMENTS
-
-When no arguments are provided, **default to restoring the full conversation lineage** - this is the most common use case after a compact.
-
-Otherwise, interpret the user's natural language request to understand what they want to do with transcripts.
+ユーザーからの指示を受け取ってください。
+指示がない場合は、**デフォルトで会話の完全な系譜を復元します** - これはコンパクト後の最も一般的なユースケースです。
 
 ## Available Actions
 
@@ -42,11 +41,11 @@ Located at `tools/transcript_manager.py`, this CLI tool provides:
 - `search TERM` - Outputs matching content with context
 - `export --session-id ID --format text` - Saves to file
 
-## ⚠️ CRITICAL: Output Handling Requirements ⚠️
+## CRITICAL: Output Handling Requirements
 
 **The tool outputs raw content directly to stdout. This content MUST flow into the conversation context.**
 
-### 🚫 NEVER DO THIS:
+### NEVER DO THIS:
 ```bash
 # WRONG - This PREVENTS context loading!
 python tools/transcript_manager.py restore > /tmp/output.txt
@@ -55,7 +54,7 @@ python tools/transcript_manager.py restore > /tmp/output.txt
 python tools/transcript_manager.py restore | head -100
 ```
 
-### ✅ ALWAYS DO THIS:
+### ALWAYS DO THIS:
 ```bash
 # CORRECT - Let the output flow directly to stdout
 python tools/transcript_manager.py restore
@@ -94,7 +93,7 @@ Apply your understanding to map the request to the appropriate tool command and 
 ## Examples of Natural Responses
 
 **After restoration:**
-"✅ Your entire conversation thread has been successfully restored! The full history is now available in our current context."
+"Your entire conversation thread has been successfully restored! The full history is now available in our current context."
 
 **After search:**
 "I found 3 places where we discussed authentication. Here are the relevant excerpts..."

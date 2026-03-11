@@ -4,11 +4,28 @@ Common configurations shared across [dotfiles-linux](https://github.com/qlawmarq
 
 ## Contents
 
+### Cross-Agent Skills (Agent Skills Open Standard)
+
+Reusable skills compatible with Claude Code, Codex CLI, and Gemini CLI.
+
+- **dev-design/**: Design detailed implementation plans
+- **dev-implement/**: Implement development tasks
+- **dev-review-design/**: Review and verify designs
+- **dev-review-implementation/**: Review and verify implementations
+- **dev-documentation/**: Create and update documentation
+- **git-commit/**: Create well-formatted git commits
+- **git-pr-create/**: Create well-structured pull requests
+- **git-pr-review/**: Review pull requests
+- **writing-review/**: Review blog content quality
+- **writing-translate/**: Translate documents to other languages
+- **debugger/**: Debug errors and test failures
+- **dx-optimizer/**: Optimize developer experience
+- **skill-creator/**: Guide for creating new skills
+
 ### Claude Code Configuration
 
-- **agents/**: Specialized agents for development workflows
-- **commands/**: Custom slash commands
-- **skills/**: Reusable skill definitions
+- **skills/**: Claude-only skills (transcripts, setup-hooks)
+- **commands/sdd/**: SDD system (Claude-specific, migration pending)
 - **tools/**: Additional tool integrations
 - **settings.json**: Claude Code settings with permission automation
 - **hooks/**: Hook scripts
@@ -33,17 +50,19 @@ This repository is designed to be used as a git submodule in platform-specific d
 
 ```
 dotfiles-common/
-├── claude/
-│   ├── agents/              # Development workflow agents
-│   ├── commands/            # Custom slash commands
-│   ├── skills/              # Reusable skills
-│   ├── tools/               # Tool integrations
-│   ├── settings.json        # Claude Code settings
-│   └── hooks/
-│       ├── auto-approve-safe-commands.sh  # Cross-platform
-│       └── platform/
-│           ├── macos/       # macOS-specific
-│           └── linux/       # Linux-specific
+├── skills/                 # Cross-agent skills (Agent Skills Open Standard)
+│   ├── dev-design/
+│   ├── dev-implement/
+│   ├── git-commit/
+│   ├── skill-creator/
+│   └── ...
+├── claude/                 # Claude Code specific
+│   ├── settings.json
+│   ├── hooks/
+│   ├── tools/
+│   ├── skills/             # Claude-only skills
+│   └── commands/sdd/       # SDD system (Claude-specific, migration pending)
+├── git/
 └── tmux/
-    └── .tmux.conf           # Cross-platform tmux config
+    └── .tmux.conf          # Cross-platform tmux config
 ```

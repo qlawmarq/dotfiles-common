@@ -1,10 +1,15 @@
 ---
-description: Creation and updating of development documentation
-category: development
-argument-hint: [--path <document-path or document-description>] [additional-instructions]
+name: dev-documentation
+description: >-
+  Creation and updating of development documentation.
+  Use this skill when you need to create or update technical documentation
+  based on actual implementation and design.
 ---
 
-あなたには次の開発ドキュメントの作成および更新を行ってもらいます: $ARGUMENTS
+## 起動方法
+
+ユーザーからドキュメント作成・更新の対象の説明を受け取ってください。
+対象の説明がまだ提供されていない場合は、何のドキュメントを作成・更新すべきか質問してください。
 
 憶測ではなく、実装と設計に基づいた正確なドキュメントを作成してください。
 
@@ -24,14 +29,14 @@ argument-hint: [--path <document-path or document-description>] [additional-inst
 
 - **絶対に憶測で作業しないこと**
 - 信頼できる情報源のみを使用すること:
-  - ✅ 公式ドキュメント
-  - ✅ 実際のコード
-  - ✅ 実行ログ・エラーメッセージ
-  - ✅ テスト結果
-  - ❌ 推測や想像
-  - ❌ 未確認の仮説
+  - 公式ドキュメント
+  - 実際のコード
+  - 実行ログ・エラーメッセージ
+  - テスト結果
 
-(実際に Python のスクリプトを作成することや、`context7`や`fetch` MCP 関数、あるいは Web 検索を活用することで情報を収集してください。情報にアクセスできない場合はユーザーに情報のコピーを要求してください。)
+(Web 検索やドキュメント取得ツールを活用して情報を収集してください。
+利用可能であれば、プロジェクトの依存ライブラリの公式ドキュメントを直接参照してください。
+情報にアクセスできない場合はユーザーに情報のコピーを要求してください。)
 
 ### 2. 不明点の質問義務
 

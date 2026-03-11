@@ -1,10 +1,15 @@
 ---
-description: Design a detailed implementation plan for the given development task
-category: development
-argument-hint: [--path <task-document-path or task-description>]
+name: dev-design
+description: >-
+  Design a detailed implementation plan for the given development task.
+  Use this skill when you need to plan architecture, evaluate technical
+  options, and create a comprehensive implementation strategy.
 ---
 
-次の開発タスクの設計を行ってもらいます : $ARGUMENTS
+## 起動方法
+
+ユーザーからタスクの説明を受け取ってください。
+タスクの説明がまだ提供されていない場合は、何を設計すべきか質問してください。
 
 **Think harder** 設計への影響を深く考慮し、まず要件の背景と目的を理解するため対話を行ってください。
 タスクの背景理解には以下の情報が含まれます：
@@ -31,12 +36,10 @@ argument-hint: [--path <task-document-path or task-description>]
 
 - **絶対に憶測で作業しないこと**
 - 信頼できる情報源のみを使用すること:
-  - ✅ 公式ドキュメント
-  - ✅ 実際のコード
-  - ✅ 実行ログ・エラーメッセージ
-  - ✅ テスト結果
-  - ❌ 推測や想像
-  - ❌ 未確認の仮説
+  - 公式ドキュメント
+  - 実際のコード
+  - 実行ログ・エラーメッセージ
+  - テスト結果
 
 (実際に Python や TS/JS のスクリプトを作成することや、あるいは Web 検索を活用することで情報を収集してください。)
 
@@ -61,7 +64,7 @@ argument-hint: [--path <task-document-path or task-description>]
 4. **機能受入条件からのテスト導出**: 各機能受入条件を満たすテストケースが明確
 5. **トレードオフの明示**: 各選択肢の利点・欠点を定量的に評価
 6. **最新情報の積極的活用**:
-   - 設計前に必ず WebSearch で最新のベストプラクティス、ライブラリ、アプローチを調査
+   - 設計前に必ず Web 検索で最新のベストプラクティス、ライブラリ、アプローチを調査
    - 参考にした情報源は必ず「参考資料」セクションに URL を記載
    - 特に新技術導入時は複数の信頼できる情報源を確認
 

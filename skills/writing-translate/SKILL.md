@@ -1,15 +1,20 @@
 ---
-description: 文章を指定した言語に翻訳
-argument-hint: [言語コード] [翻訳対象のドキュメント or PATH]
-allowed-tools: Read, Write, WebSearch, mcp__fetch__fetch
+name: writing-translate
+description: >-
+  文章を指定した言語に翻訳。
+  ブログ記事やドキュメントを自然で高品質な翻訳に変換します。
+  フロントマター処理、専門用語の検証も行います。
 ---
 
 **コマンドコンテキスト**: 文章の多言語翻訳
 
-次の内容を翻訳してください:
+## 起動方法
 
-- **翻訳先言語**: $1
-- **翻訳対象**: $2
+ユーザーから翻訳先の言語と翻訳対象を受け取ってください。
+まだ提供されていない場合は、以下を質問してください：
+
+1. **翻訳先言語**: 言語コード（例: en, ja, zh-CN）または言語名
+2. **翻訳対象**: ファイルパスまたはドキュメント本文
 
 ---
 
@@ -74,21 +79,15 @@ allowed-tools: Read, Write, WebSearch, mcp__fetch__fetch
 
 ### ステップ 1: 入力解析と読み込み
 
-```bash
-# 引数が2つ指定されているか確認
-# $1: 翻訳先言語コード
-# $2: ファイルパスまたはドキュメント本文
-```
-
 **判定基準**:
 
-- `$2` が `.md` を含む、または `/` を含む → ファイルパス
+- `.md` を含む、または `/` を含む → ファイルパス
 - 上記以外で長文 → ドキュメント本文
-- 引数が不足している場合はエラーメッセージを表示
+- 引数が不足している場合はユーザーに質問
 
 **ファイルパスの場合**:
 
-- `Read` tool でファイルを読み込み
+- Read tool でファイルを読み込み
 - ファイルの存在を確認
 - 元のファイルパスを記録（後で保存先を決定するため）
 
@@ -109,11 +108,8 @@ allowed-tools: Read, Write, WebSearch, mcp__fetch__fetch
 
 **Web 検索による確認**:
 
-```
-WebSearch または mcp__fetch__fetch で用語の一般的な訳語を確認:
-- "[専門用語] [翻訳先言語] translation"
-- "[固有名詞] official [翻訳先言語] name"
-```
+- "[専門用語] [翻訳先言語] translation" で用語の一般的な訳語を確認
+- "[固有名詞] official [翻訳先言語] name" で公式な訳語を確認
 
 **確認優先度**:
 
@@ -199,11 +195,11 @@ Claude Code is an AI assistant.
 
 2. **ファイル保存**:
 
-   - `Write` tool を使用してファイルに保存
+   - Write tool を使用してファイルに保存
 
 3. **保存後の確認**:
    ```
-   ✅ 翻訳を保存しました: /path/to/article-en.md
+   翻訳を保存しました: /path/to/article-en.md
    元のファイル: /path/to/article.md
    翻訳先言語: en (英語)
    ```
@@ -221,7 +217,7 @@ Claude Code is an AI assistant.
 翻訳が完了しました。以下のオプションがあります:
 
 - 翻訳結果を確認する (show)
-- 品質チェックを実行する (check) ※ /review コマンドを使用
+- 品質チェックを実行する (check) ※ /writing-review スキルを使用
 - 完了 (done)
 ```
 
@@ -242,13 +238,13 @@ Claude Code is an AI assistant.
 
 ```bash
 # ファイルを英語に翻訳して保存
-/translate en contents/blogs/ja/article.md
+/writing-translate en contents/blogs/ja/article.md
 
 # ドキュメント本文を日本語に翻訳
-/translate ja "This is a sample document to translate."
+/writing-translate ja "This is a sample document to translate."
 
 # 中国語簡体字に翻訳
-/translate zh-CN contents/blogs/en/tutorial.md
+/writing-translate zh-CN contents/blogs/en/tutorial.md
 ```
 
 ---
@@ -260,11 +256,11 @@ Claude Code is an AI assistant.
 ```
 エラー: 引数が不足しています。
 
-使用方法: /translate [言語コード] [翻訳対象]
+使用方法: /writing-translate [言語コード] [翻訳対象]
 
 例:
-  /translate en article.md
-  /translate ja "翻訳したい文章"
+  /writing-translate en article.md
+  /writing-translate ja "翻訳したい文章"
 ```
 
 **ファイルが見つからない**:
@@ -278,7 +274,7 @@ Claude Code is an AI assistant.
 **不明な言語コード**:
 
 ```
-警告: 不明な言語コード "$1" が指定されました。
+警告: 不明な言語コードが指定されました。
 
 一般的な言語コード: en, ja, zh-CN, ko, es, fr, de
 

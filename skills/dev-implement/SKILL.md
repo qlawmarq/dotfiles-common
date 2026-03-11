@@ -1,10 +1,15 @@
 ---
-description: Implement the given development task according to the specified requirements
-category: development
-argument-hint: [--path <task-document-path or task-description>]
+name: dev-implement
+description: >-
+  Implement the given development task according to the specified requirements.
+  Use this skill when you need to write code based on a design document or
+  task description.
 ---
 
-あなたには次の開発タスクの実装を行ってもらいます: $ARGUMENTS
+## 起動方法
+
+ユーザーからタスクの説明を受け取ってください。
+タスクの説明がまだ提供されていない場合は、何を実装すべきか質問してください。
 
 ## 作業ルール
 
@@ -14,14 +19,14 @@ argument-hint: [--path <task-document-path or task-description>]
 
 - **絶対に憶測で作業しないこと**
 - 信頼できる情報源のみを使用すること:
-  - ✅ 公式ドキュメント
-  - ✅ 実際のコード
-  - ✅ 実行ログ・エラーメッセージ
-  - ✅ テスト結果
-  - ❌ 推測や想像
-  - ❌ 未確認の仮説
+  - 公式ドキュメント
+  - 実際のコード
+  - 実行ログ・エラーメッセージ
+  - テスト結果
 
-(実際に Python のスクリプトを作成することや、`context7`や`fetch` MCP 関数、あるいは Web 検索を活用することで情報を収集してください。情報にアクセスできない場合はユーザーに情報のコピーを要求してください。)
+(Web 検索やドキュメント取得ツールを活用して情報を収集してください。
+利用可能であれば、プロジェクトの依存ライブラリの公式ドキュメントを直接参照してください。
+情報にアクセスできない場合はユーザーに情報のコピーを要求してください。)
 
 ### 2. 不明点の質問義務
 

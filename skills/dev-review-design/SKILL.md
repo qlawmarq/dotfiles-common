@@ -1,10 +1,15 @@
 ---
-description: Review and verify the design for the given development task
-category: development
-argument-hint: [--path <task-document-path or task-description>]
+name: dev-review-design
+description: >-
+  Review and verify the design for the given development task.
+  Use this skill when you need to evaluate architecture decisions,
+  identify potential issues, and suggest improvements.
 ---
 
-あなたには次の設計のレビューを行ってもらいます: $ARGUMENTS
+## 起動方法
+
+ユーザーからレビュー対象の設計の説明を受け取ってください。
+設計の説明がまだ提供されていない場合は、何をレビューすべきか質問してください。
 
 長期的な保守性と拡張性を考慮し、フィードバックを提供してください。
 既存の実装や設計内容も批判的に見直し、改善点があれば具体的な提案を行ってください。
@@ -17,14 +22,13 @@ argument-hint: [--path <task-document-path or task-description>]
 
 - **絶対に憶測で作業しないこと**
 - 信頼できる情報源のみを使用すること:
-  - ✅ 公式ドキュメント
-  - ✅ 実際のコード
-  - ✅ 実行ログ・エラーメッセージ
-  - ✅ テスト結果
-  - ❌ 推測や想像
-  - ❌ 未確認の仮説
+  - 公式ドキュメント
+  - 実際のコード
+  - 実行ログ・エラーメッセージ
+  - テスト結果
 
-(実際に Python のスクリプトを作成することや、`context7`や`fetch` MCP 関数、あるいは Web 検索を活用することで情報を収集してください。)
+(Web 検索やドキュメント取得ツールを活用して情報を収集してください。
+利用可能であれば、プロジェクトの依存ライブラリの公式ドキュメントを直接参照してください。)
 
 ### 2. 不明点の質問義務
 
