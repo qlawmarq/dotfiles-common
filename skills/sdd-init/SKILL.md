@@ -47,12 +47,9 @@ SDD resources are stored alongside this skill file. Resolve the skill directory 
 
 Derive from `SKILL_DIR`:
 - `SRC="${SKILL_DIR}/references"` — Rules, templates, and AGENTS.md template
-- `SKILLS_SRC` — Parent directory containing `sdd-*` skill directories (excluding `sdd-init`):
-  1. `${SRC}/../../` (sibling directories to `init/`)
-  2. `~/.claude/skills/` (fallback)
-  3. `~/.agents/skills/` (fallback)
+- `SKILLS_SRC="${SRC}/skills"` — Bundled skill directories (spec-init/, spec-design/, etc.)
 
-Validate: `${SRC}/rules/` and `${SRC}/templates/` must exist. Either `${SKILLS_SRC}/sdd-spec-init/SKILL.md` or `${SKILLS_SRC}/spec-init/SKILL.md` must exist (the helper script auto-detects the naming pattern).
+Validate: `${SRC}/rules/` and `${SRC}/templates/` must exist. `${SKILLS_SRC}/spec-init/SKILL.md` must exist.
 
 ## Helper Script
 
