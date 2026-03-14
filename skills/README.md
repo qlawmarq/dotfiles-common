@@ -1,65 +1,13 @@
 # Cross-Agent Skills
 
-[Agent Skills Open Standard](https://agentskills.io) に準拠したスキル集。Claude Code, Codex CLI, Gemini CLI で共通利用可能。
+This directory contains Agent Skills that are designed to be compatible across multiple agents. Each skill is defined in its own subdirectory with a `SKILL.md` file that describes the skill's functionality, inputs, and outputs. These skills can be used by Claude Code, Codex CLI, and Gemini CLI without modification, as they conform to the [Agent Skills Open Standard](https://agentskills.io) for cross-agent compatibility
 
-## Directory Structure
+**Where to Deploy**:
 
-ソースをフラット構造で管理し、Open Standard に直接準拠する。各スキルディレクトリの名前と SKILL.md の `name` フィールドが一致する。
-
-```
-skills/
-├── debugger/SKILL.md
-├── dev-design/SKILL.md
-├── dev-documentation/SKILL.md
-├── dev-implement/SKILL.md
-├── dev-review-design/SKILL.md
-├── dev-review-implementation/SKILL.md
-├── dx-optimizer/SKILL.md
-├── git-commit/SKILL.md
-├── git-pr-create/SKILL.md
-├── git-pr-review/SKILL.md
-├── sdd-init/SKILL.md              # references/, sdd-init.sh を含む
-├── skill-creator/SKILL.md         # references/, scripts/ を含む
-├── writing-review/SKILL.md
-└── writing-translate/SKILL.md
-```
-
-## Deploy Mechanism
-
-`modules/claude/apply.sh` の `deploy_skills()` 関数がスキルディレクトリをそのままコピーする。
-
-**デプロイ先**:
-
-| Path | Consumer |
-|---|---|
-| `~/.claude/skills/<skill-name>/` | Claude Code |
+| Path                             | Consumer              |
+| -------------------------------- | --------------------- |
+| `~/.claude/skills/<skill-name>/` | Claude Code           |
 | `~/.agents/skills/<skill-name>/` | Codex CLI, Gemini CLI |
-
-## Naming Convention
-
-### `name` フィールド
-
-SKILL.md の `name` フィールドには親ディレクトリ名と同一の値を記載する（Open Standard 準拠）。
-
-```yaml
-# skills/dev-design/SKILL.md
----
-name: dev-design
-description: ...
----
-```
-
-### Group prefix
-
-論理的なグループはプレフィックスで表現する:
-
-| Group | Prefix | Skills |
-|---|---|---|
-| Development | `dev-` | design, implement, review-design, review-implementation, documentation |
-| Git | `git-` | commit, pr-create, pr-review |
-| Writing | `writing-` | review, translate |
-| SDD | `sdd-` | init |
-| Standalone | (none) | debugger, dx-optimizer, skill-creator |
 
 ## Adding a New Skill
 
@@ -77,13 +25,11 @@ mkdir -p modules/common/skills/linter
 
 ## Cross-Agent Compatibility
 
-| Agent | Scan depth | Status |
-|---|---|---|
-| Claude Code | Recursive | Compatible |
-| Codex CLI | Max depth 6 (BFS) | Compatible |
-| Gemini CLI | Depth 1 only | Compatible |
-
-フラット構造により全エージェントとの互換性を保証する。
+| Agent       | Scan depth        | Status     |
+| ----------- | ----------------- | ---------- |
+| Claude Code | Recursive         | Compatible |
+| Codex CLI   | Max depth 6 (BFS) | Compatible |
+| Gemini CLI  | Depth 1 only      | Compatible |
 
 ## References
 
