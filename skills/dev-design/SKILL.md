@@ -1,67 +1,155 @@
 ---
 name: dev-design
 description: >-
-  Design comprehensive implementation plans for software development tasks.
-  Use this skill for any design phase: requirements analysis, architecture
-  design, detailed component design, API design, data model design, bug fix
-  planning, refactoring strategy, migration planning, performance optimization,
-  security hardening, and third-party integration design. Invoke with
-  perspective keywords to focus on specific design aspects.
-argument-hint: "[perspectives: requirements|architecture|detailed-design|api-design|data-model|bug-fix|refactoring|migration|performance|security|integration|all]"
+  Analyze development tasks and design implementation plans.
+  Automatically triages task type (new feature, bug fix, refactoring, migration)
+  and scale, then guides through the appropriate design phases
+  (requirements, architecture, detailed design) with domain-specific guides
+  (API, DB, security, performance, integration).
+argument-hint: "<task description or development document>"
 ---
 
 ## 起動方法
 
-ユーザーからタスクの説明を受け取る。
-タスクの説明がまだ提供されていない場合は、何を設計すべきか質問する。
+`$ARGUMENTS` から開発タスクの説明またはドキュメントを受け取る。
+引数が空の場合は、何を設計すべきか質問する。
 
-**Think harder** 設計への影響を深く考慮し、要件の背景と目的を理解するため対話を行う:
+## 実行フロー
 
-- どのような問題を解決したいか
-- 期待される成果と成功基準
-- 既存システムとの関係性
+```
+入力受付 → 自動トリアージ → Phase別設計（対話） → ドキュメント出力
+```
 
-長期的な保守性と拡張性を考慮し、技術的な選択肢を洗い出し、評価し、最適なアプローチを提案する。
-最終的な詳細設計の作成においては、全てのコンテキスト情報を作業者に伝えることが最も重要。
+### Step 0: 入力受付
 
-## 観点選択ロジック
+- `$ARGUMENTS` にタスク説明・開発ドキュメント・PRD等が渡される
+- 引数なし → 何を設計すべきか質問し、回答を得てから Step 1 へ
 
-`$ARGUMENTS` から設計観点を解析する:
+### Step 1: 自動トリアージ
 
-- キーワードが含まれる場合 → 対応するガイドをロード
-- `all` が指定された場合 → 全ガイドをロード
-- 引数なし → タスク内容から適切な観点を判断し、ユーザーに提案してから進行
+**Think harder** タスクの内容を分析し、以下の3つを判定する。
 
-**重要: 選択された観点のガイドのみ読み込むこと。不要なガイドはロードしない。**
+#### 1-1. タスク種別の判定
 
-| キーワード | ガイドファイル | 対象 |
-|---|---|---|
-| `requirements` | references/requirements.md | 要件定義・要件分析 |
-| `architecture` | references/architecture.md | アーキテクチャ設計（基本設計） |
-| `detailed-design` | references/detailed-design.md | 詳細設計（コンポーネント・モジュール） |
-| `api-design` | references/api-design.md | API・インターフェース設計 |
-| `data-model` | references/data-model.md | データモデル・DB設計 |
-| `bug-fix` | references/bug-fix.md | バグ修正・エラー修正設計 |
-| `refactoring` | references/refactoring.md | リファクタリング設計 |
-| `migration` | references/migration.md | マイグレーション・移行設計 |
-| `performance` | references/performance.md | パフォーマンス最適化設計 |
-| `security` | references/security.md | セキュリティ設計 |
-| `integration` | references/integration.md | 外部サービス統合設計 |
+入力内容から、以下の6種別のいずれかに分類する:
 
-複数の観点を同時に指定可能（例: `requirements architecture api-design`）。
+| 種別 | 判定基準 |
+|------|----------|
+| `new-system` | 新規システム構築、大規模な新機能（複数コンポーネントにまたがる） |
+| `new-feature` | 小〜中規模の機能追加（既存システムへの追加） |
+| `enhancement` | 既存機能の拡張・改善（動作は変わるが構造は大きく変わらない） |
+| `bug-fix` | バグ修正、障害対応、エラー修正 |
+| `refactoring` | 外部動作を変えないコード構造の改善 |
+| `migration` | 技術移行、フレームワーク変更、データ移行 |
 
-## 主な責務
+#### 1-2. 複雑度スコアリング
 
-1. タスクの背景理解と要件の明確化
-2. 技術的選択肢の洗い出しと評価
-3. **機能受入条件の定義と検証可能性の確保**
-4. トレードオフ分析と既存アーキテクチャとの整合性確認
-5. **最新技術情報の調査と出典の明記**
-6. 実装者に全コンテキストを伝える詳細設計ドキュメントの作成
+以下の6次元を各1〜3点で評価し、合計スコア（6〜18点）を算出する:
 
-## 共通ルール（全観点に適用）
+| 次元 | 1 (Low) | 2 (Medium) | 3 (High) |
+|------|---------|------------|----------|
+| 変更スコープ | 単一ファイル/関数 | 複数ファイル・単一コンポーネント | 複数コンポーネント/システム |
+| ドメイン新規性 | 既知のパターン | 一部未知 | 新ドメイン・前例なし |
+| 技術的新規性 | 既存技術スタック | 小規模な新技術/ライブラリ | 新アーキテクチャパターン |
+| 統合の複雑さ | 外部接点なし | 内部API変更 | 外部API・クロスシステム |
+| リグレッションリスク | 影響範囲が限定的 | 中程度の影響 | 広範囲・クリティカルパス |
+| 可逆性 | 容易に戻せる | やや困難 | データ移行・不可逆 |
 
-**以下のルールは絶対に遵守すること:**
+#### 1-3. 設計Phaseと関連ガイドの決定
+
+**スコアによる規模判定:**
+
+| スコア | 規模 | 設計Phase |
+|--------|------|-----------|
+| 6-8 | Small | 要件確認のみ（簡易） |
+| 9-13 | Medium | 要件定義 + 基本設計 |
+| 14-18 | Large | 要件定義 + 基本設計 + 詳細設計 |
+
+**タスク種別×規模の設計Phase選択:**
+
+| タスク種別 | Small | Medium | Large |
+|-----------|-------|--------|-------|
+| new-system | requirements + architecture | req + arch + detailed | req + arch + detailed（全Phase） |
+| new-feature | requirements（簡易） | req + architecture | req + arch + detailed |
+| enhancement | requirements（差分のみ） | req + architecture（変更部分） | req + arch + detailed |
+| bug-fix | `tasks/bug-fix.md` のみ | bug-fix + architecture（システム的問題時） | bug-fix + arch + detailed |
+| refactoring | `tasks/refactoring.md` のみ | refactoring + architecture | refactoring + arch + detailed |
+| migration | `tasks/migration.md` + req | migration + req + arch | migration + req + arch + detailed |
+
+**専門ガイド（domains）の選択:**
+タスク内容に応じて、関連する専門ガイドを推薦する:
+
+| キーワード/コンテキスト | ガイド |
+|------------------------|--------|
+| API、エンドポイント、REST、GraphQL | `domains/api-design.md` |
+| DB、テーブル、スキーマ、モデル | `domains/data-model.md` |
+| 認証、認可、脆弱性、暗号化 | `domains/security.md` |
+| 速度、レイテンシ、最適化、キャッシュ | `domains/performance.md` |
+| 外部サービス、SDK、Webhook | `domains/integration.md` |
+
+#### 1-4. トリアージ結果の提示
+
+分析結果を以下の形式でユーザーに提示し、**合意を得てから**次のステップに進む:
+
+```
+## トリアージ結果
+
+- **タスク種別**: [種別] - [判定理由]
+- **複雑度スコア**: [合計点]/18（[規模判定]）
+  - 変更スコープ: [点] - [理由]
+  - ドメイン新規性: [点] - [理由]
+  - 技術的新規性: [点] - [理由]
+  - 統合の複雑さ: [点] - [理由]
+  - リグレッションリスク: [点] - [理由]
+  - 可逆性: [点] - [理由]
+- **設計Phase**: [適用するPhase一覧]
+- **専門ガイド**: [適用する専門ガイド一覧]
+```
+
+不明な次元がある場合はユーザーに質問して確定させる。
+
+### Step 2: 設計の実行
+
+トリアージで決定したPhaseを順番に実行する。
+**各Phaseの開始時に対応するガイドをロードする。事前に全ガイドをロードしない。**
+
+#### Phase 1: 要件定義（必要な場合）
+
+`references/phases/requirements.md` をロードし、チェックリストに基づいて対話を行う。
+
+- タスクの背景・目的・制約の明確化
+- 機能要件・非機能要件の定義
+- 受入条件の策定
+- → ユーザーと合意してから次のPhaseへ
+
+#### Phase 2: 基本設計（必要な場合）
+
+`references/phases/architecture.md` + 関連する `domains/*.md` をロードする。
+
+- アーキテクチャパターンの選定
+- コンポーネント分割と責務定義
+- 技術選定とトレードオフ分析
+- → ユーザーと合意してから次のPhaseへ
+
+#### Phase 3: 詳細設計（必要な場合）
+
+`references/phases/detailed-design.md` + 関連する `domains/*.md` をロードする。
+
+- モジュール/クラス設計
+- インターフェース定義
+- エラーハンドリング戦略
+- → ユーザーと合意してから出力へ
+
+#### タスク特化フロー（bug-fix / refactoring / migration）
+
+該当する `references/tasks/*.md` をロードし、そのガイドのフローに従う。
+必要に応じて `phases/*.md` や `domains/*.md` を補助的にロードする。
+
+### Step 3: 設計ドキュメント出力
+
+全Phaseの合意内容を統合し、実装者が必要な情報を全て含む設計ドキュメントを出力する。
+
+## 共通ルール（全Phase・全ガイドに適用）
 
 ### 1. 事実ベースの設計（グラウンディング）
 
@@ -94,11 +182,36 @@ argument-hint: "[perspectives: requirements|architecture|detailed-design|api-des
 4. **トレードオフの明示**: 各選択肢の利点・欠点を定量的に評価
 5. **受入条件からのテスト導出**: 各機能受入条件を満たすテストケースが明確
 
-## 設計手順
+## ガイド一覧
 
-1. **タスク理解**: タスクの背景・目的・制約を把握する
-2. **コンテキスト収集**: 既存コード・アーキテクチャ・関連ライブラリの公式情報を調査
-3. **ガイドロード**: 選択された観点の `references/*.md` を読み込む
-4. **設計実行**: ガイドのチェックリストに基づき設計案を作成。複数案を検討
-5. **対話・合意**: ユーザーと対話し最適案を確定
-6. **ドキュメント出力**: 確定した設計を標準フォーマットで出力
+### 設計Phase（phases/）
+
+段階的に適用する設計フェーズのガイド。
+
+| ファイル | 対象 |
+|----------|------|
+| `phases/requirements.md` | 要件定義・要件分析 |
+| `phases/architecture.md` | アーキテクチャ設計（基本設計） |
+| `phases/detailed-design.md` | 詳細設計（コンポーネント・モジュール） |
+
+### 専門ガイド（domains/）
+
+Phase内で必要に応じて適用する専門領域のガイド。
+
+| ファイル | 対象 |
+|----------|------|
+| `domains/api-design.md` | API・インターフェース設計 |
+| `domains/data-model.md` | データモデル・DB設計 |
+| `domains/security.md` | セキュリティ設計 |
+| `domains/performance.md` | パフォーマンス最適化 |
+| `domains/integration.md` | 外部サービス統合 |
+
+### タスク特化ガイド（tasks/）
+
+特定のタスク種別で適用する専用フローのガイド。
+
+| ファイル | 対象 |
+|----------|------|
+| `tasks/bug-fix.md` | バグ修正・障害対応 |
+| `tasks/refactoring.md` | リファクタリング |
+| `tasks/migration.md` | マイグレーション・移行 |
