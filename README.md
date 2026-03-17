@@ -37,6 +37,27 @@ Reusable skills compatible with Claude Code, Codex CLI, and Gemini CLI.
 
 - **.tmux.conf**: Cross-platform tmux configuration with automatic clipboard detection (pbcopy/xclip/wl-copy)
 
+## Syncing Upstream Skills
+
+Some skills (e.g., `skill-creator`) are synced from external repositories. The sync configuration is defined in `upstream-skills.conf`.
+
+```bash
+# Preview changes
+bash scripts/sync-upstream-skills.sh --dry-run
+
+# Sync all upstream skills
+bash scripts/sync-upstream-skills.sh
+
+# Sync a specific skill
+bash scripts/sync-upstream-skills.sh skill-creator
+```
+
+To add a new upstream skill, add an entry to `upstream-skills.conf`:
+
+```
+my-skill  https://github.com/org/repo  path/to/skill  main
+```
+
 ## Usage
 
 This repository is designed to be used as a git submodule in platform-specific dotfiles repositories.
@@ -62,6 +83,9 @@ dotfiles-common/
 │   ├── hooks/
 │   ├── tools/
 │   └── skills/             # Claude-only skills
+├── scripts/
+│   └── sync-upstream-skills.sh  # Sync skills from upstream repos
+├── upstream-skills.conf    # Upstream skill mappings
 ├── git/
 └── tmux/
     └── .tmux.conf          # Cross-platform tmux config
