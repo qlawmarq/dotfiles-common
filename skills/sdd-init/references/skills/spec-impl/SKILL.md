@@ -136,3 +136,8 @@ Provide brief summary in the language specified in spec.json:
 **Execute all pending**:
 
 - `/sdd-spec-impl <feature-name>` - All unchecked tasks
+
+### After All Tasks Completed
+
+- Optional validation: `/sdd-validate-impl <feature-name>` for mid-implementation quality check
+- **Finalize feature**: `/sdd-spec-done <feature-name>` to verify quality, move spec to done, and commit

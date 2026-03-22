@@ -162,8 +162,8 @@ Provide output in the language specified in spec.json with:
 
 **If GO Decision**:
 
-- Implementation validated and ready
-- Proceed to deployment or next feature
+- Implementation validated and ready for completion
+- Run `/sdd-spec-done <feature-name>` to finalize (lint/test/build check, move to done, commit)
 
 **If NO-GO Decision**:
 
@@ -171,4 +171,4 @@ Provide output in the language specified in spec.json with:
 - Re-run `/sdd-spec-impl <feature-name> <task-numbers>` for fixes
 - Re-validate with `/sdd-validate-impl <feature-name> <task-numbers>`
 
-**Note**: Validation is recommended after implementation to ensure spec alignment and quality.
+**Note**: Validation is recommended after implementation. Use `/sdd-spec-done` for the final completion workflow.
