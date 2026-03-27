@@ -3,7 +3,7 @@ name: sdd-validate-design
 description: >-
   Interactive technical design quality review and validation.
   Conducts GO/NO-GO assessment with balanced feedback.
-argument-hint: "<feature-name>"
+argument-hint: "<feature-name> [--batch]"
 ---
 
 # Technical Design Validation
@@ -24,9 +24,20 @@ argument-hint: "<feature-name>"
 
 This skill expects:
 1. **Feature name** (required): The feature directory name in `docs/tasks/`
+2. **--batch** (optional): Non-interactive batch mode flag
 
 If inputs were provided with this skill invocation, use them directly.
 Otherwise, ask the user for the feature name.
+
+### Batch Mode (`--batch`)
+
+When `--batch` flag is provided, the skill runs in non-interactive batch mode:
+- **Skip** the interactive design review dialogue (Step 4)
+- Perform a bulk review of the design against requirements and steering context
+- Output the complete review result with GO/NO-GO decision directly
+- Do not engage in back-and-forth dialogue with the user
+
+When `--batch` is NOT provided, maintain the default interactive behavior (engage in dialogue throughout the review process).
 
 ## Core Task
 
@@ -48,9 +59,10 @@ Interactive design quality review for the specified feature based on approved re
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/design-review.md` for review criteria and process
 
-4. **Execute Design Review**:
+4. **Execute Design Review** (skip interactive dialogue in `--batch` mode):
    - Follow design-review.md process: Analysis → Critical Issues → Strengths → GO/NO-GO
-   - Engage interactively with user
+   - In batch mode: Perform bulk review and output complete results without user dialogue
+   - In interactive mode (default): Engage interactively with user
    - Use language specified in spec.json for output
 
 5. **Provide Decision and Next Steps**:

@@ -3,7 +3,7 @@ name: sdd-spec-requirements
 description: >-
   Generate comprehensive requirements for an SDD specification.
   Creates testable requirements in EARS format based on the project description.
-argument-hint: "<feature-name>"
+argument-hint: "<feature-name> [--batch]"
 ---
 
 # Requirements Generation
@@ -25,9 +25,20 @@ argument-hint: "<feature-name>"
 
 This skill expects:
 1. **Feature name** (required): The feature directory name in `docs/tasks/`
+2. **--batch** (optional): Non-interactive batch mode flag
 
 If inputs were provided with this skill invocation, use them directly.
 Otherwise, ask the user for the feature name.
+
+### Batch Mode (`--batch`)
+
+When `--batch` flag is provided, the skill runs in non-interactive batch mode:
+- **Skip** the interactive requirements clarification dialogue (Step 4)
+- **Skip** the completeness confirmation dialogue
+- Generate requirements directly from available information (project description + codebase + steering context)
+- Output the generated requirements without waiting for user feedback
+
+When `--batch` is NOT provided, maintain the default interactive behavior (dialogue with user for clarification and completeness checks).
 
 ## Core Task
 
@@ -49,8 +60,9 @@ Generate complete requirements for the specified feature based on the project de
    - Read `docs/settings/rules/ears-format.md` for EARS syntax rules
    - Read `docs/settings/templates/specs/requirements.md` for document structure
 
-4. **Clarify Requirements**:
-   - Clarify requirements through dialogue with the user (project owner)
+4. **Clarify Requirements** (skip in `--batch` mode):
+   - In batch mode: Skip this step entirely. Generate requirements using all available information (project description, codebase analysis, steering context) without user dialogue.
+   - In interactive mode (default): Clarify requirements through dialogue with the user (project owner)
    - Focus on WHAT the system must do, not HOW
    - Ensure all acceptance criteria follow EARS format
 
@@ -104,7 +116,7 @@ Provide output in the language specified in spec.json with:
 - **Ambiguous Requirements**: Propose initial version and iterate with user rather than asking many upfront questions
 - **Template Missing**: If template files don't exist, use inline fallback structure with warning
 - **Language Undefined**: Default to English (`en`) if spec.json doesn't specify language
-- **Incomplete Requirements**: After generation, explicitly ask user if requirements cover all expected functionality
+- **Incomplete Requirements**: After generation, explicitly ask user if requirements cover all expected functionality (skip completeness confirmation in `--batch` mode — output results directly)
 - **Steering Directory Empty**: Warn user that project context is missing and may affect requirement quality
 - **Non-numeric Requirement Headings**: If existing headings do not include a leading numeric ID (for example, they use "Requirement A"), normalize them to numeric IDs and keep that mapping consistent (never mix numeric and alphabetic labels).
 

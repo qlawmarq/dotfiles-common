@@ -3,7 +3,7 @@ name: sdd-validate-tasks
 description: >-
   Interactive task quality review and validation.
   Ensures consistency across documentation and readiness for implementation.
-argument-hint: "<feature-name>"
+argument-hint: "<feature-name> [--batch]"
 ---
 
 # Task Validation
@@ -24,9 +24,20 @@ argument-hint: "<feature-name>"
 
 This skill expects:
 1. **Feature name** (required): The feature directory name in `docs/tasks/`
+2. **--batch** (optional): Non-interactive batch mode flag
 
 If inputs were provided with this skill invocation, use them directly.
 Otherwise, ask the user for the feature name.
+
+### Batch Mode (`--batch`)
+
+When `--batch` flag is provided, the skill runs in non-interactive batch mode:
+- **Skip** the interactive task review dialogue (Step 4)
+- Perform a bulk review of tasks against requirements, design, and steering context
+- Output the complete review result with GO/NO-GO decision directly
+- Do not engage in back-and-forth dialogue with the user
+
+When `--batch` is NOT provided, maintain the default interactive behavior (engage in dialogue throughout the review process).
 
 ## Core Task
 
@@ -48,10 +59,11 @@ Interactive implementation task review for the specified feature based on approv
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/tasks-generation.md` for review criteria and process
 
-4. **Execute Task Review**:
+4. **Execute Task Review** (skip interactive dialogue in `--batch` mode):
    - Review implementation tasks using tasks-generation.md process
    - Ensure there are no issues with consistency between documents, no overly burdensome tasks, and no ambiguous tasks or designs.
-   - Engage interactively with user
+   - In batch mode: Perform bulk review and output complete results without user dialogue
+   - In interactive mode (default): Engage interactively with user
    - Use language specified in spec.json for output
 
 5. **Provide Decision and Next Steps**:
