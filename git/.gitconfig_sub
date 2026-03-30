@@ -1,0 +1,4 @@
+# Sub user
+[user]
+	email 	= $GIT_EMAIL
+	name 	= $GIT_NAME

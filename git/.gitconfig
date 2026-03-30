@@ -41,3 +41,8 @@
 
 	# Delete branches except main and master in local
 	delete-br = "!f() { branches=$(git branch | grep -v -E \"(main|master)\"); if [ -n \"$branches\" ]; then echo \"Target:\"; echo \"$branches\"; printf \"Are you sure (y/N): \"; read -r reply; case $reply in [Yy]*) echo \"$branches\" | xargs git branch -D ;; esac; else echo \"No target found.\"; fi; }; f"
+
+
+# [Optional] Read .gitconfig_sub when in specified directory
+[includeIf "gitdir:~/Codes/OtherCompany/"]
+        path = ~/.gitconfig_sub
