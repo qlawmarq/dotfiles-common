@@ -87,7 +87,16 @@ For each selected task, first judge whether the task involves **testable logic**
 #### Always
 
 1. **VERIFY**: All existing tests pass, no regressions
-2. **MARK COMPLETE**: Update checkbox from `- [ ]` to `- [x]` in tasks.md
+2. **POST-TASK REFACTORING REVIEW** (after all sub-tasks of a major task are complete):
+   - **REVIEW**: Evaluate refactoring needs from the following perspectives:
+     - Duplication: Are there similar patterns introduced across sub-tasks?
+     - Naming: Do variable/function/module names accurately reflect intent?
+     - Simplification: Is there unnecessary complexity or indirection?
+     - Separation of concerns: Are responsibilities properly separated?
+   - **EXECUTE** (if refactoring needed): Perform refactoring, then run all tests to confirm they pass
+   - **SKIP** (if no refactoring needed): Mark review as complete and proceed to next major task
+   - _Note: This is a bird's-eye review layer distinct from TDD's per-cycle Refactor step, which focuses on local improvements within individual test cycles_
+3. **MARK COMPLETE**: Update checkbox from `- [ ]` to `- [x]` in tasks.md
 
 ## Critical Constraints
 

@@ -99,6 +99,7 @@ Generate implementation tasks for the specified feature based on approved requir
 - **Maximum 2 Levels**: Major tasks and sub-tasks only (no deeper nesting)
 - **Sequential Numbering**: Major tasks increment (1, 2, 3...), never repeat
 - **Task Integration**: Every task must connect to the system (no orphaned work)
+- **TDD Test Deduplication**: Do NOT generate unit test implementations as independent sub-tasks when they are covered by TDD cycles. Describe behaviors to test as regular detail items instead. Integration tests and E2E tests should still be generated as independent tasks
 
 </instructions>
 

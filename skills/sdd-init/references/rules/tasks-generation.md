@@ -61,11 +61,12 @@ Focus on capabilities and outcomes, not code structure.
 **Include ONLY**:
 
 - Coding tasks (implementation)
-- Testing tasks (unit, integration, E2E)
+- Testing tasks requiring separate execution (integration, E2E, performance)
 - Technical setup tasks (infrastructure, configuration)
 
 **Exclude**:
 
+- Unit tests covered by TDD cycles (handled in implementation phase)
 - Deployment tasks
 - Documentation tasks
 - User testing
@@ -76,6 +77,24 @@ Focus on capabilities and outcomes, not code structure.
 - When the design already guarantees functional coverage and rapid MVP delivery is prioritized, mark purely test-oriented follow-up work (e.g., baseline rendering/unit tests) as **optional** using the `- [ ]*` checkbox form.
 - Only apply the optional marker when the sub-task directly references acceptance criteria from requirements.md in its detail bullets.
 - Never mark implementation work or integration-critical verification as optional—reserve `*` for auxiliary/deferrable test coverage that can be revisited post-MVP.
+
+### 6. TDD Test Deduplication
+
+Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implementation phase MUST NOT be generated as independent sub-tasks.
+
+**Principles**:
+
+- Do NOT list unit tests that are naturally covered by TDD cycles (Red-Green-Refactor) as independent sub-tasks
+- Integration tests, E2E tests, and performance tests that require separate execution outside TDD cycles SHOULD still be generated as independent tasks
+- Describe behaviors to verify as regular detail items, not with a "Unit test:" label
+
+**Examples**:
+
+❌ Before:
+- `Unit test: forward lookup for all mapping entries, fallback for unknown keys`
+
+✅ After:
+- `Forward lookup for all mapping entries and fallback for unknown keys work correctly`
 
 ## Task Hierarchy Rules
 
