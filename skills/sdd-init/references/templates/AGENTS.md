@@ -30,6 +30,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
   - `/sdd-spec-init "description"`
   - `/sdd-spec-requirements <feature-name>`
   - `/sdd-validate-gap <feature-name>` (optional: for existing codebase)
+  - `/sdd-spec-research <feature-name>` (research & discovery)
   - `/sdd-spec-design <feature-name> [-y]`
   - `/sdd-validate-design <feature-name>` (optional: design review)
   - `/sdd-spec-tasks <feature-name> [-y]`
@@ -40,7 +41,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 
 ## Development Rules
 
-- 4-phase workflow: Requirements → Design → Tasks → Implementation → Completion
+- Workflow: Requirements → Research → Design → Tasks → Implementation → Completion
 - Human review required each phase; use `-y` only for intentional fast-track
 - Keep steering current and verify alignment with `/sdd-spec-status`
 - Follow the user's instructions precisely, and within that scope act autonomously: gather the necessary context and complete the requested work end-to-end in this run, asking questions only when essential information is missing or the instructions are critically ambiguous.

@@ -120,7 +120,7 @@ Provide output in the language specified in spec.json with:
 - **Steering Directory Empty**: Warn user that project context is missing and may affect requirement quality
 - **Non-numeric Requirement Headings**: If existing headings do not include a leading numeric ID (for example, they use "Requirement A"), normalize them to numeric IDs and keep that mapping consistent (never mix numeric and alphabetic labels).
 
-### Next Phase: Design Generation
+### Next Phase: Research & Design
 
 **If Requirements Approved**:
 
@@ -129,7 +129,8 @@ Provide output in the language specified in spec.json with:
   - Run `/sdd-validate-gap <feature-name>` to analyze implementation gap with current code
   - Identifies existing components, integration points, and implementation strategy
   - Recommended for brownfield projects; skip for greenfield
-- Then `/sdd-spec-design <feature-name> -y` to proceed to design phase
+- Run `/sdd-spec-research <feature-name>` to execute research & discovery (generates research.md)
+- Then `/sdd-spec-design <feature-name> -y` to proceed to design phase (uses research.md)
 
 **If Modifications Needed**:
 
