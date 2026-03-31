@@ -10,9 +10,8 @@ argument-hint: "<feature-name> [task-numbers]"
 
 <background_information>
 
-- **Mission**: Execute implementation tasks using Test-Driven Development methodology based on approved specifications
+- **Mission**: Execute implementation tasks based on approved specifications
 - **Success Criteria**:
-  - All tests written before implementation code
   - Code passes all tests with no regressions
   - Tasks marked as completed in tasks.md
   - Implementation aligns with design and requirements
@@ -59,9 +58,11 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 - If task numbers were provided: Execute specified task numbers (e.g., "1.1" or "1,2,3")
 - Otherwise: Execute all pending tasks (unchecked `- [ ]` in tasks.md)
 
-### Step 3: Execute with TDD
+### Step 3: Execute Tasks
 
-For each selected task, follow Kent Beck's TDD cycle:
+For each selected task, first judge whether the task involves **testable logic** (functions, classes, algorithms, data transformations) or **non-testable changes** (config values, text/prompt edits, file moves, simple field changes).
+
+#### When testable logic exists → TDD (Red-Green-Refactor)
 
 1. **RED - Write Failing Test**:
    - Write test for the next small piece of functionality
@@ -76,22 +77,22 @@ For each selected task, follow Kent Beck's TDD cycle:
 3. **REFACTOR - Clean Up**:
    - Improve code structure and readability
    - Remove duplication
-   - Apply design patterns where appropriate
    - Ensure all tests still pass after refactoring
 
-4. **VERIFY - Validate Quality**:
-   - All tests pass (new and existing)
-   - No regressions in existing functionality
-   - Code coverage maintained or improved
+#### When no testable logic exists → Direct Implementation
 
-5. **MARK COMPLETE**:
-   - Update checkbox from `- [ ]` to `- [x]` in tasks.md
+- Apply the change directly
+- Run existing tests to confirm no regressions
+
+#### Always
+
+1. **VERIFY**: All existing tests pass, no regressions
+2. **MARK COMPLETE**: Update checkbox from `- [ ]` to `- [x]` in tasks.md
 
 ## Critical Constraints
 
-- **TDD Mandatory**: Tests MUST be written before implementation code
+- **TDD when warranted**: Use TDD only when the task introduces testable logic. Do NOT write tests that merely assert config values, string literals, or file contents
 - **Task Scope**: Implement only what the specific task requires
-- **Test Coverage**: All new code must have tests
 - **No Regressions**: Existing tests must continue to pass
 - **Design Alignment**: Implementation must follow design.md specifications
 
@@ -100,7 +101,7 @@ For each selected task, follow Kent Beck's TDD cycle:
 ## Tool Guidance
 
 - **Read first**: Load all context before implementation
-- **Test first**: Write tests before code
+- **Test first**: Write tests before code only when testable logic exists
 - Use **WebSearch/WebFetch** for library documentation when needed
 
 ## Output Description
