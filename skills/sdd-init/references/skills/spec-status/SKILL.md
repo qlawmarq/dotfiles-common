@@ -49,6 +49,7 @@ Generate status report for the specified feature showing progress across all pha
 **Parse each phase**:
 
 - **Requirements**: Count requirements and acceptance criteria
+- **Research**: Check if `research.md` exists (✅ completed / ⏳ pending)
 - **Design**: Check for architecture, components, diagrams
 - **Tasks**: Count completed vs total tasks (parse `- [x]` vs `- [ ]`)
 - **Approvals**: Check approval status in spec.json
@@ -84,7 +85,7 @@ Provide status report in the language specified in spec.json:
 **Report Structure**:
 
 1. **Feature Overview**: Name, phase, last updated
-2. **Phase Status**: Requirements, Design, Tasks with completion %
+2. **Phase Status**: Requirements, Research, Design, Tasks with completion %
 3. **Task Progress**: If tasks exist, show X/Y completed
 4. **Next Action**: Specific command to run next
 5. **Issues**: Any blockers or missing elements

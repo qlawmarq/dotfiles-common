@@ -119,9 +119,9 @@ Write technical design document for the specified feature based on approved requ
 ## Tool Guidance
 
 - **Read first**: Load all context before taking action (specs, steering, templates, rules)
-- **Leverage research.md**: Use findings from `research.md` as the primary source of discovery context
+- **Read research.md**: If `research.md` exists in the feature directory, read it first and use its contents as the sole source of discovery/research context. Do NOT use WebSearch or WebFetch for independent research
 - **Analyze existing code**: Use Grep to find patterns and integration points in codebase
-- **Write last**: Generate design.md only after all research and analysis complete
+- **Write last**: Generate design.md only after loading all context including research findings
 
 ## Output Description
 

@@ -50,6 +50,7 @@ Interactive design quality review for the specified feature based on approved re
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` for requirements
+   - Read `{spec_path}/research.md` for research findings (if exists)
    - Read `{spec_path}/design.md` for design document
    - **Load ALL steering context**: Read entire `docs/steering/` directory including:
      - Default files: `structure.md`, `tech.md`, `product.md`
@@ -61,6 +62,7 @@ Interactive design quality review for the specified feature based on approved re
 
 4. **Execute Design Review** (skip interactive dialogue in `--batch` mode):
    - Follow design-review.md process: Analysis → Critical Issues → Strengths → GO/NO-GO
+   - If `research.md` exists, verify that its key findings (architecture patterns, technology decisions, risks) are reflected in the design document
    - In batch mode: Perform bulk review and output complete results without user dialogue
    - In interactive mode (default): Engage interactively with user
    - Use language specified in spec.json for output
