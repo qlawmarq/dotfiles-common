@@ -1,3 +1,86 @@
+# =============================================================================
+# Git Sub-Account Configuration
+# =============================================================================
+#
+# This file is loaded conditionally via includeIf in .gitconfig.
+# It overrides user.name and user.email for repositories under a specific
+# directory, enabling automatic Git account switching per directory.
+#
+# -----------------------------------------------------------------------------
+# Setup Guide: Using Multiple GitHub Accounts on One Machine
+# -----------------------------------------------------------------------------
+#
+# Overview:
+#   1. Generate a separate SSH key for the sub-account
+#   2. Add a Host alias in ~/.ssh/config
+#   3. Register the SSH public key on the sub-account's GitHub
+#   4. Configure this file with the sub-account's user info
+#   5. Clone work repos using the Host alias
+#
+# --- Step 1: Generate a dedicated SSH key ---
+#
+#   ssh-keygen -t ed25519 -C "work@example.com" -f ~/.ssh/id_ed25519_work
+#
+#   This creates ~/.ssh/id_ed25519_work (private) and
+#   ~/.ssh/id_ed25519_work.pub (public).
+#
+# --- Step 2: Add a Host alias to ~/.ssh/config ---
+#
+#   Host github.com-work
+#       HostName github.com
+#       User git
+#       AddKeysToAgent yes
+#       UseKeychain yes
+#       IdentityFile ~/.ssh/id_ed25519_work
+#
+#   "github.com-work" is an arbitrary alias. SSH resolves it to github.com
+#   but uses the specified IdentityFile. The personal account's entry
+#   (Host github.com) remains unchanged.
+#
+# --- Step 3: Register SSH public key on GitHub ---
+#
+#   Copy the public key and add it to the sub-account's GitHub settings:
+#
+#   pbcopy < ~/.ssh/id_ed25519_work.pub
+#   # GitHub > Settings > SSH and GPG keys > New SSH key
+#
+#   Verify the connection:
+#
+#   ssh -T git@github.com-work
+#   # Expected: "Hi <work-username>! You've successfully authenticated, ..."
+#
+# --- Step 4: Edit this file ---
+#
+#   Set user.email and user.name to match the sub-account.
+#   The includeIf directive in .gitconfig controls which directories
+#   trigger this override. Example from .gitconfig:
+#
+#   [includeIf "gitdir:~/Codes/OtherCompany/"]
+#       path = ~/.gitconfig_sub
+#
+#   The trailing "/" means all repositories under that directory (recursive).
+#
+# --- Step 5: Clone repositories using the Host alias ---
+#
+#   git clone git@github.com-work:org/repo.git ~/Codes/OtherCompany/repo
+#
+#   The Host alias "github.com-work" routes through the work SSH key.
+#   Once cloned into the includeIf directory, user.email and user.name
+#   from this file are applied automatically.
+#
+#   For existing repos, update the remote URL:
+#
+#   git remote set-url origin git@github.com-work:org/repo.git
+#
+# --- Verification ---
+#
+#   cd ~/Codes/OtherCompany/repo
+#   git config user.email   # Should show work email
+#   git config user.name    # Should show work name
+#   git remote -v           # Should show github.com-work in URL
+#
+# =============================================================================
+
 # Sub user
 [user]
 	email 	= $GIT_EMAIL
