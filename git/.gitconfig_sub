@@ -32,6 +32,7 @@
 #       AddKeysToAgent yes
 #       UseKeychain yes
 #       IdentityFile ~/.ssh/id_ed25519_work
+#       IdentitiesOnly yes
 #
 #   "github.com-work" is an arbitrary alias. SSH resolves it to github.com
 #   but uses the specified IdentityFile. The personal account's entry
