@@ -8,8 +8,8 @@ description: >-
   finished piece. Triggers on phrases like "創作", "小説", "脚本", "ゲーム設定",
   "世界観", "アイデア出し", "プロット", "エッセイ", "コンセプト資料", even when the
   user does not explicitly ask for a structured method. Guides the user through
-  the 14-day creative prototype protocol grounded in cognitive science
-  (Guilford, Jansson & Smith, Ritter & Dijksterhuis, Lacaux), idea-generation
+  an evidence-based, phase-driven creative process grounded in cognitive science
+  (Guilford, Jansson & Smith, Ritter & Dijksterhuis, Lacaux, Amabile), idea-generation
   techniques (SCAMPER, 6-3-5, morphological analysis), proven story structures
   (Snowflake, Dan Harmon Story Circle, Three-Act, Pixar 22 Rules), worldbuilding
   best practices (Sanderson's Iceberg method, Three Laws of Magic), and
@@ -19,9 +19,11 @@ argument-hint: "<workspace path or theme description; empty starts new session i
 
 ## 目的
 
-ユーザーの創作（小説・エッセイ・ゲームコンセプト）を、創造性研究と創作実践論で裏付けられたベストプラクティスに従って AI 対話で前進させる。「14 日プロトタイププロトコル」を骨格とし、各フェーズで適切な技法（拡散・収束・構造化・執筆）を選択して伴走する。
+ユーザーの創作（小説・エッセイ・ゲームコンセプト）を、創造性研究で実証されたベストプラクティスに従って AI 対話で前進させる。**実証されたフェーズ列**（拡散 → 孵化 → 収束 → 骨格 → 初稿 → 寝かせ → 仕上げ）を骨格とし、各フェーズで適切な技法を選択して伴走する。
 
-このスキルは**柔軟な伴走者**として動作する。レポートの原則は提案として提示するが、ユーザーの判断を上書きしない。ただしレポート 10 章のアンチパターン（拡散と収束の同時実行、最初の案への固着、世界観の網羅化など）が検出された場合は、**根拠を添えて軽く警告**する。
+進行は**カレンダーではなくフェーズの出口条件で駆動する**。日数で急かさない——時間圧は創造性を下げる（Amabile 2002, 9,000 件超の日誌で「高圧の日は創造的思考が 45% 減」）。実証されたタイミング要素は「総日数」ではなく**フェーズ間に孵化の間隔を空けること**（Ritter & Dijksterhuis 2014 / Lacaux 2021）。
+
+このスキルは**柔軟な伴走者**として動作する。原則は提案として示し、ユーザーの判断を上書きしない。アンチパターン（`references/anti-patterns.md`）が見えたときだけ、根拠を 1 行添えて軽く伝える。**確定済みの決定を蒸し返したり、些細な揚げ足を取ったりしない。**
 
 ## 起動方法
 
@@ -75,28 +77,27 @@ argument-hint: "<workspace path or theme description; empty starts new session i
 
 ### Step 2: 現在フェーズの実施
 
-`STATE.md` の `current_phase` に応じて適切なフェーズを実行する。フェーズ間の遷移は厳密ではなく、ユーザーの希望で前後・スキップ可能。ただし**拡散の最中に収束を求められたら**レポート § 1.1 を根拠に「同じセッションで拡散と収束を混ぜると評価が生成を潰します。一度区切ってから戻りませんか？」と提案する（拒否されたら進める）。
+`STATE.md` の `current_phase` に応じて適切なフェーズを実行する。**各フェーズは「出口条件」を満たしたら次へ進む——日数ではなく達成で判定する。** フェーズの前後・スキップはユーザーの希望で可。ただし**拡散の最中に収束を求められたら**「同じセッションで拡散と収束を混ぜると評価が生成を潰します（Guilford 以降）。一度区切ってから戻りませんか？」と提案する（拒否されたら進める）。
 
-#### フェーズマップ（14 日プロトコル準拠、レポート § 9.1）
+#### フェーズマップ（出口条件で駆動・`references/phase-protocol.md`）
 
-| Phase | 名称 | 推奨日 | 技法 | リファレンス |
-|-------|------|-------|------|-------------|
-| 01a | 拡散 (SCAMPER) | Day 1 | 主題から 21 案 | `references/divergent-techniques.md` |
-| 01b | 拡散 (6-3-5 / ペルソナ) | Day 2 | 6 視点 × 各 3 案 | 同上 |
-| 01c | 拡散 (形態分析) | Day 3 | ランダム 10 通り組み合わせ | 同上 |
-| INC1 | 孵化 | Day 4 | 散歩・低負荷活動を提案、書かない | `references/work-habits.md` |
-| 02 | 収束 | Day 5 | 評価基準による採点 | `references/convergent-evaluation.md` |
-| 03a | 骨格 (ログライン) | Day 6 | 1 文 25-50 字 | `references/snowflake-and-structures.md` |
-| 03b | 骨格 (1 段落 + Story Circle) | Day 7 | 200 字 + 8 段階 | 同上 |
-| 03c | 骨格 (シノプシス) | Day 8 | 800-1,200 字 | 同上 |
-| 04 | 世界観 (game/novel のみ) | Day 8-9 並行 | Iceberg 3 要素 | `references/worldbuilding.md` |
-| 05 | 初稿執筆 | Day 9-11 | 1 日 1,000 字目安、Hemingway 原則 | `references/work-habits.md` |
-| 06a | 完稿 | Day 12 | 通読 | — |
-| INC2 | 孵化 (寝かせ) | Day 13 | 書かない・読まない | — |
-| 06b | 推敲 | Day 14 | 通読 → 修正 → 完成 | — |
+| Phase | 名称 | 出口条件（満たしたら次へ） | リファレンス |
+|-------|------|------------------------|-------------|
+| 01a | 拡散 (SCAMPER) | 21 案以上 | `references/divergent-techniques.md` |
+| 01b | 拡散 (6-3-5 / ペルソナ) | 6 視点 × 各 3 案 | 同上 |
+| 01c | 拡散 (形態分析) | ランダム 10 通りを評価 | 同上 |
+| INC1 | 孵化 | 拡散後に最低 2 時間〜翌日空ける | `references/work-habits.md` |
+| 02 | 収束 | 採点 → 上位 1 案を確定 | `references/convergent-evaluation.md` |
+| 03a | 骨格 (ログライン) | 1 文 25-50 字が確定 | `references/snowflake-and-structures.md` |
+| 03b | 骨格 (1 段落 + Story Circle) | 200 字 + 8 段階が埋まる | 同上 |
+| 03c | 骨格 (シノプシス) | 800-1,200 字 | 同上 |
+| 04 | 世界観 (game/novel のみ) | Iceberg 3 要素 | `references/worldbuilding.md` |
+| 05 | 初稿 | 種別の成果物が一通り埋まる | `references/work-habits.md` |
+| INC2 | 孵化 (寝かせ) | 初稿後に最低 1 日空けて読み返す | — |
+| 06 | 仕上げ | 完了チェックリスト通過（種別ファイル参照） | `references/anti-patterns.md` |
 
 種別固有の差分:
-- `game-concept` → Phase 05 で **One-Sheet 形式**（`references/type-game.md`）。Phase 04 と並行で「やらないこと」リスト必須
+- `game-concept` → 成果物は **One-Sheet 1 枚**（`references/type-game.md`）。世界観と並行で「やらないこと」リスト必須。**仕上げ＝One-Sheet が完成チェックを通過すること。別の最終文書は作らない（One-Sheet が唯一の正典）**
 - `novel` → Phase 03c でフル Snowflake 拡張、Phase 04 は世界観の主題関連 3 要素のみ
 - `essay` → Phase 01 は SCAMPER ではなく主題候補 5 つに圧縮、Phase 05 は freewriting 2,000 字（`references/type-essay.md`）
 
@@ -104,34 +105,40 @@ argument-hint: "<workspace path or theme description; empty starts new session i
 
 各フェーズで対話する際は以下を守る:
 
-1. **モード明示**: セッション冒頭で「今は **拡散モード**／**収束モード**／**執筆モード** です」と一度宣言する（ユーザーが状態を見失わないため）
-2. **拡散モードでは批判禁止**: ユーザーが自案を否定し始めたら、レポート § 1.1 の「同セッション内で評価は生成を潰す」を提示し、まず量を出すよう促す
-3. **最初の案への固着を疑う**: 拡散フェーズで「最初の 1 案を採用しそう」「20 案未満で選ぼうとする」場面では、レポート § 1.2 (Jansson & Smith 1991) を引いて「あと最低 10 案出してから比べませんか」と提案
+1. **モード明示**: セッション冒頭で今の状態を一度宣言する——**拡散モード**（量を出す）／**収束モード**（採点で選ぶ）／**執筆モード**（書き進める）／**仕上げモード**（閉じる）。ユーザーが状態を見失わないため
+2. **拡散モードでは批判禁止**: ユーザーが自案を否定し始めたら、「同セッション内で評価は生成を潰す（Guilford 以降）」を提示し、まず量を出すよう促す
+3. **最初の案への固着を疑う**: 拡散フェーズで「最初の 1 案を採用しそう」「20 案未満で選ぼうとする」場面では、Jansson & Smith 1991（デザイン固着）を引いて「あと最低 10 案出してから比べませんか」と提案
 4. **既存作品の言及は別ファイル**: ユーザーが「○○みたいに」と参照作品を出した場合、デザイン固着回避のためその名前を作業ファイルではなく `references-external.md` 等の別ファイルに退避することを提案
-5. **執筆モードは Hemingway 原則**: 1 日 1,000 字目安・「次に書くことが分かっている時点で打ち切る」（レポート § 8.2、Zeigarnik 効果）を案内
-6. **詰まったら粘らせない**: 同フェーズで 3 回以上行き詰まりが見えたら、レポート § 1.3 の孵化効果（Lacaux 2021 / Ritter & Dijksterhuis 2014）を提示し、散歩・シャワー・短い昼寝を促してセッションを区切る
+5. **執筆モードは「絶好調で止める」**: 長文を書く novel / essay では、1 日の作業を「次に書くことが分かっている時点」で打ち切る（Hemingway の自己申告 + Zeigarnik 効果 1927）。語数の目安（1 日 1,000 字等）は**規範でなく参考点**。game-concept の One-Sheet は短い 1 枚なので語数規律は適用しない
+6. **詰まったら粘らせない**: 同フェーズで 3 回以上行き詰まりが見えたら、孵化効果（Lacaux 2021 / Ritter & Dijksterhuis 2014）を提示し、散歩・短い休憩を促してセッションを区切る
+7. **仕上げモードは「閉じる」規律**（粗探しの逆）:
+   - **まず `STATE.md` の決定表と `open-questions` 系ファイルを読む。** 確定済みの決定は **CLOSED として扱い、蒸し返さない**。検討対象は明示的に open な項目だけ
+   - 改稿は**ラウンド上限を決めて回す**。読み返しで改善が出なくなったら完了（overediting＝読者が気づかない微細な粗を探し始める失敗モードを避ける）
+   - **「ユーザーに問うべきか」の線引き**: 問うてよいのは主観的な創作方向・価値判断・不可逆なスコープ判断**だけ**。文言の推敲・文書の体裁・既決事項は問わず、自分で決めて手を動かす
+8. **質問は非指示的に・必要なときだけ**: ソクラテス的問答はユーザー自身の創作選択の探索を助けるためのもの（コーチング研究で支持）。**対立的・詰問的な揚げ足取りにしない**（文献が明示する失敗モード）。確認の質問が作業を止めているなら、止めて手を動かす
+9. **日数で急かさない**: 締切・時間圧は創造性を下げる（Amabile 2002）。締切が外圧として有効なのは**ユーザー自身が置いた意味のある締切**に限る。スキル側から「あと何日」を課さない
 
 ### Step 4: 状態更新と次フェーズ予告
 
 セッション終了時に必ず:
 
-1. `STATE.md` を更新（`current_phase`, `last_session_date`, `next_recommended_action`, 検出したアンチパターン）
-2. ユーザーに次フェーズの予告と、孵化期間が必要なら「最低 2 時間あけて／翌日に」を伝える（レポート § 1.1 の数値根拠）
-3. Hemingway 原則に従い、ユーザーが**次に書くことを 1 行**でメモするよう促す
+1. `STATE.md` を更新（`current_phase`, `last_mode`, `next_recommended_action`, 検出したアンチパターン）
+2. 次フェーズを予告する。**拡散の後と初稿の後は孵化を挟む**——「最低 2 時間あけて、できれば翌日／別セッションで」（孵化効果。実証されたタイミング要素）
+3. 次に着手することを 1 行メモしてもらう（「絶好調で止める」＝再開コストを下げる）
 
 ## ファイル分割の方針
 
 このスキルは progressive disclosure 構造を取る。SKILL.md は全フェーズの骨格のみ含み、技法の詳細は以下を**そのフェーズに入る直前**に読む:
 
-- `references/14-day-protocol.md` — 14 日スケジュール全体・種別別変形・各日のチェックリスト
+- `references/phase-protocol.md` — フェーズ列と出口条件・種別別変形・完了チェック（カレンダー非依存）
 - `references/divergent-techniques.md` — SCAMPER 21 質問・6-3-5 ペルソナ版・形態分析・カード型刺激法
 - `references/convergent-evaluation.md` — 評価基準テンプレート・加重スコアリング手順
 - `references/snowflake-and-structures.md` — Snowflake 10 ステップ・Story Circle 8 段階・Three-Act・Save the Cat・Pixar 22 Rules
 - `references/worldbuilding.md` — Sanderson Iceberg・魔法の三法則・top-down vs bottom-up vs inside-out
-- `references/type-game.md` — One-Sheet 6 要素・コアループ・「やらないこと」リスト・評価基準
-- `references/type-essay.md` — Montaigne essai 原則・14 日エッセイプロトコル
-- `references/work-habits.md` — 日次語数・Hemingway 打ち切り・Newport タイムブロック・孵化効果の使い方・クロノタイプ
-- `references/anti-patterns.md` — 回避すべき 10 パターン（レポート § 10）と検出基準
+- `references/type-game.md` — One-Sheet 6 要素・コアループ・「やらないこと」リスト・完成チェック・正典の単一化
+- `references/type-essay.md` — Montaigne essai 原則・エッセイのフェーズ変形
+- `references/work-habits.md` — 孵化効果（実証されたタイミング要素）・「絶好調で止める」・Newport タイムブロック・参考点の扱い
+- `references/anti-patterns.md` — 回避すべきアンチパターン（生成側・仕上げ側）と検出基準
 
 新規プロジェクト初期化時の雛形は `templates/` 配下:
 
@@ -146,9 +153,10 @@ argument-hint: "<workspace path or theme description; empty starts new session i
 
 ## 重要な原則
 
-- **エビデンスの引用**: 提案する技法には必ず出典または研究者名を 1 行添える。ユーザーが「なぜそれをするのか」を理解できなければ、固有の状況で応用できない（レポートの設計思想）
-- **数値は具体的に**: 「たくさん出して」ではなく「最低 21 案」「1 日 1,000 字」「散歩 30-90 分」など、レポートに記載された数値を使う
-- **強制 (MUST/ALWAYS) を避ける**: 「批判禁止」「やらないこと必須」など必要な箇所のみ強制。それ以外は提案として表現する
+- **エビデンスの引用**: 提案する技法には出典または研究者名を 1 行添える。ユーザーが「なぜそれをするのか」を理解できなければ、固有の状況で応用できない
+- **実証された数値だけを規範にする**: 「最低 20-21 案」（量が質を生む：Osborn の量質相関 r≈.89、複数研究で支持）「拡散後 2 時間〜翌日の孵化」（Lacaux 2021 ほか）は根拠ある目安として使う。作家の自己申告（1 日 1,000 字等）は**参考点**として「規範ではない」と添えて示す
+- **強制 (MUST/ALWAYS) を避ける**: 必要な箇所（拡散中の批判禁止、game の「やらないこと」）のみ強制。それ以外は提案として表現する
+- **既決を蒸し返さない・揚げ足を取らない**: 確定済みの決定は閉じる。仕上げは「粗探し」でなく「閉じる」作業（Step 3-7）
 - **出力言語**: 日本語（プロジェクト CLAUDE.md 準拠）
 - **書く対象**: ワークスペース内のファイルのみを書き換える。スキルディレクトリ自体は書き換えない
-- **アンチパターン検知ログ**: ユーザーが警告を聞き入れず進めた場合も、`STATE.md` に「Day X: 拡散と収束の混合を選択（ユーザー承諾済み）」と記録するだけで、阻止しない
+- **アンチパターン検知ログ**: ユーザーが警告を聞き入れず進めた場合も、`STATE.md` に「（フェーズ名）でアンチパターン X を選択（ユーザー承諾済み）」と記録するだけで、阻止しない
