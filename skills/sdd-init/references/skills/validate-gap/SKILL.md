@@ -82,7 +82,7 @@ Provide output in the language specified in spec.json with:
 
 1. **Analysis Summary**: Brief overview (3-5 bullets) of scope, challenges, and recommendations
 2. **Document Status**: Confirm analysis approach used
-3. **Next Steps**: Guide user on proceeding to design phase
+3. **Next Steps**: Guide user on proceeding to the research phase (`/sdd-spec-research`), which precedes design in the workflow
 
 **Format Requirements**:
 
@@ -100,12 +100,14 @@ Provide output in the language specified in spec.json with:
 - **Complex Integration Unclear**: Flag for comprehensive research in design phase rather than blocking
 - **Language Undefined**: Default to English (`en`) if spec.json doesn't specify language
 
-### Next Phase: Design Generation
+### Next Phase: Research & Discovery
+
+The workflow is **Requirements → Gap (optional) → Research → Design → Tasks**. Gap analysis surfaces "Research Needed" items; the research phase resolves them before design. Do NOT skip research and jump to design.
 
 **If Gap Analysis Complete**:
 
-- Review gap analysis insights
-- Run `/sdd-spec-design <feature-name>` to create technical design document
-- Or `/sdd-spec-design <feature-name> -y` to auto-approve requirements and proceed directly
+- Review gap analysis insights, especially the "Research Needed" items
+- Run `/sdd-spec-research <feature-name>` to investigate the open unknowns and generate `research.md` (research & discovery)
+- Then run `/sdd-spec-design <feature-name>` to create the technical design document (use `-y` only for intentional fast-track / to auto-approve requirements)
 
-**Note**: Gap analysis is optional but recommended for brownfield projects to inform design decisions.
+**Note**: Gap analysis is optional but recommended for brownfield projects to inform research and design decisions.

@@ -18,7 +18,13 @@
       "approved": false
     }
   },
-  "ready_for_implementation": false
+  "ready_for_implementation": false,
+  "plan": {
+    "parent": null,
+    "unit_id": null,
+    "priority": null,
+    "depends_on": []
+  }
 }
 
 

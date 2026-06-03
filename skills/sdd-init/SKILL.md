@@ -147,7 +147,8 @@ Provide output in the language derived from `--lang`:
 6. **Next Steps** (numbered action items):
    - Run `/sdd-steering` to generate project steering from codebase analysis
    - Run `/sdd-steering-custom` to add domain-specific steering (optional)
-   - Run `/sdd-spec-init "description"` to start your first specification
+   - For a large/greenfield effort: run `/sdd-plan "product goal"` to decompose it into right-sized specs
+   - For a single feature: run `/sdd-spec-init "description"` to start your first specification
 7. **Created Directory Structure**: Show the final tree
 
 **Format**: Concise Markdown, under 300 words

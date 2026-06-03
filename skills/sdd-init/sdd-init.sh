@@ -142,7 +142,9 @@ mkdir -p docs/settings/rules \
          docs/settings/templates/specs \
          docs/settings/templates/steering \
          docs/settings/templates/steering-custom \
+         docs/settings/templates/inception \
          docs/steering \
+         docs/inception \
          docs/tasks/done \
          docs/tasks/todo
 
@@ -151,6 +153,7 @@ cp "$SRC"/rules/*.md docs/settings/rules/ 2>/dev/null || append_csv ERRORS "rule
 cp "$SRC"/templates/specs/* docs/settings/templates/specs/ 2>/dev/null || append_csv ERRORS "specs_copy_failed"
 cp "$SRC"/templates/steering/* docs/settings/templates/steering/ 2>/dev/null || append_csv ERRORS "steering_tpl_copy_failed"
 cp "$SRC"/templates/steering-custom/* docs/settings/templates/steering-custom/ 2>/dev/null || append_csv ERRORS "steering_custom_copy_failed"
+cp "$SRC"/templates/inception/* docs/settings/templates/inception/ 2>/dev/null || append_csv ERRORS "inception_tpl_copy_failed"
 
 RULES_COUNT=$(find docs/settings/rules -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
 TEMPLATES_COUNT=$(find docs/settings/templates -type f 2>/dev/null | wc -l | tr -d ' ')
@@ -158,6 +161,11 @@ TEMPLATES_COUNT=$(find docs/settings/templates -type f 2>/dev/null | wc -l | tr 
 # Update init.json language field
 if [ -f "docs/settings/templates/specs/init.json" ]; then
     sed -i '' "s|\"language\": \"[^\"]*\"|\"language\": \"${LANG_CODE}\"|" docs/settings/templates/specs/init.json
+fi
+
+# Update inception.json language field
+if [ -f "docs/settings/templates/inception/inception.json" ]; then
+    sed -i '' "s|\"language\": \"[^\"]*\"|\"language\": \"${LANG_CODE}\"|" docs/settings/templates/inception/inception.json
 fi
 
 # === Step 3: Steering Stubs ===

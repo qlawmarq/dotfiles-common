@@ -1,0 +1,21 @@
+{
+  "plan_id": "{{PLAN_ID}}",
+  "created_at": "{{TIMESTAMP}}",
+  "updated_at": "{{TIMESTAMP}}",
+  "language": "ja",
+  "mode": "{{MODE}}",
+  "goal": "{{GOAL}}",
+  "status": "planning",
+  "units": [
+    {
+      "unit_id": "U1",
+      "name": "{{UNIT_SLUG}}",
+      "priority": "P1",
+      "subdomain_class": "Core",
+      "size": "M",
+      "is_walking_skeleton": true,
+      "depends_on": [],
+      "spec_dir": "docs/tasks/todo/{{FEATURE_NAME}}"
+    }
+  ]
+}

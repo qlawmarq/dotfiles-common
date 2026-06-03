@@ -93,6 +93,7 @@ For each selected task, first judge whether the task involves **testable logic**
      - Naming: Do variable/function/module names accurately reflect intent?
      - Simplification: Is there unnecessary complexity or indirection?
      - Separation of concerns: Are responsibilities properly separated?
+     - Comment conventions: Do comments follow the steering comment rules (WHY-only; no spec/task/section number references, implementation history, completion forecasts, or temporal phrasing)?
    - **EXECUTE** (if refactoring needed): Perform refactoring, then run all tests to confirm they pass
    - **SKIP** (if no refactoring needed): Mark review as complete and proceed to next major task
    - _Note: This is a bird's-eye review layer distinct from TDD's per-cycle Refactor step, which focuses on local improvements within individual test cycles_
