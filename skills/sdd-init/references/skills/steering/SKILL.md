@@ -34,6 +34,8 @@ Check `docs/steering/` status:
 **Bootstrap Mode**: Empty OR missing core files (product.md, tech.md, structure.md)
 **Sync Mode**: All core files exist
 
+> **Scope note**: This skill performs a *full-codebase* sync — use it for the initial bootstrap and for periodic, broad reviews (after several merges, a refactor, or an architecture change). Routine per-feature drift is already caught at feature completion by `/sdd-spec-done`, which proposes additive, feature-scoped updates in a separate commit. The two are complementary: `/sdd-spec-done` keeps steering current incrementally; `/sdd-steering` is the periodic deep sync.
+
 ---
 
 ## Bootstrap Flow

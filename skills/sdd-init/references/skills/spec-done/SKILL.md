@@ -2,7 +2,8 @@
 name: sdd-spec-done
 description: >-
   Finalize an SDD feature: verify implementation quality, move spec to done, and commit.
-  Runs lint/test/build checks, validates requirements and design alignment, then completes the feature.
+  Runs lint/test/build checks, validates requirements and design alignment, completes the feature,
+  then checks whether the work introduced new patterns worth syncing into project steering.
 argument-hint: "<feature-name>"
 ---
 
@@ -19,6 +20,7 @@ argument-hint: "<feature-name>"
   - Code is clean and does not require refactoring
   - Spec moved from `docs/tasks/todo/` to `docs/tasks/done/`
   - Changes committed with project-consistent commit message
+  - Steering checked for drift; if the feature introduced new patterns, additive updates are proposed, confirmed by the user, and committed separately
 
 </background_information>
 
@@ -178,6 +180,41 @@ Execute all verification checks sequentially. Collect all issues before making a
   ```
 - **Do NOT push** — leave that to the user
 
+### Step 5: Steering Sync Check (non-blocking)
+
+Steering (`docs/steering/`) is loaded as project memory by *every* SDD skill, so stale steering silently degrades every future spec. The completion of a feature is the natural moment to catch drift — but the goal is to keep steering **current and lean**, not to grow it with every feature. By design, most features introduce no steering-worthy change.
+
+> **Golden rule** (from `docs/settings/rules/steering-principles.md`): "If new code follows existing patterns, steering shouldn't need updating." Treat "no update needed" as the expected, common outcome.
+
+This step runs only on GO, *after* the feature is finalized and committed (Step 4). It never blocks completion — the feature is already done.
+
+#### 5a. Detect Drift (feature-scoped)
+
+Compare the steering loaded in Step 1 against what *this feature* actually introduced. Look only for **pattern-level** changes worth remembering as project memory — not catalog entries:
+
+- **tech.md**: a new framework / library / runtime / tool, a version jump, or a new technical convention this feature established
+- **structure.md**: a new architectural pattern, directory role, or naming/import convention
+- **product.md**: a materially new capability or shift in product purpose
+
+Ignore anything that merely follows an existing pattern. Never record file listings, dependency dumps, implementation details, secrets, or agent-tooling directories (`.claude/`, `.cursor/`, etc.) — see `docs/settings/rules/steering-principles.md`.
+
+#### 5b. No Drift → Done (common case)
+
+If the feature followed existing patterns, report **"Steering current — no update needed"** and finish. Do not touch steering. This is the expected outcome for most features.
+
+#### 5c. Drift Found → Propose, Confirm, Commit Separately
+
+1. **Draft additive updates.** Preserve all existing user content — add, don't replace, and follow the Preservation rules in `steering-principles.md` (note an `updated_at` timestamp and a brief reason for the change).
+2. **Present, then wait.** Show the proposed changes as a concise diff/summary and ask the user to confirm. Do not write anything yet.
+3. **On confirm**: apply the edits, then create a **separate** commit scoped to steering only — never amend or fold it into the feature commit:
+   ```
+   docs(steering): sync after <feature-name>
+   ```
+   Match the repo's commit style detected in Step 4c.
+4. **On decline**: leave steering untouched. Note it can be synced anytime with `/sdd-steering`.
+
+For a broad or periodic steering review beyond what this feature touched (e.g. after several merges or a refactor), point the user to `/sdd-steering`, which performs a full-codebase sync.
+
 ## Critical Constraints
 
 - **todo/ only**: Only finalize features in `docs/tasks/todo/` — never re-process `done/`
@@ -185,6 +222,8 @@ Execute all verification checks sequentially. Collect all issues before making a
 - **No auto-push**: Commit locally only; pushing is the user's responsibility
 - **Scoped commits**: Only stage changes related to this feature
 - **Non-destructive**: If anything fails, the spec stays in `todo/` untouched
+- **Steering sync never blocks**: Drift is surfaced only after the feature is committed, requires user confirmation, and lands in its own `docs(steering):` commit — never bundled with the feature commit and never a GO/NO-GO gate
+- **Steering stays lean**: Additive only, pattern-level only; "no update needed" is the expected outcome for most features
 
 </instructions>
 
@@ -194,6 +233,7 @@ Execute all verification checks sequentially. Collect all issues before making a
 - **Bash for checks**: Execute lint, test, and build commands via Bash
 - **Grep/Read for traceability**: Search codebase for requirement and design evidence
 - **Bash for git**: Use git commands for commit style detection, staging, and committing
+- **Edit for steering**: When syncing steering (Step 5c), use Edit to apply additive changes to `docs/steering/*.md` after user confirmation, then commit them separately
 
 ## Output Description
 
@@ -212,6 +252,7 @@ Provide output in the language specified in spec.json:
 1. **Verification Summary**: Table of all checks — all passed
 2. **Completion Actions**: Confirm spec moved and commit created
 3. **Commit Details**: Show commit hash and message
+4. **Steering Sync**: One of — "Steering current — no update needed", "Steering updated (separate commit `<hash>`)", or "Steering update declined"
 
 **Format**: Concise Markdown, under 300 words
 
@@ -260,4 +301,5 @@ Provide output in the language specified in spec.json:
 
 - Feature is finalized and committed
 - Spec is archived in `docs/tasks/done/<feature-name>/`
+- Steering is synced (separate commit) if the feature introduced new patterns; otherwise left as-is
 - Ready to start next feature with `/sdd-spec-init "description"`
