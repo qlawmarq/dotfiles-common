@@ -60,6 +60,17 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 
 ### Step 3: Execute Tasks
 
+#### Pre-Code Gate (before writing any code)
+
+Write the least code that satisfies the task. Stop at the first rung that holds:
+
+1. **Does this need to exist?** Speculative need not in the task → skip it, note it in one line.
+2. **Standard library covers it?** Use it.
+3. **Native platform feature or already-installed dependency covers it?** Use it. Never add a new dependency for what a few lines do.
+4. **One line?** One line. Otherwise the minimum that works.
+
+The gate is a reflex, not a research project — take the highest rung that holds and move on. No abstraction with one implementation, no config for a value that never changes, no scaffolding "for later". Never gate away (build it fully): input validation at trust boundaries, error handling that prevents data loss, security, accessibility, or anything the task explicitly requires.
+
 For each selected task, first judge whether the task involves **testable logic** (functions, classes, algorithms, data transformations) or **non-testable changes** (config values, text/prompt edits, file moves, simple field changes).
 
 #### When testable logic exists → TDD (Red-Green-Refactor)
@@ -70,9 +81,8 @@ For each selected task, first judge whether the task involves **testable logic**
    - Use descriptive test names
 
 2. **GREEN - Write Minimal Code**:
-   - Implement simplest solution to make test pass
+   - Implement simplest solution to make test pass (apply the Pre-Code Gate)
    - Focus only on making THIS test pass
-   - Avoid over-engineering
 
 3. **REFACTOR - Clean Up**:
    - Improve code structure and readability
@@ -102,6 +112,7 @@ For each selected task, first judge whether the task involves **testable logic**
 ## Critical Constraints
 
 - **TDD when warranted**: Use TDD only when the task introduces testable logic. Do NOT write tests that merely assert config values, string literals, or file contents
+- **Test the critical path, not every line**: Cover non-trivial logic with the smallest tests that fail if it breaks; do not add a separate test per trivial branch, getter, or wrapper (follow the testing steering's "critical paths deeply, breadth over 100% pursuit")
 - **Task Scope**: Implement only what the specific task requires
 - **No Regressions**: Existing tests must continue to pass
 - **Design Alignment**: Implementation must follow design.md specifications
