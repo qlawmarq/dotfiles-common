@@ -52,10 +52,7 @@ Interactive design quality review for the specified feature based on approved re
    - Read `{spec_path}/requirements.md` for requirements
    - Read `{spec_path}/research.md` for research findings (if exists)
    - Read `{spec_path}/design.md` for design document
-   - **Load ALL steering context**: Read entire `docs/steering/` directory including:
-     - Default files: `structure.md`, `tech.md`, `product.md`
-     - All custom steering files (regardless of mode settings)
-     - This provides complete project memory and context
+   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/design-review.md` for review criteria and process
@@ -98,7 +95,6 @@ Provide output in the language specified in spec.json with:
 
 **Format Requirements**:
 
-- Use Markdown headings for clarity
 - Follow design-review.md output format
 - Keep summary concise
 

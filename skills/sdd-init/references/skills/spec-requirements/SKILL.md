@@ -45,10 +45,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` for project description
-   - **Load ALL steering context**: Read entire `docs/steering/` directory including:
-     - Default files: `structure.md`, `tech.md`, `product.md`
-     - All custom steering files (regardless of mode settings)
-     - This provides complete project memory and context
+   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Guidelines**:
    - Read `docs/settings/rules/requirements-elicitation.md` for the elicit-don't-invent rules, the ask-vs-assume gate, and traceability/scope discipline — **this governs how you run this phase**
@@ -109,7 +106,6 @@ Provide output in the language specified in spec.json with:
 
 **Format Requirements**:
 
-- Use Markdown headings for clarity
 - Include file paths in code blocks
 - Include all URL references if WebSearch/WebFetch used
 - Keep summary concise (under 300 words)
@@ -130,7 +126,7 @@ Provide output in the language specified in spec.json with:
 
 **If Requirements Approved**:
 
-- Review generated requirements at `docs/tasks/<feature-name>/requirements.md`
+- Review generated requirements at `{spec_path}/requirements.md`
 - **Recommended Validation**: Run `/sdd-validate-requirements <feature-name>` to verify every requirement traces to your input and catch any gold-plating before it propagates into design and implementation. Catching an invented feature here is far cheaper than unwinding it later.
 - **Optional Gap Analysis** (for existing codebases):
   - Run `/sdd-validate-gap <feature-name>` to analyze implementation gap with current code

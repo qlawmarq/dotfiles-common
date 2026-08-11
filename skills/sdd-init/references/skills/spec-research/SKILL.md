@@ -53,8 +53,8 @@ Investigate the existing codebase and research best practices to generate a stru
   - Default files: `structure.md`, `tech.md`, `product.md`
   - All custom steering files
 - `docs/settings/templates/specs/research.md` for research document structure
-- `docs/settings/rules/design-discovery-full.md` for full discovery rules
-- `docs/settings/rules/design-discovery-light.md` for light discovery rules
+
+Do **not** load the discovery rules here — Step 2 classifies the Feature Type first and then reads only the one rule that applies.
 
 **Validate requirements approval**:
 
@@ -139,11 +139,9 @@ Investigate the existing codebase and research best practices to generate a stru
 
 4. **Write research.md**: Output the completed document to `{spec_path}/research.md` using the Write tool.
 
-5. **Do NOT update spec.json**: The existence of research.md is the sole indicator of research completion. No phase transition or approval state changes are needed.
-
 ## Critical Constraints
 
-- **No spec.json update**: Do NOT modify spec.json. The existence of research.md is the sole indicator of research completion.
+- **No spec.json update**: Do NOT modify spec.json — no phase transition, no approval state change. The existence of research.md is the sole indicator of research completion.
 - **Steering alignment**: Respect existing architecture patterns from steering context
 - **Template adherence**: Follow `docs/settings/templates/specs/research.md` structure
 - **Language compliance**: Use the language specified in `spec.json.language`
@@ -152,7 +150,7 @@ Investigate the existing codebase and research best practices to generate a stru
 
 ## Tool Guidance
 
-- **Read first**: Load all context (spec, steering, rules, templates, gap-analysis) before taking action
+- **Read first**: Load all context (spec, steering, template, gap-analysis) before taking action; read the discovery rule only after classifying the Feature Type
 - **Research when uncertain**: Use WebSearch/WebFetch for external dependencies, APIs, and latest best practices
 - **Analyze existing code**: Use Grep to find patterns and integration points in codebase
 - **Write last**: Generate research.md only after all research and analysis complete
@@ -161,7 +159,7 @@ Investigate the existing codebase and research best practices to generate a stru
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Status**: Confirm research document generated at `docs/tasks/<feature-name>/research.md`
+1. **Status**: Confirm research document generated at `{spec_path}/research.md`
 2. **Discovery Type**: Which discovery process was executed (full/light/minimal)
 3. **Key Findings**: 2-3 critical insights that will inform the design
 4. **Next Action**: Guidance for next step
@@ -181,7 +179,7 @@ Provide brief summary in the language specified in spec.json:
 **Missing Requirements**:
 
 - **Stop Execution**: Requirements document must exist
-- **User Message**: "No requirements.md found at `docs/tasks/<feature-name>/requirements.md`"
+- **User Message**: "No requirements.md found at `{spec_path}/requirements.md`"
 - **Suggested Action**: "Run `/sdd-spec-requirements <feature-name>` to generate requirements first"
 
 **Spec Directory Not Found**:
@@ -205,7 +203,7 @@ Provide brief summary in the language specified in spec.json:
 
 **After Research Completed**:
 
-- Review generated research at `docs/tasks/<feature-name>/research.md`
+- Review generated research at `{spec_path}/research.md`
 - Then `/sdd-spec-design <feature-name> -y` to proceed to design phase
 - spec-design will automatically read research.md as input
 

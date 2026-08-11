@@ -40,10 +40,7 @@ Analyze implementation gap for the specified feature based on approved requireme
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` for requirements
-   - **Load ALL steering context**: Read entire `docs/steering/` directory including:
-     - Default files: `structure.md`, `tech.md`, `product.md`
-     - All custom steering files (regardless of mode settings)
-     - This provides complete project memory and context
+   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Analysis Guidelines**:
    - Read `docs/settings/rules/gap-analysis.md` for comprehensive analysis framework
@@ -56,9 +53,11 @@ Analyze implementation gap for the specified feature based on approved requireme
    - Use language specified in spec.json for output
 
 5. **Generate Analysis Document**:
-   - Create comprehensive gap analysis following the output guidelines in gap-analysis.md
+   - Write the analysis to `{spec_path}/gap-analysis.md`, following the output guidelines in gap-analysis.md
    - Present multiple viable options with trade-offs
    - Flag areas requiring further research
+
+   This file is what carries the analysis into the next phase: `/sdd-spec-research` reads `{spec_path}/gap-analysis.md` if it is there. This skill is optional — when it is skipped the file simply does not exist, and research proceeds without it. Do NOT modify spec.json; the file's existence is the only record that gap analysis ran.
 
 ## Important Constraints
 
@@ -81,13 +80,12 @@ Analyze implementation gap for the specified feature based on approved requireme
 Provide output in the language specified in spec.json with:
 
 1. **Analysis Summary**: Brief overview (3-5 bullets) of scope, challenges, and recommendations
-2. **Document Status**: Confirm analysis approach used
+2. **Document Status**: Confirm the analysis was written to `{spec_path}/gap-analysis.md`
 3. **Next Steps**: Guide user on proceeding to the research phase (`/sdd-spec-research`), which precedes design in the workflow
 
 **Format Requirements**:
 
-- Use Markdown headings for clarity
-- Keep summary concise (under 300 words)
+- Keep the chat summary concise (under 300 words); the full analysis lives in `gap-analysis.md`
 - Detailed analysis follows gap-analysis.md output guidelines
 
 ## Safety & Fallback

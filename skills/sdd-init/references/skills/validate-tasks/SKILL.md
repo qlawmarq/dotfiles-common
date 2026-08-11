@@ -51,13 +51,10 @@ Interactive implementation task review for the specified feature based on approv
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` for requirements
    - Read `{spec_path}/design.md` for design document
-   - **Load ALL steering context**: Read entire `docs/steering/` directory including:
-     - Default files: `structure.md`, `tech.md`, `product.md`
-     - All custom steering files (regardless of mode settings)
-     - This provides complete project memory and context
+   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Review Guidelines**:
-   - Read `docs/settings/rules/tasks-generation.md` for review criteria and process
+   - Read `docs/settings/rules/tasks-generation.md` for the criteria the tasks must satisfy. It defines the criteria only — the issue format and GO/NO-GO shape are defined in Output Description below, so no other rule file is needed.
 
 4. **Execute Task Review** (skip interactive dialogue in `--batch` mode):
    - Review implementation tasks using tasks-generation.md process
@@ -90,14 +87,12 @@ Interactive implementation task review for the specified feature based on approv
 Provide output in the language specified in spec.json with:
 
 1. **Review Summary**: Brief overview (2-3 sentences) of task quality and readiness
-2. **Critical Issues**: Maximum 3, following tasks-generation.md format
+2. **Critical Issues**: Maximum 3. For each — **Concern** (the specific problem), **Impact** (why it matters), **Suggestion** (a concrete fix), **Traceability** (the requirement ID it affects), **Evidence** (the tasks.md task number or design.md section)
 3. **Task Strengths**: 1-2 positive aspects
 4. **Final Assessment**: GO/NO-GO decision with rationale and next steps
 
 **Format Requirements**:
 
-- Use Markdown headings for clarity
-- Follow tasks-generation.md output format
 - Keep summary concise
 
 ## Safety & Fallback

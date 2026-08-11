@@ -5,7 +5,7 @@ description: >-
   Bootstraps steering from codebase analysis or syncs existing steering with code changes.
 ---
 
-# Kiro Steering Management
+# Steering Management
 
 <background_information>
 
@@ -155,4 +155,4 @@ Review and approve as Source of Truth.
 - "Golden Rule": New code following patterns shouldn't require steering updates
 - Avoid documenting agent-specific tooling directories (e.g. `.cursor/`, `.gemini/`, `.claude/`)
 - `docs/settings/` content should NOT be documented in steering files (settings are metadata, not project knowledge)
-- Light references to `docs/tasks/` and `docs/steering/` are acceptable; avoid other `.kiro/` directories
+- Light references to `docs/tasks/` and `docs/steering/` are acceptable

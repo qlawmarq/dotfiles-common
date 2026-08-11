@@ -51,10 +51,7 @@ Interactive requirements quality review for the specified feature, focused on de
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` — including the **Project Description (Input)** section, every requirement's **Source** line, the **Out of Scope** section, and the **Assumptions & Open Questions** section
-   - **Load ALL steering context**: Read entire `docs/steering/` directory including:
-     - Default files: `structure.md`, `tech.md`, `product.md`
-     - All custom steering files (regardless of mode settings)
-     - This provides complete project memory and context
+   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/requirements-review.md` for review criteria and process
@@ -99,7 +96,6 @@ Provide output in the language specified in spec.json with:
 
 **Format Requirements**:
 
-- Use Markdown headings for clarity
 - Follow requirements-review.md output format
 - Keep summary concise
 

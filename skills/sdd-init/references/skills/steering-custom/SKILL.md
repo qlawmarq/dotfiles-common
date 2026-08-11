@@ -5,7 +5,7 @@ description: >-
   Generates domain-specific project memory for areas like API standards, testing, security.
 ---
 
-# Kiro Custom Steering Creation
+# Custom Steering Creation
 
 <background_information>
 
@@ -132,4 +132,4 @@ Review and customize as needed.
 - All steering files loaded as project memory
 - Custom files equally important as core files
 - Avoid documenting agent-specific tooling directories (e.g. `.cursor/`, `.gemini/`, `.claude/`)
-- Light references to `docs/tasks/` and `docs/steering/` are acceptable; avoid other `.kiro/` directories
+- Light references to `docs/tasks/` and `docs/steering/` are acceptable; do not document `docs/settings/` or agent-tooling directories

@@ -48,43 +48,31 @@ Write technical design document for the specified feature based on approved requ
 
 **Read all necessary context**:
 
-- `{spec_path}/spec.json`, `requirements.md`, `design.md` (if exists)
+- `{spec_path}/spec.json`, `requirements.md`, `design.md` (if exists), `research.md` (if exists)
 - **Entire `docs/steering/` directory** for complete project memory
 - `docs/settings/templates/specs/design.md` for document structure
 - `docs/settings/rules/design-principles.md` for design principles
-
-**Check for research.md**:
-
-- Check if `{spec_path}/research.md` exists
-- If it exists, read it and include its contents as discovery/research context for design generation
 
 **Validate requirements approval**:
 
 - If auto-approve flag was provided: Auto-approve requirements in spec.json
 - Otherwise: Verify approval status (stop if unapproved, see Safety & Fallback)
 
-### Step 2: Load Research Context
+### Step 2: Apply Research Context
 
-**Use the research results from `research.md` as design input. Do NOT conduct independent discovery or external research.**
+**Use the research results from `research.md` as design input. Do NOT conduct independent discovery or external research (no Feature Type classification, no Discovery process, no WebSearch/WebFetch) — that work belongs to `/sdd-spec-research`.**
 
-1. **If `research.md` exists** (checked in Step 1):
-   - Use the contents of `research.md` as the discovery/research findings for design generation
+1. **If `research.md` was loaded in Step 1**:
    - Extract key findings: architecture patterns, technology decisions, integration points, risks, and design recommendations
    - Retain these findings for Step 3
 
 2. **If `research.md` does NOT exist**:
-   - Warn the user, in the language from spec.json, that `research.md` has not been generated, that running `/sdd-spec-research <feature-name>` first is recommended, and that design will proceed without research findings
+   - Warn the user — in the language from spec.json — that `research.md` was not generated, that `/sdd-spec-research <feature-name>` is recommended, and that design will continue without research findings
    - Continue with design generation without discovery findings
-   - Do NOT perform Feature Type classification, Discovery process, or external research (WebSearch/WebFetch)
 
 ### Step 3: Generate Design Document
 
-1. **Load Design Template and Rules**:
-
-- Read `docs/settings/templates/specs/design.md` for structure
-- Read `docs/settings/rules/design-principles.md` for principles
-
-2. **Generate Design Document**:
+Using the template and principles loaded in Step 1 and the research findings from Step 2:
 
 - **Follow specs/design.md template structure and generation instructions strictly**
 - **Integrate all discovery findings**: Use researched information (APIs, patterns, technologies) throughout component definitions, architecture decisions, and integration points
@@ -93,7 +81,9 @@ Write technical design document for the specified feature based on approved requ
 - Use language specified in spec.json
 - Ensure the sections carrying research-derived content — "Architecture Pattern & Boundary Map", "Technology Stack", "Components and Interfaces" — reflect it, and reference supporting details from `research.md`
 
-3. **Update Metadata** in spec.json:
+### Step 4: Update Metadata
+
+In spec.json:
 
 - Set `phase: "design-generated"`
 - Set `approvals.design.generated: true, approved: false`
@@ -108,9 +98,7 @@ Write technical design document for the specified feature based on approved requ
   - For TypeScript, never use `any`; prefer precise types and generics.
   - For dynamically typed languages, provide type hints/annotations where available (e.g., Python type hints) and validate inputs at boundaries.
   - Document public interfaces and contracts clearly to ensure cross-component type safety.
-- **Research Context**: Use findings from `research.md` as the basis for design decisions. Do not conduct independent external research
 - **Steering Alignment**: Respect existing architecture patterns from steering context
-- **Template Adherence**: Follow specs/design.md template structure and generation instructions strictly
 - **Design Focus**: Architecture and interfaces ONLY, no implementation code
 - **Requirements Traceability IDs**: Use numeric requirement IDs only (e.g. "1.1", "1.2", "3.1", "3.3") exactly as defined in requirements.md. Do not invent new IDs or use alphabetic labels.
 
@@ -118,8 +106,8 @@ Write technical design document for the specified feature based on approved requ
 
 ## Tool Guidance
 
-- **Read first**: Load all context before taking action (specs, steering, templates, rules)
-- **Read research.md**: If `research.md` exists in the feature directory, read it first and use its contents as the sole source of discovery/research context. Do NOT use WebSearch or WebFetch for independent research
+- **Read first**: Load all context before taking action (specs, `research.md`, steering, templates, rules)
+- **No WebSearch/WebFetch**: `research.md` is the sole source of discovery context here
 - **Analyze existing code**: Use Grep to find patterns and integration points in codebase
 - **Write last**: Generate design.md only after loading all context including research findings
 
@@ -129,7 +117,7 @@ Write technical design document for the specified feature based on approved requ
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Status**: Confirm design document generated at `docs/tasks/<feature-name>/design.md`
+1. **Status**: Confirm design document generated at `{spec_path}/design.md`
 2. **Research Context**: Whether `research.md` was available and used
 3. **Key Findings**: 2-3 critical insights from `research.md` that shaped the design (if available)
 4. **Next Action**: Approval workflow guidance (see Safety & Fallback)
@@ -151,7 +139,7 @@ Provide brief summary in the language specified in spec.json:
 **Missing Requirements**:
 
 - **Stop Execution**: Requirements document must exist
-- **User Message**: "No requirements.md found at `docs/tasks/<feature-name>/requirements.md`"
+- **User Message**: "No requirements.md found at `{spec_path}/requirements.md`"
 - **Suggested Action**: "Run `/sdd-spec-requirements <feature-name>` to generate requirements first"
 
 **Template Missing**:
@@ -172,7 +160,7 @@ Provide brief summary in the language specified in spec.json:
 
 **If Design Approved**:
 
-- Review generated design at `docs/tasks/<feature-name>/design.md`
+- Review generated design at `{spec_path}/design.md`
 - **Optional**: Run `/sdd-validate-design <feature-name>` for interactive quality review
 - Then `/sdd-spec-tasks <feature-name> -y` to generate implementation tasks
 

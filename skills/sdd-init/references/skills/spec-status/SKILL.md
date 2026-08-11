@@ -3,7 +3,7 @@ name: sdd-spec-status
 description: >-
   Show specification status and progress for an SDD feature.
   Displays current phase, completion percentages, and next actions.
-argument-hint: "<feature-name>"
+argument-hint: "[feature-name]"
 ---
 
 # Specification Status
@@ -23,16 +23,20 @@ argument-hint: "<feature-name>"
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (optional): The feature directory name in `docs/tasks/`
 
-If inputs were provided with this skill invocation, use them directly.
-Otherwise, ask the user for the feature name.
+- **With a feature name** → the detailed single-spec report described below.
+- **Without one** → list every spec in `docs/tasks/todo/` and `docs/tasks/done/` with its phase and task progress. Do not ask the user which feature they meant; the list is the answer.
+
+For a cross-spec view that also covers dependencies, blockers, and the inception plan, use `/sdd-brief` — this skill stays focused on one spec's phase detail.
 
 ## Core Task
 
 Generate status report for the specified feature showing progress across all phases.
 
 ## Execution Steps
+
+Steps 0–3 below produce the single-spec report. **If no feature name was given, skip all of them** and produce the list described under "List All Specs" in Safety & Fallback instead.
 
 ### Step 0: Resolve Spec Path
 
@@ -80,7 +84,7 @@ Create report in the language specified in spec.json covering:
 
 ## Output Description
 
-Provide status report in the language specified in spec.json:
+Provide the report in the language specified in that spec's `spec.json`. In list mode there is no single spec.json — use `docs/settings/templates/specs/init.json` `language`, else `ja`.
 
 **Report Structure**:
 
@@ -108,7 +112,6 @@ Provide status report in the language specified in spec.json:
 
 ### List All Specs
 
-To see all available specs:
+When invoked with no feature name, read every `spec.json` under `docs/tasks/todo/` and `docs/tasks/done/` (they are small — read them all) and report one row per spec: feature name, `phase`, approval state, and — where `tasks.md` exists — completed/total task counts. Sort `todo/` before `done/`.
 
-- Run with no argument or use wildcard
-- Shows all specs in `docs/tasks/todo/` and `docs/tasks/done/` with their status
+If no specs exist at all, say so and point at `/sdd-plan` (large effort) or `/sdd-spec-init` (single feature).

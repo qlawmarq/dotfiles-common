@@ -83,7 +83,7 @@ Generate implementation tasks for the specified feature based on approved requir
 
 **Write and update**:
 
-- Create/update `docs/tasks/<feature-name>/tasks.md`
+- Create/update `{spec_path}/tasks.md`
 - Update spec.json metadata:
   - Set `phase: "tasks-generated"`
   - Set `approvals.tasks.generated: true, approved: false`
@@ -112,7 +112,7 @@ Generate implementation tasks for the specified feature based on approved requir
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Status**: Confirm tasks generated at `docs/tasks/<feature-name>/tasks.md`
+1. **Status**: Confirm tasks generated at `{spec_path}/tasks.md`
 2. **Task Summary**:
    - Total: X major tasks, Y sub-tasks
    - All Z requirements covered
@@ -138,7 +138,7 @@ Provide brief summary in the language specified in spec.json:
 **Missing Requirements or Design**:
 
 - **Stop Execution**: Both documents must exist
-- **User Message**: "Missing requirements.md or design.md at `docs/tasks/<feature-name>/`"
+- **User Message**: "Missing requirements.md or design.md at `{spec_path}/`"
 - **Suggested Action**: "Complete requirements and design phases first"
 
 **Incomplete Requirements Coverage**:

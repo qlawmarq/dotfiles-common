@@ -19,7 +19,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 ### Active Specifications
 
 - Check `docs/tasks/` for active specifications
-- Use `/sdd-spec-status <feature-name>` to check progress
+- Use `/sdd-spec-status [feature-name]` to check progress (no argument lists every spec)
 
 ## Development Guidelines
 
@@ -41,11 +41,12 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
   - `/sdd-spec-design <feature-name> [-y]`
   - `/sdd-validate-design <feature-name>` (optional: design review)
   - `/sdd-spec-tasks <feature-name> [-y]`
+  - `/sdd-validate-tasks <feature-name>` (optional: task review)
 - Phase 2 (Implementation): `/sdd-spec-impl <feature-name> [tasks]`
   - `/sdd-validate-impl <feature-name>` (optional: mid-implementation validation)
 - Phase 3 (Completion): `/sdd-spec-done <feature-name>`
   - Verifies quality, finalizes the spec, commits the feature, then runs a non-blocking steering drift check — if the feature introduced new patterns, it proposes additive steering updates and commits them separately (with your confirmation).
-- Progress check: `/sdd-spec-status <feature-name>` (use anytime)
+- Progress check: `/sdd-spec-status [feature-name]` (use anytime; no argument lists every spec)
 - Orientation & dialogue (anytime, belongs to no phase):
   - `/sdd-brief ["question"]` — read-only. Answers what was decided about a topic, where the project stands across every spec, or what needs deciding next, with citations. Use it instead of opening documents one by one.
   - `/sdd-grill ["topic"]` — a relentless interview that works the project's open decisions in rounds until nothing is left silently assumed. Use it before committing to a spec, when steering / inception / specs may have drifted apart, or to clear a backlog of open questions.

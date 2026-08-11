@@ -68,9 +68,7 @@ For each detected feature:
 - Read `{spec_path}/requirements.md` for requirements
 - Read `{spec_path}/design.md` for design structure
 - Read `{spec_path}/tasks.md` for task list
-- **Load ALL steering context**: Read entire `docs/steering/` directory including:
-  - Default files: `structure.md`, `tech.md`, `product.md`
-  - All custom steering files (regardless of mode settings)
+- **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 ### 3. Execute Validation
 
@@ -145,7 +143,6 @@ Provide output in the language specified in spec.json with:
 
 **Format Requirements**:
 
-- Use Markdown headings and tables for clarity
 - Flag critical issues with warning indicators
 - Keep summary concise (under 400 words)
 
