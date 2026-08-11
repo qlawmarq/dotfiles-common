@@ -46,12 +46,16 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 - Phase 3 (Completion): `/sdd-spec-done <feature-name>`
   - Verifies quality, finalizes the spec, commits the feature, then runs a non-blocking steering drift check — if the feature introduced new patterns, it proposes additive steering updates and commits them separately (with your confirmation).
 - Progress check: `/sdd-spec-status <feature-name>` (use anytime)
+- Orientation & dialogue (anytime, belongs to no phase):
+  - `/sdd-brief ["question"]` — read-only. Answers what was decided about a topic, where the project stands across every spec, or what needs deciding next, with citations. Use it instead of opening documents one by one.
+  - `/sdd-grill ["topic"]` — a relentless interview that works the project's open decisions in rounds until nothing is left silently assumed. Use it before committing to a spec, when steering / inception / specs may have drifted apart, or to clear a backlog of open questions.
 
 ## Development Rules
 
 - For large/greenfield efforts, run Inception first (`/sdd-plan`) to decompose into right-sized specs, then run each spec through the workflow below.
 - Workflow: Requirements → Research → Design → Tasks → Implementation → Completion
 - Human review required each phase; use `-y` only for intentional fast-track
+- A spec that is internally consistent is not thereby correct. The `/sdd-validate-*` skills check within a spec's own boundaries; they do not ask whether the behavior serves the product intent in `docs/steering/product.md`, or whether it contradicts another spec. Use `/sdd-grill` for that cross-layer check when a feature touches shared concepts.
 - Steering is kept current incrementally: `/sdd-spec-done` auto-detects feature-scoped drift at completion. Use `/sdd-steering` for the initial bootstrap and for periodic full-codebase reviews (e.g. after several merges or a refactor).
 - Follow the user's instructions precisely, and within that scope act autonomously: gather the necessary context and complete the requested work end-to-end in this run, asking questions only when essential information is missing or the instructions are critically ambiguous.
 - **Exception — the requirements phase elicits, it does not autonomously author.** During `/sdd-spec-requirements`, do not fill gaps with assumptions or add capabilities the user did not request. Every requirement must trace to user input or an explicit confirmation; unclear or scope-affecting points must be resolved through interactive dialogue, and anything left unresolved is logged as an assumption/open question rather than baked into a requirement. Inventing unrequested features ("gold-plating") is the main source of rework — `/sdd-validate-requirements` exists to catch it.
