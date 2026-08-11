@@ -96,6 +96,8 @@ Document patterns and principles, not exhaustive lists.
 
 ## Output description
 
+Write the steering documents and this summary in the project's language: `docs/settings/templates/specs/init.json` `language`, else `ja`. The templates' section headings are scaffolding — translate them.
+
 Chat summary only (files updated directly).
 
 ### Bootstrap:

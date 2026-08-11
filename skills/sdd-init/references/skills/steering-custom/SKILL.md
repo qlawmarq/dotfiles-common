@@ -81,6 +81,8 @@ From `docs/settings/rules/steering-principles.md`:
 
 ## Output description
 
+Write the steering document and this summary in the project's language: `docs/settings/templates/specs/init.json` `language`, else `ja`. The template's section headings are scaffolding — translate them.
+
 Chat summary with file location (file created directly).
 
 ```

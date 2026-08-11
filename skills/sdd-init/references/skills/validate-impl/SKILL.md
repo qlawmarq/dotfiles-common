@@ -156,7 +156,7 @@ Provide output in the language specified in spec.json with:
 - **No Implementation Found**: If no `/sdd-spec-impl` in history and no `[x]` tasks, report "No implementations detected"
 - **Test Command Unknown**: If test framework unclear, warn and skip test validation (manual verification required)
 - **Missing Spec Files**: If spec.json/requirements.md/design.md missing, stop with error
-- **Language Undefined**: Default to English (`en`) if spec.json doesn't specify language
+- **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 
 ### Next Steps Guidance
 

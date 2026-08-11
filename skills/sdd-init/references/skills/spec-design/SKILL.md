@@ -73,7 +73,7 @@ Write technical design document for the specified feature based on approved requ
    - Retain these findings for Step 3
 
 2. **If `research.md` does NOT exist**:
-   - Display warning: "research.md が未生成です。`/sdd-spec-research <feature-name>` の実行を推奨します。調査結果なしで設計を続行します。"
+   - Warn the user, in the language from spec.json, that `research.md` has not been generated, that running `/sdd-spec-research <feature-name>` first is recommended, and that design will proceed without research findings
    - Continue with design generation without discovery findings
    - Do NOT perform Feature Type classification, Discovery process, or external research (WebSearch/WebFetch)
 
@@ -91,7 +91,7 @@ Write technical design document for the specified feature based on approved requ
 - If existing design.md found in Step 1, use it as reference context (merge mode)
 - Apply design rules: Type Safety, Visual Communication, Formal Tone
 - Use language specified in spec.json
-- Ensure sections reflect updated headings ("Architecture Pattern & Boundary Map", "Technology Stack & Alignment", "Components & Interface Contracts") and reference supporting details from `research.md`
+- Ensure the sections carrying research-derived content — "Architecture Pattern & Boundary Map", "Technology Stack", "Components and Interfaces" — reflect it, and reference supporting details from `research.md`
 
 3. **Update Metadata** in spec.json:
 

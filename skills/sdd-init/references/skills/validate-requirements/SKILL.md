@@ -112,7 +112,7 @@ Provide output in the language specified in spec.json with:
 - **Missing Source Lines**: If requirements lack Source/provenance lines, treat that as a finding — the requirements were likely generated without traceability; flag it and recommend re-running `/sdd-spec-requirements`
 - **Missing Out of Scope / Assumptions sections**: Treat absence as a finding (unbounded scope / hidden assumptions), not a blocker
 - **Empty Steering Directory**: Warn user that project context is missing and may affect review quality
-- **Language Undefined**: Default to English (`en`) if spec.json doesn't specify language
+- **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 
 ### Next Phase: Research & Design
 

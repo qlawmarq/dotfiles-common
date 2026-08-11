@@ -64,7 +64,7 @@ Generate a unique feature name from the project description and initialize the s
 
 ## Output Description
 
-Provide output in the language specified in `spec.json` with the following structure:
+Provide output in the language from `docs/settings/templates/specs/init.json` `language` (else `ja`) — read it before any user dialogue, since this skill creates `spec.json` from it and it does not exist yet when the run starts. Structure:
 
 1. **Generated Feature Name**: `feature-name` format with 1-2 sentence rationale
 2. **Project Summary**: Brief summary (1 sentence)
@@ -77,7 +77,7 @@ Provide output in the language specified in `spec.json` with the following struc
 - Use Markdown headings (##, ###)
 - Wrap commands in code blocks
 - Keep total output concise (under 250 words)
-- Use clear, professional language per `spec.json.language`
+- Use clear, professional language throughout
 
 ## Safety & Fallback
 

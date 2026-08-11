@@ -121,7 +121,7 @@ Provide output in the language specified in spec.json with:
 - **Missing Project Description**: If requirements.md lacks project description, ask user for feature details
 - **Ambiguous Requirements**: Resolve through the clarification dialogue — propose an initial draft and ask targeted questions; never resolve ambiguity by guessing. Log anything still unresolved in Assumptions & Open Questions.
 - **Template Missing**: If template files don't exist, use inline fallback structure with warning, but still include Source lines, an Out of Scope section, and an Assumptions & Open Questions section
-- **Language Undefined**: Default to English (`en`) if spec.json doesn't specify language
+- **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 - **Incomplete Requirements**: After generation, explicitly ask the user if requirements cover all expected functionality. Resolve gaps by asking — do not fill them with invented requirements.
 - **Steering Directory Empty**: Warn user that project context is missing and may affect requirement quality
 - **Non-numeric Requirement Headings**: If existing headings do not include a leading numeric ID (for example, they use "Requirement A"), normalize them to numeric IDs and keep that mapping consistent (never mix numeric and alphabetic labels).
