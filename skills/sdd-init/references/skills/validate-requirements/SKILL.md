@@ -55,11 +55,13 @@ Interactive requirements quality review for the specified feature, focused on de
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/requirements-review.md` for review criteria and process
+   - Read `docs/settings/rules/concept-alignment.md` for the forward-traceability (concept) check
    - Read `docs/settings/rules/ears-format.md` to check acceptance-criteria conformance
 
 4. **Execute Requirements Review** (skip interactive dialogue in `--batch` mode):
    - Follow requirements-review.md process: Build trace map → identify Critical Issues → recognize Strengths → GO/NO-GO
    - **Run the traceability sweep on every requirement**, even when you cap critical issues at three: cross-check each requirement's Source against the Project Description (Input) and steering. List every requirement that does not trace to a legitimate source.
+   - **Run the concept-alignment sweep on every requirement** (per `concept-alignment.md`): does it serve a citable product purpose, and does it contradict `product.md`, the declared canon, or a `steering/behaviors.md` invariant? List every conflict — contradictions are Critical.
    - In batch mode: perform bulk review and output complete results without user dialogue
    - In interactive mode (default): for each suspicious requirement, ask the user whether they actually wanted it — this distinguishes "the agent invented it" from "the user wanted it but didn't spell it out"
    - Use language specified in spec.json for output
@@ -72,6 +74,7 @@ Interactive requirements quality review for the specified feature, focused on de
 
 - **Detect, don't redesign**: surface problems; do not rewrite the requirements or invent the missing ones yourself
 - **Source-first**: the primary question for every requirement is "where did this come from?"
+- **Purpose-second**: the companion question is "what product purpose does this serve?" — concept conflicts are NO-GO by default
 - **Invented features are NO-GO by default**: an unsourced requirement must be confirmed by the user or removed before proceeding
 - **Interactive approach**: engage in dialogue, not one-way evaluation
 - **Balanced assessment**: recognize both strengths and weaknesses
@@ -90,9 +93,10 @@ Provide output in the language specified in spec.json with:
 
 1. **Review Summary**: Brief overview (2-3 sentences) of how well-grounded the requirements are and their readiness
 2. **Unrequested / Unsourced Requirements**: The headline list — every requirement that does not trace to user input, with its ID and what the user actually said (or "none found")
-3. **Critical Issues**: Maximum 3, following requirements-review.md format (Concern, Type, Impact, Suggestion, Evidence)
-4. **Strengths**: 1-2 positive aspects
-5. **Final Assessment**: GO/NO-GO decision with rationale and next steps
+3. **Concept Conflicts**: every requirement that contradicts or fails to serve the product canon, in `concept-alignment.md` finding format (or "none found")
+4. **Critical Issues**: Maximum 3, following requirements-review.md format (Concern, Type, Impact, Suggestion, Evidence)
+5. **Strengths**: 1-2 positive aspects
+6. **Final Assessment**: GO/NO-GO decision with rationale and next steps
 
 **Format Requirements**:
 
@@ -115,6 +119,7 @@ Provide output in the language specified in spec.json with:
 **If Requirements Pass Validation (GO Decision)**:
 
 - Apply any agreed changes, then proceed
+- **Recommended**: run `/sdd-spec-behavior <feature-name>` to formulate product-grounded behavior scenarios
 - **Optional Gap Analysis** (for existing codebases): run `/sdd-validate-gap <feature-name>`
 - Run `/sdd-spec-research <feature-name>` to execute research & discovery
 - Then `/sdd-spec-design <feature-name>` to proceed to design

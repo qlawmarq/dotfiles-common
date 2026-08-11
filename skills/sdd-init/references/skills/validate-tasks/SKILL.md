@@ -50,6 +50,7 @@ Interactive implementation task review for the specified feature based on approv
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` for requirements
+   - Read `{spec_path}/behaviors.md` for behavior scenarios (if exists)
    - Read `{spec_path}/design.md` for design document
    - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
@@ -59,6 +60,7 @@ Interactive implementation task review for the specified feature based on approv
 4. **Execute Task Review** (skip interactive dialogue in `--batch` mode):
    - Review implementation tasks using tasks-generation.md process
    - Ensure there are no issues with consistency between documents, no overly burdensome tasks, and no ambiguous tasks or designs.
+   - If `behaviors.md` exists: verify every scenario's `Verification:` is covered by a task (auto-test in TDD work, probe as an explicit run-and-record task, manual as a named verification task) — an uncovered scenario is a Critical issue.
    - In batch mode: Perform bulk review and output complete results without user dialogue
    - In interactive mode (default): Engage interactively with user
    - Use language specified in spec.json for output

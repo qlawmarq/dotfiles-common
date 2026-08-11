@@ -50,12 +50,14 @@ Interactive design quality review for the specified feature based on approved re
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` for requirements
+   - Read `{spec_path}/behaviors.md` for behavior scenarios (if exists)
    - Read `{spec_path}/research.md` for research findings (if exists)
    - Read `{spec_path}/design.md` for design document
    - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/design-review.md` for review criteria and process
+   - Read `docs/settings/rules/concept-alignment.md` for the concept & behavior alignment check (design-review criterion 0)
 
 4. **Execute Design Review** (skip interactive dialogue in `--batch` mode):
    - Follow design-review.md process: Analysis → Critical Issues → Strengths → GO/NO-GO

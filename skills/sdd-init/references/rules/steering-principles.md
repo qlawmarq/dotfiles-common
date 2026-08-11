@@ -95,4 +95,5 @@ Never include:
 - **product.md**: Purpose, value, business context (not exhaustive features)
 - **tech.md**: Key frameworks, standards, conventions (not all dependencies)
 - **structure.md**: Organization patterns, naming rules (not directory trees)
+- **behaviors.md**: Cross-spec behavior invariants, one line each (not scenario bodies — those stay in each spec; promotion criteria in `behavior-formulation.md`)
 - **Custom files**: Specialized patterns (API, testing, security, etc.)

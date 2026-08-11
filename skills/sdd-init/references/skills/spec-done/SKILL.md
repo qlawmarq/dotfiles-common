@@ -17,6 +17,7 @@ argument-hint: "<feature-name>"
   - Requirements traceability confirmed
   - Design alignment verified
   - Lint, tests, and build pass without issues
+  - Behavior scenarios (if formulated) verified with concrete evidence — no concept drift
   - Code is clean and does not require refactoring
   - Spec moved from `docs/tasks/todo/` to `docs/tasks/done/`
   - Changes committed with project-consistent commit message
@@ -50,6 +51,7 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. Fe
 
 - `{spec_path}/spec.json` for metadata and language
 - `{spec_path}/requirements.md` for requirements
+- `{spec_path}/behaviors.md` for behavior scenarios (if exists)
 - `{spec_path}/design.md` for design structure
 - `{spec_path}/tasks.md` for task list
 - **Entire `docs/steering/` directory** for complete project memory
@@ -110,7 +112,14 @@ Execute all verification checks sequentially. Collect all issues before making a
 - If build fails, flag as **Critical**: "Build errors detected"
 - If no build command detected, flag as **Info**: "No build configuration found — skipping"
 
-#### 2g. Code Quality Review
+#### 2g. Behavior Verification Check (if behaviors.md exists)
+
+- For every scenario, confirm the `Verification:` line carries concrete, passing evidence (existing test / probe results file / manual observation record)
+- If a scenario lacks evidence or its evidence fails, flag as **Critical**: "Behavior not verified"
+- If the implemented behavior contradicts a scenario or a `docs/steering/behaviors.md` invariant, flag as **Critical**: "Concept drift detected"
+- If no behaviors.md exists, flag as **Info**: "No behavior scenarios — skipping" (legacy specs)
+
+#### 2h. Code Quality Review
 
 - Review implemented code for the feature's tasks
 - Check for:
@@ -195,6 +204,7 @@ Compare the steering loaded in Step 1 against what *this feature* actually intro
 - **tech.md**: a new framework / library / runtime / tool, a version jump, or a new technical convention this feature established
 - **structure.md**: a new architectural pattern, directory role, or naming/import convention
 - **product.md**: a materially new capability or shift in product purpose
+- **behaviors.md**: a behavior invariant that is verified, product-level, and cross-spec (future specs could plausibly violate it) — take candidates from the spec's `behaviors.md` "Promotion Candidates" section. One line each: statement — Grounds / Verify pointer. Scenario bodies never land here
 
 Ignore anything that merely follows an existing pattern. Never record file listings, dependency dumps, implementation details, secrets, or agent-tooling directories (`.claude/`, `.cursor/`, etc.) — see `docs/settings/rules/steering-principles.md`.
 

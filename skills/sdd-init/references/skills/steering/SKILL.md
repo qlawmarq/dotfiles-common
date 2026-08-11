@@ -64,6 +64,7 @@ Check `docs/steering/` status:
 3. Detect drift:
    - **Steering → Code**: Missing elements → Warning
    - **Code → Steering**: New patterns → Update candidate
+   - **behaviors.md**: Invariants whose `Verify:` pointers no longer exist (deleted test/probe) or that a canon change has superseded → Warning
    - **Custom files**: Check relevance
 4. Propose updates (additive, preserve user content)
 5. Report: Updates, warnings, recommendations
@@ -150,6 +151,7 @@ Review and approve as Source of Truth.
 ## Notes
 
 - All `docs/steering/*.md` loaded as project memory
+- `behaviors.md` (cross-spec behavior invariants) is not generated from code analysis — it is seeded by the product owner (optionally via `/sdd-grill`) and grown by `/sdd-spec-done` promotion; sync only flags stale invariants
 - Templates and principles are external for customization
 - Focus on patterns, not catalogs
 - "Golden Rule": New code following patterns shouldn't require steering updates

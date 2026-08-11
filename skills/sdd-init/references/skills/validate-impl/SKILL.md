@@ -66,6 +66,7 @@ For each detected feature:
 
 - Read `{spec_path}/spec.json` for metadata
 - Read `{spec_path}/requirements.md` for requirements
+- Read `{spec_path}/behaviors.md` for behavior scenarios (if exists)
 - Read `{spec_path}/design.md` for design structure
 - Read `{spec_path}/tasks.md` for task list
 - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
@@ -91,6 +92,14 @@ For each task, verify:
 - Identify EARS requirements related to the task
 - Search implementation for evidence of requirement coverage
 - If requirement not traceable to code, flag as "Requirement not implemented"
+
+#### Behavior Verification (if behaviors.md exists)
+
+- For each scenario touching the validated tasks, check its `Verification:` line carries concrete evidence:
+  - `auto-test` → the named test exists and passes
+  - `probe` → the results file exists and records the expected observation
+  - `manual` → the observation record exists
+- A scenario with no evidence, a failing verification, or observed behavior contradicting its Then/`Grounds:` → flag as **Critical**: "Behavior not verified" / "Behavior contradicts scenario"
 
 #### Design Alignment
 
@@ -120,6 +129,7 @@ Provide summary in the language specified in spec.json:
 - **Non-blocking warnings**: Design deviations are warnings unless critical
 - **Test-first focus**: Test coverage is mandatory for GO decision
 - **Traceability required**: All requirements must be traceable to implementation
+- **Behavior evidence required**: When behaviors.md exists, unverified or contradicted scenarios block GO
 
 </instructions>
 

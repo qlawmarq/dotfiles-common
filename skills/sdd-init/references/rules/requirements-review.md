@@ -30,23 +30,27 @@ For every requirement, verify it carries a **Source** and that the source is leg
 
 This is the criterion most directly tied to the rework the user is trying to prevent. Run it on *every* requirement, even when you stop at three critical issues overall.
 
-### 2. Scope Conformance (Critical)
+### 2. Forward Traceability — the concept-alignment check (Critical)
+
+A requirement can trace perfectly to user input and still take the product somewhere it isn't meant to go. Apply the lens in `concept-alignment.md` (read it — it defines canon resolution, the three questions, and severity): does each requirement serve a citable product purpose, and does any requirement contradict `product.md`, the canon, or a `steering/behaviors.md` invariant? Contradictions and unsupported requirements are Critical (NO-GO) per that rule.
+
+### 3. Scope Conformance (Critical)
 
 - Is there an explicit **Out of Scope** section? Its absence is itself a finding — unbounded scope is how creep enters.
 - Does any requirement contradict the Out of Scope list or an exclusion the user stated ("just X for now")?
 - Are requirements prioritized (MoSCoW or equivalent)? Are there "nice-to-have" requirements with no user backing that should be demoted or removed?
 
-### 3. Ambiguity & Vagueness
+### 4. Ambiguity & Vagueness
 
 - Lint for unmeasurable terms — *fast, scalable, user-friendly, efficient, robust, flexible, adequate, intuitive, as appropriate, etc.* Each should be replaced by a measurable criterion or recorded as an open question.
 - Apply the two-reviewer test: would two readers reach the same pass/fail decision from this requirement? If not, it's ambiguous.
 
-### 4. Testability & EARS Conformance
+### 5. Testability & EARS Conformance
 
 - Every acceptance criterion should be verifiable — you can state how to confirm it. Flag anything you couldn't write a test for.
 - Acceptance criteria follow EARS patterns (`ears-format.md`): correct trigger/precondition keywords, a single `shall`, concrete subject. Flag free-form prose masquerading as acceptance criteria.
 
-### 5. Set-Level Quality
+### 6. Set-Level Quality
 
 - **Singular**: no requirement smuggles two needs via "and"/"or".
 - **Consistent**: no two requirements conflict.
@@ -66,7 +70,7 @@ Prioritize unsourced/invented requirements and scope violations. For each issue:
 ```
 🔴 **Critical Issue [1-3]**: [Brief title]
 **Concern**: [Specific problem — e.g., "Requirement 4 has no traceable source"]
-**Type**: [Gold-plating | Scope violation | Ambiguity | Untestable | Inconsistency]
+**Type**: [Gold-plating | Concept conflict | Scope violation | Ambiguity | Untestable | Inconsistency]
 **Impact**: [Why it matters — what rework it risks]
 **Suggestion**: [Concrete fix — remove, demote, clarify, or confirm with user]
 **Evidence**: [requirements.md requirement ID + its Source line vs. the actual input]
@@ -78,8 +82,8 @@ Acknowledge 1-2 well-grounded, well-formed aspects to keep feedback balanced.
 
 ### Step 4: Decide GO/NO-GO
 
-- **GO**: every requirement traces to a legitimate source, scope is explicitly bounded, criteria are testable and unambiguous, no unconfirmed invented features remain.
-- **NO-GO**: one or more requirements are unsourced/invented, scope is unbounded or violated, or pervasive ambiguity makes the requirements untestable. Invented features are a NO-GO by default — confirm with the user or remove before proceeding.
+- **GO**: every requirement traces to a legitimate source, none contradicts the product canon, scope is explicitly bounded, criteria are testable and unambiguous, no unconfirmed invented features remain.
+- **NO-GO**: one or more requirements are unsourced/invented, contradict the product canon or an established behavior invariant, scope is unbounded or violated, or pervasive ambiguity makes the requirements untestable. Invented features and concept conflicts are a NO-GO by default — confirm with the user or remove before proceeding.
 
 ## Output Format
 
@@ -117,6 +121,7 @@ For each suspicious requirement, ask the user directly whether they wanted it �
 ## Final Checklist
 
 - **Every requirement's Source verified** against the actual input — unsourced ones listed explicitly
+- **Concept alignment checked** (`concept-alignment.md`) — conflicts with product.md/canon/invariants listed explicitly
 - **Out of Scope section present** and not contradicted
 - **Critical Issues ≤ 3**, each with Type, Impact, Suggestion, Evidence
 - **Ambiguity/testability** spot-checked

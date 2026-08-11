@@ -48,10 +48,12 @@ Write technical design document for the specified feature based on approved requ
 
 **Read all necessary context**:
 
-- `{spec_path}/spec.json`, `requirements.md`, `design.md` (if exists), `research.md` (if exists)
+- `{spec_path}/spec.json`, `requirements.md`, `behaviors.md` (if exists), `design.md` (if exists), `research.md` (if exists)
 - **Entire `docs/steering/` directory** for complete project memory
 - `docs/settings/templates/specs/design.md` for document structure
 - `docs/settings/rules/design-principles.md` for design principles
+
+**If `behaviors.md` does NOT exist**: warn the user — in the language from spec.json — that behavior scenarios were not formulated, that `/sdd-spec-behavior <feature-name>` is recommended (it grounds the design in the product's purpose), and continue without them.
 
 **Validate requirements approval**:
 
@@ -75,6 +77,7 @@ Write technical design document for the specified feature based on approved requ
 Using the template and principles loaded in Step 1 and the research findings from Step 2:
 
 - **Follow specs/design.md template structure and generation instructions strictly**
+- **Satisfy the behavior scenarios**: if `behaviors.md` exists, every scenario must be realizable by the design — walk each scenario through the designed components and note which components realize it. A scenario the design cannot produce is a design gap; a design behavior that contradicts a scenario's `Grounds:` is concept drift — stop and report, don't design around it
 - **Integrate all discovery findings**: Use researched information (APIs, patterns, technologies) throughout component definitions, architecture decisions, and integration points
 - If existing design.md found in Step 1, use it as reference context (merge mode)
 - Apply design rules: Type Safety, Visual Communication, Formal Tone
@@ -88,6 +91,7 @@ In spec.json:
 - Set `phase: "design-generated"`
 - Set `approvals.design.generated: true, approved: false`
 - Set `approvals.requirements.approved: true`
+- If `behaviors.md` exists: set `approvals.behaviors.approved: true` (add the key if missing)
 - Update `updated_at` timestamp
 
 ## Critical Constraints

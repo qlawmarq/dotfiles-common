@@ -155,7 +155,7 @@ Provide output in the configured language:
 2. **Roadmap table**: unit | priority | size | subdomain class | depends-on | spec directory. Mark the walking-skeleton unit.
 3. **Build order**: the ordered sequence, noting parallel-capable groups.
 4. **Scaffolded specs**: list of created `docs/tasks/todo/<...>/` directories.
-5. **Next steps**: start the first (walking-skeleton) unit, e.g. ``/sdd-spec-requirements <first-unit>`` → research → design → tasks → impl → done, then move to the next unit in build order. Mention `/sdd-spec-status <feature-name>` for progress.
+5. **Next steps**: start the first (walking-skeleton) unit, e.g. ``/sdd-spec-requirements <first-unit>`` → behaviors → research → design → tasks → impl → done, then move to the next unit in build order. Mention `/sdd-spec-status <feature-name>` for progress.
 
 **Format**: concise Markdown. Keep the summary readable at a glance.
 

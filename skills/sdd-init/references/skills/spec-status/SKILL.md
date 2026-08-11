@@ -45,7 +45,7 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 ### Step 1: Load Spec Context
 
 - Read `{spec_path}/spec.json` for metadata and phase status
-- Read existing files: `requirements.md`, `design.md`, `tasks.md` (if they exist)
+- Read existing files: `requirements.md`, `behaviors.md`, `design.md`, `tasks.md` (if they exist)
 - Check `{spec_path}/` directory for available files
 
 ### Step 2: Analyze Status
@@ -53,6 +53,7 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 **Parse each phase**:
 
 - **Requirements**: Count requirements and acceptance criteria
+- **Behaviors**: Check if `behaviors.md` exists; count scenarios and how many `Verification:` lines carry evidence (absent in legacy specs — not a defect)
 - **Research**: Check if `research.md` exists (✅ completed / ⏳ pending)
 - **Design**: Check for architecture, components, diagrams
 - **Tasks**: Count completed vs total tasks (parse `- [x]` vs `- [ ]`)

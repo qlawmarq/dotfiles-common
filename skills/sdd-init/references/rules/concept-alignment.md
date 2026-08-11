@@ -1,0 +1,41 @@
+# Concept Alignment Lens
+
+## Objective
+
+Verify that a spec artifact (requirements, scenarios, design, or implementation) actually serves the product's purpose and philosophy — not merely that it is internally consistent. A spec can pass every spec-internal check (requirements ↔ design ↔ code) and still build the wrong thing; internal consistency is not correctness. This lens is the **forward-traceability** check: every behavior must trace *forward* to the product intent, just as every requirement traces *backward* to user input.
+
+This lens is shared by `/sdd-spec-behavior`, `/sdd-validate-requirements`, `/sdd-validate-design`, `/sdd-validate-impl`, and `/sdd-spec-done`. It is defined once here — skills reference it, they do not restate it.
+
+## Resolving the Canon
+
+1. **Baseline (always)**: `docs/steering/product.md` — the product's purpose, themes, core capabilities, and Out of Scope.
+2. **Canon References (when declared)**: if `product.md` contains a `## Canon References` section, it names deeper canon sources (e.g. a concept/decision directory) and how to search them. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the canon.
+3. **Established invariants**: `docs/steering/behaviors.md` — cross-spec behavior invariants distilled from completed features. Already loaded with steering.
+
+When `product.md` and a deeper canon disagree, the canon wins if `product.md` says so; otherwise flag the inconsistency itself as a finding.
+
+## The Check
+
+For each requirement / scenario / design decision under review, ask three questions:
+
+1. **What does it serve?** Name the product purpose, theme, or capability it advances (a citable section or decision). "It was requested" is a *source*, not a *purpose* — both are required.
+2. **Does it contradict?** Check against the product 主題/themes, the Out of Scope list (both product-level and spec-level), and every applicable invariant in `steering/behaviors.md`.
+3. **Would the behavior read as the product?** For user-facing behavior: does the resulting behavior express the product's philosophy, or would it feel like a different product? (This is the question that pure traceability checks never ask.)
+
+Scale effort to exposure: mechanical/internal changes need only a contradiction check; behavior-shaping changes need all three questions.
+
+## Severity
+
+- **Contradiction** with product purpose, Out of Scope, canon decision, or an established invariant → **Critical (NO-GO)**. Route back: fix the artifact, or — if the canon itself should change — file it into the project's change-control process (check root CLAUDE.md / AGENTS.md); never edit canon from inside a spec session.
+- **Unsupported**: no citable purpose can be named → **Critical (NO-GO)** unless the user explicitly confirms it belongs.
+- **Weak grounding**: purpose citable but stretched or vague → **Warning** with a suggested tightening.
+
+## Finding Format
+
+```
+🔴 Critical (Concept): <title>
+Artifact: <requirement ID / scenario N / design section>
+Canon: <product.md section, decision ID, or behaviors.md invariant cited>
+Conflict: <what the artifact does vs. what the canon says>
+Action: <fix the artifact | confirm with user | file to change control>
+```

@@ -45,6 +45,7 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 **Read all necessary context**:
 
 - `{spec_path}/spec.json`, `requirements.md`, `design.md`, `tasks.md`
+- `{spec_path}/behaviors.md` (if exists) for scenario verification obligations
 - **Entire `docs/steering/` directory** for complete project memory
 
 **Validate approvals**:
@@ -77,6 +78,7 @@ For each selected task, first judge whether the task involves **testable logic**
 
 1. **RED - Write Failing Test**:
    - Write test for the next small piece of functionality
+   - When a `behaviors.md` scenario marked `auto-test` covers this task, derive the test directly from its Given/When/Then (the scenario's concrete values are the test fixture) and record the test name against the scenario
    - Test should fail (code doesn't exist yet)
    - Use descriptive test names
 
@@ -97,6 +99,7 @@ For each selected task, first judge whether the task involves **testable logic**
 #### Always
 
 1. **VERIFY**: All existing tests pass, no regressions
+   - When a task fulfills a `behaviors.md` scenario's `Verification:`, update that line with the concrete evidence pointer (test name, probe results file, or manual observation record)
 2. **POST-TASK REFACTORING REVIEW** (after all sub-tasks of a major task are complete):
    - **REVIEW**: Evaluate refactoring needs from the following perspectives:
      - Duplication: Are there similar patterns introduced across sub-tasks?

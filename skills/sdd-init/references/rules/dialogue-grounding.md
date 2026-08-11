@@ -61,7 +61,7 @@ A recommendation is not a decision. When you suggest an answer, it is a **propos
 A conversation that evaporates when the session ends has produced nothing. Whatever gets settled must reach a document — but through the project's own change-control, not around it.
 
 - **Read-only dialogue** (`/sdd-brief`) writes nothing. It answers and cites.
-- **Settled decisions** (`/sdd-grill`) route to the artifact that owns them: an open question in `requirements.md` gets resolved there; a design choice belongs in `design.md`; a project-wide rule belongs in steering; a unit boundary belongs in the inception plan.
+- **Settled decisions** (`/sdd-grill`) route to the artifact that owns them: an open question in `requirements.md` gets resolved there; a design choice belongs in `design.md`; a project-wide rule belongs in steering; a product-level behavior invariant lands as one line in `docs/steering/behaviors.md`; a unit boundary belongs in the inception plan.
 - **Approved artifacts are not edited silently.** If a spec's `spec.json` shows a phase approved, changing what it says is a re-approval, not an edit. Surface the change and get explicit confirmation before writing.
 - **Change control wins.** If the project documents a process for changing a class of decision — a required separate session, a review gate, an issue-first convention — follow it, even when you have the answer in hand. Record the outcome in whatever intake the process defines and stop there. Check the project's root `CLAUDE.md` / `AGENTS.md` for such conventions before writing to any layer.
 - **Always leave a record.** Even when nothing can be written to a canonical document, end the session with a summary of what was settled and what remains open, so the reasoning survives the session.

@@ -48,6 +48,7 @@ Investigate the existing codebase and research best practices to generate a stru
 
 - `{spec_path}/spec.json` for language and metadata
 - `{spec_path}/requirements.md` for project requirements
+- `{spec_path}/behaviors.md` (if exists) for grounded behavior scenarios — research must serve these behaviors, and their Verification lines (probe/test needs) may require investigation
 - `{spec_path}/gap-analysis.md` (if exists) for existing gap analysis results
 - **Entire `docs/steering/` directory** for complete project memory:
   - Default files: `structure.md`, `tech.md`, `product.md`

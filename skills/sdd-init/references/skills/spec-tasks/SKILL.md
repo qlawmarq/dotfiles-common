@@ -48,6 +48,7 @@ Generate implementation tasks for the specified feature based on approved requir
 **Read all necessary context**:
 
 - `{spec_path}/spec.json`, `requirements.md`, `design.md`
+- `{spec_path}/behaviors.md` (if exists) for scenario verification needs
 - `{spec_path}/tasks.md` (if exists, for merge mode)
 - **Entire `docs/steering/` directory** for complete project memory
 
@@ -71,6 +72,7 @@ Generate implementation tasks for the specified feature based on approved requir
 
 - Use language specified in spec.json
 - Map all requirements to tasks
+- If `behaviors.md` exists: ensure every scenario's `Verification:` is covered by a task — auto-test scenarios fold into the implementing task's TDD work; probe scenarios get an explicit probe-and-record task; manual scenarios get a verification task naming the procedure. Do not leave any scenario unverified
 - When documenting requirement coverage, list numeric requirement IDs only (comma-separated) without descriptive suffixes, parentheses, translations, or free-form labels
 - Ensure all design components included
 - Verify task progression is logical and incremental

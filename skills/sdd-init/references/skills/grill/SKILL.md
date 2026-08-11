@@ -46,7 +46,7 @@ Confirm SDD is initialized (`docs/settings/` exists); if not, tell the user to r
 - **Unapproved and stalled work** — every `docs/tasks/*/*/spec.json`: which have `approvals.*.approved: false`, which sit in an early `phase` while their dependents wait, which `plan.depends_on` chains are blocked.
 - **Declared open questions** — the *Assumptions & Open Questions* sections of `requirements.md`, and any open points recorded in `design.md`. These are gaps the project already admitted; they are the highest-value seeds because someone deliberately deferred them.
 - **Cross-layer contradictions** — where a spec's requirements or design conflict with `docs/steering/`, or with the unit boundary and scope recorded for it in the inception plan.
-- **Theme alignment** — whether the behavior a spec describes actually serves the product intent in `docs/steering/product.md`. A spec can be perfectly consistent with itself and still be the wrong thing to build; internal consistency is not correctness, and this is the check no `/sdd-validate-*` skill performs.
+- **Theme alignment** — whether the behavior a spec describes actually serves the product intent in `docs/steering/product.md` and respects the invariants in `docs/steering/behaviors.md`. A spec can be perfectly consistent with itself and still be the wrong thing to build. The per-spec skills apply this check via the concept-alignment lens (`docs/settings/rules/concept-alignment.md`); here it runs *across* specs and layers, where the per-spec gates cannot see.
 - **Silent assumptions** — decisions the documents depend on but never state: unstated acceptance thresholds, undefined edge cases, scope boundaries nobody drew.
 
 Each seed becomes a node in the tree and must carry its citation. A gap you cannot cite is not a seed — it is a guess, and it does not belong in the tree.
@@ -124,6 +124,7 @@ Once confirmed, route each settled decision to the artifact that owns it, follow
 
 - An open question declared in `requirements.md` or `design.md` is resolved in that file.
 - A project-wide rule belongs in `docs/steering/` — propose it, and hand off to `/sdd-steering-custom` if it warrants its own file.
+- A settled product-level behavior invariant lands as one line in `docs/steering/behaviors.md` (format per `docs/settings/rules/behavior-formulation.md` — statement, Grounds, Verify pointer). This is also the channel for seeding or backfilling the invariant ledger with the product owner.
 - A unit boundary or ordering change belongs in the inception plan.
 - A decision governed by a change-control process the project documents is **filed into that process, not written directly**. Check the root `CLAUDE.md` / `AGENTS.md` before writing to any layer.
 

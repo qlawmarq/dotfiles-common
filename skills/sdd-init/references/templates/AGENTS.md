@@ -36,6 +36,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
   - `/sdd-spec-init "description"`
   - `/sdd-spec-requirements <feature-name>` (always interactive — elicit, don't invent)
   - `/sdd-validate-requirements <feature-name>` (recommended: catch gold-plating / untraceable requirements before they propagate)
+  - `/sdd-spec-behavior <feature-name>` (recommended: formulate concrete behavior scenarios grounded in the product's purpose — catches concept drift before design)
   - `/sdd-validate-gap <feature-name>` (optional: for existing codebase)
   - `/sdd-spec-research <feature-name>` (research & discovery)
   - `/sdd-spec-design <feature-name> [-y]`
@@ -54,9 +55,9 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 ## Development Rules
 
 - For large/greenfield efforts, run Inception first (`/sdd-plan`) to decompose into right-sized specs, then run each spec through the workflow below.
-- Workflow: Requirements → Research → Design → Tasks → Implementation → Completion
+- Workflow: Requirements → Behaviors → Research → Design → Tasks → Implementation → Completion
 - Human review required each phase; use `-y` only for intentional fast-track
-- A spec that is internally consistent is not thereby correct. The `/sdd-validate-*` skills check within a spec's own boundaries; they do not ask whether the behavior serves the product intent in `docs/steering/product.md`, or whether it contradicts another spec. Use `/sdd-grill` for that cross-layer check when a feature touches shared concepts.
+- A spec that is internally consistent is not thereby correct — it must also serve the product intent in `docs/steering/product.md`. `/sdd-spec-behavior` grounds each behavior there; `/sdd-validate-requirements` and `/sdd-validate-design` check it, and a contradiction is NO-GO. For contradictions *between* layers (spec vs spec, steering vs inception) or a backlog of open decisions, use `/sdd-grill`.
 - Steering is kept current incrementally: `/sdd-spec-done` auto-detects feature-scoped drift at completion. Use `/sdd-steering` for the initial bootstrap and for periodic full-codebase reviews (e.g. after several merges or a refactor).
 - Follow the user's instructions precisely, and within that scope act autonomously: gather the necessary context and complete the requested work end-to-end in this run, asking questions only when essential information is missing or the instructions are critically ambiguous.
 - **Exception — the requirements phase elicits, it does not autonomously author.** During `/sdd-spec-requirements`, do not fill gaps with assumptions or add capabilities the user did not request. Every requirement must trace to user input or an explicit confirmation; unclear or scope-affecting points must be resolved through interactive dialogue, and anything left unresolved is logged as an assumption/open question rather than baked into a requirement. Inventing unrequested features ("gold-plating") is the main source of rework — `/sdd-validate-requirements` exists to catch it.
@@ -64,5 +65,5 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 ## Steering Configuration
 
 - Load entire `docs/steering/` as project memory
-- Default files: `product.md`, `tech.md`, `structure.md`
+- Default files: `product.md`, `tech.md`, `structure.md`, `behaviors.md` (cross-spec behavior invariants, grown mainly by `/sdd-spec-done` promotion)
 - Custom files are supported (managed via `/sdd-steering-custom`)

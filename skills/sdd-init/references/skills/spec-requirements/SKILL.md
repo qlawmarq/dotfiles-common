@@ -56,6 +56,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Read the project description and all steering context, and draft requirements covering **only** what is clearly grounded in that input
    - Focus on WHAT the system must do, not HOW
    - As you draft, collect every point where the input did not settle a choice (missing thresholds, unstated edge cases, ambiguous scope, conflicting hints) — these become your clarifying questions and your Open Questions log
+   - Check each candidate requirement against `docs/steering/product.md` (purpose, themes, Out of Scope) and `docs/steering/behaviors.md` invariants if present — a conflict is a clarifying question for the user, never something to accommodate silently
    - Do **not** fill these gaps with guesses or "reasonable" additions; an unconfirmed addition is gold-plating and is the main cause of rework this phase exists to prevent
 
 5. **Clarify through dialogue**:
@@ -128,6 +129,7 @@ Provide output in the language specified in spec.json with:
 
 - Review generated requirements at `{spec_path}/requirements.md`
 - **Recommended Validation**: Run `/sdd-validate-requirements <feature-name>` to verify every requirement traces to your input and catch any gold-plating before it propagates into design and implementation. Catching an invented feature here is far cheaper than unwinding it later.
+- **Recommended Behavior Formulation**: Run `/sdd-spec-behavior <feature-name>` to formulate concrete scenarios grounded in the product's purpose (generates behaviors.md) — this is where concept drift is caught before design
 - **Optional Gap Analysis** (for existing codebases):
   - Run `/sdd-validate-gap <feature-name>` to analyze implementation gap with current code
   - Identifies existing components, integration points, and implementation strategy

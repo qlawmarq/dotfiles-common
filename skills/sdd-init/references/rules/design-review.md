@@ -19,6 +19,10 @@ Conduct interactive quality review of technical design documents to ensure they 
 
 ## Core Review Criteria
 
+### 0. Concept & Behavior Alignment (Critical)
+
+A design can integrate perfectly with the architecture and still build the wrong product. Apply the lens in `concept-alignment.md`: does any design decision contradict `product.md`, the declared canon, or a `steering/behaviors.md` invariant? When the spec has `behaviors.md`, also verify each scenario is realizable by the design — an unrealizable scenario, or a design behavior contradicting a scenario's `Grounds:`, is Critical.
+
 ### 1. Existing Architecture Alignment (Critical)
 
 - Integration with existing system boundaries and layers
@@ -72,8 +76,8 @@ Acknowledge 1-2 strong aspects to maintain balanced feedback.
 
 ### Step 4: Decide GO/NO-GO
 
-- **GO**: No critical architectural misalignment, requirements addressed, clear implementation path, acceptable risks
-- **NO-GO**: Fundamental conflicts, critical gaps, high failure risk, disproportionate complexity
+- **GO**: No concept/behavior conflict, no critical architectural misalignment, requirements addressed, clear implementation path, acceptable risks
+- **NO-GO**: Concept or behavior-invariant contradiction, fundamental conflicts, critical gaps, high failure risk, disproportionate complexity
 
 ## Traceability & Evidence
 

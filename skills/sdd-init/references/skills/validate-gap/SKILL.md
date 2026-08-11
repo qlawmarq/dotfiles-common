@@ -100,7 +100,7 @@ Provide output in the language specified in spec.json with:
 
 ### Next Phase: Research & Discovery
 
-The workflow is **Requirements → Gap (optional) → Research → Design → Tasks**. Gap analysis surfaces "Research Needed" items; the research phase resolves them before design. Do NOT skip research and jump to design.
+The workflow is **Requirements → Behaviors → Gap (optional) → Research → Design → Tasks**. Gap analysis surfaces "Research Needed" items; the research phase resolves them before design. Do NOT skip research and jump to design.
 
 **If Gap Analysis Complete**:
 
