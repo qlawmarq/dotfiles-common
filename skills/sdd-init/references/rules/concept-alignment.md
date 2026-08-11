@@ -24,8 +24,6 @@ For each requirement / scenario / design decision under review, ask three questi
 
 Scale effort to exposure: mechanical/internal changes need only a contradiction check; behavior-shaping changes need all three questions.
 
-**Where drift hides — check the boundaries.** Happy paths are written with the product in mind; fallbacks are not. Ask what the system does when data is missing, no candidate matches, or a population is at the edge of its range. A silent fallback ("none found → leave it unassigned") satisfies every requirement while producing an observable outcome that reads as the wrong product. Flag any fallback whose visible result would look wrong under the product's purpose.
-
 ## Severity
 
 - **Contradiction** with product purpose, Out of Scope, canon decision, or an established invariant → **Critical (NO-GO)**. Route back: fix the artifact, or — if the canon itself should change — file it into the project's change-control process (check root CLAUDE.md / AGENTS.md); never edit canon from inside a spec session.
