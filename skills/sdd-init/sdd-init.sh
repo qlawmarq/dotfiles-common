@@ -143,6 +143,7 @@ mkdir -p docs/settings/rules \
          docs/settings/templates/steering \
          docs/settings/templates/steering-custom \
          docs/settings/templates/inception \
+         docs/settings/templates/canon \
          docs/steering \
          docs/inception \
          docs/tasks/done \
@@ -154,6 +155,7 @@ cp "$SRC"/templates/specs/* docs/settings/templates/specs/ 2>/dev/null || append
 cp "$SRC"/templates/steering/* docs/settings/templates/steering/ 2>/dev/null || append_csv ERRORS "steering_tpl_copy_failed"
 cp "$SRC"/templates/steering-custom/* docs/settings/templates/steering-custom/ 2>/dev/null || append_csv ERRORS "steering_custom_copy_failed"
 cp "$SRC"/templates/inception/* docs/settings/templates/inception/ 2>/dev/null || append_csv ERRORS "inception_tpl_copy_failed"
+cp "$SRC"/templates/canon/* docs/settings/templates/canon/ 2>/dev/null || append_csv ERRORS "canon_tpl_copy_failed"
 
 RULES_COUNT=$(find docs/settings/rules -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
 TEMPLATES_COUNT=$(find docs/settings/templates -type f 2>/dev/null | wc -l | tr -d ' ')

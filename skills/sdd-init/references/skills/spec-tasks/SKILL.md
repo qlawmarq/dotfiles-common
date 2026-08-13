@@ -62,7 +62,7 @@ Generate implementation tasks for the specified feature based on approved requir
 
 **Load generation rules and template**:
 
-- Read `docs/settings/rules/tasks-generation.md` for principles
+- Read `docs/settings/rules/tasks-generation.md` for principles and `docs/settings/rules/document-hygiene.md`
 - If `sequential` is **false**: Read `docs/settings/rules/tasks-parallel-analysis.md` for parallel judgement criteria
 - Read `docs/settings/templates/specs/tasks.md` as a **format reference only**. Do NOT copy any of its content into the output. Specifically, the output must not contain: `{{PLACEHOLDER}}` macros (e.g. `{{NUMBER}}`, `{{TASK_DESCRIPTION}}`), the `## Task Format Template` section heading, or blockquote annotations from the template
 

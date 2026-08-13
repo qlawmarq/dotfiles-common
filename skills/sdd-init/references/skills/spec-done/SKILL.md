@@ -22,6 +22,7 @@ argument-hint: "<feature-name>"
   - Spec moved from `docs/tasks/todo/` to `docs/tasks/done/`
   - Changes committed with project-consistent commit message
   - Steering checked for drift; if the feature introduced new patterns, additive updates are proposed, confirmed by the user, and committed separately
+  - When a canon registry exists: feature-scoped registry cross-check run (non-blocking), orphans and stale consumer flags reported
 
 </background_information>
 
@@ -119,7 +120,12 @@ Execute all verification checks sequentially. Collect all issues before making a
 - If the implemented behavior contradicts a scenario or a `docs/steering/behaviors.md` invariant, flag as **Critical**: "Concept drift detected"
 - If no behaviors.md exists, flag as **Info**: "No behavior scenarios — skipping" (legacy specs)
 
-#### 2h. Code Quality Review
+#### 2h. Assumption Signpost Check (if design.md declares assumptions)
+
+- For each assumption declared in `design.md`, check whether its signpost actually fired during implementation — the implementation is the first place an unverified premise meets reality
+- If one fired, flag as **Warning** with what it invalidates. Non-blocking: report it so the knowledge survives the spec
+
+#### 2i. Code Quality Review
 
 - Review implemented code for the feature's tasks
 - Check for:
@@ -204,7 +210,7 @@ Compare the steering loaded in Step 1 against what *this feature* actually intro
 - **tech.md**: a new framework / library / runtime / tool, a version jump, or a new technical convention this feature established
 - **structure.md**: a new architectural pattern, directory role, or naming/import convention
 - **product.md**: a materially new capability or shift in product purpose
-- **behaviors.md**: a behavior invariant that is verified, product-level, and cross-spec (future specs could plausibly violate it) — take candidates from the spec's `behaviors.md` "Promotion Candidates" section. One line each: statement — Grounds / Verify pointer. Scenario bodies never land here
+- **behaviors.md**: a behavior invariant that is verified, product-level, and cross-spec (future specs could plausibly violate it) — take candidates from the spec's `behaviors.md` "Promotion Candidates" section. One line each: statement — Grounds / Verify pointer. Present each candidate individually with its grounds and get its own answer — never a summarized batch. Scenario bodies never land here
 
 Ignore anything that merely follows an existing pattern. Never record file listings, dependency dumps, implementation details, secrets, or agent-tooling directories (`.claude/`, `.cursor/`, etc.) — see `docs/settings/rules/steering-principles.md`.
 
@@ -225,6 +231,15 @@ If the feature followed existing patterns, report **"Steering current — no upd
 
 For a broad or periodic steering review beyond what this feature touched (e.g. after several merges or a refactor), point the user to `/sdd-steering`, which performs a full-codebase sync.
 
+### Step 6: Registry Cross-Check (non-blocking, when a canon registry exists)
+
+If `docs/steering/product.md §Canon References` declares a canon root containing `registry.md`, run the feature-scoped cross-check from `docs/settings/rules/normative-registry.md §Cross-Check`. Like Step 5, this runs only on GO, after Step 4, and never blocks — it reports; the human routes.
+
+- **Scope**: the identifiers this feature introduced or modified (enums, const catalogs, entity types in the changed code) plus registry entries naming this spec or its plan unit as a Consumer. Full-registry sweeps are on-demand, not here.
+- **Both directions**: (a) registry entries whose Consumers should now include (or no longer include) this feature — stale bookkeeping; (b) identifiers in the changed code with **no registry seat** — orphans, the direction that historically goes unwatched.
+- **Routing**: stale Consumers/Verification cells → present the bookkeeping diff, confirm, write (these columns are not ratification-gated). Orphans and contradictions → file as an open question in the canon README or hand to `/sdd-canon-propose`; **never** silently adopt, delete, or edit a norm. Whether an orphan becomes canon is a human verdict, not a sync.
+- Report "Registry aligned — no findings" when clean; that is the expected common outcome.
+
 ## Critical Constraints
 
 - **todo/ only**: Only finalize features in `docs/tasks/todo/` — never re-process `done/`
@@ -234,6 +249,7 @@ For a broad or periodic steering review beyond what this feature touched (e.g. a
 - **Non-destructive**: If anything fails, the spec stays in `todo/` untouched
 - **Steering sync never blocks**: Drift is surfaced only after the feature is committed, requires user confirmation, and lands in its own `docs(steering):` commit — never bundled with the feature commit and never a GO/NO-GO gate
 - **Steering stays lean**: Additive only, pattern-level only; "no update needed" is the expected outcome for most features
+- **Canon is read-only here**: The registry cross-check (Step 6) reports and updates bookkeeping columns only (with confirmation) — norm text, statuses, and decisions change exclusively via `/sdd-canon-propose` + `/sdd-ratify`
 
 </instructions>
 
@@ -263,6 +279,7 @@ Provide output in the language specified in spec.json:
 2. **Completion Actions**: Confirm spec moved and commit created
 3. **Commit Details**: Show commit hash and message
 4. **Steering Sync**: One of — "Steering current — no update needed", "Steering updated (separate commit `<hash>`)", or "Steering update declined"
+5. **Registry Cross-Check** (when a canon registry exists): "Registry aligned — no findings", or the findings with where each was routed (bookkeeping updated / open question filed / proposal drafted)
 
 **Format**: Concise Markdown, under 300 words
 

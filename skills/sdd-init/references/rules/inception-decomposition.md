@@ -42,7 +42,7 @@ Target: each unit is an **independently shippable vertical slice**. Validate eve
 - **I**ndependent — can be built and shipped without waiting on a sibling (soft dependencies are fine if sequenced; circular dependencies mean the boundary is wrong).
 - **N**egotiable — describes an outcome, leaving room for the design phase to decide how.
 - **V**aluable — delivers observable value to a user or the business on its own.
-- **E**stimable — the team can roughly size it (S / M / L). If it's unestimable, it needs more discovery, not more detail.
+- **E**stimable — the team can roughly size it (S / M / L). If it's unestimable, it needs more discovery, not more detail: break out a spike (§4.9). Where a size is stated as a number, state how it was obtained and give a range — a partial count or a lower bound is not a total (`evidence-discipline.md` §1). Boundaries and build order rest on these numbers, so an estimate that is quietly 3× off re-cuts the whole plan.
 - **S**mall — implementable as one focused spec. A useful gut check: if its eventual requirements would exceed ~7–10 distinct requirement areas, it's probably two units.
 - **T**estable — has a concrete **independent-test statement**: "Can be fully verified by [action] and delivers [value]." If you can't write this sentence, the boundary is wrong.
 

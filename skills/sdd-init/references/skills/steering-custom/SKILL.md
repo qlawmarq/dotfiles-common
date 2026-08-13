@@ -39,9 +39,9 @@ description: >-
 
 4. **Generate custom steering**:
    - Follow template structure if available
-   - Apply principles from `docs/settings/rules/steering-principles.md`
+   - Apply principles from `docs/settings/rules/steering-principles.md` and `docs/settings/rules/document-hygiene.md`
    - Focus on patterns, not exhaustive lists
-   - Keep to 100-200 lines (2-3 minute read)
+   - Respect the size budget (per file and across `docs/steering/` — a custom file spends the same always-loaded budget as a core one)
 
 5. **Create file** in `docs/steering/{name}.md`
 
@@ -61,13 +61,7 @@ Load template when needed, customize for project.
 
 ## Steering Principles
 
-From `docs/settings/rules/steering-principles.md`:
-
-- **Patterns over lists**: Document patterns, not every file/component
-- **Single domain**: One topic per file
-- **Concrete examples**: Show patterns with code
-- **Maintainable size**: 100-200 lines typical
-- **Security first**: Never include secrets or sensitive data
+Governed by `docs/settings/rules/steering-principles.md` — patterns over lists, one domain per file, concrete examples, the size budget, never a secret.
 
 </instructions>
 
@@ -123,7 +117,7 @@ Review and customize as needed.
 
 - **No template**: Generate from scratch based on domain knowledge
 - **Security**: Never include secrets (load principles)
-- **Validation**: Ensure doesn't duplicate core steering content
+- **Validation**: Ensure doesn't duplicate core steering content (`document-hygiene.md`)
 
 ## Notes
 

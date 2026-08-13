@@ -15,32 +15,16 @@ Quickly analyze existing system and integration requirements for feature extensi
 - Check for existing patterns to follow
 - Identify backward compatibility requirements
 
-### 2. Dependency Check
+### 2. Dependency & Technology Check
 
-**Verify Compatibility**:
+**For new or changed dependencies only**:
 
-- Check version compatibility of new dependencies
-- Validate API contracts haven't changed
-- Ensure no breaking changes in pipeline
+- Confirm version compatibility, that API contracts have not changed, and licensing — by checking, not by assuming (`evidence-discipline.md` §1: documentation alone does not settle an external spec)
+- Use WebSearch for official documentation and known compatibility issues
 
-### 3. Quick Technology Verification
+### 3. Integration Risk Assessment
 
-**For New Libraries Only**:
-
-- Use WebSearch for official documentation
-- Verify basic usage patterns
-- Check for known compatibility issues
-- Confirm licensing compatibility
-- Record key findings in `research.md` (technology alignment section)
-
-### 4. Integration Risk Assessment
-
-**Quick Risk Check**:
-
-- Impact on existing functionality
-- Performance implications
-- Security considerations
-- Testing requirements
+**Quick Risk Check**: impact on existing functionality, performance implications, security considerations, testing requirements.
 
 ## When to Escalate to Full Discovery
 
@@ -52,10 +36,6 @@ Switch to full discovery if you find:
 - Performance-critical components
 - Unknown or poorly documented dependencies
 
-## Output Requirements
+## Output
 
-- Clear integration approach (note boundary impacts in `research.md`)
-- List of files/components to modify
-- New dependencies with versions
-- Integration risks and mitigations
-- Testing focus areas
+Findings go to `research.md` in the claim form of `evidence-discipline.md` §2: the integration approach and boundary impacts, files/components to modify, new dependencies with versions, risks, and testing focus areas.

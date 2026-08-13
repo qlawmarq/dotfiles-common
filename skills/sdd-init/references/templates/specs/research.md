@@ -1,61 +1,70 @@
 # Research & Design Decisions Template
 
 ---
-**Purpose**: Capture discovery findings, architectural investigations, and rationale that inform the technical design.
+**Purpose**: Capture discovery findings and the evidence behind them, so the design rests on verified claims rather than plausible prose.
 
 **Usage**:
-- Log research activities and outcomes during the discovery phase.
-- Document design decision trade-offs that are too detailed for `design.md`.
-- Provide references and evidence for future audits or reuse.
+- Every finding is one claim with its evidence. Field semantics, the measurement rule, the `probe/` convention: `docs/settings/rules/evidence-discipline.md`.
+- Put trade-off detail here that is too fine for `design.md`.
+- Verification artifacts (scripts, logs, results) go in `probe/`, not in this file.
 ---
 
 ## Summary
 - **Feature**: `<feature-name>`
 - **Discovery Scope**: New Feature / Extension / Simple Addition / Complex Integration
-- **Key Findings**:
-  - Finding 1
-  - Finding 2
-  - Finding 3
+- **Key Findings**: 3 at most, each naming the `C<n>` it comes from.
+  - `C1` — Finding
+  - `C2` — Finding
+
+_Every entry needs a `C<n>` below **at the same scope** — a lower bound does not become a total by being summarized._
 
 ## Research Log
-Document notable investigation steps and their outcomes. Group entries by topic for readability.
+One entry per claim, grouped by topic. Tag lines per `evidence-discipline.md` §2.
 
 ### [Topic or Question]
 - **Context**: What triggered this investigation?
-- **Sources Consulted**: Links, documentation, API references, benchmarks
-- **Findings**: Concise bullet points summarizing the insights
-- **Implications**: How this affects architecture, contracts, or implementation
+- **Method**: What you did — commands run, code read, sources consulted, probes executed.
 
-_Repeat the subsection for each major topic._
+#### C1: `<the claim>`
+- Type: measured | sourced | inferred | unverified
+- Verification: `<probe/<file> | test name | command + output | URL + retrieval date | none>`
+- Confidence: high | medium | low
+- Load-bearing: `<what breaks in the design if this is wrong — blank if nothing does>`
+- **Implications**: How this affects architecture, contracts, or implementation.
+
+_Repeat `#### C<n>` for each claim, and the `###` subsection for each topic._
+
+## Unverified & Open
+Claims that could not be settled, and what it would take to settle them. Leaving this empty is a claim in itself.
+
+| ID | What is unknown | Why it could not be measured | What would settle it | Load-bearing? |
+|----|-----------------|------------------------------|----------------------|---------------|
+| C_ |                 |                              |                      | yes / no      |
 
 ## Architecture Pattern Evaluation
-List candidate patterns or approaches that were considered. Use the table format where helpful.
+Candidate patterns considered, with the claims that inform the comparison.
 
-| Option | Description | Strengths | Risks / Limitations | Notes |
-|--------|-------------|-----------|---------------------|-------|
-| Hexagonal | Ports & adapters abstraction around core domain | Clear boundaries, testable core | Requires adapter layer build-out | Aligns with existing steering principle X |
+| Option | Description | Strengths | Risks / Limitations | Evidence |
+|--------|-------------|-----------|---------------------|----------|
+| Hexagonal | Ports & adapters around the core domain | Clear boundaries, testable core | Adapter layer build-out | `C3`, steering principle X |
 
 ## Design Decisions
-Record major decisions that influence `design.md`. Focus on choices with significant trade-offs.
+Decisions that shape `design.md`. Each one names the claims it rests on, so a claim later found wrong points at the decisions that fall with it.
 
 ### Decision: `<Title>`
+- **Based on**: `C<n>`, `C<n>`
 - **Context**: Problem or requirement driving the decision
-- **Alternatives Considered**:
-  1. Option A — short description
-  2. Option B — short description
+- **Alternatives Considered**: Option A — …; Option B — …
 - **Selected Approach**: What was chosen and how it works
-- **Rationale**: Why this approach fits the current project context
+- **Rationale**: Why it fits this project
 - **Trade-offs**: Benefits vs. compromises
-- **Follow-up**: Items to verify during implementation or testing
+- **Follow-up**: What to verify during implementation
 
-_Repeat the subsection for each decision._
+_Repeat for each decision._
 
 ## Risks & Mitigations
-- Risk 1 — Proposed mitigation
-- Risk 2 — Proposed mitigation
-- Risk 3 — Proposed mitigation
+- Risk — mitigation
 
 ## References
-Provide canonical links and citations (official docs, standards, ADRs, internal guidelines).
-- [Title](https://example.com) — brief note on relevance
-- ...
+- [Title](https://example.com) — relevance, retrieval date
+- `probe/README.md` — verification artifacts index

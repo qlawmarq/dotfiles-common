@@ -31,6 +31,11 @@
 - Future considerations outside current scope
 - Integration points deferred
 
+### Assumptions
+Research claims this design depends on that were **not** verified. Each needs the sign that would reveal it has broken. Omit the section when there are none — do not write "none" as filler.
+
+- `<claim>` (`C<n>`) — 影響: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
+
 ## Architecture
 
 > Reference detailed discovery notes in `research.md` only for background; keep design.md self-contained for reviewers by capturing all decisions and contracts here.

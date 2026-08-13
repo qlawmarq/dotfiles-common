@@ -67,7 +67,7 @@ Never include:
 - **Single domain**: One topic per file
 - **Concrete examples**: Show patterns with code
 - **Explain rationale**: Why decisions were made
-- **Maintainable size**: 100-200 lines typical
+- **Maintainable size**: 100-200 lines per file, and **600 lines total across `docs/steering/`** — every file is loaded into every session, so the set has a budget, not just each file. Over budget, propose cuts or move a file to JIT reference; never block on it.
 
 ---
 

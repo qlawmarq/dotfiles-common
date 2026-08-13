@@ -46,11 +46,8 @@ Conduct comprehensive research and analysis to ensure the technical design is ba
 **For Each External Service/Library**:
 
 - Search for official documentation and GitHub repositories
-- Verify API signatures and authentication methods
-- Check version compatibility with existing stack
-- Investigate rate limits and usage constraints
-- Find community resources and known issues
-- Document security considerations
+- Establish API signatures, auth methods and version compatibility — documentation alone does not settle these (`evidence-discipline.md` §1); pin the version and run a minimal connectivity check
+- Investigate rate limits, usage constraints, known issues, and security considerations
 - Note any gaps requiring implementation investigation
 
 ### 5. Architecture Pattern & Boundary Analysis
@@ -74,39 +71,12 @@ Conduct comprehensive research and analysis to ensure the technical design is ba
 - Technical debt creation vs resolution
 - Knowledge gaps and training needs
 
-## Research Guidelines
+## Search Strategy
 
-### When to Search
+Always search for external API documentation, security practices for auth, and migration paths for dependencies. Search when uncertain about architectural patterns, data-format standards, compliance requirements, or scaling approaches.
 
-**Always search for**:
+Start with official sources (documentation, GitHub), then recent articles, then similar open-source implementations. Prefer primary sources: a vendor's own docs over a blog post describing them.
 
-- External API documentation and updates
-- Security best practices for authentication/authorization
-- Performance optimization techniques for identified bottlenecks
-- Latest versions and migration paths for dependencies
+## Output
 
-**Search if uncertain about**:
-
-- Architectural patterns for specific use cases
-- Industry standards for data formats/protocols
-- Compliance requirements (GDPR, HIPAA, etc.)
-- Scalability approaches for expected load
-
-### Search Strategy
-
-1. Start with official sources (documentation, GitHub)
-2. Check recent blog posts and articles (last 6 months)
-3. Review Stack Overflow for common issues
-4. Investigate similar open-source implementations
-
-## Output Requirements
-
-Capture all findings that impact design decisions in `research.md` using the shared template:
-
-- Key insights affecting architecture, technology alignment, and contracts
-- Constraints discovered during research
-- Recommended approaches and selected architecture pattern with rationale
-- Rejected alternatives and trade-offs (documented in the Design Decisions section)
-- Updated domain boundaries that inform the design's Components and Interfaces section
-- Risks and mitigation strategies
-- Gaps requiring further investigation during implementation
+Findings go to `research.md` in the claim form of `evidence-discipline.md` §2 — one claim per finding, each with its evidence, and each Design Decision naming the claims it rests on. The template governs the sections; do not invent your own.

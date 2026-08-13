@@ -33,6 +33,7 @@ Every scenario MUST cite the product purpose it serves — this is **forward tra
 
 - `product.md §<section>` — a purpose, theme, or capability stated in steering
 - A canon decision, when `product.md` declares Canon References (see `concept-alignment.md` for lookup rules)
+- `registry.md #<ID>` — a canon registry entry, the authoritative seat for enumerable norms (`normative-registry.md`); only `ratified` entries ground anything
 - `steering/behaviors.md #<invariant>` — an established cross-spec invariant
 
 Rules:
@@ -59,4 +60,4 @@ At feature completion (`/sdd-spec-done`), propose promoting only invariants that
 - **Cross-spec**: future specs could plausibly violate them
 - **Verified**: their evidence exists (test/probe/manual record)
 
-Promote as **one line per invariant** — statement + Grounds + Verify pointer. Scenario bodies are NEVER promoted: they persist in the spec archive, and their executable forms persist in the test suite. "No promotion" is the expected outcome for most features (same golden rule as steering sync).
+Promote as **one line per invariant** — statement + Grounds + Verify pointer. Each candidate is presented individually with its grounds and confirmed on its own, never as a summarized batch. Scenario bodies are NEVER promoted: they persist in the spec archive, and their executable forms persist in the test suite. "No promotion" is the expected outcome for most features (same golden rule as steering sync).

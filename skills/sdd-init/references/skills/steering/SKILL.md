@@ -50,7 +50,7 @@ Check `docs/steering/` status:
    - Tech: Frameworks, decisions, conventions
    - Structure: Organization, naming, imports
 4. Generate steering files (follow templates)
-5. Load principles from `docs/settings/rules/steering-principles.md`
+5. Load principles from `docs/settings/rules/steering-principles.md` and `docs/settings/rules/document-hygiene.md`
 6. Present summary for review
 
 **Focus**: Patterns that guide decisions, not catalogs of files/dependencies.
@@ -67,9 +67,12 @@ Check `docs/steering/` status:
    - **behaviors.md**: Invariants whose `Verify:` pointers no longer exist (deleted test/probe) or that a canon change has superseded → Warning
    - **Custom files**: Check relevance
 4. Propose updates (additive, preserve user content)
-5. Report: Updates, warnings, recommendations
+5. Check the size budget (`steering-principles.md §Quality Standards`): total the lines across `docs/steering/`. Over budget, propose cuts or moving a file out of always-loaded memory into JIT reference — report it, never block on it
+6. Report: Updates, warnings, recommendations
 
 **Update Philosophy**: Add, don't replace. Preserve user sections.
+
+> **Policy is never synced from code.** Mechanical facts (`tech.md` frameworks and versions, `structure.md` roles and conventions) are this skill's business: present the diff, confirm, write. Product policies, scope and Out of Scope in `product.md`, and invariants in `behaviors.md` are not derivable from code, however obvious the change looks — present each on its own and get an explicit answer; never fold one into a sync batch. Code is evidence about what the product *does*; only the owner decides what it is *for*.
 
 ---
 

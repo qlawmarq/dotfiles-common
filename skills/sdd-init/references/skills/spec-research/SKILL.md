@@ -54,6 +54,7 @@ Investigate the existing codebase and research best practices to generate a stru
   - Default files: `structure.md`, `tech.md`, `product.md`
   - All custom steering files
 - `docs/settings/templates/specs/research.md` for research document structure
+- `docs/settings/rules/evidence-discipline.md` — the claim format, what must be measured rather than reasoned, and the `probe/` convention
 
 Do **not** load the discovery rules here — Step 2 classifies the Feature Type first and then reads only the one rule that applies.
 
@@ -73,7 +74,7 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
    - **Simple Addition** (CRUD/UI) → Minimal or no discovery
    - **Complex Integration** → Comprehensive analysis required
 
-2. **Execute Appropriate Discovery Process**:
+2. **Execute Appropriate Discovery Process** (in every path, write the findings per `docs/settings/rules/document-hygiene.md`):
 
    **For Complex/New Features (Full Discovery)**:
    - Read and execute `docs/settings/rules/design-discovery-full.md`
@@ -91,32 +92,11 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
    **For Simple Additions (Minimal Discovery)**:
    - Skip formal discovery, quick pattern check only
 
-3. **Incorporate Gap Analysis** (if available):
-   - If `gap-analysis.md` was loaded in Step 1, use its findings as additional research context
-   - Cross-reference gap analysis results with discovery findings
-   - Prioritize addressing identified gaps in the research
+3. **Incorporate Gap Analysis** (if available): use the `gap-analysis.md` findings as additional context and prioritize the gaps it identified. The discovery rule you read above governs *what* to investigate — do not restate its steps here.
 
-4. **Current State Analysis**:
-   - Analyze existing codebase structure and architecture patterns
-   - Map reusable components, services, and utilities
-   - Identify domain boundaries and data flows
-   - Document integration points and dependencies
-   - Determine approach: extend vs refactor vs wrap
+4. **Measure what cannot be reasoned**: apply `evidence-discipline.md` §1 throughout. Size, count and duration; the behavior of existing code; external specs; performance — these are settled by running something, never by reading. Write the verification artifacts (scripts, raw logs, results) to `{spec_path}/probe/` with a `README.md` index, per §3 of that rule. Record what you ran so a reader can re-run it.
 
-5. **Best Practice Research**:
-   - Research technology selection rationale and recommended patterns
-   - Investigate reference implementations and industry standards
-   - Use WebSearch/WebFetch for external dependencies, APIs, and latest best practices
-   - Document security considerations and performance implications
-
-6. **Retain Discovery Findings for Step 3**:
-   - External API contracts and constraints
-   - Technology decisions with rationale
-   - Existing patterns to follow or extend
-   - Integration points and dependencies
-   - Identified risks and mitigation strategies
-   - Potential architecture patterns and boundary options
-   - Parallelization considerations for future tasks
+5. **Retain findings for Step 3** in the claim form of `evidence-discipline.md` §2: each claim carries its type, its reproducer, its confidence, and what breaks in the design if it turns out to be wrong.
 
 ### Step 3: Generate research.md
 
@@ -124,46 +104,39 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
 
 1. **Language Compliance**: Write all content in the language specified by `spec.json.language` (e.g., `"ja"` means Japanese).
 
-2. **Populate Template Sections**:
-   - **Summary**: Fill in `feature-name`, discovery scope (from Feature Type classification), and 3 key findings
-   - **Research Log**: Create subsections for each major investigation topic from Step 2. Each subsection must include Context, Sources Consulted, Findings, and Implications
-   - **Architecture Pattern Evaluation**: Document candidate patterns considered during research with their strengths and risks
-   - **Design Decisions**: Record significant decisions that will inform `design.md`. Include context, alternatives considered, selected approach, rationale, trade-offs, and follow-up items
-   - **Risks & Mitigations**: List identified risks with proposed mitigations
-   - **References**: Provide links and citations to sources consulted
+2. **Populate the template**. Two sections carry the discipline and must not be filled loosely:
+   - **Research Log** — one `C<n>` claim per finding, each with its four tag lines. A claim is typed `measured` only when `Verification` names something re-runnable.
+   - **Summary / Key Findings** — may contain nothing that lacks a `C<n>` entry below. Never restate a lower bound, a partial count, or a sample as a total.
 
-3. **Include Design Recommendations**: Based on the research findings, explicitly state actionable recommendations for the design phase. These should appear in the Design Decisions section and summarize:
-   - Recommended architecture patterns and why
-   - Integration strategy with existing codebase
-   - Technology choices with evidence-based rationale
-   - Areas requiring special attention during design
+   Fill the remaining sections (Unverified & Open, Architecture Pattern Evaluation, Design Decisions, Risks, References) as the template describes. Each Design Decision names the `C<n>` it rests on and states the actionable recommendation for the design phase.
 
-4. **Write research.md**: Output the completed document to `{spec_path}/research.md` using the Write tool.
+3. **Write research.md**: Output the completed document to `{spec_path}/research.md` using the Write tool.
 
 ## Critical Constraints
 
 - **No spec.json update**: Do NOT modify spec.json — no phase transition, no approval state change. The existence of research.md is the sole indicator of research completion.
+- **Measure, don't reason**: the four kinds of claim in `evidence-discipline.md` §1 may not be settled by reading. If you cannot measure one, type it `unverified` and say what would settle it — an honest gap is a result, an invented certainty is a defect the design inherits.
 - **Steering alignment**: Respect existing architecture patterns from steering context
-- **Template adherence**: Follow `docs/settings/templates/specs/research.md` structure
 - **Language compliance**: Use the language specified in `spec.json.language`
 
 </instructions>
 
 ## Tool Guidance
 
-- **Read first**: Load all context (spec, steering, template, gap-analysis) before taking action; read the discovery rule only after classifying the Feature Type
+- **Read first**: Load all context (spec, steering, template, rule, gap-analysis) before taking action; read the discovery rule only after classifying the Feature Type
+- **Run things**: use Bash and the project's test/probe tooling to measure. Grep locates code; it does not establish behavior
 - **Research when uncertain**: Use WebSearch/WebFetch for external dependencies, APIs, and latest best practices
-- **Analyze existing code**: Use Grep to find patterns and integration points in codebase
 - **Write last**: Generate research.md only after all research and analysis complete
 
 ## Output Description
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Status**: Confirm research document generated at `{spec_path}/research.md`
+1. **Status**: Confirm research document generated at `{spec_path}/research.md` (and `probe/` if verification artifacts were produced)
 2. **Discovery Type**: Which discovery process was executed (full/light/minimal)
-3. **Key Findings**: 2-3 critical insights that will inform the design
-4. **Next Action**: Guidance for next step
+3. **Key Findings**: 2-3 critical insights that will inform the design, each with its `C<n>`
+4. **Unverified**: Any load-bearing claim that could not be measured — name it plainly
+5. **Next Action**: Guidance for next step
 
 **Format**: Concise Markdown (under 200 words)
 
@@ -200,13 +173,13 @@ Provide brief summary in the language specified in spec.json:
 - **Warning**: "Steering directory empty or missing - research may not align with project standards"
 - **Proceed**: Continue with research but note limitation in output
 
-### Next Phase: Design Generation
+### Next Phase: Research Validation
 
 **After Research Completed**:
 
 - Review generated research at `{spec_path}/research.md`
+- **Recommended**: run `/sdd-validate-research <feature-name>` — it re-runs the recorded evidence independently and surfaces load-bearing claims that were never measured. Catching a wrong finding here is far cheaper than unwinding a design built on it
 - Then `/sdd-spec-design <feature-name> -y` to proceed to design phase
-- spec-design will automatically read research.md as input
 
 **If Re-research Needed**:
 

@@ -51,6 +51,10 @@ A design can integrate perfectly with the architecture and still build the wrong
 - Clear API boundaries and data structures
 - Input validation and error handling coverage
 
+### 5. Premise Soundness
+
+A design is only as sound as what it assumes. Where `research.md` exists, check that no major decision rests on a claim typed `unverified` or carrying no reproducer without that being **declared** in the design's Assumptions section with its impact and signpost. An undeclared premise is the finding; a declared one is a managed risk and is acceptable.
+
 ## Review Process
 
 ### Step 1: Analyze

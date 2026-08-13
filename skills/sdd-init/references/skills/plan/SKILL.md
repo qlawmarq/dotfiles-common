@@ -39,7 +39,7 @@ This skill expects:
 
 ## Methodology
 
-The decomposition method — where to cut boundaries, how to size and split units, how to order them — lives in `docs/settings/rules/inception-decomposition.md`. **Read it before Stage 2.** This SKILL.md governs the workflow and gates; that file governs the technique.
+The decomposition method — where to cut boundaries, how to size and split units, how to order them — lives in `docs/settings/rules/inception-decomposition.md`. **Read it before Stage 2.** This SKILL.md governs the workflow and gates; that file governs the technique. Write the artifacts per `docs/settings/rules/document-hygiene.md`.
 
 ## Operating principle: bounded context
 

@@ -44,9 +44,10 @@ Most requests are one of these. Identify which before retrieving — they need d
 
 A topic lookup. The answer lives somewhere specific and the work is finding it.
 
-1. Grep for the user's own domain term across `docs/steering/`, `docs/inception/`, and `docs/tasks/`. Use the vocabulary they used; follow the terms the documents use for each other.
+1. Grep for the user's own domain term across `docs/steering/`, `docs/inception/`, and `docs/tasks/` — and across the canon root when `product.md §Canon References` declares one, since that is where product decisions actually live. Use the vocabulary they used; follow the terms the documents use for each other.
 2. Follow cross-references between layers. A decision recorded in steering is usually applied in a spec, and a spec usually cites the steering or unit that constrains it — the fastest path between layers is the reference the documents already contain.
 3. Report the decision, where it is recorded, and — when it matters — where it is *applied*. Note supersession: if a later spec or steering file changed an earlier decision, say which is current.
+4. **Report status, not just content.** In the canon, a `draft` item is a pending proposal, not a decision — answering "we decided X" from unratified text recreates the very confusion the ratification flow exists to prevent. State the status alongside the answer, and say plainly when the honest answer is "drafted, not yet ratified" (`docs/settings/rules/ratification.md`).
 
 ### Shape B — "Where does the project stand?"
 
@@ -66,7 +67,8 @@ A backlog of unresolved decisions. Collect, do not resolve.
 
 1. *Assumptions & Open Questions* sections across `requirements.md` files, and open points in `design.md` files.
 2. Specs with `approvals.*.approved: false` — work waiting on human review.
-3. Any decision intake the project maintains, if its root `CLAUDE.md` / `AGENTS.md` documents one.
+3. When a canon layer exists: its README's Open Questions table, and every proposal still sitting in `proposals/` — content drafted but never ratified, which binds nothing until it is judged in `/sdd-ratify`.
+4. Any decision intake the project maintains, if its root `CLAUDE.md` / `AGENTS.md` documents one.
 
 Order by what unblocks the most: a decision that several specs depend on outranks one confined to a single spec. Then hand off — `/sdd-grill` is the skill that actually works through them with the user.
 

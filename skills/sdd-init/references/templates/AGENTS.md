@@ -9,6 +9,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 - Steering: `docs/steering/`
 - Inception (large-scale plans): `docs/inception/`
 - Specs: `docs/tasks/`
+- Canon (optional): declared in `docs/steering/product.md §Canon References` (default `docs/canon/`)
 
 ### Steering vs Specification vs Inception
 
@@ -39,6 +40,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
   - `/sdd-spec-behavior <feature-name>` (recommended: formulate concrete behavior scenarios grounded in the product's purpose — catches concept drift before design)
   - `/sdd-validate-gap <feature-name>` (optional: for existing codebase)
   - `/sdd-spec-research <feature-name>` (research & discovery)
+  - `/sdd-validate-research <feature-name>` (recommended: re-runs the evidence independently — a wrong finding here becomes a design premise nothing downstream may question)
   - `/sdd-spec-design <feature-name> [-y]`
   - `/sdd-validate-design <feature-name>` (optional: design review)
   - `/sdd-spec-tasks <feature-name> [-y]`
@@ -51,14 +53,20 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 - Orientation & dialogue (anytime, belongs to no phase):
   - `/sdd-brief ["question"]` — read-only. Answers what was decided about a topic, where the project stands across every spec, or what needs deciding next, with citations. Use it instead of opening documents one by one.
   - `/sdd-grill ["topic"]` — a relentless interview that works the project's open decisions in rounds until nothing is left silently assumed. Use it before committing to a spec, when steering / inception / specs may have drifted apart, or to clear a backlog of open questions.
+- Canon governance (when the product keeps a canon layer — concept decisions, normative registry):
+  - `/sdd-canon-propose "change"` — draft a delta proposal (ADDED/MODIFIED/REMOVED) against canon or steering-normative content. The only write path; scaffolds the canon layer on first use.
+  - `/sdd-ratify [proposal]` — ratification session: the agent explains each item with rationale and concrete scenarios, you only judge. The only way drafted content gains canonical force.
 
 ## Development Rules
 
 - For large/greenfield efforts, run Inception first (`/sdd-plan`) to decompose into right-sized specs, then run each spec through the workflow below.
 - Workflow: Requirements → Behaviors → Research → Design → Tasks → Implementation → Completion
 - Human review required each phase; use `-y` only for intentional fast-track
+- **Research measures, it does not reason.** Size/count/duration, the behavior of existing code, external specs, and performance are settled by running something — never by reading (`docs/settings/rules/evidence-discipline.md`). Evidence lives in `<spec>/probe/`. What cannot be measured is written as `unverified` and, if the design depends on it, carried into `design.md` Assumptions with a signpost.
 - A spec that is internally consistent is not thereby correct — it must also serve the product intent in `docs/steering/product.md`. `/sdd-spec-behavior` grounds each behavior there; `/sdd-validate-requirements` and `/sdd-validate-design` check it, and a contradiction is NO-GO. For contradictions *between* layers (spec vs spec, steering vs inception) or a backlog of open decisions, use `/sdd-grill`.
 - Steering is kept current incrementally: `/sdd-spec-done` auto-detects feature-scoped drift at completion. Use `/sdd-steering` for the initial bootstrap and for periodic full-codebase reviews (e.g. after several merges or a refactor).
+- **Canon content is never edited directly** — canon decisions and registry norms change only via a delta proposal (`/sdd-canon-propose`) ratified in `/sdd-ratify`. During ratification, lists are never presented as summaries: every entry appears by name with an explanation (`docs/settings/rules/ratification.md`). Draft-status content binds nothing. Steering is not on this path — it changes by ordinary present-diff-and-confirm.
+- **One fact, one seat** — approvals, statuses, and dates are recorded in their designated seat and never restated in body prose; template comments and unrequested meta-sections never ship (`docs/settings/rules/document-hygiene.md`).
 - Follow the user's instructions precisely, and within that scope act autonomously: gather the necessary context and complete the requested work end-to-end in this run, asking questions only when essential information is missing or the instructions are critically ambiguous.
 - **Exception — the requirements phase elicits, it does not autonomously author.** During `/sdd-spec-requirements`, do not fill gaps with assumptions or add capabilities the user did not request. Every requirement must trace to user input or an explicit confirmation; unclear or scope-affecting points must be resolved through interactive dialogue, and anything left unresolved is logged as an assumption/open question rather than baked into a requirement. Inventing unrequested features ("gold-plating") is the main source of rework — `/sdd-validate-requirements` exists to catch it.
 

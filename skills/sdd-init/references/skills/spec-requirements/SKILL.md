@@ -49,7 +49,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 
 3. **Read Guidelines**:
    - Read `docs/settings/rules/requirements-elicitation.md` for the elicit-don't-invent rules, the ask-vs-assume gate, and traceability/scope discipline — **this governs how you run this phase**
-   - Read `docs/settings/rules/ears-format.md` for EARS syntax rules
+   - Read `docs/settings/rules/ears-format.md` for EARS syntax rules and `docs/settings/rules/document-hygiene.md`
    - Read `docs/settings/templates/specs/requirements.md` for document structure (note the Source lines, Out of Scope, and Assumptions & Open Questions sections)
 
 4. **Draft from grounded input only**:

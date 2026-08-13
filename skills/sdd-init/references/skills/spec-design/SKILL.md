@@ -49,9 +49,10 @@ Write technical design document for the specified feature based on approved requ
 **Read all necessary context**:
 
 - `{spec_path}/spec.json`, `requirements.md`, `behaviors.md` (if exists), `design.md` (if exists), `research.md` (if exists)
+- `{spec_path}/probe/README.md` (if exists) — the index of verification artifacts behind the research claims. Reading recorded evidence is not independent discovery; open a specific probe result when a design decision turns on it
 - **Entire `docs/steering/` directory** for complete project memory
 - `docs/settings/templates/specs/design.md` for document structure
-- `docs/settings/rules/design-principles.md` for design principles
+- `docs/settings/rules/design-principles.md` for design principles, and `docs/settings/rules/document-hygiene.md`
 
 **If `behaviors.md` does NOT exist**: warn the user — in the language from spec.json — that behavior scenarios were not formulated, that `/sdd-spec-behavior <feature-name>` is recommended (it grounds the design in the product's purpose), and continue without them.
 
@@ -66,6 +67,7 @@ Write technical design document for the specified feature based on approved requ
 
 1. **If `research.md` was loaded in Step 1**:
    - Extract key findings: architecture patterns, technology decisions, integration points, risks, and design recommendations
+   - Note which claims are typed `unverified` or carry no reproducer. Any of these the design ends up depending on goes in the design's Assumptions section, with what fails if it is wrong and the signpost that would reveal it — a premise carried silently is the failure this exists to prevent
    - Retain these findings for Step 3
 
 2. **If `research.md` does NOT exist**:
@@ -79,6 +81,7 @@ Using the template and principles loaded in Step 1 and the research findings fro
 - **Follow specs/design.md template structure and generation instructions strictly**
 - **Satisfy the behavior scenarios**: if `behaviors.md` exists, every scenario must be realizable by the design — walk each scenario through the designed components and note which components realize it. A scenario the design cannot produce is a design gap; a design behavior that contradicts a scenario's `Grounds:` is concept drift — stop and report, don't design around it
 - **Integrate all discovery findings**: Use researched information (APIs, patterns, technologies) throughout component definitions, architecture decisions, and integration points
+- **Stop on contradiction**: if a research claim conflicts with what the code or the environment actually shows, do not design around the discrepancy — stop and report it. The claim, not the design, is what needs fixing. Re-investigation belongs to `/sdd-spec-research`
 - If existing design.md found in Step 1, use it as reference context (merge mode)
 - Apply design rules: Type Safety, Visual Communication, Formal Tone
 - Use language specified in spec.json

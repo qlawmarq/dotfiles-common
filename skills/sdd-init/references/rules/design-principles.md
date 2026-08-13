@@ -139,17 +139,11 @@
 
 ### Error/Testing/Security/Performance Sections
 
-- Record only feature-specific decisions or deviations. Link or reference organization-wide standards (steering) for baseline practices instead of restating them.
+- Record only feature-specific decisions or deviations; reference steering for baseline standards.
 
-### Diagram & Text Deduplication
+### Deduplication
 
-- Do not restate diagram content verbatim in prose. Use the text to highlight key decisions, trade-offs, or impacts that are not obvious from the visual.
-- When a decision is fully captured in the diagram annotations, a short “Key Decisions” bullet is sufficient.
-
-### General Deduplication
-
-- Avoid repeating the same information across Overview, Architecture, and Components. Reference earlier sections when context is identical.
-- If a requirement/component relationship is captured in the summary table, do not rewrite it elsewhere unless extra nuance is added.
+Governed by `docs/settings/rules/document-hygiene.md`. In design.md the usual offenders are prose restating a diagram or a summary table, and the same point repeated across Overview / Architecture / Components.
 
 ## Diagram Guidelines
 
