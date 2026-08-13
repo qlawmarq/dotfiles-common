@@ -3,7 +3,7 @@ name: sdd-canon-propose
 description: >-
   Draft a delta proposal against the canon (ADDED/MODIFIED/REMOVED) — the only
   write path into ratified concept decisions and registry norms. Scaffolds the
-  canon layer on first use. Merging happens only via /sdd-ratify.
+  canon layer on first use. Merging happens only via /sdd-canon-ratify.
 argument-hint: "\"change description\" [--from=<spec-or-session>]"
 ---
 
@@ -11,8 +11,8 @@ argument-hint: "\"change description\" [--from=<spec-or-session>]"
 
 <background_information>
 
-- **Mission**: Turn a proposed change to canon content — concept decisions, registry entries — into a well-formed delta proposal awaiting ratification, instead of a direct edit. Drafting is free and fast here; force is granted only in `/sdd-ratify` (`canon-layer.md §Change Control`).
-- **The proposal is the session script.** `/sdd-ratify` presents from this file's fields, records verdicts into it, and archives it as the permanent audit trail. A proposal only a canon insider can read produces a session only a canon insider can judge — the exact failure this layer exists to prevent.
+- **Mission**: Turn a proposed change to canon content — concept decisions, registry entries — into a well-formed delta proposal awaiting ratification, instead of a direct edit. Drafting is free and fast here; force is granted only in `/sdd-canon-ratify` (`canon-layer.md §Change Control`).
+- **The proposal is the review script.** `/sdd-canon-ratify` presents this file's sections verbatim, records verdicts into it, and archives it as the permanent audit trail — so organize it by target file/section, and write it for a reader who has not opened a canon file. A proposal only a canon insider can read produces a review only a canon insider can judge — the exact failure this layer exists to prevent.
 - **Success Criteria**:
   - Deltas stated against the **current ratified state**.
   - Every item judgeable by someone who has not read the canon, and carrying grounds and a declared tier.
@@ -37,7 +37,7 @@ Read `docs/settings/rules/canon-layer.md` (structure, change control), `docs/set
 
 1. Resolve the canon root from `docs/steering/product.md §Canon References` (default `docs/canon/`).
 2. **If it does not exist**: propose scaffolding it from `docs/settings/templates/canon/` — `README.md`, `decisions/`, `registry.md`, `proposals/`, `proposals/archive/` — and, with the user's confirmation, create it and add the Canon References declaration to `product.md` (steering changes by present-diff-and-confirm; the declaration is a pointer, not a norm).
-3. **If it exists but is not structured** — a pre-existing document set moved into the canon root, with no `README.md`, `registry.md`, or `proposals/`: propose completing the scaffold *around* the existing files without rewriting their content. Everything already there is `draft` until ratified, however long it has been treated as settled — the material was never judged item by item, which is exactly why it is being brought under this process. Adopting a corpus is **several proposals, one per topic cluster**, each sized to one ratification timebox; present the clusters you found and let the user pick the first.
+3. **If it exists but is not structured** — a pre-existing document set moved into the canon root, with no `README.md`, `registry.md`, or `proposals/`: propose completing the scaffold *around* the existing files without rewriting their content. Everything already there is `draft` until ratified, however long it has been treated as settled — the material was never judged, which is exactly why it is being brought under this process. Adopting a corpus is **several proposals, one per topic cluster**, each sized to the reading budget (`ratification.md §Section Review`); an adoption proposal lists files as its sections, and ratification reviews at file granularity. Present the clusters you found and let the user pick the first.
 
 ## Step 2: Establish the Current Ratified State
 
@@ -46,22 +46,18 @@ Read `docs/settings/rules/canon-layer.md` (structure, change control), `docs/set
 
 ## Step 3: Draft the Proposal
 
-Create `<canon-root>/proposals/YYYY-MM-DD-<slug>.md` from `docs/settings/templates/canon/proposal.md`. The template's per-item shape is the contract; fill every field.
+Create `<canon-root>/proposals/YYYY-MM-DD-<slug>.md` from `docs/settings/templates/canon/proposal.md`. The template's shape is the contract: one `##` per target file/section (the review round presents one at a time), one `###` per item with a one-line summary, the final `Text` (MODIFIED restates the whole item with the previous text noted), compact `Grounds`, and an inline `[high-risk: …]` flag where one applies. **Do not also paste an assembled target** — the duplicate leaves the reviewer unable to tell which text is under judgment.
 
-**Cutting into items.** One `###` per judgeable unit, tagged ADDED / MODIFIED / REMOVED. When one target — a decision, a registry domain — contains several units, split it into units and **do not also paste the assembled target**: the duplicate leaves the ratifier unable to tell which text is under judgment. If the assembled result matters, it is produced at merge time, from the verdicts.
+Three things the template cannot enforce:
 
-**Filling the fields.** The template names them; these are the three things it cannot enforce:
-
-- Write for a reader who has not opened a canon file. A bare citation code they would have to resolve across three files is not grounds, and a *what changes* they cannot parse is not a delta.
-- `What you are judging` is the item's weak point, not its tier label. When there genuinely is none, state the derivation (`follows from D12 #3`) — that *is* the minor claim, and it is checkable.
-- An item you cannot ground in a ratified decision is **declared contentious** (floating), never quietly promoted. When that holds for the whole proposal — normal for a first proposal or a brownfield adoption — say it once in `caveats` rather than per item.
-
-**Where content goes.** Enumerable norms become registry entries (proposed IDs, declared scheme); their *why* becomes decision prose. A list drafted into prose violates the registry's single-seat rule from birth. Every delta is `draft` by definition.
+- **Flag honestly.** Anything that conflicts with a ratified item, supersedes or removes one, is irreversible, or floats without ratified grounds carries a `[high-risk: …]` flag — never quietly unflagged. When floating holds for the whole proposal — normal for a first proposal or a brownfield adoption — say it once in `caveats` rather than per item. Grounds stay compact but never a bare citation code the reader must resolve across three files.
+- **Size to the reading budget.** A proposal whose new/changed text exceeds ~1,000–2,500 words (`ratification.md §Section Review`) is pre-split into section clusters, each ratifiable in one session.
+- **Where content goes.** Enumerable norms become registry entries (proposed IDs, declared scheme); their *why* becomes decision prose. A list drafted into prose violates the registry's single-seat rule from birth. Every delta is `draft` by definition.
 
 ## Step 4: Hand Off
 
 - Report the proposal path and a per-item one-line summary — a listing, not the ratification presentation.
-- State plainly: **nothing in this proposal has any force yet.** Next step: `/sdd-ratify <proposal-file>`.
+- State plainly: **nothing in this proposal has any force yet.** Next step: `/sdd-canon-ratify <proposal-file>`.
 - Do not start the ratification dialogue here, even if the user seems ready — the judge should arrive with the deltas laid out, not mid-generation.
 
 ## Important Constraints
@@ -83,7 +79,7 @@ Resolve the output language from `docs/settings/templates/specs/init.json` `lang
 
 1. **Current state**: affected items and their statuses, with citations.
 2. **Proposal summary**: path, delta counts, contentious items declared.
-3. **Next step**: the exact `/sdd-ratify` invocation.
+3. **Next step**: the exact `/sdd-canon-ratify` invocation.
 
 **Format**: concise Markdown, under 300 words excluding the proposal file.
 

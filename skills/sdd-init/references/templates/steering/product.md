@@ -22,7 +22,7 @@ registry — structure: docs/settings/rules/canon-layer.md), declare the root he
 skills can resolve it (concept-alignment lens). Delete this section if product.md is the
 sole canon. If contents disagree, the canon is authoritative; for enumerable norms its
 registry.md is the sole seat. Only `ratified` content binds (rules/ratification.md);
-changes go through /sdd-canon-propose + /sdd-ratify, never direct edits.
+changes go through /sdd-canon-propose + /sdd-canon-ratify, never direct edits.
 -->
 
 - Canon root: [path, default `docs/canon/` — `README.md` is the index]

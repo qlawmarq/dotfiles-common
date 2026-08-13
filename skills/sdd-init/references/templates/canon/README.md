@@ -2,9 +2,9 @@
 
 [One paragraph: what this canon governs. This directory is the product's decision record — structure and change control per `docs/settings/rules/canon-layer.md`.]
 
-- **Change control**: content here changes only via a delta proposal (`proposals/`) ratified in a `/sdd-ratify` session. Agents never edit ratified content directly.
+- **Change control**: content here changes only via a delta proposal (`proposals/`) ratified in a `/sdd-canon-ratify` session. Agents never edit ratified content directly.
 - **ID scheme**: decisions `D<NN>` (e.g. `D01`), registry entries `<DOMAIN>-<NN>` (e.g. `FAC-01`). IDs are immutable and never renumbered.
-- **Audit**: the two anchored commands in `docs/settings/rules/ratification.md` §Grep Contract list everything the human has judged, with dates. Run them from this directory.
+- **Audit**: the commands in `docs/settings/rules/ratification.md` §Grep Contract list everything the human has judged, with dates. Run them from this directory; they are not restated here by design.
 
 ## Decision Log (current view)
 
@@ -27,4 +27,4 @@ Gaps found mid-work are filed here (or drafted as proposals) — never resolved 
 ## Proposals
 
 - In flight: see `proposals/*.md`
-- Resolved (ratified, rejected, withdrawn): `proposals/archive/` — the permanent audit trail, including verbatim session Q&A.
+- Resolved (ratified, rejected, withdrawn): `proposals/archive/` — the permanent audit trail: verdict tables and final text.

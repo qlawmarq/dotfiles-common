@@ -7,36 +7,28 @@
 - **affected**: [decision IDs and registry IDs this touches]
 - **caveats**: [only when true — grounds sit outside ratified canon, a rule was deviated from, a dependency is still draft. Delete this line otherwise.]
 
-## Items
-
 <!--
-One ### per judgeable unit, tagged ADDED / MODIFIED / REMOVED. When one target
-(a decision, a registry domain) contains several units, split it into units —
-do not also paste the assembled target; the duplicate is what makes proposals
-unjudgeable. Fields below are the seats /sdd-ratify presents from.
+One ## per target file/section — the review round in /sdd-canon-ratify presents
+one ## section at a time, so size each to the reading budget in ratification.md
+§Section Review. One ### per item, tagged ADDED / MODIFIED / REMOVED, with an
+inline [high-risk: …] flag when it is one; no flag = low-risk, covered by the
+section verdict. Text is the final normative text as it will stand in canon —
+never paste an assembled target alongside it.
 -->
 
-### A1. [short title a human can hold in their head] — ADDED
+## [target file §section]  <!-- e.g. ## registry.md §Facilities (FAC) -->
 
-**What changes**: [1–2 plain sentences — what is different once this is ratified, and for whom. No term the item itself does not define.]
+### [ID]. [one-line summary — what changes and why, plainly] — ADDED  [high-risk: conflicts with <ID> | supersedes <ID> | irreversible | floating]
 
-**What you are judging**: [the real question: the conflict, the trade-off, the thing that could be wrong. When there is none, state the derivation instead — "follows from `<ID>`" — and that is the minor claim.]
-
-**Example**: [contentious items only. "Under this item, in situation X, Y happens." One case, real names and values.]
-
-**Item**: [the full normative text as it will stand in canon — MODIFIED restates the entire item.]
+**Text**: [the full normative text as it will stand in canon]
 *(Previously: [old text] — MODIFIED only.)*
-
-**Grounds**: [what it derives from, in words the reader can act on — not bare citation codes]
-**Tier**: contentious (structural | irreversible | conflicts with `<ID>` | floating | cross-catalog break) | minor
+**Grounds**: [what it derives from, ID plus a short phrase the reader can act on — not a bare citation code]
 
 ---
 
 ## Ratification Record
 
-<!-- Appended by /sdd-ratify. Verdicts per item with date + granularity; session Q&A verbatim below. -->
+<!-- Appended by /sdd-canon-ratify. One row per verdict; amended text lives in the Items above. -->
 
-| Item | Verdict | Date | Granularity |
+| Section | Verdict | Date | Granularity |
 | --- | --- | --- | --- |
-
-### Session Q&A (verbatim)

@@ -215,12 +215,36 @@ deploy_skill_set() {
     done
 }
 
+# Skills renamed/retired upstream. Explicit list only — never "delete anything
+# not in source", which would destroy user-authored skills in the same dir.
+RETIRED_SKILLS="sdd-ratify"
+RETIRED_REMOVED=""
+
+remove_retired_skills() {
+    local dest_base="$1"
+    local name
+    for name in $RETIRED_SKILLS; do
+        if [ -d "$dest_base/$name" ]; then
+            rm -rf "$dest_base/$name"
+            append_csv RETIRED_REMOVED "$dest_base/$name"
+        fi
+    done
+}
+
 case "$TARGET" in
-    claude) deploy_skill_set ".claude/skills" ;;
-    agents) deploy_skill_set ".agents/skills" ;;
+    claude)
+        deploy_skill_set ".claude/skills"
+        remove_retired_skills ".claude/skills"
+        ;;
+    agents)
+        deploy_skill_set ".agents/skills"
+        remove_retired_skills ".agents/skills"
+        ;;
     all)
         deploy_skill_set ".claude/skills"
         deploy_skill_set ".agents/skills"
+        remove_retired_skills ".claude/skills"
+        remove_retired_skills ".agents/skills"
         ;;
 esac
 
@@ -284,6 +308,7 @@ templates_count=${TEMPLATES_COUNT}
 skills_count=${SKILLS_COUNT}
 steering_created=${STEERING_CREATED:-none}
 steering_skipped=${STEERING_SKIPPED:-none}
+retired_removed=${RETIRED_REMOVED:-none}
 claude_md=${CLAUDE_MD_STATUS}
 agents_md=${AGENTS_MD_STATUS}
 warnings=${WARNINGS:-none}

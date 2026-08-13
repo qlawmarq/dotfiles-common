@@ -249,7 +249,7 @@ If `docs/steering/product.md §Canon References` declares a canon root containin
 - **Non-destructive**: If anything fails, the spec stays in `todo/` untouched
 - **Steering sync never blocks**: Drift is surfaced only after the feature is committed, requires user confirmation, and lands in its own `docs(steering):` commit — never bundled with the feature commit and never a GO/NO-GO gate
 - **Steering stays lean**: Additive only, pattern-level only; "no update needed" is the expected outcome for most features
-- **Canon is read-only here**: The registry cross-check (Step 6) reports and updates bookkeeping columns only (with confirmation) — norm text, statuses, and decisions change exclusively via `/sdd-canon-propose` + `/sdd-ratify`
+- **Canon is read-only here**: The registry cross-check (Step 6) reports and updates bookkeeping columns only (with confirmation) — norm text, statuses, and decisions change exclusively via `/sdd-canon-propose` + `/sdd-canon-ratify`
 
 </instructions>
 

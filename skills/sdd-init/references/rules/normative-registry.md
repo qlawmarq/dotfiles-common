@@ -26,7 +26,7 @@ One file, `<canon-root>/registry.md` (template: `docs/settings/templates/canon/r
 
 - **ID** — immutable public identifier, `<DOMAIN>-<NN>` (e.g. `FAC-01`); scheme declared in the canon README. Never renumber; a retired ID stays retired.
 - **Norm** — the normative statement, 1–2 lines. Longer means it is prose, not a registry entry — it belongs in `decisions/` with a registry entry pointing at it.
-- **Status** — `draft` / `ratified: YYYY-MM-DD (item|batch)` / `superseded-by: <ID>` / `deprecated` (vocabulary: `ratification.md`). The granularity marker is part of the status, not decoration: it records whether the human judged this entry on its own or inside an enumerated batch.
+- **Status** — `draft` / `ratified: YYYY-MM-DD (item|batch)` / `superseded-by: <ID>` / `deprecated` (vocabulary: `ratification.md`). The granularity marker is part of the status, not decoration: it records whether the human judged this entry on its own (`item`) or within an approved section (`batch`).
 - **Grounds** — the prose decision this norm derives from (decision ID). An entry with no grounds is a floating norm: a contentious item by definition.
 - **Verification** — what enforces conformance: a test path, a lint rule, or `manual`. A norm nothing enforces is a hope, not a norm — `manual` is honest and acceptable; blank is not.
 - **Consumers** — who has adopted it: plan rows, spec names, code identifiers (e.g. `greybox-plan P1-24`, `game/sim/spot.gd Spot.Kind`). This column is what makes impact analysis and reverse-orphan detection possible.

@@ -45,7 +45,7 @@ Ratified content is immutable. A change is never an edit in place:
 
 - **Agents never edit canon-root content directly.** Not in spec sessions, not in dialogue sessions, not in steering sync. This includes "harmless" edits — wording, formatting, reordering — because edit access is how unratified content leaks into ratified files.
 - Every change enters as a **delta proposal**: `proposals/YYYY-MM-DD-<slug>.md`, drafted freely by agent or human (`/sdd-canon-propose`). A proposal states `ADDED / MODIFIED / REMOVED` items against the current ratified state; a MODIFIED item restates the entire item with its previous value noted.
-- A proposal gains force **only** through a ratification session (`/sdd-ratify`, protocol in `ratification.md`). On ratification: deltas merge into `decisions/` and `registry.md`, statuses update, and the proposal — with its verdict stream and Q&A preserved verbatim — moves to `proposals/archive/`.
+- A proposal gains force **only** through a ratification session (`/sdd-canon-ratify`, protocol in `ratification.md`). On ratification: deltas merge into `decisions/` and `registry.md`, statuses update, and the proposal — carrying its verdict table and final text — moves to `proposals/archive/`.
 - Rejected and withdrawn proposals archive too. What was declined, and why, is part of the audit trail.
 - A gap discovered mid-spec (missing decision, canon-vs-implementation divergence) is **filed as an open question in the canon README, or drafted as a proposal — never resolved inline**. The spec works around it or waits.
 

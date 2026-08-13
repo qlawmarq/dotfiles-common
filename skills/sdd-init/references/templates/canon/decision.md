@@ -11,9 +11,9 @@
 ## Decision
 
 <!--
-One numbered item per judgeable unit — the ratification unit is the item, not the file.
-Each ratified item carries its own marker. Never bulk-mark a block "N items ratified"
-without the per-item markers beneath it.
+One numbered item per unit. Each ratified item carries its own marker — a section
+verdict marks its items `(batch)`, an individually examined item `(item)`. Never
+bulk-mark a block "N items ratified" without the per-item markers beneath it.
 -->
 
 1. [Normative statement.] — `ratified: YYYY-MM-DD (item)`

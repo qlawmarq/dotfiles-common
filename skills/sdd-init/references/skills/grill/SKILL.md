@@ -124,7 +124,7 @@ Once confirmed, route each settled decision to the artifact that owns it, follow
 
 - An open question declared in `requirements.md` or `design.md` is resolved in that file.
 - A project-wide rule belongs in `docs/steering/` — propose it, and hand off to `/sdd-steering-custom` if it warrants its own file.
-- **Canon content is handed off, never landed here**: a canon-level decision or a registry norm is filed as a delta proposal via `/sdd-canon-propose` and gains force only through `/sdd-ratify` (rules: `canon-layer.md`, `ratification.md`). Recording the settled outcome into the proposal *is* the landing — grilling settles what the answer should be; ratification is where it becomes binding. A steering change (product policy, scope, a `behaviors.md` invariant) lands here by present-diff-and-confirm, presented one item at a time.
+- **Canon content is handed off, never landed here**: a canon-level decision or a registry norm is filed as a delta proposal via `/sdd-canon-propose` and gains force only through `/sdd-canon-ratify` (rules: `canon-layer.md`, `ratification.md`). Recording the settled outcome into the proposal *is* the landing — grilling settles what the answer should be; ratification is where it becomes binding. A steering change (product policy, scope, a `behaviors.md` invariant) lands here by present-diff-and-confirm, presented one item at a time.
 - A unit boundary or ordering change belongs in the inception plan.
 - A decision governed by any additional change-control process the project documents is **filed into that process, not written directly**. Check the root `CLAUDE.md` / `AGENTS.md` before writing to any layer.
 
