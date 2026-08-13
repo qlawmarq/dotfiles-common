@@ -28,7 +28,7 @@ disable-model-invocation: true
 
 ## Methodology
 
-Read `docs/settings/rules/ratification.md` — the protocol this skill executes. Read `canon-layer.md` only at merge (Stage 2), `normative-registry.md` only if the target touches `registry.md`. Retrieval, inlined: gather grounds and dependents by JIT grep — never bulk-load the canon; hold citations and answer with them when asked; never ask the user for facts the repository can answer.
+Read `docs/settings/rules/ratification.md` — the protocol this skill executes. From the same directory, read `canon-layer.md` only at merge (Stage 2), `normative-registry.md` only if the target touches `registry.md`. Retrieval, inlined: gather grounds and dependents by JIT grep — never bulk-load the canon; hold citations and answer with them when asked; never ask the user for facts the repository can answer.
 
 ## Stage 0 — Prepare
 
@@ -66,11 +66,12 @@ Rules in every round:
 ## Stage 2 — Record, Apply, Review
 
 1. **Record first.** Append the verdict table (section, verdict, date, granularity) to the seat's Ratification Record. Amended text already lives in the proposal — the archived proposal *is* the record. No Q&A transcription.
-2. **Apply directly.** Copy the proposal's final text (post-amendment) verbatim into `decisions/` / `registry.md`; markers in the anchored format `ratified: YYYY-MM-DD (item|batch)`; supersession cross-references both ways; deferred items → canon-README open-question rows; decision-log rows; proposal → `proposals/archive/` (date-prefixed name kept) or `partially-ratified`.
+2. **Apply directly.** Copy the proposal's final text (post-amendment) verbatim into `decisions/` / `registry.md`; markers in the anchored format `ratified: YYYY-MM-DD (item|batch)`; supersession cross-references both ways; deferred items → canon-README open-question rows; decision-log rows (bare status word only); proposal → `proposals/archive/` (date-prefixed name kept) or `partially-ratified`.
 3. **Review the diff against the proposal file, never memory.** Every hunk traces to a proposal Text block or a recorded amendment — the check for invention; changed files equal the approved sections' targets; the `ratification.md §Grep Contract` commands return the expected results. Commit as its own `docs(canon):` commit, never bundled with implementation changes.
 
 ## Important Constraints
 
+- **The verdict is the only pause** — plus the Stage 0 split question when over budget. Stage 0 then flows into section 1; a verdict advances to the next section in the same reply; Stage 2 runs record → apply → review → commit to the end. The granted verdicts are the authorization — never ask permission to continue.
 - Do NOT draft new norms here. A gap found mid-session defers to the canon README or `/sdd-canon-propose`; amending presented text is the one exception, and it re-presents before it merges.
 - Do NOT merge anything whose verdict was not explicitly given this session or recorded previously.
 
@@ -85,7 +86,7 @@ Rules in every round:
 
 Resolve the output language from `docs/settings/templates/specs/init.json` `language` (default `ja`); render everything in it, scaffold labels included. Verdict words and status markers stay English (`ratification.md §Verdict Vocabulary`), glossed on first use.
 
-**Format**: Markdown, one section per message — present, then wait. Never present a section and its verdict in the same breath. Session close reports per-section verdicts, landing paths, archive location, and the audit commands.
+**Format**: Markdown. Stage 1 is one round per message — present, then wait; never present a section and its verdict in the same breath. Session close reports per-section verdicts, landing paths, archive location, and the audit commands.
 
 ## Safety & Fallback
 

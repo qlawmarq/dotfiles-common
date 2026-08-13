@@ -28,10 +28,10 @@ Ratified markers live **only** in `decisions/` and `registry.md` — an item who
 ```
 grep -rnE '`ratified: [0-9]{4}-[0-9]{2}-[0-9]{2} \((item|batch)\)`' <canon-root>/decisions/
 grep -nE '^\|.*ratified: [0-9]{4}-[0-9]{2}-[0-9]{2} \((item|batch)\)' <canon-root>/registry.md
-grep -rn 'ratified:' <canon-root> --include='*.md' | grep -vE '(decisions/|registry\.md|proposals/)'   # stray sweep — must return nothing
+grep -rn 'ratified:' <canon-root> --include='*.md' --exclude-dir=decisions --exclude-dir=proposals --exclude=registry.md   # stray sweep — must return nothing
 ```
 
-The anchors are load-bearing: decision markers inline in backticks, registry markers in a table cell at line start. Never write the marker in a third format, and never restate these commands inside the canon root (measured: doing so produces its own false positives) — canon files point here instead.
+The anchors are load-bearing: decision markers inline in backticks, registry markers in a table cell at line start. Never write the marker in a third format, and never restate these commands inside the canon root (measured: doing so produces its own false positives) — canon files point here instead. The sweep excludes by **path**, never by line content: a README row linking to `decisions/` would otherwise exclude itself.
 
 ## Section Review
 

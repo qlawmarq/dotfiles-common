@@ -8,6 +8,8 @@
 
 ## Decision Log (current view)
 
+<!-- Derived index. Status is the bare word (draft | ratified | superseded | deprecated) — dated `ratified: … (item|batch)` markers live only in decisions/ and registry.md, so the stray sweep stays meaningful. Put the date in its own column if you want it here. -->
+
 | ID | Decision | Status | File |
 | --- | --- | --- | --- |
 | D01 | [one-line title] | draft | [decisions/d01-slug.md](decisions/d01-slug.md) |

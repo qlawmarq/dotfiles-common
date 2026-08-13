@@ -10,7 +10,8 @@
 <!--
 One ## per target file/section — the review round in /sdd-canon-ratify presents
 one ## section at a time, so size each to the reading budget in ratification.md
-§Section Review. One ### per item, tagged ADDED / MODIFIED / REMOVED, with an
+§Section Review. The trailing ## Ratification Record is the one exception: it is
+the record seat, never a review round. One ### per item, tagged ADDED / MODIFIED / REMOVED, with an
 inline [high-risk: …] flag when it is one; no flag = low-risk, covered by the
 section verdict. Text is the final normative text as it will stand in canon —
 never paste an assembled target alongside it.
@@ -28,7 +29,7 @@ never paste an assembled target alongside it.
 
 ## Ratification Record
 
-<!-- Appended by /sdd-canon-ratify. One row per verdict; amended text lives in the Items above. -->
+<!-- Appended by /sdd-canon-ratify. One row per verdict; amended text lives in the sections above. -->
 
 | Section | Verdict | Date | Granularity |
 | --- | --- | --- | --- |

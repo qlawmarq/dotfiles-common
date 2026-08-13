@@ -15,7 +15,7 @@ argument-hint: "\"change description\" [--from=<spec-or-session>]"
 - **The proposal is the review script.** `/sdd-canon-ratify` presents this file's sections verbatim, records verdicts into it, and archives it as the permanent audit trail — so organize it by target file/section, and write it for a reader who has not opened a canon file. A proposal only a canon insider can read produces a review only a canon insider can judge — the exact failure this layer exists to prevent.
 - **Success Criteria**:
   - Deltas stated against the **current ratified state**.
-  - Every item judgeable by someone who has not read the canon, and carrying grounds and a declared tier.
+  - Every item judgeable by someone who has not read the canon, and carrying grounds and an honest risk flag.
   - No canon or registry file was edited.
 
 </background_information>
@@ -31,7 +31,7 @@ If no input is given, list the canon README's open questions and ask which to dr
 
 ## Methodology
 
-Read `docs/settings/rules/canon-layer.md` (structure, change control), `docs/settings/rules/ratification.md` (status vocabulary, what makes an item contentious), and `docs/settings/rules/document-hygiene.md`. Read `normative-registry.md` **only if** the change touches enumerable norms. Follow `dialogue-grounding.md` for retrieval and citations.
+Read `docs/settings/rules/canon-layer.md` (structure, change control), `docs/settings/rules/ratification.md` (§Status Vocabulary, and §Section Review for what a reviewable section is and the reading budget), and `docs/settings/rules/document-hygiene.md`. From the same directory, read `normative-registry.md` **only if** the change touches enumerable norms. Retrieval and citation, inlined: JIT-grep the canon, never bulk-load it; every claim carries a repo-relative path plus the narrowest locator (`<file> §<section>`, or `registry.md #FAC-01` with its status); never ask the user for facts the repository can answer.
 
 ## Step 1: Resolve or Scaffold the Canon Root
 
@@ -78,7 +78,7 @@ Three things the template cannot enforce:
 Resolve the output language from `docs/settings/templates/specs/init.json` `language` (default `ja`) and write the proposal and the report in it. Status markers stay English (`ratification.md`).
 
 1. **Current state**: affected items and their statuses, with citations.
-2. **Proposal summary**: path, delta counts, contentious items declared.
+2. **Proposal summary**: path, delta counts, high-risk flags declared.
 3. **Next step**: the exact `/sdd-canon-ratify` invocation.
 
 **Format**: concise Markdown, under 300 words excluding the proposal file.
@@ -89,4 +89,4 @@ Resolve the output language from `docs/settings/templates/specs/init.json` `lang
 - **Scaffold declined**: without a canon root there is nowhere to file. Record nothing, tell the user what was *not* created, and stop.
 - **Change is not normative** (a mechanical tech/structure fact, a spec-internal detail): say it needs no proposal and name the right path (`/sdd-steering` sync, or the owning spec skill).
 - **Collision with an in-flight proposal**: present both, recommend merge or sequencing, let the user choose before drafting.
-- **An item resists a plain-language *what changes***: that is a signal the unit is too big or not yet understood — split it, or file it as an open question instead of drafting around the gap.
+- **An item resists a plain-language one-line summary**: that is a signal the unit is too big or not yet understood — split it, or file it as an open question instead of drafting around the gap.
