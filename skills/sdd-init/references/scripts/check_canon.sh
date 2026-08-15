@@ -75,7 +75,8 @@ if [ "$CMD" = "used-by" ]; then
             esac
         done
         add=""                                                                                # doc-side references not yet in the cell
-        for d in $(grep -rlw "$id" docs/tasks docs/inception 2>/dev/null | sed -E 's#^docs/tasks/(todo|done)/([^/]+)/.*#spec:\2#; s#^docs/inception/([^/]+)/.*#plan:\1#' | sort -u); do
+        # a spec binds itself to a norm in requirements/design/behaviors; probe, research and tasks are process records and do not make it a consumer
+        for d in $({ grep -rlw --include=requirements.md --include=design.md --include=behaviors.md "$id" docs/tasks; grep -rlw "$id" docs/inception; } 2>/dev/null | sed -E 's#^docs/tasks/(todo|done)/([^/]+)/.*#spec:\2#; s#^docs/inception/([^/]+)/.*#plan:\1#' | sort -u); do
             echo "$cell" | grep -q "${d%%:*}: *${d#*:}" || add="$add $d"
         done
         [ -n "$add" ] && echo "$id: suggest adding$(echo "$add" | sed 's/:/: /g') to Used by"
