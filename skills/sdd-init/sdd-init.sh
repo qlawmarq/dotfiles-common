@@ -144,6 +144,7 @@ mkdir -p docs/settings/rules \
          docs/settings/templates/steering-custom \
          docs/settings/templates/inception \
          docs/settings/templates/canon \
+         docs/settings/scripts \
          docs/steering \
          docs/inception \
          docs/tasks/done \
@@ -156,6 +157,27 @@ cp "$SRC"/templates/steering/* docs/settings/templates/steering/ 2>/dev/null || 
 cp "$SRC"/templates/steering-custom/* docs/settings/templates/steering-custom/ 2>/dev/null || append_csv ERRORS "steering_custom_copy_failed"
 cp "$SRC"/templates/inception/* docs/settings/templates/inception/ 2>/dev/null || append_csv ERRORS "inception_tpl_copy_failed"
 cp "$SRC"/templates/canon/* docs/settings/templates/canon/ 2>/dev/null || append_csv ERRORS "canon_tpl_copy_failed"
+if [ -d "$SRC/scripts" ]; then
+    cp "$SRC"/scripts/* docs/settings/scripts/ 2>/dev/null || append_csv ERRORS "scripts_copy_failed"
+    chmod +x docs/settings/scripts/*.sh 2>/dev/null
+fi
+SCRIPTS_COUNT=$(find docs/settings/scripts -type f 2>/dev/null | wc -l | tr -d ' ')
+
+# Rules/templates retired upstream. Explicit list only — cp never removes, so a stale
+# rule would keep being loaded by skills that no longer reference it.
+RETIRED_RULES="ratification.md normative-registry.md"
+RETIRED_TEMPLATES="canon/proposal.md"
+RETIRED_RULES_REMOVED=""
+for name in $RETIRED_RULES; do
+    if [ -f "docs/settings/rules/$name" ]; then
+        rm -f "docs/settings/rules/$name"; append_csv RETIRED_RULES_REMOVED "rules/$name"
+    fi
+done
+for name in $RETIRED_TEMPLATES; do
+    if [ -f "docs/settings/templates/$name" ]; then
+        rm -f "docs/settings/templates/$name"; append_csv RETIRED_RULES_REMOVED "templates/$name"
+    fi
+done
 
 RULES_COUNT=$(find docs/settings/rules -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
 TEMPLATES_COUNT=$(find docs/settings/templates -type f 2>/dev/null | wc -l | tr -d ' ')
@@ -217,7 +239,7 @@ deploy_skill_set() {
 
 # Skills renamed/retired upstream. Explicit list only — never "delete anything
 # not in source", which would destroy user-authored skills in the same dir.
-RETIRED_SKILLS="sdd-ratify"
+RETIRED_SKILLS="sdd-ratify sdd-canon-propose sdd-canon-ratify"
 RETIRED_REMOVED=""
 
 remove_retired_skills() {
@@ -306,9 +328,11 @@ mode=${MODE}
 rules_count=${RULES_COUNT}
 templates_count=${TEMPLATES_COUNT}
 skills_count=${SKILLS_COUNT}
+scripts_count=${SCRIPTS_COUNT:-0}
 steering_created=${STEERING_CREATED:-none}
 steering_skipped=${STEERING_SKIPPED:-none}
 retired_removed=${RETIRED_REMOVED:-none}
+retired_rules_removed=${RETIRED_RULES_REMOVED:-none}
 claude_md=${CLAUDE_MD_STATUS}
 agents_md=${AGENTS_MD_STATUS}
 warnings=${WARNINGS:-none}

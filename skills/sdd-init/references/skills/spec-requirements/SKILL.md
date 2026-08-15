@@ -63,7 +63,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Present the draft together with your questions, and iterate with the user — a concrete draft is easier to react to than a long upfront questionnaire
    - When a gap affects scope, behavior, or acceptance criteria, **ask** before writing the affected requirement; only proceed on trivial/reversible gaps, and only by logging them as assumptions
    - Offer additions you think might be wanted as *proposals* ("Did you also want X? I'll leave it out unless you confirm"), defaulting to leaving them out
-   - Before finishing, give a short confirmation summary covering both what you included and **what you deliberately left out of scope**, and get the user's confirmation
+   - Before finishing, give a short confirmation summary covering both what you included and **what you deliberately left out of scope**, and get the user's confirmation. When a canon layer is declared (`docs/steering/product.md §Canon References`), open that summary with the `## Canon changes` section from Step 8 — the same yes covers both
 
 6. **Finalize Requirements**:
    - Group related functionality into logical requirement areas
@@ -77,6 +77,11 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Set `phase: "requirements-generated"`
    - Set `approvals.requirements.generated: true`
    - Update `updated_at` timestamp
+
+8. **Canon changes** (only when a canon layer is declared; protocol: `docs/settings/rules/canon-layer.md §Change Control`):
+   - Draft time (Step 4): grep the canon JIT for the decisions and registry IDs the feature touches. Product-level decisions the user settled in dialogue, new enumerable norms, and registry IDs this feature adopts (`Used by` += `spec: <feature-dir-name>`) are edited into the canon working tree; requirements.md cites decisions/IDs and never copies them
+   - Present the changed sections in full at the top of the Step 5 confirmation summary; an overturned decision or changed Norm (R2) is shown first as *previous → new* with its own confirmation
+   - After the user's yes: commit only the canon files edited here — `docs(canon): requirements <feature-name>` — as its own commit. Nothing to change → `Canon changes: none`
 
 ## Important Constraints
 

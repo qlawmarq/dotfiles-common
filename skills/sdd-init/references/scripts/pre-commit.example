@@ -1,0 +1,3 @@
+#!/bin/sh
+# Optional git hook: copy to .git/hooks/pre-commit (chmod +x). Flags a canon change bundled with other files.
+exec bash docs/settings/scripts/check_canon.sh commit-scope

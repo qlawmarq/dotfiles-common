@@ -97,6 +97,10 @@ In spec.json:
 - If `behaviors.md` exists: set `approvals.behaviors.approved: true` (add the key if missing)
 - Update `updated_at` timestamp
 
+## Canon changes (only when a canon layer is declared)
+
+Design rarely produces canon-level content — architecture belongs in steering. But a product-level threshold or boundary the design had to settle is one: edit it into the canon working tree per `docs/settings/rules/canon-layer.md §Change Control`, put the `## Canon changes` section (full text of changed sections; R2 items first as *previous → new*) at the top of the output, and ask once whether to commit; on yes commit only those files as `docs(canon): design <feature-name>`. When there is nothing, write nothing — do not print an empty section.
+
 ## Critical Constraints
 
 - **Type Safety**:

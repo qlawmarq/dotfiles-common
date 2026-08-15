@@ -22,7 +22,7 @@ argument-hint: "<feature-name>"
   - Spec moved from `docs/tasks/todo/` to `docs/tasks/done/`
   - Changes committed with project-consistent commit message
   - Steering checked for drift; if the feature introduced new patterns, additive updates are proposed, confirmed by the user, and committed separately
-  - When a canon registry exists: feature-scoped registry cross-check run (non-blocking), orphans and stale consumer flags reported
+  - When a canon layer exists: `Used by` updated for the registry IDs this feature implemented, orphan identifiers reported, `check_canon.sh check` run (non-blocking), canon changes committed separately
 
 </background_information>
 
@@ -231,14 +231,14 @@ If the feature followed existing patterns, report **"Steering current — no upd
 
 For a broad or periodic steering review beyond what this feature touched (e.g. after several merges or a refactor), point the user to `/sdd-steering`, which performs a full-codebase sync.
 
-### Step 6: Registry Cross-Check (non-blocking, when a canon registry exists)
+### Step 6: Canon Sync (non-blocking, when a canon layer exists)
 
-If `docs/steering/product.md §Canon References` declares a canon root containing `registry.md`, run the feature-scoped cross-check from `docs/settings/rules/normative-registry.md §Cross-Check`. Like Step 5, this runs only on GO, after Step 4, and never blocks — it reports; the human routes.
+If `docs/steering/product.md §Canon References` declares a canon root, run the "Canon changes" protocol from `docs/settings/rules/canon-layer.md §Change Control` for this feature — like Step 5, only on GO, after Step 4, never blocking:
 
-- **Scope**: the identifiers this feature introduced or modified (enums, const catalogs, entity types in the changed code) plus registry entries naming this spec or its plan unit as a Consumer. Full-registry sweeps are on-demand, not here.
-- **Both directions**: (a) registry entries whose Consumers should now include (or no longer include) this feature — stale bookkeeping; (b) identifiers in the changed code with **no registry seat** — orphans, the direction that historically goes unwatched.
-- **Routing**: stale Consumers/Verification cells → present the bookkeeping diff, confirm, write (these columns are not ratification-gated). Orphans and contradictions → file as an open question in the canon README or hand to `/sdd-canon-propose`; **never** silently adopt, delete, or edit a norm. Whether an orphan becomes canon is a human verdict, not a sync.
-- Report "Registry aligned — no findings" when clean; that is the expected common outcome.
+1. **`Used by`**: for every registry ID this feature adopted (rows carrying `spec: <this-feature>` plus IDs its code references), append `code: <path Symbol>` in `<canon-root>/registry.md`. The `spec:` entry stays — the spec now lives in `done/`, so the script classifies it as implemented.
+2. **Orphans (the direction that historically goes unwatched)**: grep the enums / const catalogs this feature touched; an identifier with no registry row is reported. Norm → propose the row in the Canon changes section and take one confirmation; implementation detail → ignore; unsure → an Open Question in the canon README. Never silently adopt or delete a norm.
+3. Run `bash docs/settings/scripts/check_canon.sh check` and report its findings.
+4. Present `## Canon changes` (full text of changed sections), then commit only the files edited here: `docs(canon): sync after <feature-name>` — its own commit, never bundled with the feature or steering commits. Nothing changed → report "Canon current".
 
 ## Critical Constraints
 
@@ -249,7 +249,7 @@ If `docs/steering/product.md §Canon References` declares a canon root containin
 - **Non-destructive**: If anything fails, the spec stays in `todo/` untouched
 - **Steering sync never blocks**: Drift is surfaced only after the feature is committed, requires user confirmation, and lands in its own `docs(steering):` commit — never bundled with the feature commit and never a GO/NO-GO gate
 - **Steering stays lean**: Additive only, pattern-level only; "no update needed" is the expected outcome for most features
-- **Canon is read-only here**: The registry cross-check (Step 6) reports and updates bookkeeping columns only (with confirmation) — norm text, statuses, and decisions change exclusively via `/sdd-canon-propose` + `/sdd-canon-ratify`
+- **Canon sync never blocks**: Step 6 runs after the feature is committed, presents every changed section in full, pauses only for a new norm or an overturned one (`canon-layer.md` R2), and lands in its own `docs(canon):` commit
 
 </instructions>
 
@@ -279,7 +279,7 @@ Provide output in the language specified in spec.json:
 2. **Completion Actions**: Confirm spec moved and commit created
 3. **Commit Details**: Show commit hash and message
 4. **Steering Sync**: One of — "Steering current — no update needed", "Steering updated (separate commit `<hash>`)", or "Steering update declined"
-5. **Registry Cross-Check** (when a canon registry exists): "Registry aligned — no findings", or the findings with where each was routed (bookkeeping updated / open question filed / proposal drafted)
+5. **Canon Sync** (when a canon layer exists): "Canon current", or the Canon changes landed (commit hash), orphans routed, and `check_canon.sh` findings
 
 **Format**: Concise Markdown, under 300 words
 

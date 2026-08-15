@@ -13,7 +13,7 @@ argument-hint: "[--lang=ja] [--target=claude|agents|all] [--force]"
 - **Mission**: Set up Spec-Driven Development infrastructure in the current project by deploying rules, templates, skills, and project configuration from user-level SDD resources
 - **Success Criteria**:
   - All SDD directory structures created (`docs/settings/`, `docs/steering/`, `docs/tasks/`)
-  - Rules and templates deployed to `docs/settings/`
+  - Rules, templates, and scripts deployed to `docs/settings/`
   - SDD skills deployed to selected target(s): `.claude/skills/sdd-*/` and/or `.agents/skills/sdd-*/`
   - Steering stubs initialized in `docs/steering/`
   - CLAUDE.md and/or AGENTS.md updated with SDD configuration section (based on target)
@@ -135,8 +135,9 @@ Provide output in the language derived from `--lang`:
    - Rules: `rules_count` files deployed
    - Templates: `templates_count` files deployed
    - Skills: `skills_count` skills deployed (to target platform(s))
+   - Scripts: `scripts_count` files deployed to `docs/settings/scripts/`
    - Steering stubs: `steering_created` / `steering_skipped`
-   - Retired skills removed: `retired_removed` (mention only when not `none`)
+   - Retired skills removed: `retired_removed`; retired rules/templates removed: `retired_rules_removed` (mention only when not `none`)
    - CLAUDE.md: `claude_md` status (created / updated / appended / skipped)
    - AGENTS.md: `agents_md` status (created / updated / appended / skipped)
 3. **Configuration**: Language set to `lang_name` (`lang_code`)
@@ -146,7 +147,7 @@ Provide output in the language derived from `--lang`:
    - `marker_warning`: "Inconsistent SDD markers detected. A new section was appended."
 5. **Errors** (if any): Report from `errors` field
 6. **Next Steps** (numbered action items):
-   - When `retired_removed` is not `none`: "Old skill names were removed; project docs (e.g. canon README, steering) may still reference them — update on next touch."
+   - When `retired_removed` or `retired_rules_removed` is not `none`: "Retired skills/rules were removed (`/sdd-canon-propose`, `/sdd-canon-ratify`, `ratification.md`, `normative-registry.md`, `canon/proposal.md`); project docs (canon README, `product.md §Canon References`, CLAUDE.md) may still reference them — update on next touch. Canon now changes through each phase's `Canon changes` section (`docs/settings/rules/canon-layer.md`)."
    - Run `/sdd-steering` to generate project steering from codebase analysis
    - Run `/sdd-steering-custom` to add domain-specific steering (optional)
    - For a large/greenfield effort: run `/sdd-plan "product goal"` to decompose it into right-sized specs

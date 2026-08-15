@@ -17,12 +17,12 @@
 ## Canon References
 
 <!--
-Optional. If the product's philosophy lives in a deeper canon (decision docs + normative
-registry — structure: docs/settings/rules/canon-layer.md), declare the root here so SDD
-skills can resolve it (concept-alignment lens). Delete this section if product.md is the
-sole canon. If contents disagree, the canon is authoritative; for enumerable norms its
-registry.md is the sole seat. Only `ratified` content binds (rules/ratification.md);
-changes go through /sdd-canon-propose + /sdd-canon-ratify, never direct edits.
+Optional. If the product's philosophy lives in a deeper canon (decision docs + registry —
+structure and change control: docs/settings/rules/canon-layer.md), declare the root here so
+SDD skills can resolve it. Delete this section if product.md is the sole canon. If contents
+disagree, the canon is authoritative; enumerable norms live only in its registry.md.
+Committed canon text is in force; it changes through the "Canon changes" section of the
+phase that produced the decision (or /sdd-canon-update), never by a separate ceremony.
 -->
 
 - Canon root: [path, default `docs/canon/` — `README.md` is the index]

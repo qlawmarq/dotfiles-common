@@ -13,7 +13,7 @@ Build the map at runtime from what actually exists. Do not assume any layer is p
 | Layer | Path | What it holds | How to read it |
 | --- | --- | --- | --- |
 | Steering | `docs/steering/` | Project-wide rules and context: `product.md` (why/what), `tech.md`, `structure.md`, plus custom files | Small enough to read fully when the topic is project-wide; otherwise read the file that owns the topic |
-| Canon (optional) | declared in `product.md §Canon References` (default `docs/canon/`) | Ratified product decisions: `decisions/` (the why), `registry.md` (enumerable norms), `proposals/` (pending deltas — no force yet) | `README.md` decision log and `registry.md` are the indexes; JIT-grep decisions by their `keywords` line. Only `ratified` status binds (`canon-layer.md`) |
+| Canon (optional) | declared in `product.md §Canon References` (default `docs/canon/`) | Product decisions: `decisions/` (the why), `registry.md` (enumerable norms); `proposals/archive/`, if present, is history only | `README.md` decision log and `registry.md` are the indexes; JIT-grep decisions by their `keywords` line. Committed text is in force; uncommitted edits bind nothing (`canon-layer.md`) |
 | Inception | `docs/inception/<plan-id>/` | `vision.md`, `units.md`, `dependencies.md`, `story-map.md`, `inception.json` — unit boundaries and build order | Read `inception.json` for the unit→spec map first; `units.md` is often large, so target the relevant unit |
 | Specs | `docs/tasks/todo/<feature>/`, `docs/tasks/done/<feature>/` | `spec.json`, `requirements.md`, `research.md`, `design.md`, `tasks.md` | `spec.json` is small — read all of them freely. The Markdown files are large; open only the ones the question touches |
 | Settings | `docs/settings/rules/`, `docs/settings/templates/` | The methodology itself | Read a rule only when you need the technique it defines |
@@ -40,7 +40,7 @@ Every factual claim carries its source, as a repo-relative path plus the narrowe
 - `docs/steering/product.md` — the section heading, when the file has sections
 - `docs/tasks/done/<feature-name>/design.md §Data Model`
 - `docs/tasks/todo/<feature-name>/spec.json` — `phase`, `approvals.requirements.approved`
-- `<canon-root>/registry.md #FAC-01` — a registry entry, by its immutable ID (include its status when it matters: draft entries bind nothing)
+- `<canon-root>/registry.md #FAC-01` — a registry entry, by its immutable ID
 
 Distinguish three kinds of statement and label them when the difference matters:
 
@@ -64,7 +64,7 @@ A conversation that evaporates when the session ends has produced nothing. Whate
 
 - **Read-only dialogue** (`/sdd-brief`) writes nothing. It answers and cites.
 - **Settled decisions** (`/sdd-grill`) route to the artifact that owns them: an open question in `requirements.md` gets resolved there; a design choice belongs in `design.md`; a project-wide rule belongs in steering; a unit boundary belongs in the inception plan — all subject to the normative-content rule below.
-- **Normative content is never written directly.** A decision that belongs to the canon layer, the normative registry, or steering's normative content (product policies and scope, `behaviors.md` invariants) is filed as a delta proposal (`/sdd-canon-propose`) and gains force only through a ratification session (`/sdd-canon-ratify`) — see `canon-layer.md` and `ratification.md`. Dialogue sessions hand such outcomes off; recording them into a proposal *is* the landing.
+- **Normative content lands under its protocol, never quietly.** A decision that belongs to the canon layer or the registry lands through the "Canon changes" protocol (`canon-layer.md §Change Control`: full text of changed sections shown first, one confirmation for anything overturned, a standalone `docs(canon):` commit after the user's yes). Steering's normative content (product policies and scope, `behaviors.md` invariants) lands by present-diff-and-confirm, one item at a time.
 - **Approved artifacts are not edited silently.** If a spec's `spec.json` shows a phase approved, changing what it says is a re-approval, not an edit. Surface the change and get explicit confirmation before writing.
 - **Change control wins.** If the project documents a process for changing a class of decision — a required separate session, a review gate, an issue-first convention — follow it, even when you have the answer in hand. Record the outcome in whatever intake the process defines and stop there. Check the project's root `CLAUDE.md` / `AGENTS.md` for such conventions before writing to any layer.
 - **Always leave a record.** Even when nothing can be written to a canonical document, end the session with a summary of what was settled and what remains open, so the reasoning survives the session.

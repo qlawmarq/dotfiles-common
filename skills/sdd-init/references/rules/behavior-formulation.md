@@ -33,7 +33,7 @@ Every scenario MUST cite the product purpose it serves — this is **forward tra
 
 - `product.md §<section>` — a purpose, theme, or capability stated in steering
 - A canon decision, when `product.md` declares Canon References (see `concept-alignment.md` for lookup rules)
-- `registry.md #<ID>` — a canon registry entry, the authoritative seat for enumerable norms (`normative-registry.md`); only `ratified` entries ground anything
+- `registry.md #<ID>` — a canon registry entry, the authoritative seat for enumerable norms (`canon-layer.md §Registry`)
 - `steering/behaviors.md #<invariant>` — an established cross-spec invariant
 
 Rules:

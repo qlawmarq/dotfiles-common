@@ -109,7 +109,7 @@ Read `inception-decomposition.md` (§5, §6). Then:
 
 Write `docs/inception/<plan-id>/dependencies.md` (matrix + a Mermaid graph + the ordered build sequence) and `docs/inception/<plan-id>/story-map.md` (every capability mapped to exactly one unit).
 
-**Gate 4**: Review the build order and dependency graph with the user. Run the §7 quality checklist.
+**Gate 4**: Review the build order and dependency graph with the user. Run the §7 quality checklist. When a canon layer is declared (`docs/steering/product.md §Canon References`), open the Gate 4 presentation with a `## Canon changes` section (protocol: `docs/settings/rules/canon-layer.md §Change Control`): product decisions and non-goals from the vision that the canon lacks, registry IDs the units adopt (`Used by` += `plan: <plan-id>/U<n>`), and — first, as *previous → new* with its own confirmation — anything that overturns an existing decision. On GO, before Stage 5, commit only the canon files edited here as `docs(canon): plan <plan-id>`. In `--batch` mode this section joins the single end review.
 
 ### Stage 5 — Scaffold child specs
 

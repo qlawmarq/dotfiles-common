@@ -59,7 +59,7 @@ Following `concept-alignment.md`: identify the product purposes, themes, and Out
 
 1. Draft scenarios covering the product-meaningful cases per `behavior-formulation.md`: happy path, philosophy-expressing case, plausible-drift case — concrete values, one behavior each, `Grounds:` and `Verification:` on every scenario.
 2. While drafting, collect what the examples expose: edge cases requirements never settled, thresholds with no value, behaviors that *cannot* be grounded, behaviors that conflict with canon or invariants.
-3. **Conflicts are findings, not editing problems**: a requirement or scenario contradicting the canon is reported in `concept-alignment.md` format. If the canon itself should change, point to the project's change-control process — never adjust canon or quietly reword the scenario to fit.
+3. **Conflicts are findings, not editing problems**: a requirement or scenario contradicting the canon is reported in `concept-alignment.md` format. If the canon itself should change, file it as an Open Question in the canon README or hand it to `/sdd-canon-update` — never adjust canon from this phase or quietly reword the scenario to fit.
 4. Present the draft with your questions and iterate briefly with the user — concrete examples are easy to react to. Resolve scope-affecting questions; log the rest under Open Questions. Do not invent behaviors beyond the requirements (same discipline as `requirements-elicitation.md`).
 
 ### Step 4: Finalize
@@ -72,7 +72,7 @@ Following `concept-alignment.md`: identify the product purposes, themes, and Out
 
 - **Scenarios illustrate requirements; they do not extend them.** New capability ideas surfaced by examples go to Open Questions as proposals, default answer *no*.
 - **Every scenario grounded and verifiable** — no `Grounds:`, no scenario; no `Verification:`, not finished.
-- **Canon conflicts stop at reporting** — resolution belongs to the user or the change-control process.
+- **Canon conflicts stop at reporting** — resolution belongs to the user (`/sdd-canon-update`, or the phase that owns the decision).
 - WHAT-level only: scenarios describe observable behavior, never design or implementation.
 
 </instructions>

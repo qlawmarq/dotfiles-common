@@ -1,25 +1,12 @@
 # Normative Registry
 
-<!--
-The only seat of enumerable normative force (rules: docs/settings/rules/normative-registry.md).
-- One domain per section, one norm per row. IDs are immutable.
-- Norm / Status / Grounds change only via proposal + ratification.
-- Consumers / Verification are bookkeeping — update with ordinary confirm-and-write.
--->
-
-- **status**: active <!-- the registry file itself; entries carry their own status -->
-- **ID scheme**: `<DOMAIN>-<NN>` — domains declared per section below. Never renumber.
+The only seat of enumerable norms (rules: `docs/settings/rules/canon-layer.md §Registry`). One domain per section, one norm per row. IDs `<DOMAIN>-<NN>` are immutable and never reused. `Grounds` is a relative link. `Used by` uses the fixed vocabulary `code: <path Symbol>` / `spec: <feature-dir-name>` / `plan: <plan-id/Un>` / `—`; `docs/settings/scripts/check_canon.sh used-by` verifies entries and classifies each ID as implemented / planned / unadopted.
 
 ## [Domain, e.g. Facilities] (`FAC`)
 
-[One line: which decision(s) ground this domain, e.g. "Grounded in D12, D18."]
+[One line: which decision(s) ground this domain.]
 
-| ID | Norm | Status | Grounds | Verification | Consumers |
-| --- | --- | --- | --- | --- | --- |
-| FAC-01 | [normative statement, 1–2 lines] | draft | D12 #3 | manual | — |
-| FAC-02 | [normative statement] | ratified: YYYY-MM-DD (item) | D12 #3 | [test path] | [plan row / spec / code identifier] |
-
-## [Next Domain] (`XXX`)
-
-| ID | Norm | Status | Grounds | Verification | Consumers |
-| --- | --- | --- | --- | --- | --- |
+| ID | Norm | Grounds | Used by |
+| --- | --- | --- | --- |
+| FAC-01 | [normative statement, 1–2 lines] | [D12 #3](decisions/d12-slug.md) | — |
+| FAC-02 | [normative statement] | [D12 #3](decisions/d12-slug.md) | code: src/facility.ts Kind.FIELD spec: 2026-01-01-farming |

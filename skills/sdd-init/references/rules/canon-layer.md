@@ -2,54 +2,56 @@
 
 ## Objective
 
-Define the standard structure and change control for a project's **canon layer** — the durable decision documents that record what the product *is*: its concept, philosophy, and the normative decisions that every spec must respect. The layer is optional; a small project whose whole philosophy fits in `docs/steering/product.md` does not need it. When it exists, this rule governs it.
-
-Why a defined structure matters: it makes *what the human has actually ratified* a structural, grep-able property of the documents rather than a memory. The failure this prevents is stated once, in `ratification.md §Objective`.
-
-## Location and Declaration
-
-- Default root: `docs/canon/`. Any name is allowed — the root is **declared** in `docs/steering/product.md §Canon References`, and every SDD skill resolves it from there. Never hardcode the path.
-- Scaffolding: `/sdd-canon-propose` creates the structure from `docs/settings/templates/canon/` on first use, with user confirmation.
+Keep the product's concept decisions in one place, drafted by the agent and approved by the human **as a diff inside the SDD phase that produced them** — never in a separate ceremony. Two accidents this prevents: an unread AI draft gaining canonical force, and the same enumerable norm living in several seats. The layer is optional; a product whose philosophy fits in `docs/steering/product.md` does not need it.
 
 ## Structure
 
-```
-<canon-root>/
-  README.md        # index: decision log (current-view table), ID scheme, open questions
-  decisions/       # prose layer — one file per decision topic (template: canon/decision.md)
-  registry.md      # normative registry — sole seat of enumerable norms (rules: normative-registry.md)
-  proposals/       # delta proposals awaiting ratification (template: canon/proposal.md)
-    archive/       # resolved proposals, date-prefixed — the permanent audit trail
-```
+The root is declared in `docs/steering/product.md §Canon References` (default `docs/canon/`); never hardcode it. Templates: `docs/settings/templates/canon/`.
 
-## Two Layers: Prose and Registry
+- `README.md` — index only: decision log (`ID | Decision | Keywords | File`) and Open Questions. No normative text.
+- `decisions/<id>-<slug>.md` — one topic per file, ≤ 1–2 pages: `keywords` line (the JIT grep index), Background (why), Decision (numbered items), optional Consequences, Registry refs (IDs only).
+- `registry.md` — the sole seat of enumerable norms (§Registry).
+- `proposals/archive/` — history from earlier processes, if present. Read-only; never edit or extend it.
 
-- **Prose** (`decisions/`) holds the *why*: background, rationale, trade-offs, the reasoning behind guards. It is the reference layer.
-- **Registry** (`registry.md`) holds the *what*: every enumerable norm — catalogs, entity lists, type enumerations, guard lists — one entry each.
-- **Structural rule**: enumerable normative content lives **only** in the registry. Prose refers to entries by registry ID and never copies the list. A list is one place in the world; a copy is a future contradiction.
+**Committed text is in force.** There are no status words or ratification markers; a decision that was overturned says so in one Background sentence, and `git log -- <canon-root>` is the record.
 
-## Authority
+## Change Control — "Canon changes"
 
-- **Only `ratified` content binds specs.** `draft` content has no canonical force, no matter how polished it reads — polish is what AI drafts are best at, which is exactly why status, not prose quality, is the test.
-- For enumerable norms, the registry is authoritative. If prose and registry disagree, the registry wins; flag the disagreement itself as a finding.
-- Status vocabulary: `docs/settings/rules/ratification.md`.
+Canon is updated by the phase skill that produced the decision, in the same session, under one protocol (each skill only points here):
 
-## Immutability and Supersession
+1. **Dirty check first.** Before touching a canon file, `git status -- <file>`; if it already carries uncommitted changes from outside this session, show that diff before anything else — it is the only detection you get for parallel sessions in one working tree.
+2. **Edit the working tree directly** — `decisions/`, `registry.md`, the README index and Open Questions.
+3. **Present a `## Canon changes` section at the top of the reply**: per file, the **full text of every changed section** (readable text, not a diff; a modified item as *previous → new*) plus a one-line reason. Nothing to change → `Canon changes: none`.
+4. **R2 — the one pause.** If a change overturns or deletes an existing decision item, or changes/removes a registry `Norm`, put that item first as a *previous → new* pair and take one explicit confirmation for it. Everything else is approved by the phase's own explicit yes in the same session: `/sdd-plan` Gate 4, `/sdd-spec-requirements` confirmation summary, `/sdd-grill` closing confirmation, `/sdd-spec-done` GO, and for `/sdd-spec-design` and `/sdd-canon-update` a single "commit?" when the section is non-empty. Canon follows the latest confirmed text; later phases re-sync it. This is independent of `spec.json` approvals.
+5. **Commit right after the yes**, listing only the files this session edited — `git commit -m "docs(canon): <phase> <spec-or-topic>" -- <files>` — as a standalone commit. Never `git add <canon-root>` (it would silently canonize unrelated untracked files). Uncommitted canon binds nothing; a declined change is reverted with `git checkout -- <files>`.
 
-Ratified content is immutable. A change is never an edit in place:
+Humans may edit canon directly at any time; the commit is the record. Outside a phase, `/sdd-canon-update` runs the same protocol.
 
-- A new proposal supersedes the old item; both carry the cross-reference (`superseded-by:` on the old, the ratified date on the new). Git history is not a substitute — the current view must show its own lineage.
-- Documents keep the **current-view discipline**: each file states what is in force now; the archive of proposals holds how it got that way.
+## Registry
 
-## Change Control — the Only Write Path
+Line: **a set whose members downstream cites by name is registry; a classification whose *n* is itself the decision stays in prose.** One section per domain, one row per norm:
 
-- **Agents never edit canon-root content directly.** Not in spec sessions, not in dialogue sessions, not in steering sync. This includes "harmless" edits — wording, formatting, reordering — because edit access is how unratified content leaks into ratified files.
-- Every change enters as a **delta proposal**: `proposals/YYYY-MM-DD-<slug>.md`, drafted freely by agent or human (`/sdd-canon-propose`). A proposal states `ADDED / MODIFIED / REMOVED` items against the current ratified state; a MODIFIED item restates the entire item with its previous value noted.
-- A proposal gains force **only** through a ratification session (`/sdd-canon-ratify`, protocol in `ratification.md`). On ratification: deltas merge into `decisions/` and `registry.md`, statuses update, and the proposal — carrying its verdict table and final text — moves to `proposals/archive/`.
-- Rejected and withdrawn proposals archive too. What was declined, and why, is part of the audit trail.
-- A gap discovered mid-spec (missing decision, canon-vs-implementation divergence) is **filed as an open question in the canon README, or drafted as a proposal — never resolved inline**. The spec works around it or waits.
+`| ID | Norm | Grounds | Used by |`
 
-## Relation to Steering
+- **ID** `<DOMAIN>-<NN>` — immutable; never renumber; a retired ID is never reused.
+- **Norm** — 1–2 lines; longer is prose (put it in `decisions/` and cite the ID).
+- **Grounds** — a relative Markdown link to the decision item or spec it derives from (the link check verifies it resolves).
+- **Used by** — fixed vocabulary, space-separated: `code: <path Symbol>` · `spec: <feature-dir-name>` (directory *name*, not path — specs move from `todo/` to `done/`) · `plan: <plan-id/Un>` · `—`. Written at the phase that adopts the ID (plan / requirements / spec-done). `check_canon.sh used-by` verifies each entry resolves and classifies: `code:` present or `spec:` in `done/` = implemented; `spec:` in `todo/` or `plan:` = planned; `—` = unadopted.
 
-- `docs/steering/product.md` remains the always-loaded baseline. It summarizes the product and **points** to the canon; it never duplicates normative lists.
-- Steering itself is outside the ratification path (`ratification.md §Scope`) — it changes by ordinary present-diff-and-confirm. Normative *force* lives in the canon layer; steering points at it.
+Prose cites IDs and never restates a list; an enumeration outside the registry is a Warning (check d).
+
+## Drafting Discipline
+
+The five heuristics that actually changed drafts in the pilot: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and downstream references, don't recall; (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat — never restate. Plus: never renumber items and never issue a number the source text did not have.
+
+## Loading
+
+Always-loaded: `product.md §Canon References` and the README index. Everything else is JIT — grep `keywords` lines, open only the files that hit.
+
+## Checks
+
+`docs/settings/scripts/check_canon.sh check` (registry-ID resolution, link liveness, `keywords` presence, enumerations outside the registry) reports and never blocks; run it in `/sdd-spec-done` and `/sdd-canon-update`. `commit-scope` is an optional pre-commit hook that flags a canon change bundled with other files. Do not edit the script per project — configure by arguments; `/sdd-init` overwrites it.
+
+## Adoption
+
+Bringing an existing document set under the canon: move it in **file by file** and fix files when you touch them. No item-level inventory or per-item review — the pilot measured that path at ~1,000 units for one product.

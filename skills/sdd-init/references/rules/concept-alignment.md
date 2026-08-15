@@ -9,7 +9,7 @@ This lens is shared by `/sdd-spec-behavior`, `/sdd-validate-requirements`, `/sdd
 ## Resolving the Canon
 
 1. **Baseline (always)**: `docs/steering/product.md` — the product's purpose, themes, core capabilities, and Out of Scope.
-2. **Canon layer (when declared)**: if `product.md` contains a `## Canon References` section, it names the canon root (structure: `canon-layer.md`; default `docs/canon/`) and how to search it. For enumerable norms — catalogs, entity lists, guards — the canon's `registry.md` is the authoritative seat; cite entries by ID. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the canon. **Only `ratified` content binds**: an item whose status is `draft` is a pending proposal, not canon — reliance on it is itself a finding.
+2. **Canon layer (when declared)**: if `product.md` contains a `## Canon References` section, it names the canon root (structure: `canon-layer.md`; default `docs/canon/`) and how to search it. For enumerable norms — catalogs, entity lists, guards — the canon's `registry.md` is the authoritative seat; cite entries by ID. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the canon. **Committed text binds**: an uncommitted canon edit or a README Open Question is not a decision — reliance on it is itself a finding.
 3. **Established invariants**: `docs/steering/behaviors.md` — cross-spec behavior invariants distilled from completed features. Already loaded with steering.
 
 When `product.md` and a deeper canon disagree, the canon wins if `product.md` says so; otherwise flag the inconsistency itself as a finding.
@@ -26,7 +26,7 @@ Scale effort to exposure: mechanical/internal changes need only a contradiction 
 
 ## Severity
 
-- **Contradiction** with product purpose, Out of Scope, canon decision, or an established invariant → **Critical (NO-GO)**. Route back: fix the artifact, or — if the canon itself should change — file a delta proposal (`/sdd-canon-propose`) for ratification (`/sdd-canon-ratify`), or whatever change-control process the project's root CLAUDE.md / AGENTS.md declares instead; never edit canon from inside a spec session.
+- **Contradiction** with product purpose, Out of Scope, canon decision, or an established invariant → **Critical (NO-GO)**. Route back: fix the artifact, or — if the canon itself should change — land it through the phase's Canon changes section or `/sdd-canon-update` (`canon-layer.md §Change Control`), or whatever change-control process the project's root CLAUDE.md / AGENTS.md declares instead; never reword canon to fit the artifact under review.
 - **Unsupported**: no citable purpose can be named → **Critical (NO-GO)** unless the user explicitly confirms it belongs.
 - **Weak grounding**: purpose citable but stretched or vague → **Warning** with a suggested tightening.
 
