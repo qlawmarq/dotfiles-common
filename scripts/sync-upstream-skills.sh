@@ -315,7 +315,12 @@ sync_skill() {
     fi
 
     # Confirm
-    read -p "Apply changes to $name? [y/N] " -r answer
+    # `set -e` is active: a bare `read` returning 1 at EOF (piped stdin,
+    # </dev/null, CI) would abort the whole sync with no message.
+    if ! read -p "Apply changes to $name? [y/N] " -r answer; then
+        answer="n"
+        echo ""
+    fi
     if [[ ! "$answer" =~ ^[Yy]$ ]]; then
         print_warning "Skipped."
         rm -rf "$tmpdir"
@@ -366,7 +371,6 @@ main() {
     # Sync
     local synced=0
     local failed=0
-    local skipped=0
     local total=${#SKILL_NAMES[@]}
 
     for i in "${!SKILL_NAMES[@]}"; do

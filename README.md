@@ -10,10 +10,8 @@ Reusable skills compatible with Claude Code, Codex CLI, and Gemini CLI.
 
 ### Claude Code Configuration
 
-- **tools/**: Additional tool integrations
-- **settings.json**: Claude Code settings with permission automation
+- **settings.json**: Claude Code settings (permissions, model, hooks)
 - **hooks/**: Hook scripts
-  - `auto-approve-safe-commands.sh`: Cross-platform safe command auto-approval
   - `platform/macos/`: macOS-specific notification hooks
   - `platform/linux/`: Linux-specific hooks (reserved for future use)
 
@@ -59,7 +57,6 @@ dotfiles-common/
 ├── claude/                 # Claude Code specific
 │   ├── settings.json
 │   ├── hooks/
-│   ├── tools/
 │   └── skills/             # Claude-only skills
 ├── scripts/
 │   └── sync-upstream-skills.sh  # Sync skills from upstream repos
