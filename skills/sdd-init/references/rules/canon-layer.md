@@ -9,7 +9,7 @@ Keep the product's concept decisions in one place, drafted by the agent and appr
 The root is declared in `docs/steering/product.md §Canon References` (default `docs/canon/`); never hardcode it. Templates: `docs/settings/templates/canon/`.
 
 - `README.md` — index only: decision log (`ID | Decision | Keywords | File`) and Open Questions. No normative text.
-- `decisions/<id>-<slug>.md` — one topic per file, ≤ 1–2 pages: `keywords` line (the JIT grep index), Background (why), Decision (numbered items), optional Consequences, Registry refs (IDs only).
+- `decisions/<id>-<slug>.md` — one topic per file (a file beyond ~100 lines opens with a table of contents): `keywords` line (the JIT grep index), Background (why), Decision (numbered items), optional Consequences, Registry refs (IDs only).
 - `registry.md` — the sole seat of enumerable norms (§Registry).
 - `proposals/archive/` — history from earlier processes, if present. Read-only; never edit or extend it.
 
@@ -40,6 +40,8 @@ Line: **a set whose members downstream cites by name is registry; a classificati
 
 Prose cites IDs and never restates a list; an enumeration outside the registry is a Warning (check d).
 
+**Controlled vocabulary.** When the product controls its terminology, the vocabulary lives here as the `TERM` domain — one row per concept. The Norm cell uses the fixed form `**<canonical term>** — <one-line definition>. 禁止＝<synonym>, <synonym>` (label `禁止＝` or `banned=`; this is what the checks parse). Adding, renaming, or re-banning a term is a Norm change and takes the R2 confirmation. `check_canon.sh check` greps the live layers for banned terms (e) and verifies each canonical term is reachable through some decision's `keywords` line (f); `check_canon.sh terms-prh` emits the vocabulary as a [prh](https://github.com/prh/prh) rule file for optional textlint integration.
+
 ## Drafting Discipline
 
 The five heuristics that actually changed drafts in the pilot: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and downstream references, don't recall; (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat — never restate. Plus: never renumber items and never issue a number the source text did not have.
@@ -50,7 +52,7 @@ Always-loaded: `product.md §Canon References` and the README index. Everything 
 
 ## Checks
 
-`docs/settings/scripts/check_canon.sh check` (registry-ID resolution, link liveness, `keywords` presence, enumerations outside the registry) reports and never blocks; run it in `/sdd-spec-done` and `/sdd-canon-update`. `commit-scope` is an optional pre-commit hook that flags a canon change bundled with other files. Do not edit the script per project — configure by arguments; `/sdd-init` overwrites it.
+`docs/settings/scripts/check_canon.sh check` (registry-ID resolution, link liveness, `keywords` presence, enumerations outside the registry, banned terms from the `TERM` domain, canonical-term keywords coverage) reports and never blocks; run it in `/sdd-spec-done` and `/sdd-canon-update`. `commit-scope` is an optional pre-commit hook that flags a canon change bundled with other files. Do not edit the script per project — configure by arguments; `/sdd-init` overwrites it.
 
 ## Adoption
 

@@ -13,6 +13,7 @@ This file is the reference for `/sdd-plan`. Read it when running the Inception w
 5. Dependencies and build order
 6. Priority and sequencing
 7. Quality gate before scaffolding
+8. Maintaining the plan after scaffolding
 
 ---
 
@@ -96,3 +97,13 @@ Before turning units into specs, confirm:
 - [ ] Every capability/story from the vision maps to exactly one unit (nothing dropped, nothing duplicated).
 
 If any check fails, revise the decomposition rather than scaffolding specs you'll have to untangle later.
+
+## 8. Maintaining the plan after scaffolding
+
+`units.md` stays the boundary map, never a log. A unit entry holds boundaries and dependencies; the spec holds everything deeper, and history lives in git.
+
+- **Completed unit**: `/sdd-spec-done` repoints its Summary row to the done spec and deletes its detail block — the done spec is the record.
+- **Boundary or ordering change** (grill session, canon change, re-planning): edit the affected unit entries and `inception.json` together, in the session that decided the change.
+- **Never**: revision-history appendixes, status notes in prose (status lives in `inception.json` and the spec's location), or per-unit content restating canon or a spec — cite IDs instead.
+
+A `units.md` growing past ~500 lines signals that detail blocks are accumulating spec-phase content; move that content to the owning specs.

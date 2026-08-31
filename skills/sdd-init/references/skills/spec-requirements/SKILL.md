@@ -44,7 +44,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
-   - Read `{spec_path}/requirements.md` for project description
+   - Read `{spec_path}/requirements.md` for project description; when the description is a pointer to an inception unit (`units.md §U<N>`), read that unit's entry — it is the scope brief
    - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Guidelines**:
@@ -91,6 +91,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 - Requirements must be testable and verifiable
 - Choose appropriate subject for EARS statements (system/service name for software)
 - Generate an initial grounded draft first, then iterate with user feedback (no long sequential questionnaire upfront)
+- **Use the project's canonical terms.** When the canon registry declares a `TERM` vocabulary, write requirements in its canonical terms; if the dialogue coins a new recurring term, surface it in the confirmation summary so the user can register it (or map it to an existing term) instead of letting a synonym take root.
 - Requirement headings in requirements.md MUST include a leading numeric ID only (for example: "Requirement 1", "1.", "2 Feature ..."); do not use alphabetic IDs like "Requirement A".
 
 </instructions>
@@ -120,7 +121,7 @@ Provide output in the language specified in spec.json with:
 
 ### Error Scenarios
 
-- **Missing Project Description**: If requirements.md lacks project description, ask user for feature details
+- **Missing Project Description**: If requirements.md lacks a project description and no unit pointer resolves, ask user for feature details
 - **Ambiguous Requirements**: Resolve through the clarification dialogue — propose an initial draft and ask targeted questions; never resolve ambiguity by guessing. Log anything still unresolved in Assumptions & Open Questions.
 - **Template Missing**: If template files don't exist, use inline fallback structure with warning, but still include Source lines, an Out of Scope section, and an Assumptions & Open Questions section
 - **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)

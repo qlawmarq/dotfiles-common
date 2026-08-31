@@ -166,7 +166,16 @@ Execute all verification checks sequentially. Collect all issues before making a
 
 - Move `docs/tasks/todo/<feature-name>/` to `docs/tasks/done/<feature-name>/`
 
-#### 4c. Detect Commit Message Style
+#### 4c. Inception Sync (when the spec belongs to a plan)
+
+If `spec.json` carries a `plan` block, update `docs/inception/<parent>/` to reflect completion:
+
+- In `units.md`, repoint the unit's Summary-row Spec link from `todo/` to `done/` and, when the file keeps per-unit detail blocks, delete the completed unit's block — the Summary row and the done spec are the record.
+- Update the unit's `status` in `inception.json` when that field exists.
+
+These files are staged with the feature commit (4e); they are part of completing the unit.
+
+#### 4d. Detect Commit Message Style
 
 - Analyze recent git history:
   ```bash
@@ -182,12 +191,13 @@ Execute all verification checks sequentially. Collect all issues before making a
   - Refactoring → `refactor`
   - Default → `feat`
 
-#### 4d. Stage and Commit
+#### 4e. Stage and Commit
 
 - Check `git status` for current working tree state
 - Stage changes relevant to this feature:
   - The moved spec directory (`docs/tasks/done/<feature-name>/`)
   - Implementation code changes related to the feature's tasks
+  - Inception plan updates from 4c, when present
 - If unrelated unstaged changes exist, warn the user and exclude them
 - Commit with detected style, e.g.:
   ```

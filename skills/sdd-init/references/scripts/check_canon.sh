@@ -3,17 +3,19 @@
 # the exit code is the finding count, not a stop signal. Generic — configure by arguments, do not edit.
 #
 #   check_canon.sh [--root <canon-root>] check              # (a) registry-ID resolution (b) link liveness (c) keywords line (d) enumerations outside registry
+#                                                            #   (e) banned terms from the TERM domain (f) canonical terms missing from every keywords line
 #   check_canon.sh [--root <canon-root>] used-by [--write]  # verify `Used by` entries, classify IDs, suggest doc-side refs (--write appends spec:/plan: only)
 #   check_canon.sh commit-scope                              # pre-commit helper: exit 2 when staged canon files are bundled with other files
+#   check_canon.sh [--root <canon-root>] terms-prh           # emit the TERM vocabulary as a prh rule file (stdout) for optional textlint integration
 set -u
 cd "$(git rev-parse --show-toplevel 2>/dev/null || pwd)" || exit 1
 
 ROOT=""; CMD=""; WRITE=0
 while [ $# -gt 0 ]; do case "$1" in
     --root) ROOT="$2"; shift 2 ;; --write) WRITE=1; shift ;;
-    check|used-by|commit-scope) CMD="$1"; shift ;; -h|--help) sed -n 2,8p "$0"; exit 0 ;; *) echo "unknown arg: $1" >&2; exit 1 ;;
+    check|used-by|commit-scope|terms-prh) CMD="$1"; shift ;; -h|--help) sed -n 2,10p "$0"; exit 0 ;; *) echo "unknown arg: $1" >&2; exit 1 ;;
 esac; done
-[ -z "$CMD" ] && { sed -n 2,8p "$0"; exit 1; }
+[ -z "$CMD" ] && { sed -n 2,10p "$0"; exit 1; }
 if [ -z "$ROOT" ]; then
     ROOT=$(grep -m1 -oE 'Canon root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Canon root:[[:space:]]*`?//; s#/$##')
     [ -z "$ROOT" ] && ROOT="docs/canon"
@@ -23,6 +25,10 @@ report() { FINDINGS=$((FINDINGS + 1)); echo "$1"; }
 # grep over the repo excluding seats where an ID is a citation, not a usage
 EXCL=(--exclude-dir=.git --exclude-dir=.claude --exclude-dir=.agents --exclude-dir=node_modules --exclude-dir=probe --exclude-dir=settings --exclude-dir=archive)
 registry_ids() { grep -oE '^\| *[A-Z][A-Z0-9]+-[0-9]+ *\|' "$REG" 2>/dev/null | tr -d '| '; }
+term_rows() { grep -E '^\| *TERM-[0-9]+ *\|' "$REG" 2>/dev/null; }
+term_norm() { printf '%s' "$1" | awk -F'|' '{print $3}'; }
+term_canonical() { printf '%s' "$1" | sed -nE 's/^[^*]*\*\*([^*]+)\*\*.*/\1/p'; }
+term_banned() { printf '%s' "$1" | sed -nE 's/.*(禁止＝|banned=)//p' | tr '、，' ',,' | tr ',' '\n' | sed -E 's/^[[:space:]]+|[[:space:]]+$//g' | grep -v '^$'; }
 domains() { registry_ids | sed -E 's/-[0-9]+$//' | sort -u | tr '\n' '|' | sed 's/|$//'; }
 
 # ---------- commit-scope ----------
@@ -33,6 +39,19 @@ if [ "$CMD" = "commit-scope" ]; then
     exit 0
 fi
 [ -f "$REG" ] || { echo "no registry at $REG (canon root: $ROOT)"; exit 0; }
+
+# ---------- terms-prh ----------
+if [ "$CMD" = "terms-prh" ]; then
+    echo "version: 1"; echo "rules:"
+    term_rows | while IFS= read -r row; do
+        norm=$(term_norm "$row"); cterm=$(term_canonical "$norm")
+        [ -n "$cterm" ] || continue
+        b=$(term_banned "$norm"); [ -n "$b" ] || continue
+        echo "  - expected: $cterm"; echo "    patterns:"
+        printf '%s\n' "$b" | while IFS= read -r t; do echo "      - $t"; done
+    done
+    exit 0
+fi
 
 # ---------- check ----------
 if [ "$CMD" = "check" ]; then
@@ -52,6 +71,19 @@ if [ "$CMD" = "check" ]; then
         awk -v F="$f" '/^\|/{t++; if(t==7) print F":"NR": (d) table with 5+ rows — enumeration outside the registry?"} !/^\|/{t=0}
                         /^[0-9]+\. /{n++; if(n==5) print F":"NR": (d) list with 5+ items — enumeration outside the registry?"} !/^[0-9]+\. /{n=0}' "$f" >> "$OUT"
     done
+    term_rows | while IFS= read -r row; do                                                  # (e) banned terms  (f) keywords coverage of canonical terms
+        norm=$(term_norm "$row"); cterm=$(term_canonical "$norm")
+        term_banned "$norm" | while IFS= read -r t; do
+            for d in "$ROOT" docs/steering docs/inception docs/tasks/todo; do
+                [ -d "$d" ] || continue
+                grep -rnF --include='*.md' -- "$t" "$d" 2>/dev/null
+            done | grep -v '/archive/' | grep -vF "$REG:" | cut -d: -f1,2 | sed -E "s|$|: (e) banned term '$t' → use '$cterm'|"
+        done
+        if [ -n "$cterm" ] && grep -rlqF -- "$cterm" "$DEC" 2>/dev/null; then
+            grep -hE '^- \*\*keywords\*\*:' "$DEC"/*.md 2>/dev/null | grep -qF -- "$cterm" \
+                || echo "$REG:1: (f) canonical term '$cterm' appears in no decision keywords line"
+        fi
+    done >> "$OUT"
     cat "$OUT"; FINDINGS=$(wc -l < "$OUT" | tr -d ' '); rm -f "$OUT"
     echo "check: $FINDINGS finding(s)"; exit "$FINDINGS"
 fi

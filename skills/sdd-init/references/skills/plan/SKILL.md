@@ -126,7 +126,7 @@ For each unit, in build order, create a stub SDD spec so it can enter the normal
    }
    ```
    `depends_on` lists the **feature-names** (spec directory names) of prerequisite units, so downstream tooling can resolve order. Leave `phase` as `initialized`.
-3. Write `requirements.md` from `docs/settings/templates/specs/requirements-init.md`, replacing `{{PROJECT_DESCRIPTION}}` with the unit's **scope brief**: its purpose, responsibilities, in/out-of-scope, independent-test statement, priority, and dependency notes. This seeds `/sdd-spec-requirements` with rich grounding while leaving the actual EARS requirements to that phase. Do **not** pre-write EARS criteria here.
+3. Write `requirements.md` from `docs/settings/templates/specs/requirements-init.md`, replacing `{{PROJECT_DESCRIPTION}}` with the unit's **purpose in one sentence plus a pointer to its unit entry** (e.g. `docs/inception/<plan-id>/units.md §U7`). The unit entry is the single seat of the scope brief — do not copy responsibilities, scope lists, or test statements into the stub (the copy is what later contradicts the plan), and do **not** pre-write EARS criteria. `/sdd-spec-requirements` reads the referenced entry at elicitation time.
 4. Record the unit → spec-directory mapping.
 
 Finally, write `docs/inception/<plan-id>/inception.json` (plan metadata + the unit→spec mapping + status).
