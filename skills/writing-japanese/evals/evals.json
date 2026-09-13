@@ -1,0 +1,45 @@
+{
+  "skill_name": "writing-japanese",
+  "evals": [
+    {
+      "id": 1,
+      "name": "long-design-doc-from-english-notes",
+      "output_file": "design.md",
+      "prompt": "添付の英語の設計メモ（evals/files/f1-cache-design-notes.md）をもとに、日本語話者の同僚向けの設計書を日本語で書いてください。3000字程度、見出しを使ってください。読者は同じチームのエンジニアで、このメモは読んでいません。",
+      "files": [
+        "evals/files/f1-cache-design-notes.md"
+      ],
+      "expected_output": "英語の比喩動詞と物事の主語が直訳されず、文が読みやすく、構成が読者の問いの順に並んだ設計書。"
+    },
+    {
+      "id": 2,
+      "name": "blog-from-english-research-digest",
+      "output_file": "blog.md",
+      "prompt": "添付の英語の研究ダイジェスト（evals/files/f2-sleep-research-summary.md）をもとに、一般の読者向けのブログ記事を日本語で2500字程度書いてください。研究の内容を正確に、専門知識のない人にも分かるように説明してください。",
+      "files": [
+        "evals/files/f2-sleep-research-summary.md"
+      ],
+      "expected_output": "翻訳調と決まり文句がなく、一般読者が一度で読める記事。"
+    },
+    {
+      "id": 3,
+      "name": "diary-from-mixed-memo",
+      "output_file": "diary.md",
+      "prompt": "添付の今日のメモ（evals/files/f3-day-memo.md）から、今日の日記を800字ほど、だ・である調で書いてください。仕事のメモは英語ですが、日記は自分だけが読むものです。",
+      "files": [
+        "evals/files/f3-day-memo.md"
+      ],
+      "expected_output": "英語メモの語彙（landed、surfaced、bandwidth、circle back、alignment）が日記に流れ込まず、自分の言葉で書かれた日記。"
+    },
+    {
+      "id": 4,
+      "name": "explainer-from-english-primer",
+      "output_file": "explainer.md",
+      "prompt": "添付の英語の社内資料（evals/files/f4-no-claims-bonus.md）をもとに、日本の総務担当者向けに、この割引の仕組みを日本語で2000字程度、見出し付きで説明する文書を書いてください。読者は保険の専門家ではありません。",
+      "files": [
+        "evals/files/f4-no-claims-bonus.md"
+      ],
+      "expected_output": "物事を主語にした直訳がなく、用語が中身の説明の後に出てきて、読者の疑問の順に構成された説明文書。"
+    }
+  ]
+}
