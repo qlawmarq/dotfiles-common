@@ -37,28 +37,12 @@
   },
   "model": "opus[1m]",
   "tui": "fullscreen",
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/notify.sh"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/notify.sh"
-          }
-        ]
-      }
-    ]
+  "preferredNotifChannel": "terminal_bell",
+  "inputNeededNotifEnabled": false,
+  "agentPushNotifEnabled": false,
+  "cleanupPeriodDays": 365,
+  "env": {
+    "CLAUDE_CODE_SUBAGENT_MODEL": "opus",
+    "CLAUDE_CODE_SUBAGENT_MODEL_FORCE": "1"
   }
 }
