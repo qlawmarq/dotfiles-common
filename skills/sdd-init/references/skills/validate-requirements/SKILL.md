@@ -78,6 +78,7 @@ Interactive requirements quality review for the specified feature, focused on de
 - **Invented features are NO-GO by default**: an unsourced requirement must be confirmed by the user or removed before proceeding
 - **Interactive approach**: engage in dialogue, not one-way evaluation
 - **Balanced assessment**: recognize both strengths and weaknesses
+- **Confirm before filing**: check each finding against the source itself — quote the `file:line` (spec, steering, canon, code) it rests on, or for an absence what you searched, and run the test, probe or command for any claim about how code behaves. Report what you could not confirm as unconfirmed, not as a Critical Issue.
 
 </instructions>
 

@@ -74,6 +74,7 @@ Interactive implementation task review for the specified feature based on approv
 - **Quality assurance, not perfection seeking**: Accept acceptable risk
 - **Interactive approach**: Engage in dialogue, not one-way evaluation
 - **Balanced assessment**: Recognize both strengths and weaknesses
+- **Confirm before filing**: check each finding against the source itself — quote the `file:line` (spec, steering, canon, code) it rests on, or for an absence what you searched, and run the test, probe or command for any claim about how code behaves. Report what you could not confirm as unconfirmed, not as a Critical Issue.
 - **Actionable feedback**: All suggestions must be implementable
 
 </instructions>

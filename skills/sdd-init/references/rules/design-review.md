@@ -125,6 +125,7 @@ Engage on designer's perspective, alternatives, clarifications, and necessary ch
 4. **Balanced Assessment**: Recognize both strengths and weaknesses
 5. **Clear Decision**: Make definitive GO/NO-GO recommendation
 6. **Actionable Feedback**: Ensure all suggestions are implementable
+7. **Grounded Claims**: Before raising an issue about how code, tests or probes behave, check it against the source — run it or quote the `file:line` — never infer it from names or reasoning alone
 
 ## Final Checklist
 
