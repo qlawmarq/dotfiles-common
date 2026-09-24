@@ -49,6 +49,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
   - `/sdd-validate-impl <feature-name>` (optional: mid-implementation validation)
 - Phase 3 (Completion): `/sdd-spec-done <feature-name>`
   - Verifies quality, finalizes the spec, commits the feature, then runs a non-blocking steering drift check — if the feature introduced new patterns, it proposes additive steering updates and commits them separately (with your confirmation).
+  - At completion, an independent auditor checks every acceptance criterion clause by clause against the code; stale criterion wording is fixed, and disputed items are asked once in a single batched question.
 - Progress check: `/sdd-spec-status [feature-name]` (use anytime; no argument lists every spec)
 - Orientation & dialogue (anytime, belongs to no phase):
   - `/sdd-brief ["question"]` — read-only. Answers what was decided about a topic, where the project stands across every spec, or what needs deciding next, with citations. Use it instead of opening documents one by one.
