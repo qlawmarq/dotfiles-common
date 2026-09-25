@@ -68,7 +68,7 @@ A backlog of unresolved decisions. Collect, do not resolve.
 1. *Assumptions & Open Questions* sections across `requirements.md` files, and open points in `design.md` files.
 2. Specs with `approvals.*.approved: false` — work waiting on human review.
 3. When a canon layer exists: its README's Open Questions table, and any uncommitted canon edits (`git status -- <canon-root>`) — drafted content that binds nothing until committed.
-4. Any decision intake the project maintains, if its root `CLAUDE.md` / `AGENTS.md` documents one.
+4. Any decision intake the project maintains, if its root `AGENTS.md` documents one.
 
 Order by what unblocks the most: a decision that several specs depend on outranks one confined to a single spec. Then hand off — `/sdd-grill` is the skill that actually works through them with the user.
 

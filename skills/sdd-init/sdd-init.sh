@@ -12,7 +12,8 @@
 #
 # Options:
 #   --lang=<code>         ISO 639-1 language code (default: ja)
-#   --target=<target>     claude|agents|all (default: all)
+#   --target=<target>     claude|agents|all (default: all) — where skills go;
+#                         the SDD section always goes to AGENTS.md
 #   --mode=<mode>         fresh|update|full (default: fresh)
 #
 # Output: Structured report between ===SDD_INIT_REPORT=== markers
@@ -70,7 +71,6 @@ TEMPLATES_COUNT=0
 SKILLS_COUNT=0
 STEERING_CREATED=""
 STEERING_SKIPPED=""
-CLAUDE_MD_STATUS="skipped"
 AGENTS_MD_STATUS="skipped"
 WARNINGS=""
 ERRORS=""
@@ -286,18 +286,7 @@ if [ -f "$TEMPLATE_FILE" ]; then
     CONFIG_TMP=$(mktemp)
     sed "s|{{DEFAULT_LANGUAGE_NAME}}|${LANG_NAME}|g" "$TEMPLATE_FILE" > "$CONFIG_TMP"
 
-    case "$TARGET" in
-        claude)
-            CLAUDE_MD_STATUS=$(inject_sdd_section "CLAUDE.md" "$CONFIG_TMP")
-            ;;
-        agents)
-            AGENTS_MD_STATUS=$(inject_sdd_section "AGENTS.md" "$CONFIG_TMP")
-            ;;
-        all)
-            CLAUDE_MD_STATUS=$(inject_sdd_section "CLAUDE.md" "$CONFIG_TMP")
-            AGENTS_MD_STATUS=$(inject_sdd_section "AGENTS.md" "$CONFIG_TMP")
-            ;;
-    esac
+    AGENTS_MD_STATUS=$(inject_sdd_section "AGENTS.md" "$CONFIG_TMP")
 
     rm -f "$CONFIG_TMP"
 else
@@ -333,7 +322,6 @@ steering_created=${STEERING_CREATED:-none}
 steering_skipped=${STEERING_SKIPPED:-none}
 retired_removed=${RETIRED_REMOVED:-none}
 retired_rules_removed=${RETIRED_RULES_REMOVED:-none}
-claude_md=${CLAUDE_MD_STATUS}
 agents_md=${AGENTS_MD_STATUS}
 warnings=${WARNINGS:-none}
 errors=${ERRORS:-none}

@@ -55,7 +55,7 @@
 ## レビュー手順
 
 1. **プロジェクト構成の理解**: ディレクトリ構成、主要モジュール、レイヤー構成を把握する
-2. **アーキテクチャルール**: README, CLAUDE.md, ADR (Architecture Decision Records) 等のドキュメントから、プロジェクトのアーキテクチャルールを確認する
+2. **アーキテクチャルール**: README, AGENTS.md, ADR (Architecture Decision Records) 等のドキュメントから、プロジェクトのアーキテクチャルールを確認する
 3. **既存パターンの調査**: 変更と同種の既存実装を検索し、確立されたパターンを把握する
 4. **依存関係の分析**: import/require 文を分析し、依存方向が正しいか確認する
 5. **変更の影響範囲の評価**: 変更が他のモジュールやレイヤーに与える影響を評価する
@@ -108,7 +108,7 @@ find . -name "*Controller*" -o -name "*Service*" -o -name "*Repository*"
 grep -r "from.*import" --include="*.ts" | head -30
 
 # 設定ファイルの確認
-cat README.md CLAUDE.md .editorconfig tsconfig.json 2>/dev/null
+cat README.md AGENTS.md .editorconfig tsconfig.json 2>/dev/null
 ```
 
 ## 参考情報源

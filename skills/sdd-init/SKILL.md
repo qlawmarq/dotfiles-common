@@ -16,7 +16,7 @@ argument-hint: "[--lang=ja] [--target=claude|agents|all] [--force]"
   - Rules, templates, and scripts deployed to `docs/settings/`
   - SDD skills deployed to selected target(s): `.claude/skills/sdd-*/` and/or `.agents/skills/sdd-*/`
   - Steering stubs initialized in `docs/steering/`
-  - CLAUDE.md and/or AGENTS.md updated with SDD configuration section (based on target)
+  - AGENTS.md updated with SDD configuration section
   - Language configuration applied throughout
 
 </background_information>
@@ -27,10 +27,10 @@ argument-hint: "[--lang=ja] [--target=claude|agents|all] [--force]"
 
 This skill expects:
 1. **Language flag** (optional): `--lang=<code>` — ISO 639-1 language code (default: `ja`)
-2. **Target flag** (optional): `--target=claude|agents|all` — Target platform(s) for deployment
-   - `claude`: Deploy to `.claude/skills/` and update CLAUDE.md
-   - `agents`: Deploy to `.agents/skills/` and update AGENTS.md
-   - `all`: Deploy to both platforms
+2. **Target flag** (optional): `--target=claude|agents|all` — Where to deploy skills (the SDD section always goes to AGENTS.md)
+   - `claude`: Deploy to `.claude/skills/`
+   - `agents`: Deploy to `.agents/skills/`
+   - `all`: Deploy to both
    - If omitted: Ask the user interactively
 3. **Force flag** (optional): `--force` — Skip confirmation prompt when SDD is already initialized (defaults to Update mode)
 
@@ -58,7 +58,7 @@ All mechanical file operations are handled by `sdd-init.sh` located alongside th
 - Copies rules, templates, and skills
 - Updates `init.json` language field
 - Initializes steering stubs
-- Performs marker-based injection into CLAUDE.md / AGENTS.md
+- Performs marker-based injection into AGENTS.md
 - Outputs a structured report
 
 ## Execution Steps
@@ -84,8 +84,8 @@ Process results:
 
 If `--target` was NOT provided as an argument:
 - Ask the user which platform(s) to initialize:
-  - **Claude Code** (`claude`): `.claude/skills/` + CLAUDE.md
-  - **Agents** (`agents`): `.agents/skills/` + AGENTS.md — for Codex CLI / Gemini CLI
+  - **Claude Code** (`claude`): `.claude/skills/`
+  - **Agents** (`agents`): `.agents/skills/` — for Codex CLI / Gemini CLI
   - **All** (`all`): Both platforms
 - Use their selection as `TARGET`
 
@@ -138,7 +138,6 @@ Provide output in the language derived from `--lang`:
    - Scripts: `scripts_count` files deployed to `docs/settings/scripts/`
    - Steering stubs: `steering_created` / `steering_skipped`
    - Retired skills removed: `retired_removed`; retired rules/templates removed: `retired_rules_removed` (mention only when not `none`)
-   - CLAUDE.md: `claude_md` status (created / updated / appended / skipped)
    - AGENTS.md: `agents_md` status (created / updated / appended / skipped)
 3. **Configuration**: Language set to `lang_name` (`lang_code`)
 4. **Warnings** (if any):
@@ -147,7 +146,7 @@ Provide output in the language derived from `--lang`:
    - `marker_warning`: "Inconsistent SDD markers detected. A new section was appended."
 5. **Errors** (if any): Report from `errors` field
 6. **Next Steps** (numbered action items):
-   - When `retired_removed` or `retired_rules_removed` is not `none`: "Retired skills/rules were removed (`/sdd-canon-propose`, `/sdd-canon-ratify`, `ratification.md`, `normative-registry.md`, `canon/proposal.md`); project docs (canon README, `product.md §Canon References`, CLAUDE.md) may still reference them — update on next touch. Canon now changes through each phase's `Canon changes` section (`docs/settings/rules/canon-layer.md`)."
+   - When `retired_removed` or `retired_rules_removed` is not `none`: "Retired skills/rules were removed (`/sdd-canon-propose`, `/sdd-canon-ratify`, `ratification.md`, `normative-registry.md`, `canon/proposal.md`); project docs (canon README, `product.md §Canon References`, AGENTS.md) may still reference them — update on next touch. Canon now changes through each phase's `Canon changes` section (`docs/settings/rules/canon-layer.md`)."
    - Run `/sdd-steering` to generate project steering from codebase analysis
    - Run `/sdd-steering-custom` to add domain-specific steering (optional)
    - For a large/greenfield effort: run `/sdd-plan "product goal"` to decompose it into right-sized specs
@@ -176,7 +175,7 @@ Provide output in the language derived from `--lang`:
 - If script exits with error, report the error message to the user
 - Check `errors` field in the report for partial failures
 
-**CLAUDE.md / AGENTS.md Marker Inconsistency**:
+**AGENTS.md Marker Inconsistency**:
 - Script handles automatically: appends new section and reports `marker_warning`
 - Include warning in output summary
 

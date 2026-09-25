@@ -18,7 +18,7 @@ Build the map at runtime from what actually exists. Do not assume any layer is p
 | Specs | `docs/tasks/todo/<feature>/`, `docs/tasks/done/<feature>/` | `spec.json`, `requirements.md`, `research.md`, `design.md`, `tasks.md` | `spec.json` is small — read all of them freely. The Markdown files are large; open only the ones the question touches |
 | Settings | `docs/settings/rules/`, `docs/settings/templates/` | The methodology itself | Read a rule only when you need the technique it defines |
 
-If the project has documentation outside these paths, discover it (its root `README.md` or `CLAUDE.md` / `AGENTS.md` usually names it), note whether it is authoritative or historical, and respect any stated read-only or change-control conventions. Never edit a directory the project describes as archival.
+If the project has documentation outside these paths, discover it (its root `README.md` or `AGENTS.md` usually names it), note whether it is authoritative or historical, and respect any stated read-only or change-control conventions. Never edit a directory the project describes as archival.
 
 ## Index-first retrieval
 
@@ -66,7 +66,7 @@ A conversation that evaporates when the session ends has produced nothing. Whate
 - **Settled decisions** (`/sdd-grill`) route to the artifact that owns them: an open question in `requirements.md` gets resolved there; a design choice belongs in `design.md`; a project-wide rule belongs in steering; a unit boundary belongs in the inception plan — all subject to the normative-content rule below.
 - **Normative content lands under its protocol, never quietly.** A decision that belongs to the canon layer or the registry lands through the "Canon changes" protocol (`canon-layer.md §Change Control`: full text of changed sections shown first, one confirmation for anything overturned, a standalone `docs(canon):` commit after the user's yes). Steering's normative content (product policies and scope, `behaviors.md` invariants) lands by present-diff-and-confirm, one item at a time.
 - **Approved artifacts are not edited silently.** If a spec's `spec.json` shows a phase approved, changing what it says is a re-approval, not an edit. Surface the change and get explicit confirmation before writing.
-- **Change control wins.** If the project documents a process for changing a class of decision — a required separate session, a review gate, an issue-first convention — follow it, even when you have the answer in hand. Record the outcome in whatever intake the process defines and stop there. Check the project's root `CLAUDE.md` / `AGENTS.md` for such conventions before writing to any layer.
+- **Change control wins.** If the project documents a process for changing a class of decision — a required separate session, a review gate, an issue-first convention — follow it, even when you have the answer in hand. Record the outcome in whatever intake the process defines and stop there. Check the project's root `AGENTS.md` for such conventions before writing to any layer.
 - **Always leave a record.** Even when nothing can be written to a canonical document, end the session with a summary of what was settled and what remains open, so the reasoning survives the session.
 
 ## Scope discipline

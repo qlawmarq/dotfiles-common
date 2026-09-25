@@ -26,7 +26,7 @@ Scale effort to exposure: mechanical/internal changes need only a contradiction 
 
 ## Severity
 
-- **Contradiction** with product purpose, Out of Scope, canon decision, or an established invariant → **Critical (NO-GO)**. Route back: fix the artifact, or — if the canon itself should change — land it through the phase's Canon changes section or `/sdd-canon-update` (`canon-layer.md §Change Control`), or whatever change-control process the project's root CLAUDE.md / AGENTS.md declares instead; never reword canon to fit the artifact under review.
+- **Contradiction** with product purpose, Out of Scope, canon decision, or an established invariant → **Critical (NO-GO)**. Route back: fix the artifact, or — if the canon itself should change — land it through the phase's Canon changes section or `/sdd-canon-update` (`canon-layer.md §Change Control`), or whatever change-control process the project's root AGENTS.md declares instead; never reword canon to fit the artifact under review.
 - **Unsupported**: no citable purpose can be named → **Critical (NO-GO)** unless the user explicitly confirms it belongs.
 - **Weak grounding**: purpose citable but stretched or vague → **Warning** with a suggested tightening.
 
