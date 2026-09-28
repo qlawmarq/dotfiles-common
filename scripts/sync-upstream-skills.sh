@@ -19,6 +19,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SKILLS_DIR="$REPO_ROOT/skills"
 CONFIG_FILE="$REPO_ROOT/upstream-skills.conf"
+LOCK_FILE="$REPO_ROOT/upstream-skills.lock"
 MIN_GIT_VERSION="2.25.0"
 
 # ---------------------
@@ -149,25 +150,71 @@ parse_config() {
 # ---------------------
 # Sparse checkout
 # ---------------------
+# Sets UPSTREAM_SHA to the commit that was checked out.
+UPSTREAM_SHA=""
+
 sparse_checkout() {
     local repo="$1"
     local path="$2"
-    local branch="$3"
+    local ref="$3"
     local dest="$4"
 
-    git clone --depth 1 --filter=blob:none --sparse --branch "$branch" "$repo" "$dest" 2>/dev/null
-    (cd "$dest" && git sparse-checkout set "$path" 2>/dev/null)
+    UPSTREAM_SHA=""
+    if [[ "$ref" =~ ^[0-9a-f]{40}$ ]]; then
+        # A pinned commit: --branch only takes branches and tags, so fetch
+        # the SHA explicitly (GitHub serves any reachable commit by SHA).
+        git clone --depth 1 --filter=blob:none --sparse --no-checkout "$repo" "$dest" 2>/dev/null || return 1
+        (cd "$dest" \
+            && git sparse-checkout set "$path" 2>/dev/null \
+            && git fetch --depth 1 origin "$ref" 2>/dev/null \
+            && git checkout -q "$ref" 2>/dev/null) || return 1
+    else
+        git clone --depth 1 --filter=blob:none --sparse --branch "$ref" "$repo" "$dest" 2>/dev/null || return 1
+        (cd "$dest" && git sparse-checkout set "$path" 2>/dev/null) || return 1
+    fi
 
     # Verify the path was actually checked out
     if [ ! -d "$dest/$path" ]; then
         return 1
     fi
+    UPSTREAM_SHA="$(git -C "$dest" rev-parse HEAD 2>/dev/null)"
     return 0
+}
+
+# ---------------------
+# Lock file: "<name> <sha> <date>" per line
+# ---------------------
+lock_get() {
+    local name="$1"
+    [ -f "$LOCK_FILE" ] || return 0
+    awk -v n="$name" '$1 == n { print $2; exit }' "$LOCK_FILE"
+}
+
+lock_set() {
+    local name="$1"
+    local sha="$2"
+    local today
+    today="$(date +%Y-%m-%d)"
+    local tmp
+    tmp="$(mktemp)"
+    if [ -f "$LOCK_FILE" ]; then
+        grep -v -E "^${name}[[:space:]]" "$LOCK_FILE" > "$tmp" || true
+    fi
+    printf '%s %s %s\n' "$name" "$sha" "$today" >> "$tmp"
+    sort "$tmp" > "$LOCK_FILE"
+    rm -f "$tmp"
 }
 
 # ---------------------
 # Diff display
 # ---------------------
+
+# Files to compare, sorted. Python bytecode left behind by running a
+# skill's scripts is git-ignored and must not count as a local change.
+list_files() {
+    find "$1" -type f -not -path '*/__pycache__/*' -not -name '*.pyc' | sort
+}
+
 show_diff() {
     local local_dir="$1"
     local upstream_dir="$2"
@@ -190,7 +237,7 @@ show_diff() {
                 added+=("$rel")
                 has_changes=true
             fi
-        done < <(find "$upstream_dir" -type f | sort)
+        done < <(list_files "$upstream_dir")
     fi
 
     # Files only in local (will be removed)
@@ -202,7 +249,7 @@ show_diff() {
                 removed+=("$rel")
                 has_changes=true
             fi
-        done < <(find "$local_dir" -type f | sort)
+        done < <(list_files "$local_dir")
     fi
 
     # Files that differ
@@ -214,7 +261,7 @@ show_diff() {
                 modified+=("$rel")
                 has_changes=true
             fi
-        done < <(find "$upstream_dir" -type f | sort)
+        done < <(list_files "$upstream_dir")
     fi
 
     # Display
@@ -280,6 +327,7 @@ sync_skill() {
 
     print_header "$name"
     print_info "Source: $repo @ $path ($branch)"
+    # $branch is the conf ref: a branch, a tag, or a full commit SHA (pinned).
 
     # Sparse checkout to temp dir
     local tmpdir
@@ -297,9 +345,23 @@ sync_skill() {
 
     local upstream_dir="$tmpdir/$path"
 
+    local locked_sha
+    locked_sha="$(lock_get "$name")"
+    if [ -n "$locked_sha" ]; then
+        print_info "Locked: ${locked_sha:0:12}  Upstream: ${UPSTREAM_SHA:0:12}"
+    else
+        print_info "Locked: (none)  Upstream: ${UPSTREAM_SHA:0:12}"
+    fi
+
     # Show diff
     echo ""
     if ! show_diff "$local_dir" "$upstream_dir"; then
+        # Vendored files already equal this upstream commit, so the lock
+        # can be brought up to date without touching the skill.
+        if [ "$DRY_RUN" = false ] && [ "$locked_sha" != "$UPSTREAM_SHA" ]; then
+            lock_set "$name" "$UPSTREAM_SHA"
+            print_info "Lock updated to ${UPSTREAM_SHA:0:12}."
+        fi
         rm -rf "$tmpdir"
         trap - RETURN
         return 0
@@ -330,7 +392,8 @@ sync_skill() {
 
     # Replace
     replace_skill "$local_dir" "$upstream_dir"
-    print_success "$name synced successfully."
+    lock_set "$name" "$UPSTREAM_SHA"
+    print_success "$name synced successfully (upstream ${UPSTREAM_SHA:0:12})."
 
     rm -rf "$tmpdir"
     trap - RETURN
