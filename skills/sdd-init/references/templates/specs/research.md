@@ -1,4 +1,4 @@
-# Research & Design Decisions Template
+# Research Template
 
 ---
 **Purpose**: Capture discovery findings and the evidence behind them, so the design rests on verified claims rather than plausible prose.
@@ -48,19 +48,9 @@ Candidate patterns considered, with the claims that inform the comparison.
 |--------|-------------|-----------|---------------------|----------|
 | Hexagonal | Ports & adapters around the core domain | Clear boundaries, testable core | Adapter layer build-out | `C3`, steering principle X |
 
-## Design Decisions
-Decisions that shape `design.md`. Each one names the claims it rests on, so a claim later found wrong points at the decisions that fall with it.
-
-### Decision: `<Title>`
-- **Based on**: `C<n>`, `C<n>`
-- **Context**: Problem or requirement driving the decision
-- **Alternatives Considered**: Option A — …; Option B — …
-- **Selected Approach**: What was chosen and how it works
-- **Rationale**: Why it fits this project
-- **Trade-offs**: Benefits vs. compromises
-- **Follow-up**: What to verify during implementation
-
-_Repeat for each decision._
+## Recommendation
+Provisional. What the design should do, one line each, naming the claims it rests on. `/sdd-spec-design` moves each line into design.md §Design Decisions and deletes it here; when the section is empty, it is removed. Claims stay.
+- `<recommendation>` — based on `C<n>`, `C<n>`; alternative not taken: `<one phrase>`
 
 ## Risks & Mitigations
 - Risk — mitigation

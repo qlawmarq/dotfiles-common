@@ -1,8 +1,9 @@
 # Document Hygiene
 
-Applies to every document an SDD skill writes. Three failures with one cause: a fact written where it does not belong.
+Applies to every document an SDD skill writes. Every failure below has one cause: a fact written where it does not belong.
 
 - **One fact, one seat.** Approval and status facts live in their seat and nowhere else — a spec's approvals in `spec.json`, a canon decision's history in `git log`, an open question in the canon README's table. Never write a dated approval note into body prose ("2026-08-12 confirmed by user"); the seat already holds it, and the copy is what later contradicts the original. The same goes for crediting a ruling in body prose ("(User-confirmed 2026-09-25 · game-design)", "PdM ruling 2026-09-26") — state the decision, not who made it or when.
+- **One contract, one seat.** A contract — a signature, field, value, threshold or branch rule — has one seat: the block of the component that owns it in design.md; flows, overviews, tables, diagrams and tasks name it and never restate its content.
 - **Never restate the adjacent structure.** What a table, diagram, or parent section already says is not repeated in the prose beside it. Reference it and add only what it does not carry.
 - **One concept, one term.** Before coining a word for something, grep for the term the documents already use and reuse it — a near-synonym is a defect, not a style choice. When the project keeps a controlled vocabulary (registry `TERM` domain, `canon-layer.md §Registry`), a rejected synonym is registered there as a banned term so the machine check catches its next occurrence.
 - **A rename replaces every live occurrence.** No "(formerly X)" labels, no transitional aliases: grep the live layers and replace completely. Archives and done specs keep the old name — git history and the archive resolve it.

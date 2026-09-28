@@ -1,7 +1,7 @@
 # Design Document Template
 
 ---
-**Purpose**: Provide sufficient detail to ensure implementation consistency across different implementers, preventing interpretation drift.
+**Purpose**: Provide the implementing agent — which also reads research.md, steering and the code — with every decision and contract stated once, so that a change has one place to land.
 
 **Approach**:
 - Include essential sections that directly inform implementation decisions
@@ -12,13 +12,13 @@
 **Warning**: Approaching 1000 lines indicates excessive feature complexity that may require design simplification.
 ---
 
-> Sections may be reordered (e.g., surfacing Requirements Traceability earlier or moving Data Models nearer Architecture) when it improves clarity. Within each section, keep the flow **Summary → Scope → Decisions → Impacts/Risks** so reviewers can scan consistently.
+> Sections may be reordered (e.g., moving Data Models nearer Architecture) when it improves clarity; keep the section headings intact. Within each section, keep the flow **Summary → Scope → Decisions → Impacts/Risks** so reviewers can scan consistently.
 
 ## Overview 
 2-3 paragraphs max
 **Purpose**: This feature delivers [specific value] to [target users].
 **Users**: [Target user groups] will utilize this for [specific workflows].
-**Impact** (if applicable): Changes the current [system state] by [specific modifications].
+**Impact** (if applicable): Changes the current [system state] by [specific modifications] (effects on the current system only — never a summary of a contract).
 
 
 ### Goals
@@ -36,10 +36,18 @@ Research claims this design depends on that were **not** verified. Each needs th
 
 - `<claim>` (`C<n>`) — 影響: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 
+## Design Decisions
+
+One entry per decision that shaped this design, including decisions settled during implementation. This is the decision's only seat: research.md keeps the measurements and the option comparison, never the choice.
+
+### D1: [title]
+- Decision: [what was chosen] — based on `C<n>`
+- Rejected: [option] — [one-phrase reason] (one line per option; the comparison itself stays in research.md §Architecture Pattern Evaluation)
+- Consequences: [what this costs or forecloses, the negative included]
+
 ## Architecture
 
-> Reference detailed discovery notes in `research.md` only for background; keep design.md self-contained for reviewers by capturing all decisions and contracts here.
-> Capture key decisions in text and let diagrams carry structural detail—avoid repeating the same information in prose.
+> Every contract has one seat: the block of the component that owns it (§Components and Interfaces). Diagrams carry names and edges only; flows, tables and the Overview refer to a contract by name and never restate its content. research.md holds measurements and option evaluation; the decision itself lives in §Design Decisions. A decision that rests on a research claim cites it inline as `(C<n>)`.
 
 ### Existing Architecture Analysis (if applicable)
 When modifying existing systems:
@@ -52,7 +60,7 @@ When modifying existing systems:
 **RECOMMENDED**: Include Mermaid diagram showing the chosen architecture pattern and system boundaries (required for complex features, optional for simple additions)
 
 **Architecture Integration**:
-- Selected pattern: [name and brief rationale]
+- Selected pattern: [name only — its contract lives in the owning component's block]
 - Domain/feature boundaries: [how responsibilities are separated to avoid conflicts]
 - Existing patterns preserved: [list key patterns]
 - New components rationale: [why each is needed]
@@ -60,15 +68,11 @@ When modifying existing systems:
 
 ### Technology Stack
 
+Only what differs from `docs/steering/tech.md`: a new dependency, a version change, or a placement rule for this feature. Omit the section when nothing differs.
+
 | Layer | Choice / Version | Role in Feature | Notes |
 |-------|------------------|-----------------|-------|
-| Frontend / CLI | | | |
-| Backend / Services | | | |
-| Data / Storage | | | |
-| Messaging / Events | | | |
-| Infrastructure / Runtime | | | |
-
-> Keep rationale concise here and, when more depth is required (trade-offs, benchmarks), add a short summary plus pointer to the Supporting References section and `research.md` for raw investigation notes.
+| | | | |
 
 ## System Flows
 
@@ -78,32 +82,13 @@ Provide only the diagrams needed to explain non-trivial flows. Use pure Mermaid 
 - Data / event flow (pipelines, async messaging)
 
 Skip this section entirely for simple CRUD changes.
-> Describe flow-level decisions (e.g., gating conditions, retries) briefly after the diagram instead of restating each step.
-
-## Requirements Traceability
-
-Use this section for complex or compliance-sensitive features where requirements span multiple domains. Straightforward 1:1 mappings can rely on the Components summary table.
-
-Map each requirement ID (e.g., `2.1`) to the design elements that realize it.
-
-| Requirement | Summary | Components | Interfaces | Flows |
-|-------------|---------|------------|------------|-------|
-| 1.1 | | | | |
-| 1.2 | | | | |
-
-> Omit this section only when a single component satisfies a single requirement without cross-cutting concerns.
+> Diagrams carry participants and order. A branching rule belongs to the component that owns it — write it once in that block and refer to it from the diagram's caption as `per \`Component.method\``.
 
 ## Components and Interfaces
 
-Provide a quick reference before diving into per-component details.
+Group components by domain or layer; the headings are the index. Each component block is the only seat of its contract — its signature, fields, values, thresholds and branch rules appear here and nowhere else in the document. List requirement IDs as `2.1, 2.3`. Only components introducing new boundaries (logic hooks, external integrations, persistence) need a full block; presentation components need the Field table plus a short Implementation Note.
 
-- Summaries can be a table or compact list. Example table:
-  | Component | Domain/Layer | Intent | Req Coverage | Key Dependencies (P0/P1) | Contracts |
-  |-----------|--------------|--------|--------------|--------------------------|-----------|
-  | ExampleComponent | UI | Displays XYZ | 1, 2 | GameProvider (P0), MapPanel (P1) | Service, State |
-- Only components introducing new boundaries (e.g., logic hooks, external integrations, persistence) require full detail blocks. Simple presentation components can rely on the summary row plus a short Implementation Note.
-
-Group detailed blocks by domain or architectural layer. For each detailed component, list requirement IDs as `2.1, 2.3` (omit “Requirement”). When multiple UI components share the same contract, reference a base interface/props definition instead of duplicating code blocks.
+When multiple UI components share the same contract, reference a base interface/props definition instead of duplicating code blocks.
 
 ### [Domain / Layer]
 
@@ -125,9 +110,11 @@ Group detailed blocks by domain or architectural layer. For each detailed compon
 - Outbound: Component/service name — purpose (Criticality)
 - External: Service/library — purpose (Criticality)
 
+Criticality: `P0` blocking, `P1` high-risk, `P2` informational.
+
 Summarize external dependency findings here; deeper investigation (API signatures, rate limits, migration notes) lives in `research.md`.
 
-**Contracts**: Service [ ] / API [ ] / Event [ ] / Batch [ ] / State [ ]  ← check only the ones that apply.
+**Contracts**: Service [ ] / API [ ] / Event [ ] / Batch [ ] / State [ ]  ← check only the ones that apply; the subsections of unchecked types are deleted.
 
 ##### Service Interface
 ```typescript
@@ -135,6 +122,7 @@ interface [ComponentName]Service {
   methodName(input: InputType): Result<OutputType, ErrorType>;
 }
 ```
+(state each once — in the docstring when the language has one, otherwise here)
 - Preconditions:
 - Postconditions:
 - Invariants:
@@ -165,75 +153,46 @@ interface [ComponentName]Service {
 - Validation: 
 - Risks:
 
+### Requirements without a component
+
+Acceptance criteria no component block carries, and why. IDs only — never the criterion's text.
+
+| Requirement | Realized by | Why |
+|-------------|-------------|-----|
+| | existing code / cross-cutting rule / verification only | |
+
 ## Data Models
 
-Focus on the portions of the data landscape that change with this feature.
+Only structure that no single component owns: shared or persisted schemas, event payload fields. A field owned by a component lives in that component's State Management block, and a request/response schema in its API Contract; neither is repeated here.
 
 ### Domain Model
-- Aggregates and transactional boundaries
-- Entities, value objects, domain events
-- Business rules & invariants
-- Optional Mermaid diagram for complex relationships
+Invariants that span aggregates, one bullet each. A Mermaid class diagram only when 3 or more entities relate, with names, edges and cardinality only — no attributes.
 
-### Logical Data Model
+### Shared Data
+Structure no single component owns: input or configuration schemas, records with more than one writer. One table, then the rules that cross components — how references are made (by id, by name), which store is the source of truth, when a version number changes.
 
-**Structure Definition**:
-- Entity relationships and cardinality
-- Attributes and their types
-- Natural keys and identifiers
-- Referential integrity rules
+| Item | Type | Owner / writer | Constraint |
+|------|------|----------------|------------|
+| | | | |
 
-**Consistency & Integrity**:
-- Transaction boundaries
-- Cascading rules
-- Temporal aspects (versioning, audit)
+### Storage
+Only when this feature decides how data is stored. Per store, one table of structures (tables, collections, streams, key spaces) with their keys and indexes, then the store-specific decisions as bullets: partition or shard key, embedding vs referencing, TTL or compaction, snapshot and projection policy, migration steps.
 
-### Physical Data Model
-**When to include**: When implementation requires specific storage design decisions
+| Store | Structure | Keys | Indexes | Notes |
+|-------|-----------|------|---------|-------|
+| | | | | |
 
-**For Relational Databases**:
-- Table definitions with data types
-- Primary/foreign keys and constraints
-- Indexes and performance optimizations
-- Partitioning strategy for scale
-
-**For Document Stores**:
-- Collection structures
-- Embedding vs referencing decisions
-- Sharding key design
-- Index definitions
-
-**For Event Stores**:
-- Event schema definitions
-- Stream aggregation strategies
-- Snapshot policies
-- Projection definitions
-
-**For Key-Value/Wide-Column Stores**:
-- Key design patterns
-- Column families or value structures
-- TTL and compaction strategies
-
-### Data Contracts & Integration
-
-**API Data Transfer**
-- Request/response schemas
-- Validation rules
-- Serialization format (JSON, Protobuf, etc.)
-
-**Event Schemas**
+### Event Schemas
 - Published event structures
 - Schema versioning strategy
 - Backward/forward compatibility rules
-
-**Cross-Service Data Management**
-- Distributed transaction patterns (Saga, 2PC)
-- Data synchronization strategies
-- Eventual consistency handling
+- Cross-service consistency (saga, synchronization, eventual consistency) — only when the event crosses a service boundary
 
 Skip subsections that are not relevant to this feature.
 
 ## Error Handling
+
+Record only feature-specific decisions or deviations; baseline standards live in steering.
 
 ### Error Strategy
 Concrete error handling patterns and recovery mechanisms for each error type.
@@ -249,13 +208,9 @@ Include Mermaid flowchart only for complex error scenarios with business workflo
 ### Monitoring
 Error tracking, logging, and health monitoring implementation.
 
-## Testing Strategy
+## Verification Plan
 
-### Default sections (adapt names/sections to fit the domain)
-- Unit Tests: 3–5 items from core functions/modules (e.g., auth methods, subscription logic)
-- Integration Tests: 3–5 cross-component flows (e.g., webhook handling, notifications)
-- E2E/UI Tests (if applicable): 3–5 critical user paths (e.g., forms, dashboards)
-- Performance/Load (if applicable): 3–4 items (e.g., concurrency, high-volume ops)
+Test levels for this feature (unit, integration, end-to-end, performance — only the ones that apply), the regression policy (which existing suites must stay green, which are expected to change and why), and run configurations for probes, guard additions and budgets for long-running verification. When behaviors.md exists, list only what its scenarios do not cover. No test names — the seat of a test name is the scenario's `Verification:` line in behaviors.md, or the test file itself when there is no behaviors.md.
 
 ## Optional Sections (include when relevant)
 
@@ -276,6 +231,6 @@ Include a Mermaid flowchart showing migration phases when schema/data movement i
 - Phase breakdown, rollback triggers, validation checkpoints
 
 ## Supporting References (Optional)
-- Create this section only when keeping the information in the main body would hurt readability (e.g., very long TypeScript definitions, vendor option matrices, exhaustive schema tables). Keep decision-making context in the main sections so the design stays self-contained.
+- Create this section only when keeping the information in the main body would hurt readability (e.g., very long TypeScript definitions, vendor option matrices, exhaustive schema tables).
 - Link to the supporting references from the main text instead of inlining large snippets.
-- Background research notes and comparisons continue to live in `research.md`, but their conclusions must be summarized in the main design.
+- Background research notes and comparisons live in `research.md`; a decision drawn from them is written here once and cites its claim as `(C<n>)`.

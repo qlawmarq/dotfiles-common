@@ -79,13 +79,14 @@ Write technical design document for the specified feature based on approved requ
 Using the template and principles loaded in Step 1 and the research findings from Step 2:
 
 - **Follow specs/design.md template structure and generation instructions strictly**
-- **Satisfy the behavior scenarios**: if `behaviors.md` exists, every scenario must be realizable by the design — walk each scenario through the designed components and note which components realize it. A scenario the design cannot produce is a design gap; a design behavior that contradicts a scenario's `Grounds:` is concept drift — stop and report, don't design around it
+- **Move, don't copy**: for each line of research.md §Recommendation, write a `D<n>` entry in design.md §Design Decisions (adopted or overturned, with the rejected options and consequences), then delete that line from research.md; delete the section when it is empty. `C<n>` claims stay where they are.
+- **Satisfy the behavior scenarios**: if `behaviors.md` exists, every scenario must be realizable by the design — walk each scenario through the designed components and report, in the command output, any scenario no component realizes — do not add a mapping table to design.md. A scenario the design cannot produce is a design gap; a design behavior that contradicts a scenario's `Grounds:` is concept drift — stop and report, don't design around it
 - **Integrate all discovery findings**: Use researched information (APIs, patterns, technologies) throughout component definitions, architecture decisions, and integration points
 - **Stop on contradiction**: if a research claim conflicts with what the code or the environment actually shows, do not design around the discrepancy — stop and report it. The claim, not the design, is what needs fixing. Re-investigation belongs to `/sdd-spec-research`
 - If existing design.md found in Step 1, use it as reference context (merge mode)
 - Apply design rules: Type Safety, Visual Communication, Formal Tone
 - Use language specified in spec.json
-- Ensure the sections carrying research-derived content — "Architecture Pattern & Boundary Map", "Technology Stack", "Components and Interfaces" — reflect it, and reference supporting details from `research.md`
+- Ensure the sections carrying research-derived content — "Architecture Pattern & Boundary Map", "Components and Interfaces" — reflect it, and reference supporting details from `research.md`
 
 ### Step 4: Update Metadata
 
@@ -111,7 +112,7 @@ Design rarely produces canon-level content — architecture belongs in steering.
   - Document public interfaces and contracts clearly to ensure cross-component type safety.
 - **Steering Alignment**: Respect existing architecture patterns from steering context
 - **Design Focus**: Architecture and interfaces ONLY, no implementation code
-- **Requirements Traceability IDs**: Use numeric requirement IDs only (e.g. "1.1", "1.2", "3.1", "3.3") exactly as defined in requirements.md. Do not invent new IDs or use alphabetic labels.
+- **Requirement IDs**: Use numeric requirement IDs only (e.g. "1.1", "1.2", "3.1", "3.3") exactly as defined in requirements.md. Do not invent new IDs or use alphabetic labels.
 
 </instructions>
 
@@ -131,7 +132,9 @@ Provide brief summary in the language specified in spec.json:
 1. **Status**: Confirm design document generated at `{spec_path}/design.md`
 2. **Research Context**: Whether `research.md` was available and used
 3. **Key Findings**: 2-3 critical insights from `research.md` that shaped the design (if available)
-4. **Next Action**: Approval workflow guidance (see Safety & Fallback)
+4. **Scenario coverage**: scenarios no component realizes (or "all realized")
+5. **Decisions**: `D<n>` entries written, and the Recommendation lines moved out of research.md (count)
+6. **Next Action**: Approval workflow guidance (see Safety & Fallback)
 
 **Format**: Concise Markdown (under 200 words) - this is the command output, NOT the design document itself
 

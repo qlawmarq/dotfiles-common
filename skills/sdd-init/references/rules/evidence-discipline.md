@@ -35,7 +35,7 @@ Every finding in `research.md` is one claim with four tag lines. Keep the tag na
 
 - **`measured` requires a reproducer.** A claim may only be typed `measured` when `Verification` names something a reader can re-run: a `probe/` artifact, a test, or a command whose output is recorded. Without one it is `inferred` at best.
 - **No promotion in the summary.** A claim may appear in Summary / Key Findings only if it has a `C<n>` entry in the Research Log. Restating a lower bound as a total in the summary is the single most damaging failure this rule exists to stop.
-- **Design Decisions cite their claims.** Each decision names the `C<n>` it rests on, so a claim later found wrong points directly at the decisions that fall with it.
+- **Recommendations and design decisions cite their claims.** A recommendation in research.md and a decision in design.md each name the `C<n>` they rest on, so a claim later found wrong points directly at what falls with it.
 - `Load-bearing` is left blank for claims the design does not depend on. Filling it in is what selects the small set worth spending measurement on.
 
 ## 3. The `probe/` directory

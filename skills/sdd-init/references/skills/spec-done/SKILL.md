@@ -231,7 +231,7 @@ After the answer, every B still resolved as a code fix, and every C the user cho
 
 Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the Step 3 answer resolved as "fix the criterion" (B overridden, C withdrawn, E, D). For a B override or a C withdrawal, record it in Requirements changes and as a `Reconciled: <ID> ← spec-done confirmation` line (4f). For D, fix the criterion only after the canon answer, following it.
 
-- For each A criterion, update the matching row of design.md's Requirements Traceability table to the new wording. Never renumber.
+- Never renumber a criterion.
 - Record the answer to each E ruling in the spec before finalizing.
 - Do not add a revision-history section to any document — git holds the history (`docs/settings/rules/document-hygiene.md`, one fact, one seat).
 - Put `## Requirements changes` at the top of the reply: per criterion ID, the full previous → new text, then one line with the grounds (file:line) and the class. When there are canon changes, the `## Canon changes` section follows it.

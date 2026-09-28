@@ -64,6 +64,11 @@ Check what the design asserts against its own text and against the code, instead
 | A — internal contradiction | The same contract stated in two or more places (a table and a diagram, Data Models and a Service Interface) | Quote both and compare. A difference is a discrepancy |
 | B — concrete expression | Formulas, thresholds, enum values, and function, class, or string names the design asserts about existing code | Grep or read the code and quote it. Report names that do not exist, values that differ, and names that collide |
 | C — missed branch site | A design that adds a value to an existing enum or kind | Grep every site that branches on that kind (match / switch / assert / tables) and list the ones the design does not mention |
+| D — uncovered criterion | Every acceptance criterion ID in requirements.md | Grep the IDs against the `Requirements` field of every component block. List the IDs no block carries. An ID listed in design.md §Requirements without a component is assigned |
+
+### 7. Non-functional Coverage
+
+Where the requirements or steering call for it, the design states its security controls, performance targets, migration path and the criticality of each dependency; a missing one is a finding.
 
 ## Review Process
 
@@ -111,7 +116,7 @@ For each: Issue, Impact, Recommendation, Traceability (e.g., 1.1, 1.2), Evidence
 
 ### Recomputation discrepancies
 
-Every discrepancy found under criterion 6, each with its kind (A / B / C) and both quotes (design and code, or the two design locations). Separate from Critical Issues (≤3), with no cap on the count. List the discrepancies only; whether the design or the code is wrong is settled in dialogue with the designer.
+Every discrepancy found under criterion 6, each with its kind (A / B / C / D) and, for A–C, both quotes (design and code, or the two design locations). Separate from Critical Issues (≤3), with no cap on the count. List the discrepancies only; whether the design or the code is wrong is settled in dialogue with the designer. D items are listed as *unassigned*, not as Critical; whether the design misses them or the block's field is incomplete is settled in dialogue.
 
 ### Design Strengths
 
@@ -146,5 +151,6 @@ Engage on designer's perspective, alternatives, clarifications, and necessary ch
 - **Critical Issues ≤ 3** and each includes Impact and Recommendation
 - **Traceability**: Each issue references requirement ID/section
 - **Evidence**: Each issue cites design doc location
-- **Recomputation**: every contract stated twice, every concrete expression about existing code, and every branch site of an extended kind checked, with each discrepancy quoted
+- **Recomputation**: every contract stated twice, every concrete expression about existing code, and every branch site of an extended kind checked, and every criterion ID grepped, with each discrepancy quoted
+- **Non-functional**: security, performance, migration and dependency criticality present where required
 - **Decision**: GO/NO-GO with clear rationale and next steps

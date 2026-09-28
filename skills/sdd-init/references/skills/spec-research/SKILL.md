@@ -108,7 +108,7 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
    - **Research Log** — one `C<n>` claim per finding, each with its four tag lines. A claim is typed `measured` only when `Verification` names something re-runnable.
    - **Summary / Key Findings** — may contain nothing that lacks a `C<n>` entry below. Never restate a lower bound, a partial count, or a sample as a total.
 
-   Fill the remaining sections (Unverified & Open, Architecture Pattern Evaluation, Design Decisions, Risks, References) as the template describes. Each Design Decision names the `C<n>` it rests on and states the actionable recommendation for the design phase.
+   Fill the remaining sections (Unverified & Open, Architecture Pattern Evaluation, Recommendation, Risks, References) as the template describes. Each recommendation names the `C<n>` it rests on.
 
 3. **Write research.md**: Output the completed document to `{spec_path}/research.md` using the Write tool.
 

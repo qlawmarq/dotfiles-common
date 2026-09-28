@@ -67,7 +67,7 @@ No new document is created. Each kind of ruling lands in an existing seat:
 
 | Ruling | Seat |
 | --- | --- |
-| An implementation-level decision (how a field is held, when a check runs, …) | The relevant section of design.md |
+| An implementation-level decision (how a field is held, when a check runs, …) | The owning component's block in design.md for the contract; a `D<n>` entry in design.md §Design Decisions for the choice and what it rejected |
 | An approved deviation | Fix design.md. A deviation that is not written into design is not approved. What changed during implementation is held by design.md's git diff |
 | Sent back (a deviation not agreed) | A fix task in tasks.md, in the same form as `/sdd-spec-done` class B |
 | A probe's ship verdict | The behaviors.md `Verification:` line, pointing at the evidence. No verdict note in the body of a probe result file |

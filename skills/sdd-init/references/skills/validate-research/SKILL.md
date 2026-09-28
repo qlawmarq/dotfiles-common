@@ -44,7 +44,7 @@ Verify `research.md` independently. **Start from its claims and check them yours
    2. **Citation fidelity** — for each `sourced` claim, check the cited source actually supports it, and that `file:line` references say what the claim says they say. A citation that is merely *adjacent* to the claim does not support it.
    3. **Unmeasured assertions** — list **every** claim that falls under one of the four kinds in `evidence-discipline.md` §1 but has `Verification: none` or only a document reference. This list is not capped.
    4. **Coverage** — check the investigation items required by `requirements.md`, `behaviors.md` (Verification lines) and `gap-analysis.md` against what `research.md` actually investigated. List anything untouched.
-   5. **Design premises** — a claim that is `Load-bearing` and not verified by checks 1–2 is **contested**. Also work backwards: if a Design Decision rests on a claim whose `Load-bearing` line is blank, the line is wrong — flag it.
+   5. **Design premises** — a claim that is `Load-bearing` and not verified by checks 1–2 is **contested**. Also work backwards: if a recommendation rests on a claim whose `Load-bearing` line is blank, the line is wrong — flag it.
 
 4. **Report and decide** (see Output Description). In interactive mode, put each contested claim to the user and record the answer. In `--batch`, list them as open assumptions.
 
@@ -89,7 +89,7 @@ C<n>: <claim>
 ## Safety & Fallback
 
 - **No `research.md`**: stop — "Run `/sdd-spec-research <feature-name>` first."
-- **`research.md` predates the claim format** (no `C<n>` entries): do not fail. Derive claims from its Findings and Design Decisions, report that the format is missing as the first `その他の指摘`, and run the five checks on what you derived.
+- **`research.md` predates the claim format** (no `C<n>` entries): do not fail. Derive claims from its Findings and Recommendation, report that the format is missing as the first `その他の指摘`, and run the five checks on what you derived.
 - **Reproducer cannot run here** (missing runtime, too slow, needs credentials): mark the claim un-reproduced with the reason and treat it as unverified for check 5. Do not silently pass it.
 - **Language undefined**: fall back to `docs/settings/templates/specs/init.json` `language`, then `ja`.
 

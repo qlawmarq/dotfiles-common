@@ -62,7 +62,8 @@ Interactive design quality review for the specified feature based on approved re
 4. **Execute Design Review** (skip interactive dialogue in `--batch` mode):
    - Follow design-review.md process: Analysis → Critical Issues → Strengths → GO/NO-GO
    - If `research.md` exists, verify that its key findings are reflected in the design — and, per design-review criterion 5, that no major design decision silently rests on a claim typed `unverified` or lacking a reproducer
-   - **Recompute** per design-review criterion 6, in batch mode too: quote the code with Grep/Read for every contract stated twice, every concrete expression about existing code, and every branch site of a kind the design extends
+   - **Recompute** per design-review criterion 6, in batch mode too: quote the code with Grep/Read for every contract stated twice, every concrete expression about existing code, and every branch site of a kind the design extends, and every acceptance criterion ID for criterion 6-D (coverage)
+   - **Non-functional coverage** per design-review criterion 7
    - In batch mode: Perform bulk review and output complete results without user dialogue
    - In interactive mode (default): Engage interactively with user
    - Use language specified in spec.json for output
@@ -93,7 +94,7 @@ Provide output in the language specified in spec.json with:
 
 1. **Review Summary**: Brief overview (2-3 sentences) of design quality and readiness
 2. **Critical Issues**: Maximum 3, following design-review.md format
-3. **Recomputation discrepancies (no cap)**: every discrepancy from criterion 6, with its kind and both quotes
+3. **Recomputation discrepancies (no cap)**: every discrepancy from criterion 6, with its kind and both quotes, and the unassigned IDs from criterion 6-D (coverage)
 4. **Design Strengths**: 1-2 positive aspects
 5. **Final Assessment**: GO/NO-GO decision with rationale and next steps
 

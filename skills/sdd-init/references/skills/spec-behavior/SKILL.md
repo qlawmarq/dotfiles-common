@@ -57,7 +57,7 @@ Following `concept-alignment.md`: identify the product purposes, themes, and Out
 
 ### Step 3: Formulate Scenarios (Discovery dialogue)
 
-1. Draft scenarios covering the product-meaningful cases per `behavior-formulation.md`: happy path, philosophy-expressing case, plausible-drift case — concrete values, one behavior each, `Grounds:` and `Verification:` on every scenario.
+1. Draft scenarios per `behavior-formulation.md` — at most one per acceptance criterion, only where the example adds a boundary value, an interaction, or a reading easy to get wrong; concrete values, one behavior each, one-citation `Grounds:` and `Verification:` on every scenario.
 2. While drafting, collect what the examples expose: edge cases requirements never settled, thresholds with no value, behaviors that *cannot* be grounded, behaviors that conflict with canon or invariants.
 3. **Conflicts are findings, not editing problems**: a requirement or scenario contradicting the canon is reported in `concept-alignment.md` format. If the canon itself should change, file it as an Open Question in the canon README or hand it to `/sdd-canon-update` — never adjust canon from this phase or quietly reword the scenario to fit.
 4. Present the draft with your questions and iterate briefly with the user — concrete examples are easy to react to. Resolve scope-affecting questions; log the rest under Open Questions. Do not invent behaviors beyond the requirements (same discipline as `requirements-elicitation.md`).
@@ -87,7 +87,7 @@ Following `concept-alignment.md`: identify the product purposes, themes, and Out
 
 Provide output in the language specified in spec.json:
 
-1. **Scenario Summary**: scenario titles with the purpose each serves (one line each)
+1. **Scenario Summary**: scenario titles with the purpose each serves (one line each). End with one line `Scenarios: n / acceptance criteria: m` — a ratio at or above 1 is a sign the requirements are being restated, not exemplified.
 2. **Concept Findings**: canon conflicts found (in `concept-alignment.md` format) or "none — all scenarios grounded"
 3. **Open Questions**: what remains logged, and what was resolved in dialogue
 4. **Document Status**: behaviors.md written, spec.json updated

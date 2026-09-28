@@ -19,13 +19,13 @@ Use Gherkin structure. Keep the keywords (`Given`, `When`, `Then`, `And`, `But`)
 Given <concrete initial state — named actors, real values>
 When <the triggering event>
 Then <the observable outcome>
-Grounds: <which product purpose this serves — see Grounding Discipline>
+Grounds: <one citation — the ID and one phrase>
 Verification: auto-test | probe | manual — <pointer or planned name>
 ```
 
 - **One behavior per scenario.** Split compound behaviors.
-- **Concrete over abstract**: "Given 信者ユメの空腹が0.1で共同備蓄が空", not "Given a hungry resident". Concrete values expose edge cases that abstract rules hide.
-- Cover the *product-meaningful* cases, not every permutation: the happy path, the case that best expresses the product's philosophy, and any case where drift is plausible. Exhaustive combinatorics belong in tests, not here.
+- **Concrete over abstract**: "Given the order holds 3 items and the stock of item B is 0", not "Given an order with an out-of-stock item". Concrete values expose edge cases that abstract rules hide.
+- **At most one scenario per acceptance criterion**, and only where the example adds what the criterion's text does not: a value at a boundary the criterion leaves open, an interaction between criteria, or a reading of the criterion that is easy to get wrong. A criterion that needs no example gets none; a scenario that only restates a criterion with names and values is not written. Exhaustive combinatorics belong in tests.
 
 ## Grounding Discipline (the `Grounds:` line)
 
@@ -41,6 +41,9 @@ Rules:
 - A scenario that serves **no citable purpose** is scope without a reason — raise it as a question, don't keep it.
 - A scenario (or the requirement behind it) that **contradicts** the cited canon, product 主題, or an established invariant is a **Critical finding**: report it before design proceeds. Do not silently reword the scenario to fit.
 - Do not stretch citations. "The product is about X, therefore anything adjacent to X" is not grounding.
+- One citation per scenario — the ID and one phrase, never the source's full text. A second citation only when the scenario sits at the junction of two decisions.
+
+The Introduction is one sentence of mapping and one line of actors; values and defaults are not listed there.
 
 ## Verification Mapping (adaptive)
 
