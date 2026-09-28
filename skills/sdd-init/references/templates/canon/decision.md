@@ -17,4 +17,4 @@
 
 ## Registry refs
 
-- Grounds: `FAC-01`..`FAC-05` (see [registry.md](../registry.md)) — cite IDs only; the list itself lives in the registry.
+- Grounds: `BIL-01`..`BIL-05` (see [registry.md](../registry.md)) — cite IDs only; the list itself lives in the registry.

@@ -27,7 +27,7 @@ phase that produced the decision (or /sdd-canon-update), never by a separate cer
 
 - Canon root: [path, default `docs/canon/` — `README.md` is the index]
 - Registry: [`<canon-root>/registry.md` — enumerable norms, cite by ID]
-- How to search: [e.g. grep by the `keywords` line; plain terms like 食事, 相続]
+- How to search: [e.g. grep by the `keywords` line; plain terms such as the name of a feature or an entity]
 
 ---
 _Focus on patterns and purpose, not exhaustive feature lists_

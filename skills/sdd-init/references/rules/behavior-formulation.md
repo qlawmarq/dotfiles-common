@@ -39,7 +39,7 @@ Every scenario MUST cite the product purpose it serves — this is **forward tra
 Rules:
 
 - A scenario that serves **no citable purpose** is scope without a reason — raise it as a question, don't keep it.
-- A scenario (or the requirement behind it) that **contradicts** the cited canon, product 主題, or an established invariant is a **Critical finding**: report it before design proceeds. Do not silently reword the scenario to fit.
+- A scenario (or the requirement behind it) that **contradicts** the cited canon, the product's Value Proposition, or an established invariant is a **Critical finding**: report it before design proceeds. Do not silently reword the scenario to fit.
 - Do not stretch citations. "The product is about X, therefore anything adjacent to X" is not grounding.
 - One citation per scenario — the ID and one phrase, never the source's full text. A second citation only when the scenario sits at the junction of two decisions.
 

@@ -19,7 +19,7 @@ When `product.md` and a deeper canon disagree, the canon wins if `product.md` sa
 For each requirement / scenario / design decision under review, ask three questions:
 
 1. **What does it serve?** Name the product purpose, theme, or capability it advances (a citable section or decision). "It was requested" is a *source*, not a *purpose* — both are required.
-2. **Does it contradict?** Check against the product 主題/themes, the Out of Scope list (both product-level and spec-level), and every applicable invariant in `steering/behaviors.md`.
+2. **Does it contradict?** Check against the product's Value Proposition and Core Capabilities, the Out of Scope lists (the spec's, and the product's when steering keeps one), and every applicable invariant in `steering/behaviors.md`.
 3. **Would the behavior read as the product?** For user-facing behavior: does the resulting behavior express the product's philosophy, or would it feel like a different product? (This is the question that pure traceability checks never ask.)
 
 Scale effort to exposure: mechanical/internal changes need only a contradiction check; behavior-shaping changes need all three questions.
