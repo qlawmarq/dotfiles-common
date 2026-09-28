@@ -50,7 +50,7 @@ Interactive requirements quality review for the specified feature, focused on de
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
-   - Read `{spec_path}/requirements.md` — including the **Project Description (Input)** section, every requirement's **Source** line, the **Out of Scope** section, and the **Assumptions & Open Questions** section
+   - Read `{spec_path}/requirements.md` — including the **Project Description (Input)** section, the **Out of Scope** section, and the **Assumptions & Open Questions** section
    - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Review Guidelines**:
@@ -60,7 +60,7 @@ Interactive requirements quality review for the specified feature, focused on de
 
 4. **Execute Requirements Review** (skip interactive dialogue in `--batch` mode):
    - Follow requirements-review.md process: Build trace map → identify Critical Issues → recognize Strengths → GO/NO-GO
-   - **Run the traceability sweep on every requirement**, even when you cap critical issues at three: cross-check each requirement's Source against the Project Description (Input) and steering. List every requirement that does not trace to a legitimate source.
+   - **Run the traceability sweep on every requirement**, even when you cap critical issues at three: cross-check each requirement's text against the Project Description (Input) and steering. List every requirement that does not trace to a legitimate source.
    - **Run the concept-alignment sweep on every requirement** (per `concept-alignment.md`): does it serve a citable product purpose, and does it contradict `product.md`, the declared canon, or a `steering/behaviors.md` invariant? List every conflict — contradictions are Critical.
    - In batch mode: perform bulk review and output complete results without user dialogue
    - In interactive mode (default): for each suspicious requirement, ask the user whether they actually wanted it — this distinguishes "the agent invented it" from "the user wanted it but didn't spell it out"
@@ -73,7 +73,7 @@ Interactive requirements quality review for the specified feature, focused on de
 ## Important Constraints
 
 - **Detect, don't redesign**: surface problems; do not rewrite the requirements or invent the missing ones yourself
-- **Source-first**: the primary question for every requirement is "where did this come from?"
+- **Trace-first**: the primary check for every requirement is its text against the Project Description (Input) and steering
 - **Purpose-second**: the companion question is "what product purpose does this serve?" — concept conflicts are NO-GO by default
 - **Invented features are NO-GO by default**: an unsourced requirement must be confirmed by the user or removed before proceeding
 - **Interactive approach**: engage in dialogue, not one-way evaluation
@@ -85,7 +85,7 @@ Interactive requirements quality review for the specified feature, focused on de
 ## Tool Guidance
 
 - **Read first**: Load all context (spec, steering, rules) before review
-- **Grep if needed**: Search the original input/steering to confirm or refute a requirement's claimed source
+- **Grep if needed**: Search the original input/steering to confirm or refute that a requirement traces to it
 - **Interactive**: Engage with the user to resolve whether suspicious requirements were wanted
 
 ## Output Description
@@ -110,7 +110,6 @@ Provide output in the language specified in spec.json with:
 
 - **Missing Requirements**: If requirements.md doesn't exist, stop with message: "Run `/sdd-spec-requirements <feature-name>` first to generate requirements"
 - **Requirements Not Generated**: If requirements phase not marked as generated in spec.json, warn but proceed with review
-- **Missing Source Lines**: If requirements lack Source/provenance lines, treat that as a finding — the requirements were likely generated without traceability; flag it and recommend re-running `/sdd-spec-requirements`
 - **Missing Out of Scope / Assumptions sections**: Treat absence as a finding (unbounded scope / hidden assumptions), not a blocker
 - **Empty Steering Directory**: Warn user that project context is missing and may affect review quality
 - **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)

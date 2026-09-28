@@ -7,7 +7,7 @@ Validate that `requirements.md` reflects what the user actually asked for — no
 ## Review Philosophy
 
 - **Detect, don't redesign**: surface problems and route them back; don't rewrite the user's requirements for them.
-- **Source-first**: the primary question for every requirement is "where did this come from?" A requirement that traces to nothing is the headline finding, not a footnote.
+- **Trace-first**: the primary check for every requirement is its text against the Project Description (Input) and steering. A requirement that traces to neither is the headline finding, not a footnote.
 - **Critical focus**: limit to the ~3 most important concerns, but always run the full traceability sweep first.
 - **Interactive dialogue**: engage with the user, especially to confirm whether a suspicious requirement was actually wanted.
 - **Clear decision**: definitive GO/NO-GO with rationale.
@@ -21,12 +21,11 @@ Validate that `requirements.md` reflects what the user actually asked for — no
 
 ### 1. Backward Traceability — the gold-plating check (Critical)
 
-For every requirement, verify it carries a **Source** and that the source is legitimate:
+For every requirement, verify that it traces to a legitimate source:
 
-- **User-stated / User-confirmed / Derived / Steering-constraint** are valid sources.
 - A requirement with **no source**, a vague source ("best practice", "users would expect"), or a source that is really the agent's own inference is **gold-plating** — flag it.
-- For **Derived** requirements, check the derivation is actually necessary, not a convenient excuse to add scope. ("We store X" genuinely implies "X is retrievable"; it does not imply "X is exportable to CSV.")
-- Cross-check against the **Project Description (Input)** and the dialogue: does each requirement map to something the user said or confirmed? List any requirement that does not.
+- For a requirement derived from another, check the derivation is actually necessary, not a convenient excuse to add scope. ("We store X" genuinely implies "X is retrievable"; it does not imply "X is exportable to CSV.")
+- Cross-check the requirement text against the **Project Description (Input)**, the dialogue, and steering: does each requirement map to something the user said or confirmed, or to a steering constraint? List any requirement that does not.
 
 This is the criterion most directly tied to the rework the user is trying to prevent. Run it on *every* requirement, even when you stop at three critical issues overall.
 
@@ -73,7 +72,7 @@ Prioritize unsourced/invented requirements and scope violations. For each issue:
 **Type**: [Gold-plating | Concept conflict | Scope violation | Ambiguity | Untestable | Inconsistency]
 **Impact**: [Why it matters — what rework it risks]
 **Suggestion**: [Concrete fix — remove, demote, clarify, or confirm with user]
-**Evidence**: [requirements.md requirement ID + its Source line vs. the actual input]
+**Evidence**: [requirements.md requirement ID + its text vs. the actual input]
 ```
 
 ### Step 3: Recognize Strengths
@@ -120,7 +119,7 @@ For each suspicious requirement, ask the user directly whether they wanted it �
 
 ## Final Checklist
 
-- **Every requirement's Source verified** against the actual input — unsourced ones listed explicitly
+- **Every requirement's text checked** against the Project Description (Input) and steering — unsourced ones listed explicitly
 - **Concept alignment checked** (`concept-alignment.md`) — conflicts with product.md/canon/invariants listed explicitly
 - **Out of Scope section present** and not contradicted
 - **Critical Issues ≤ 3**, each with Type, Impact, Suggestion, Evidence

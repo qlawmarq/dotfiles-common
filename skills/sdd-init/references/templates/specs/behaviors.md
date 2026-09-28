@@ -39,6 +39,6 @@ design. -->
 ## Promotion Candidates
 
 <!-- Product-level, cross-spec invariants this feature establishes — one line each. Proposed for
-docs/steering/behaviors.md at /sdd-spec-done (user-confirmed). "None" is the common outcome. -->
+docs/steering/behaviors.md, confirmed by the user at /sdd-spec-done. "None" is the common outcome. -->
 
 - {{INVARIANT_STATEMENT}} — Grounds: {{CITATION}} / Verify: {{TEST_OR_PROBE}}

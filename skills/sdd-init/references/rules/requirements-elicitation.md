@@ -33,17 +33,6 @@ This phase is always interactive. Do not try to resolve everything in one upfron
 3. **Ask, then revise.** Present the draft together with your questions. Iterate with the user rather than firing a long list of questions before writing anything — a concrete draft is far easier for a user to react to than an abstract interview.
 4. **Confirm before finishing.** Before marking the document generated, give the user a short confirmation summary: "Here is what I understood you to need, and here is what I deliberately left out of scope — is that right?" This catches both missing requirements and invented ones in a single pass. The user's confirmation is what turns provisional requirements into baselined ones.
 
-## Traceability: give every requirement a source
-
-Each requirement carries a **Source** line recording where it came from. Use these provenance labels:
-
-- **User-stated** — the user asked for this directly (quote or paraphrase the relevant input).
-- **User-confirmed** — you proposed it and the user explicitly said yes during the dialogue.
-- **Derived** — a necessary consequence of a stated requirement (e.g., "store the data" implies "the data must be retrievable"). State which requirement it derives from. Derived requirements still need user confirmation if they expand observable scope.
-- **Steering/constraint** — mandated by project steering, a standard, or a regulation. Cite the steering file.
-
-If a requirement does not fit any of these, it has no legitimate source — that is the definition of gold-plating. Remove it, or convert it into a *proposal* you raise with the user.
-
 ## Scope discipline
 
 - **Out of Scope is a feature of the document, not an omission.** Maintain an explicit "Out of Scope" section listing what you deliberately are *not* building, especially capabilities a reasonable reader (or a future you) might assume are included. Writing scope boundaries down converts silent assumptions into auditable decisions and gives the validation step something concrete to check against.

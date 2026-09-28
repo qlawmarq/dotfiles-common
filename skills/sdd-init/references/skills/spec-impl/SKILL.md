@@ -132,8 +132,9 @@ For each selected task, first judge whether the task involves **testable logic**
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Tasks Executed**: Task numbers and test results
-2. **Status**: Completed tasks marked in tasks.md, remaining tasks count
+1. **Facts checked**: commands run and their output, file:line quotes, tests and their results — including the task numbers executed, the completed tasks marked in tasks.md, and the remaining tasks count
+2. **Readings**: interpretations and inferences, marked as such
+3. **Unverified**: what was not checked
 
 **Format**: Concise (under 150 words)
 

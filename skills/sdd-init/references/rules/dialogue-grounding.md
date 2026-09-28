@@ -2,7 +2,7 @@
 
 ## Objective
 
-Make conversation about an SDD project *grounded* — every claim traceable to a document, every question aimed at a real gap. These rules govern the read-and-discuss skills (`/sdd-brief`, `/sdd-grill`), which differ from the rest of the SDD suite: the other skills advance a spec through its phases, while these two answer questions and settle open decisions across the whole project.
+Make conversation about an SDD project *grounded* — every claim traceable to a document, every question aimed at a real gap. These rules govern the read-and-discuss skills (`/sdd-brief`, `/sdd-grill`, `/sdd-director`), which differ from the rest of the SDD suite: the other skills advance a spec through its phases, while these answer questions, settle open decisions, and hold the product's direction across the whole project.
 
 The problem they exist to solve is scale. A mature SDD project accumulates steering, an inception plan, and dozens of specs — tens of thousands of lines across hundreds of files. Nobody, human or agent, can hold that in view at once. Answering "what did we decide about X?" by reading everything is impossible; answering it by guessing is worse. These rules define the third option: targeted retrieval through indexes, with citations.
 
@@ -64,6 +64,7 @@ A conversation that evaporates when the session ends has produced nothing. Whate
 
 - **Read-only dialogue** (`/sdd-brief`) writes nothing. It answers and cites.
 - **Settled decisions** (`/sdd-grill`) route to the artifact that owns them: an open question in `requirements.md` gets resolved there; a design choice belongs in `design.md`; a project-wide rule belongs in steering; a unit boundary belongs in the inception plan — all subject to the normative-content rule below.
+- **Rulings** (`/sdd-director`) land in the seat its SKILL.md §Landing names for each kind — design.md for implementation-level decisions and approved deviations, a fix task for what is sent back — and go to the user as a change request when they touch requirements, canon, inception, or steering.
 - **Normative content lands under its protocol, never quietly.** A decision that belongs to the canon layer or the registry lands through the "Canon changes" protocol (`canon-layer.md §Change Control`: full text of changed sections shown first, one confirmation for anything overturned, a standalone `docs(canon):` commit after the user's yes). Steering's normative content (product policies and scope, `behaviors.md` invariants) lands by present-diff-and-confirm, one item at a time.
 - **Approved artifacts are not edited silently.** If a spec's `spec.json` shows a phase approved, changing what it says is a re-approval, not an edit. Surface the change and get explicit confirmation before writing.
 - **Change control wins.** If the project documents a process for changing a class of decision — a required separate session, a review gate, an issue-first convention — follow it, even when you have the answer in hand. Record the outcome in whatever intake the process defines and stop there. Check the project's root `AGENTS.md` for such conventions before writing to any layer.
@@ -74,4 +75,4 @@ A conversation that evaporates when the session ends has produced nothing. Whate
 These skills read broadly, so they are prone to sprawl. Two boundaries keep them useful:
 
 - **Answer the question asked.** A request to check one spec's status is not an invitation to audit the project. Offer the adjacent finding in a sentence; do not pursue it uninvited.
-- **Do not do other phases' work.** These skills do not author requirements, produce designs, or generate tasks. When a conversation reaches the point where a spec artifact should be written, name the skill that owns that phase and hand off.
+- **Do not do other phases' work.** These skills do not author requirements, produce designs, or generate tasks; `/sdd-director` edits the spec documents except the upstream ones and the seats its SKILL.md §Escalation and §Landing reserve. When a conversation reaches the point where a spec artifact should be written, name the skill that owns that phase and hand off.

@@ -15,7 +15,7 @@ argument-hint: "<feature-name>"
 - **Success Criteria**:
   - All tasks marked as completed in tasks.md
   - Every acceptance criterion checked clause by clause by an independent auditor against the code, with every ID covered in `criteria-audit.md`
-  - Every non-HOLDS audit item routed (A-auto / A-confirm / B / C / D / E, or rejected as a false positive); stale criterion wording reconciled in requirements.md
+  - Every non-HOLDS audit item routed (A / B / C / D / E, or rejected as a false positive); stale criterion wording reconciled in requirements.md
   - Design alignment verified
   - Lint, tests, and build pass without issues
   - Behavior scenarios (if formulated) verified with concrete evidence — no concept drift
@@ -57,6 +57,7 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. Fe
 - `{spec_path}/design.md` for design structure
 - `{spec_path}/tasks.md` for task list
 - **Entire `docs/steering/` directory** for complete project memory
+- `docs/settings/rules/change-propagation.md` for the documents each change must carry through
 
 ### Step 2: Verification
 
@@ -122,21 +123,20 @@ With every document and the canon loaded, route each non-HOLDS item of `criteria
 
 | Class | Condition | Action |
 | --- | --- | --- |
-| **A-auto** — criterion wording is stale | A decision made after the requirements can be quoted by file:line, the code implements it, and the decision carries an explicit User-confirmed record ("User-confirmed" in research.md or tasks.md). A design ruling is not User-confirmed | Fix requirements.md in Step 4 without asking; show previous → new at the top of the reply |
-| **A-confirm** — criterion wording is stale (confirmation needed) | The decision lives in design.md or tasks.md, the code implements it, **and** a line in requirements.md that delegates that point to design can be quoted by file:line (e.g. "… is settled in design") | Into the one batched confirmation (Step 3) |
-| **B** — implementation diverged | No decision supporting the code's behavior can be quoted; or the decision lives only in design.md or tasks.md, carries no User-confirmed record, and no delegating line in requirements.md can be quoted | Into the one batched confirmation. Default is a code fix: the criterion stands, a fix task is added to tasks.md, NO-GO. The user may override with "fix the criterion". An override leaves the Source line unchanged; it is recorded in `## Requirements changes` (class: "B → fix the criterion (user-confirmed)") and as a `Reconciled: 3.5 ← spec-done confirmation` line in the commit body. Git holds the history |
+| **A** — criterion wording is stale | A decision recorded after the requirements — in research.md, design.md or tasks.md — can be quoted by file:line, and the code implements it | Into the one batched confirmation (Step 3), proposing previous → new criterion text |
+| **B** — implementation diverged | No decision recorded after the requirements can be quoted that supports the code's behavior | Into the one batched confirmation. Default is a code fix: the criterion stands, a fix task is added to tasks.md, NO-GO. The user may override with "fix the criterion". An override is recorded in `## Requirements changes` (class: "B → fix the criterion") and as a `Reconciled: 3.5 ← spec-done confirmation` line in the commit body. Git holds the history |
 | **C** — decided but not implemented | A decision recorded after the requirements asks for the behavior, and the code does not do it (no such decision, only the criterion → B) | The user decides — implement, or withdraw the decision. Into the one batched confirmation |
 | **D** — upstream document is stale | Canon or steering states something the code contradicts, and the criterion inherited it | Route to canon change control (`docs/settings/rules/canon-layer.md §Change Control`) and into the one batched confirmation. The criterion fix follows that answer |
 | **E** — checked against an artifact | A criterion the auditor marked NO-SEAT or RUNTIME-ONLY — the code alone cannot settle it (e.g. a probe shows it; the registry holds it; only a run can confirm it) | The lead checks the artifact (probe results file, the evidence on a behaviors.md `Verification:` line, registry, document). If it shows the predicate, close the item. If not, put it into the one batched confirmation as a ruling: proceed as is / fix the criterion / defer to a later spec |
 | False positive | The auditor misread the code | Reject it by quoting the refuting file:line. Leave its row in `criteria-audit.md` |
 
-The B/C boundary is whether a decision recorded after the requirements exists; the Requirement's Source line is not used for routing.
+The B/C boundary is whether a decision recorded after the requirements exists.
 
 Three rules:
 
 1. **Never choose A on the strength of the code alone.** If you cannot quote the decision, it is not A.
-2. **Compare the authority of the decision.** Decisions in design.md or tasks.md rank below requirements and canon. A design.md or tasks.md decision without an explicit User-confirmed record is not A unless a line in requirements.md delegating that point to design can be quoted (→ B). A User-confirmed record, in whatever file, means the user made the decision, so it meets the A-auto condition. If it contradicts a higher document, route to B or to the confirmation.
-3. **Confirm once, before GO.** Every A-confirm, B, C, D and unclosed E goes into one batched question in Step 3 — requirements and canon changes become visible before any commit.
+2. **Compare the authority of the decision.** Decisions in research.md, design.md or tasks.md rank below requirements and canon — that is why A is always confirmed, never applied silently. If the decision contradicts canon or steering, route to D.
+3. **Confirm once, before GO.** Every A, B, C, D and unclosed E goes into one batched question in Step 3 — requirements and canon changes become visible before any commit.
 
 For each criterion that asserts an absence and has no test or guard in the audit's section C, flag as **Warning**: "Absence unverified". Report it only; adding a guard is not required.
 
@@ -204,7 +204,7 @@ For each criterion that asserts an absence and has no test or guard in the audit
 
 ### Step 3: GO/NO-GO Decision
 
-**Batched confirmation (before GO)**: If 2b routed any item to A-confirm, B, C, D, or left an E item unclosed, ask the user **once**, in a single message, covering all of them — each with its ID, class, evidence, and the proposed action (A-confirm: previous → new criterion text; B: code fix by default, or "fix the criterion"; C: implement / withdraw the decision; D: the proposed canon change, presented per `canon-layer.md §Change Control`; E: proceed as is / fix the criterion / defer to a later spec). The canon confirmation for D items is taken here, not after GO in Step 6.
+**Batched confirmation (before GO)**: If 2b routed any item to A, B, C, D, or left an E item unclosed, ask the user **once**, in a single message, covering all of them — each with its ID, class, evidence, and the proposed action (A: previous → new criterion text; B: code fix by default, or "fix the criterion"; C: implement / withdraw the decision; D: the proposed canon change, presented per `canon-layer.md §Change Control`; E: proceed as is / fix the criterion / defer to a later spec). The canon confirmation for D items is taken here, not after GO in Step 6.
 
 After the answer, every B still resolved as a code fix, and every C the user chose to implement, is **Critical**: "Implementation diverged from criterion" — add a fix task for it to tasks.md. A C the user chose to withdraw is handled like a B override: fix the criterion to match the code's behavior in Step 4a and record it the same way (Requirements changes and a `Reconciled:` line).
 
@@ -229,7 +229,7 @@ After the answer, every B still resolved as a code fix, and every C the user cho
 
 #### 4a. Reconcile Requirements
 
-Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the Step 3 answer resolved as "fix the criterion" (B overridden, C withdrawn, E, D). For a B override or a C withdrawal, do not change the Requirement's Source; record it in Requirements changes and as a `Reconciled: <ID> ← spec-done confirmation` line (4f). For D, fix the criterion only after the canon answer, following it.
+Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the Step 3 answer resolved as "fix the criterion" (B overridden, C withdrawn, E, D). For a B override or a C withdrawal, record it in Requirements changes and as a `Reconciled: <ID> ← spec-done confirmation` line (4f). For D, fix the criterion only after the canon answer, following it.
 
 - For each A criterion, update the matching row of design.md's Requirements Traceability table to the new wording. Never renumber.
 - Record the answer to each E ruling in the spec before finalizing.
@@ -342,8 +342,8 @@ Canon changes for 2b's D items were already confirmed in the Step 3 batched conf
 - **todo/ only**: Only finalize features in `docs/tasks/todo/` — never re-process `done/`
 - **All checks must pass**: Zero Critical issues for GO decision
 - **Independent criteria audit**: The auditor receives only the criteria list and reads only code and tests; routing is the lead's job, evidence first and class last. No quota or cap on the number of findings — a quota's harm has been measured; a cap's has not, but nothing supports one either
-- **No A from code alone**: A requires a quoted decision with authority — for A-confirm, a quoted line where requirements.md delegates the point to design
-- **One confirmation, before GO**: A-confirm, B, C, D and unclosed E are asked in one batched question before GO; a B still resolved as a code fix, or a C the user chose to implement, means NO-GO
+- **No A from code alone**: A requires a decision recorded after the requirements, quoted by file:line
+- **One confirmation, before GO**: A, B, C, D and unclosed E are asked in one batched question before GO; a B still resolved as a code fix, or a C the user chose to implement, means NO-GO
 - **Requirements changes are visible**: Every criterion changed is shown previous → new under `## Requirements changes` at the top of the reply and listed as `Reconciled:` in the feature commit body; no revision-history sections
 - **No auto-push**: Commit locally only; pushing is the user's responsibility
 - **Scoped commits**: Only stage changes related to this feature
@@ -377,7 +377,7 @@ Provide output in the language specified in spec.json:
 ### If GO
 
 1. **Requirements changes** (when any criterion changed): at the top — per criterion ID, previous → new, grounds (file:line), class; `## Canon changes` follows when present
-2. **Verification Summary**: Table of all checks — all passed, including one line `Criteria reconciled: n (auto k · confirmed m · artifact-checked e)` (on GO, B is zero by definition)
+2. **Verification Summary**: Table of all checks — all passed, including one line `Criteria reconciled: n (confirmed m · artifact-checked e)` (on GO, B is zero by definition)
 3. **Completion Actions**: Confirm spec moved and commit created
 4. **Commit Details**: Show commit hash and message
 5. **Steering Sync**: One of — "Steering current — no update needed", "Steering updated (separate commit `<hash>`)", or "Steering update declined"

@@ -29,7 +29,7 @@ Verification: auto-test | probe | manual — <pointer or planned name>
 
 ## Grounding Discipline (the `Grounds:` line)
 
-Every scenario MUST cite the product purpose it serves — this is **forward traceability**, the counterpart of the requirement `Source:` line (which traces backward to user input):
+Every scenario MUST cite the product purpose it serves — this is **forward traceability**:
 
 - `product.md §<section>` — a purpose, theme, or capability stated in steering
 - A canon decision, when `product.md` declares Canon References (see `concept-alignment.md` for lookup rules)

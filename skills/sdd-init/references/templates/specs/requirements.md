@@ -5,12 +5,7 @@
 
 <!--
 Every requirement below must trace back to the user's input or an explicit confirmation.
-Each requirement carries a **Source** line recording where it came from:
-  - User-stated      — the user asked for this directly (quote/paraphrase the input)
-  - User-confirmed   — you proposed it and the user explicitly agreed
-  - Derived from N    — a necessary consequence of Requirement N (state which)
-  - Steering: <file> — mandated by project steering / a standard / a regulation
-A requirement that fits none of these has no legitimate source — it is gold-plating. Remove it or
+A requirement that traces to neither has no legitimate source — it is gold-plating. Remove it or
 raise it as a proposal in "Assumptions & Open Questions". Tag each requirement with a MoSCoW priority
 (Must / Should / Could) traceable to user intent.
 -->
@@ -21,7 +16,6 @@ raise it as a proposal in "Assumptions & Open Questions". Tag each requirement w
 <!-- Requirement headings MUST include a leading numeric ID only (for example: "Requirement 1: ...", "1. Overview", "2 Feature: ..."). Alphabetic IDs like "Requirement A" are not allowed. -->
 **Objective:** As a {{ROLE}}, I want {{CAPABILITY}}, so that {{BENEFIT}}
 **Priority:** Must | Should | Could
-**Source:** User-stated — "{{QUOTE_OR_PARAPHRASE_OF_USER_INPUT}}"
 
 #### Acceptance Criteria
 1. When [event], the [system] shall [response/action]
@@ -33,7 +27,6 @@ raise it as a proposal in "Assumptions & Open Questions". Tag each requirement w
 ### Requirement 2: {{REQUIREMENT_AREA_2}}
 **Objective:** As a {{ROLE}}, I want {{CAPABILITY}}, so that {{BENEFIT}}
 **Priority:** Must | Should | Could
-**Source:** User-confirmed | Derived from Requirement 1 | Steering: product.md
 
 #### Acceptance Criteria
 1. When [event], the [system] shall [response/action]

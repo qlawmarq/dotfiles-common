@@ -62,6 +62,7 @@ Interactive design quality review for the specified feature based on approved re
 4. **Execute Design Review** (skip interactive dialogue in `--batch` mode):
    - Follow design-review.md process: Analysis → Critical Issues → Strengths → GO/NO-GO
    - If `research.md` exists, verify that its key findings are reflected in the design — and, per design-review criterion 5, that no major design decision silently rests on a claim typed `unverified` or lacking a reproducer
+   - **Recompute** per design-review criterion 6, in batch mode too: quote the code with Grep/Read for every contract stated twice, every concrete expression about existing code, and every branch site of a kind the design extends
    - In batch mode: Perform bulk review and output complete results without user dialogue
    - In interactive mode (default): Engage interactively with user
    - Use language specified in spec.json for output
@@ -83,7 +84,7 @@ Interactive design quality review for the specified feature based on approved re
 ## Tool Guidance
 
 - **Read first**: Load all context (spec, steering, rules) before review
-- **Grep if needed**: Search codebase for pattern validation or integration checks
+- **Grep/Read to recompute**: every formula, name, threshold and branch site the design asserts about existing code is quoted from the code, not taken from the document
 - **Interactive**: Engage with user throughout the review process
 
 ## Output Description
@@ -92,8 +93,9 @@ Provide output in the language specified in spec.json with:
 
 1. **Review Summary**: Brief overview (2-3 sentences) of design quality and readiness
 2. **Critical Issues**: Maximum 3, following design-review.md format
-3. **Design Strengths**: 1-2 positive aspects
-4. **Final Assessment**: GO/NO-GO decision with rationale and next steps
+3. **Recomputation discrepancies (no cap)**: every discrepancy from criterion 6, with its kind and both quotes
+4. **Design Strengths**: 1-2 positive aspects
+5. **Final Assessment**: GO/NO-GO decision with rationale and next steps
 
 **Format Requirements**:
 

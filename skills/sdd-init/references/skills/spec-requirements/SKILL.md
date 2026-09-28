@@ -12,7 +12,7 @@ argument-hint: "<feature-name>"
 
 - **Mission**: Elicit comprehensive, testable, and **traceable** requirements in EARS format, grounded strictly in the user's input and confirmed through dialogue — not invented
 - **Success Criteria**:
-  - Every requirement traces back to a legitimate source (user-stated, user-confirmed, derived, or steering/constraint); no gold-plating
+  - Every requirement traces back to user input or steering; no gold-plating
   - Scope is explicitly bounded (Out of Scope section) and assumptions/open questions are logged rather than baked silently into requirements
   - Acceptance criteria follow the project's EARS patterns and are testable
   - Focus on core functionality without implementation details
@@ -50,7 +50,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 3. **Read Guidelines**:
    - Read `docs/settings/rules/requirements-elicitation.md` for the elicit-don't-invent rules, the ask-vs-assume gate, and traceability/scope discipline — **this governs how you run this phase**
    - Read `docs/settings/rules/ears-format.md` for EARS syntax rules and `docs/settings/rules/document-hygiene.md`
-   - Read `docs/settings/templates/specs/requirements.md` for document structure (note the Source lines, Out of Scope, and Assumptions & Open Questions sections)
+   - Read `docs/settings/templates/specs/requirements.md` for document structure (note the Out of Scope and Assumptions & Open Questions sections)
 
 4. **Draft from grounded input only**:
    - Read the project description and all steering context, and draft requirements covering **only** what is clearly grounded in that input
@@ -67,7 +67,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 
 6. **Finalize Requirements**:
    - Group related functionality into logical requirement areas
-   - Give every requirement a **Source** line (user-stated / user-confirmed / derived / steering-constraint) — if a requirement has no legitimate source, remove it or raise it as a proposal
+   - Check that every requirement traces to user input or steering — if a requirement has no legitimate source, remove it or raise it as a proposal
    - Fill the **Out of Scope** section with what you deliberately excluded, and the **Assumptions & Open Questions** section with anything still unresolved
    - Tag requirements with MoSCoW priority traceable to user intent
    - Apply EARS format to all acceptance criteria; replace vague terms (fast, user-friendly, robust, …) with measurable criteria or log them as open questions
@@ -123,7 +123,7 @@ Provide output in the language specified in spec.json with:
 
 - **Missing Project Description**: If requirements.md lacks a project description and no unit pointer resolves, ask user for feature details
 - **Ambiguous Requirements**: Resolve through the clarification dialogue — propose an initial draft and ask targeted questions; never resolve ambiguity by guessing. Log anything still unresolved in Assumptions & Open Questions.
-- **Template Missing**: If template files don't exist, use inline fallback structure with warning, but still include Source lines, an Out of Scope section, and an Assumptions & Open Questions section
+- **Template Missing**: If template files don't exist, use inline fallback structure with warning, but still include an Out of Scope section and an Assumptions & Open Questions section
 - **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 - **Incomplete Requirements**: After generation, explicitly ask the user if requirements cover all expected functionality. Resolve gaps by asking — do not fill them with invented requirements.
 - **Steering Directory Empty**: Warn user that project context is missing and may affect requirement quality

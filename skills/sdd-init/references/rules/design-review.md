@@ -55,6 +55,16 @@ A design can integrate perfectly with the architecture and still build the wrong
 
 A design is only as sound as what it assumes. Where `research.md` exists, check that no major decision rests on a claim typed `unverified` or carrying no reproducer without that being **declared** in the design's Assumptions section with its impact and signpost. An undeclared premise is the finding; a declared one is a managed risk and is acceptable.
 
+### 6. Recomputation
+
+Check what the design asserts against its own text and against the code, instead of taking the document's word for it:
+
+| Kind | Target | Method |
+| --- | --- | --- |
+| A — internal contradiction | The same contract stated in two or more places (a table and a diagram, Data Models and a Service Interface) | Quote both and compare. A difference is a discrepancy |
+| B — concrete expression | Formulas, thresholds, enum values, and function, class, or string names the design asserts about existing code | Grep or read the code and quote it. Report names that do not exist, values that differ, and names that collide |
+| C — missed branch site | A design that adds a value to an existing enum or kind | Grep every site that branches on that kind (match / switch / assert / tables) and list the ones the design does not mention |
+
 ## Review Process
 
 ### Step 1: Analyze
@@ -99,6 +109,10 @@ Acknowledge 1-2 strong aspects to maintain balanced feedback.
 
 For each: Issue, Impact, Recommendation, Traceability (e.g., 1.1, 1.2), Evidence (design.md section).
 
+### Recomputation discrepancies
+
+Every discrepancy found under criterion 6, each with its kind (A / B / C) and both quotes (design and code, or the two design locations). Separate from Critical Issues (≤3), with no cap on the count. List the discrepancies only; whether the design or the code is wrong is settled in dialogue with the designer.
+
 ### Design Strengths
 
 1-2 positive aspects.
@@ -115,7 +129,7 @@ Engage on designer's perspective, alternatives, clarifications, and necessary ch
 
 - Summary: 2–3 sentences
 - Each critical issue: 5–7 lines total (including Issue/Impact/Recommendation/Traceability/Evidence)
-- Overall review: keep concise (~400 words guideline)
+- Overall review: keep concise (~400 words guideline; the Recomputation discrepancies list is outside it)
 
 ## Review Guidelines
 
@@ -132,4 +146,5 @@ Engage on designer's perspective, alternatives, clarifications, and necessary ch
 - **Critical Issues ≤ 3** and each includes Impact and Recommendation
 - **Traceability**: Each issue references requirement ID/section
 - **Evidence**: Each issue cites design doc location
+- **Recomputation**: every contract stated twice, every concrete expression about existing code, and every branch site of an extended kind checked, with each discrepancy quoted
 - **Decision**: GO/NO-GO with clear rationale and next steps
