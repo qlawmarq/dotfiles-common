@@ -1,99 +1,61 @@
 # Steering Principles
 
-Steering files are **project memory**, not exhaustive specifications.
+Steering (`docs/steering/`) is project memory: every file in it is loaded into every session. This file is the one definition of what steering holds and how it changes; skills and templates name the section they apply and do not restate it.
 
 ---
 
-## Content Granularity
+## Admission
 
-### Golden Rule
+A line belongs in steering only when all four hold:
 
-> "If new code follows existing patterns, steering shouldn't need updating."
+1. **It guides future work** — a cross-cutting pattern, convention, or decision that new work must follow. Golden rule: if new code follows existing patterns, steering shouldn't need updating.
+2. **No other seat holds it.** Facts owned by code, configuration, a manifest (versions, dependencies), the canon, `AGENTS.md`/`CLAUDE.md`, the rules in `docs/settings/`, a spec, or another steering file are not copied here; when a reader needs one, name where it lives (`document-hygiene.md`).
+3. **It is not a catalog** — no file or directory listings, per-component descriptions, dependency lists, or implementation details. State the pattern and show one example.
+4. **It is not history** — no dates, change reasons, or "added after …" notes; git holds when and why a line changed.
 
-### ✅ Document
+Never admitted: secrets (API keys, passwords, credentials, database URLs, internal hosts), agent-tooling directories (`.claude/`, `.cursor/`, `.gemini/`, …), and documentation of `docs/settings/` (methodology, not project knowledge). Pointing to `docs/tasks/` or another steering file is fine.
 
-- Organizational patterns (feature-first, layered)
-- Naming conventions (PascalCase rules)
-- Import strategies (absolute vs relative)
-- Architectural decisions (state management)
-- Technology standards (key frameworks)
-
-### ❌ Avoid
-
-- Complete file listings
-- Every component description
-- All dependencies
-- Implementation details
-- Agent-specific tooling directories (e.g. `.cursor/`, `.gemini/`, `.claude/`)
-- Detailed documentation of `docs/settings/` (methodology metadata, not project knowledge)
-
-### Example Comparison
-
-**Bad** (Specification-like):
+**Bad** (catalog):
 
 ```markdown
 - /components/Button.tsx - Primary button with variants
 - /components/Input.tsx - Text input with validation
-- /components/Modal.tsx - Modal dialog
   ... (50+ files)
 ```
 
-**Good** (Project Memory):
+**Good** (pattern):
 
 ```markdown
 ## UI Components (`/components/ui/`)
 
-Reusable, design-system aligned primitives
-
-- Named by function (Button, Input, Modal)
-- Export component + TypeScript interface
+- Named by function (Button, Input, Modal); export the component and its props type
 - No business logic
 ```
 
 ---
 
-## Security
+## File focus
 
-Never include:
+One domain per file. A decision carries its rationale.
 
-- API keys, passwords, credentials
-- Database URLs, internal IPs
-- Secrets or sensitive data
-
----
-
-## Quality Standards
-
-- **Single domain**: One topic per file
-- **Concrete examples**: Show patterns with code
-- **Explain rationale**: Why decisions were made
-- **Maintainable size**: 100-200 lines per file, and **600 lines total across `docs/steering/`** — every file is loaded into every session, so the set has a budget, not just each file. Over budget, propose cuts or move a file to JIT reference; never block on it.
+- **product.md**: purpose, users, core capabilities, value, scope and Out of Scope; where the canon lives, when one exists (its location, never its contents).
+- **tech.md**: architecture, key frameworks, and the technical decisions that shape code — not versions or dependency lists.
+- **structure.md**: organization patterns, directory roles, naming and import rules — not directory trees.
+- **behaviors.md**: cross-spec behavior invariants, one line each: `statement — Grounds: <citation> / Verify: <test or probe>`. An invariant from a spec is promoted only when it is **product-level** (the product's purpose or philosophy, not an implementation detail), **cross-spec** (a future spec could plausibly violate it), and **verified** (its evidence exists). Scenario bodies stay in the spec and the test suite.
+- **Custom files**: one specialized domain each (API, testing, security, …), under the same rules and budget as the core files.
 
 ---
 
-## Preservation (when updating)
+## Updating
 
-- Preserve user sections and custom examples
-- Additive by default (add, don't replace)
-- Add `updated_at` timestamp
-- Note why changes were made
-
----
-
-## Notes
-
-- Templates are starting points, customize as needed
-- Follow same granularity principles as core steering
-- All steering files loaded as project memory
-- Light references to `docs/tasks/` and `docs/steering/` are acceptable; do not document `docs/settings/` or agent-tooling directories
-- Custom files equally important as core files
+- A line whose fact changed is replaced; a line another seat now holds is deleted, or reduced to a pointer where a reader needs it (§Admission 2); any other line that fails §Admission is deleted. A line is added only when it passes §Admission. "No update needed" is the expected outcome for most changes.
+- A proposal that adds lines states the current §Budget count; if it would exceed the budget, §Budget says what to do.
+- Facts derived from code (`tech.md`, `structure.md`) are shown as one diff and confirmed together. Policy — everything in `product.md`, plus the `behaviors.md` invariants — is never derived from code, however obvious the change looks: present it one item at a time, each with its grounds, and get an answer for each.
+- Nothing is written before the user confirms. Confirmed edits land in their own `docs(steering):` commit, never bundled with another commit.
+- A section the user wrote is not removed or rewritten without asking.
 
 ---
 
-## File-Specific Focus
+## Budget
 
-- **product.md**: Purpose, value, business context (not exhaustive features)
-- **tech.md**: Key frameworks, standards, conventions (not all dependencies)
-- **structure.md**: Organization patterns, naming rules (not directory trees)
-- **behaviors.md**: Cross-spec behavior invariants, one line each (not scenario bodies — those stay in each spec; promotion criteria in `behavior-formulation.md`)
-- **Custom files**: Specialized patterns (API, testing, security, etc.)
+100-200 lines per file, and 600 lines total across `docs/steering/` — every file is loaded into every session, so the set has a budget, not just each file. Over budget, propose cuts or moving a file out of always-loaded memory into JIT reference; report it, never block on it.

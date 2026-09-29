@@ -50,17 +50,11 @@ The Introduction is one sentence of mapping and one line of actors; values and d
 Every scenario declares how it will be verified. Choose the strongest feasible tier:
 
 1. **auto-test** — required when the behavior is deterministic, testable logic. Names the test (planned or existing). Connects to the TDD RED step in `/sdd-spec-impl`.
-2. **probe** — for simulation, emergent, or long-horizon behavior: a scripted run whose observed output is recorded to a results file in the spec directory.
+2. **probe** — for simulation, emergent, or long-horizon behavior: a scripted run whose observed output is recorded in the spec's `probe/`.
 3. **manual** — last resort. Must state the exact procedure and expected observation so the result can be recorded as evidence at validation time.
 
 No tier is optional: a scenario without a Verification line is unfinished. Tools are not mandated — no Cucumber/Gherkin runner is required; the scenario text is the specification, the project's own test/probe infrastructure is the automation.
 
 ## Promotion to `docs/steering/behaviors.md`
 
-At feature completion (`/sdd-spec-done`), propose promoting only invariants that are:
-
-- **Product-level**: they express the product's purpose or philosophy, not an implementation detail
-- **Cross-spec**: future specs could plausibly violate them
-- **Verified**: their evidence exists (test/probe/manual record)
-
-Promote as **one line per invariant** — statement + Grounds + Verify pointer. Each candidate is presented individually with its grounds and confirmed on its own, never as a summarized batch. Scenario bodies are NEVER promoted: they persist in the spec archive, and their executable forms persist in the test suite. "No promotion" is the expected outcome for most features (same golden rule as steering sync).
+At feature completion, `/sdd-spec-done` proposes the spec's Promotion Candidates under `steering-principles.md §File focus` (criteria and line format) and `§Updating`.

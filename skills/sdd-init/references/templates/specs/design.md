@@ -34,7 +34,7 @@
 ### Assumptions
 Research claims this design depends on that were **not** verified. Each needs the sign that would reveal it has broken. Omit the section when there are none — do not write "none" as filler.
 
-- `<claim>` (`C<n>`) — 影響: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
+- `<claim>` (`C<n>`) — impact: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 
 ## Design Decisions
 

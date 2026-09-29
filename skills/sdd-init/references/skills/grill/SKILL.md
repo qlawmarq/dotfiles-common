@@ -123,8 +123,8 @@ Do not act on the session until the user confirms you have reached a shared unde
 Once confirmed, route each settled decision to the artifact that owns it, following `dialogue-grounding.md` §"Where dialogue output lands":
 
 - An open question declared in `requirements.md` or `design.md` is resolved in that file.
-- A project-wide rule belongs in `docs/steering/` — propose it, and hand off to `/sdd-steering-custom` if it warrants its own file.
-- **Canon content lands here directly** (a canon-level decision or a registry norm, when `product.md §Canon References` declares a canon layer): follow `canon-layer.md §Change Control` — dirty-check, edit the canon working tree, open the landing plan with `## Canon changes` (full text of changed sections; an overturned decision or changed Norm first as *previous → new* with its own confirmation), and after the user's yes commit only those files as `docs(canon): grill <topic>`. A steering change (product policy, scope, a `behaviors.md` invariant) lands by present-diff-and-confirm, presented one item at a time.
+- A project-wide rule that passes `steering-principles.md §Admission` belongs in `docs/steering/` — propose it per `§Updating`, and hand off to `/sdd-steering-custom` if it warrants its own file.
+- **Canon content lands here directly** (a canon-level decision or a registry norm, when `product.md §Canon References` declares a canon layer): follow `canon-layer.md §Change Control` — dirty-check, edit the canon working tree, open the landing plan with `## Canon changes` (full text of changed sections; an overturned decision or changed Norm first as *previous → new* with its own confirmation), and after the user's yes commit only those files as `docs(canon): grill <topic>`.
 - A unit boundary or ordering change belongs in the inception plan.
 - A decision governed by any additional change-control process the project documents is **filed into that process, not written directly**. Check the root `AGENTS.md` before writing to any layer.
 

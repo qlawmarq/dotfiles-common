@@ -54,7 +54,7 @@ A topic lookup. The answer lives somewhere specific and the work is finding it.
 A cross-spec status report. This is the horizontal counterpart to `/sdd-spec-status`.
 
 1. Read every `docs/tasks/todo/*/spec.json` and `docs/tasks/done/*/spec.json`. They are small — read them all.
-2. For each: `kind`, `phase`, `approvals.*.approved`, `ready_for_implementation`, and the `plan` block (`unit_id`, `priority`, `depends_on`); for a `verify` spec, read `verdict.md` when it exists.
+2. For each: `kind`, `phase`, `approvals.*.approved`, and the `plan` block (`unit_id`, `priority`, `depends_on`); for a `verify` spec, read `verdict.md` when it exists.
 3. For specs with a `tasks.md`, count `- [x]` against `- [ ]` for implementation progress.
 4. Assemble: what is in flight, what is blocked and on what, what is done, and which unfinished specs nothing depends on.
 5. If an inception plan exists, read its `inception.json` for the unit→spec map and report progress against the intended build order.

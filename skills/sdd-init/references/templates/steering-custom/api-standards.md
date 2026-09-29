@@ -64,6 +64,3 @@ Authorization: Bearer {token}
 - Filtering: explicit query params
 - Sorting: `sort=field:asc|desc`
 Return pagination metadata in `meta`.
-
----
-_Focus on patterns and decisions, not endpoint catalogs._

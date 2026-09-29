@@ -23,4 +23,4 @@ A helper script lives in `probe/`. `_Requirements:` lists the question's criteri
   - per design §Judgment
   - _Requirements: {{CRITERION_IDS}}_
 
-> **Parallel marker**: Put ` (P)` right after the task number (`- [ ] 2.1 (P) …`) only on runs that share no environment or input. Omit the marker when running in `--sequential` mode.
+> **Parallel marker**: only on runs that share no environment or input; placement and `--sequential`: see `docs/settings/rules/tasks-parallel-analysis.md`.

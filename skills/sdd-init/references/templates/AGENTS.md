@@ -49,7 +49,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 - Phase 2 (Implementation): `/sdd-spec-impl <feature-name> [tasks]`
   - `/sdd-validate-impl <feature-name>` (optional: mid-implementation validation)
 - Phase 3 (Completion): `/sdd-spec-done <feature-name>`
-  - Verifies quality, finalizes the spec, commits the feature, then runs a non-blocking steering drift check — if the feature introduced new patterns, it proposes additive steering updates and commits them separately (with your confirmation).
+  - Verifies quality, finalizes the spec, commits the feature, then runs a non-blocking steering check on what the feature changed.
   - At completion, an independent auditor checks every acceptance criterion clause by clause against the code; stale criterion wording is fixed, and disputed items are asked once in a single batched question.
 - Progress check: `/sdd-spec-status [feature-name]` (use anytime; no argument lists every spec)
 - Orientation & dialogue (anytime, belongs to no phase):
@@ -68,8 +68,8 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 - **Match the ceremony to the kind** — which phases each spec kind runs is in `docs/settings/rules/spec-kinds.md`.
 - **Research measures, it does not reason.** Size/count/duration, the behavior of existing code, external specs, and performance are settled by running something — never by reading (`docs/settings/rules/evidence-discipline.md`). Evidence lives in `<spec>/probe/`. What cannot be measured is written as `unverified` and, if the design depends on it, carried into `design.md` Assumptions with a signpost.
 - A spec that is internally consistent is not thereby correct — it must also serve the product intent in `docs/steering/product.md`. `/sdd-spec-behavior` grounds each behavior there; `/sdd-validate-requirements` and `/sdd-validate-design` check it, and a contradiction is NO-GO. For contradictions *between* layers (spec vs spec, steering vs inception) or a backlog of open decisions, use `/sdd-grill`.
-- Steering is kept current incrementally: `/sdd-spec-done` auto-detects feature-scoped drift at completion. Use `/sdd-steering` for the initial bootstrap and for periodic full-codebase reviews (e.g. after several merges or a refactor).
-- **Canon changes ride inside the phase that produced them** (`docs/settings/rules/canon-layer.md §Change Control`): the agent edits the canon working tree, shows every changed section in full at the top of the reply, pauses only for an overturned decision or a changed registry Norm (*previous → new*, one confirmation), and commits only the edited files as a standalone `docs(canon):` commit after your yes. Committed text is in force; uncommitted edits bind nothing. Steering changes by ordinary present-diff-and-confirm.
+- **Steering**: what it holds and how it changes are defined in `docs/settings/rules/steering-principles.md`. `/sdd-spec-done` applies them to each finished feature; `/sdd-steering` to the whole codebase (bootstrap, periodic reviews).
+- **Canon changes ride inside the phase that produced them** (`docs/settings/rules/canon-layer.md §Change Control`): the agent edits the canon working tree, shows every changed section in full at the top of the reply, pauses only for an overturned decision or a changed registry Norm (*previous → new*, one confirmation), and commits only the edited files as a standalone `docs(canon):` commit after your yes. Committed text is in force; uncommitted edits bind nothing.
 - **Documents are the source of truth.** Whatever you change, carry it through the documents listed in `docs/settings/rules/change-propagation.md` in the same turn.
 - **One fact, one seat** — approvals, statuses, and dates are recorded in their designated seat and never restated in body prose; template comments and unrequested meta-sections never ship (`docs/settings/rules/document-hygiene.md`).
 - Stay within the scope the user asked for; gather the context you need yourself, and ask only when essential information is missing or the request is critically ambiguous.
@@ -78,5 +78,5 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 ## Steering Configuration
 
 - Load entire `docs/steering/` as project memory
-- Default files: `product.md`, `tech.md`, `structure.md`, `behaviors.md` (cross-spec behavior invariants, grown mainly by `/sdd-spec-done` promotion)
+- Default files: `product.md`, `tech.md`, `structure.md`, `behaviors.md`
 - Custom files are supported (managed via `/sdd-steering-custom`)

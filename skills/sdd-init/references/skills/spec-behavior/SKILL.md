@@ -67,7 +67,7 @@ Following `concept-alignment.md`: identify the product purposes, themes, and Out
 ### Step 4: Finalize
 
 - Write `{spec_path}/behaviors.md` following the template (merge if one existed); use the language from spec.json
-- List Promotion Candidates only if this feature establishes product-level, cross-spec invariants ("none" is the common outcome)
+- List Promotion Candidates only if this feature establishes invariants that qualify per `steering-principles.md §File focus` ("none" is the common outcome)
 - Update spec.json: set `phase: "behaviors-generated"`, `approvals.behaviors: {generated: true, approved: false}` (add the key if the spec predates it), `approvals.requirements.approved: true`, update `updated_at`
 
 ## Important Constraints

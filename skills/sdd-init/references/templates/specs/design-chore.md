@@ -12,7 +12,7 @@ research.md holds the measurements; this file holds the decisions and the stages
 ### Assumptions
 Omit when every claim this design rests on is measured.
 
-- `<claim>` (`C<n>`) — 影響: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
+- `<claim>` (`C<n>`) — impact: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 
 ## Design Decisions
 

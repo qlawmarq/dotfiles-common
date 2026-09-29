@@ -81,7 +81,7 @@ Never write who made a ruling or when into a document (`document-hygiene.md`, on
 
 ## Escalation
 
-Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); canon (`canon-layer.md §Change Control` — `## Canon changes`, one confirmation, a standalone `docs(canon):` commit); the inception plan (units, dependencies — the build order is the owner's decision); steering (present the diff and confirm). Everything else in the spec the Director edits.
+Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); canon (`canon-layer.md §Change Control` — `## Canon changes`, one confirmation, a standalone `docs(canon):` commit); the inception plan (units, dependencies — the build order is the owner's decision); steering (`steering-principles.md §Updating`). Everything else in the spec the Director edits.
 
 Take these to the user:
 

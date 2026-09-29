@@ -51,4 +51,4 @@ Resolve the language from `docs/settings/templates/specs/init.json` `language` (
 
 - **No SDD setup** (`docs/settings/` missing): point to `/sdd-init` and stop.
 - **Scaffold declined**: create nothing; say what was not created.
-- **Change is not canon** (a tech/structure fact, a spec-internal detail): say so and name the right seat (`/sdd-steering`, or the owning spec artifact).
+- **Change is not canon**: say so and name the right seat — steering when it passes `steering-principles.md §Admission` (`/sdd-steering`), otherwise the spec artifact, code, or configuration that owns it.

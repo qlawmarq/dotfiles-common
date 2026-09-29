@@ -56,7 +56,7 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 - **Behaviors**: Check if `behaviors.md` exists; count scenarios and how many `Verification:` lines carry evidence (absent in legacy specs — not a defect); `n/a` when the kind does not produce behaviors (`spec-kinds.md` §4)
 - **Research**: Check if `research.md` exists (✅ completed / ⏳ pending)
 - **Design**: Check that the sections of the kind's design template are present (`spec-kinds.md` §4)
-- **Tasks**: Count completed vs total tasks (parse `- [x]` vs `- [ ]`)
+- **Tasks**: Count completed vs total tasks (parse `- [x]` vs `- [ ]`). Implementation progress comes from these checkboxes, not from `phase`; when every task of a spec in `todo/` is `[x]`, the next action is `/sdd-spec-done <feature-name>`
 - **Verdict** (kind `verify`): the verdict per question from `verdict.md` §Summary, or absent
 - **Approvals**: Check approval status in spec.json; an absent approval key (such as `approvals.behaviors`) reads as `n/a`
 

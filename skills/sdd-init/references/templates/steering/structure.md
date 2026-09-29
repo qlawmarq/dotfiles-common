@@ -36,6 +36,3 @@ import { Local } from './local'     // Relative
 ## Code Organization Principles
 
 [Key architectural patterns and dependency rules]
-
----
-_Document patterns, not file trees. New files following patterns shouldn't require updates_

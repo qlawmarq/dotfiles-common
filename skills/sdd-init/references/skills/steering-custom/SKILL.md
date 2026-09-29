@@ -14,8 +14,7 @@ description: >-
 
 **Success Criteria**:
 
-- Custom steering captures specialized patterns
-- Follows same granularity principles as core steering
+- The file passes `docs/settings/rules/steering-principles.md` (`§Admission`, `§Budget`)
 - Provides clear value for specific domain
 
 </background_information>
@@ -40,10 +39,8 @@ description: >-
 4. **Generate custom steering**:
    - Follow template structure if available
    - Apply principles from `docs/settings/rules/steering-principles.md` and `docs/settings/rules/document-hygiene.md`
-   - Focus on patterns, not exhaustive lists
-   - Respect the size budget (per file and across `docs/steering/` — a custom file spends the same always-loaded budget as a core one)
 
-5. **Create file** in `docs/steering/{name}.md`
+5. **Propose, confirm, and create** `docs/steering/{name}.md` per `steering-principles.md §Updating`
 
 ## Available Templates
 
@@ -59,10 +56,6 @@ Templates available in `docs/settings/templates/steering-custom/`:
 
 Load template when needed, customize for project.
 
-## Steering Principles
-
-Governed by `docs/settings/rules/steering-principles.md` — patterns over lists, one domain per file, concrete examples, the size budget, never a secret.
-
 </instructions>
 
 ## Tool guidance
@@ -77,7 +70,7 @@ Governed by `docs/settings/rules/steering-principles.md` — patterns over lists
 
 Write the steering document and this summary in the project's language: `docs/settings/templates/specs/init.json` `language`, else `ja`. The template's section headings are scaffolding — translate them.
 
-Chat summary with file location (file created directly).
+Chat summary with file location.
 
 ```
 ✅ Custom Steering Created
@@ -116,14 +109,3 @@ Review and customize as needed.
 ## Safety & Fallback
 
 - **No template**: Generate from scratch based on domain knowledge
-- **Security**: Never include secrets (load principles)
-- **Validation**: Ensure doesn't duplicate core steering content (`document-hygiene.md`)
-
-## Notes
-
-- Templates are starting points, customize for project
-- Follow same granularity principles as core steering
-- All steering files loaded as project memory
-- Custom files equally important as core files
-- Avoid documenting agent-specific tooling directories (e.g. `.cursor/`, `.gemini/`, `.claude/`)
-- Light references to `docs/tasks/` and `docs/steering/` are acceptable; do not document `docs/settings/` or agent-tooling directories

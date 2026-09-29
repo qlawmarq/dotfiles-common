@@ -41,6 +41,3 @@
 ## Backup & Recovery
 - Regular backups with retention; test restores
 - Document RPO/RTO targets; monitor backup jobs
-
----
-_Focus on patterns and decisions. No environment-specific settings._

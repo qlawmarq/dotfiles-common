@@ -15,13 +15,11 @@ description: >-
 
 - Bootstrap: Generate core steering from codebase (first-time)
 - Sync: Keep steering and codebase aligned (maintenance)
-- Preserve: User customizations are sacred, updates are additive
+- Both apply `docs/settings/rules/steering-principles.md` to the whole codebase
 
 **Success Criteria**:
 
-- Steering captures patterns and principles, not exhaustive lists
 - Code drift detected and reported
-- All `docs/steering/*.md` treated equally (core + custom)
 
 </background_information>
 
@@ -34,58 +32,35 @@ Check `docs/steering/` status:
 **Bootstrap Mode**: Empty OR missing core files (product.md, tech.md, structure.md)
 **Sync Mode**: All core files exist
 
-> **Scope note**: This skill performs a *full-codebase* sync — use it for the initial bootstrap and for periodic, broad reviews (after several merges, a refactor, or an architecture change). Routine per-feature drift is already caught at feature completion by `/sdd-spec-done`, which proposes additive, feature-scoped updates in a separate commit. The two are complementary: `/sdd-spec-done` keeps steering current incrementally; `/sdd-steering` is the periodic deep sync.
+> **Scope**: the whole codebase — the initial bootstrap and periodic broad reviews (after several merges, a refactor, or an architecture change). `/sdd-spec-done` applies the same rules to what one feature changed.
 
 ---
 
 ## Bootstrap Flow
 
-1. Load templates from `docs/settings/templates/steering/`
+1. Load `docs/settings/rules/steering-principles.md`, `docs/settings/rules/document-hygiene.md`, and the templates in `docs/settings/templates/steering/`
 2. Analyze codebase (JIT):
    - Use file search tools to find source files
    - Read README, package.json, etc.
    - Search for patterns in the codebase
-3. Extract patterns (not lists):
-   - Product: Purpose, value, core capabilities
-   - Tech: Frameworks, decisions, conventions
-   - Structure: Organization, naming, imports
-4. Generate steering files (follow templates)
-5. Load principles from `docs/settings/rules/steering-principles.md` and `docs/settings/rules/document-hygiene.md`
-6. Present summary for review
-
-**Focus**: Patterns that guide decisions, not catalogs of files/dependencies.
+3. Extract what passes `§Admission`, into the files `§File focus` assigns
+4. Propose the files (following the templates), confirm, write, and commit per `steering-principles.md §Updating`
 
 ---
 
 ## Sync Flow
 
-1. Load all existing steering (`docs/steering/*.md`)
+1. Load all existing steering (`docs/steering/*.md`) and the rules from Bootstrap step 1
 2. Analyze codebase for changes (JIT)
 3. Detect drift:
    - **Steering → Code**: Missing elements → Warning
    - **Code → Steering**: New patterns → Update candidate
-   - **behaviors.md**: Invariants whose `Verify:` pointers no longer exist (deleted test/probe) or that a canon change has superseded → Warning
+   - **Existing lines**: facts that changed, or that now fail `§Admission` → Replace or delete candidate
+   - **behaviors.md**: Invariants whose `Grounds:` or `Verify:` pointers no longer resolve, or that a canon change has superseded → Warning
    - **Custom files**: Check relevance
-4. Propose updates (additive, preserve user content)
-5. Check the size budget (`steering-principles.md §Quality Standards`): total the lines across `docs/steering/`. Over budget, propose cuts or moving a file out of always-loaded memory into JIT reference — report it, never block on it
+4. Total the lines against `steering-principles.md §Budget`
+5. Propose, confirm, and commit per `§Updating`
 6. Report: Updates, warnings, recommendations
-
-**Update Philosophy**: Add, don't replace. Preserve user sections.
-
-> **Policy is never synced from code.** Mechanical facts (`tech.md` frameworks and versions, `structure.md` roles and conventions) are this skill's business: present the diff, confirm, write. Product policies, scope and Out of Scope in `product.md`, and invariants in `behaviors.md` are not derivable from code, however obvious the change looks — present each on its own and get an explicit answer; never fold one into a sync batch. Code is evidence about what the product *does*; only the owner decides what it is *for*.
-
----
-
-## Granularity Principle
-
-From `docs/settings/rules/steering-principles.md`:
-
-> "If new code follows existing patterns, steering shouldn't need updating."
-
-Document patterns and principles, not exhaustive lists.
-
-**Bad**: List every file in directory tree
-**Good**: Describe organization pattern with examples
 
 </instructions>
 
@@ -102,7 +77,7 @@ Document patterns and principles, not exhaustive lists.
 
 Write the steering documents and this summary in the project's language: `docs/settings/templates/specs/init.json` `language`, else `ja`. The templates' section headings are scaffolding — translate them.
 
-Chat summary only (files updated directly).
+Chat summary only.
 
 ### Bootstrap:
 
@@ -114,7 +89,7 @@ Chat summary only (files updated directly).
 - tech.md: [Key stack]
 - structure.md: [Organization]
 
-Review and approve as Source of Truth.
+Confirmed and committed per steering-principles.md §Updating.
 ```
 
 ### Sync:
@@ -123,8 +98,10 @@ Review and approve as Source of Truth.
 ✅ Steering Updated
 
 ## Changes:
-- tech.md: React 18 → 19
+- tech.md: State management decision replaced
 - structure.md: Added API pattern
+
+## Budget: N lines (steering-principles.md §Budget)
 
 ## Code Drift:
 - Components not following import conventions
@@ -138,7 +115,7 @@ Review and approve as Source of Truth.
 ### Bootstrap
 
 **Input**: Empty steering, React TypeScript project
-**Output**: 3 files with patterns - "Feature-first", "TypeScript strict", "React 19"
+**Output**: 3 files with patterns - "Feature-first", "TypeScript strict", "No default exports"
 
 ### Sync
 
@@ -147,17 +124,9 @@ Review and approve as Source of Truth.
 
 ## Safety & Fallback
 
-- **Security**: Never include keys, passwords, secrets (see principles)
 - **Uncertainty**: Report both states, ask user
-- **Preservation**: Add rather than replace when in doubt
 
 ## Notes
 
-- All `docs/steering/*.md` loaded as project memory
-- `behaviors.md` (cross-spec behavior invariants) is not generated from code analysis — it is seeded by the product owner (optionally via `/sdd-grill`) and grown by `/sdd-spec-done` promotion; sync only flags stale invariants
+- `behaviors.md` is not generated from code analysis; sync only flags stale invariants
 - Templates and principles are external for customization
-- Focus on patterns, not catalogs
-- "Golden Rule": New code following patterns shouldn't require steering updates
-- Avoid documenting agent-specific tooling directories (e.g. `.cursor/`, `.gemini/`, `.claude/`)
-- `docs/settings/` content should NOT be documented in steering files (settings are metadata, not project knowledge)
-- Light references to `docs/tasks/` and `docs/steering/` are acceptable

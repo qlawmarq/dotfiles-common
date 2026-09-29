@@ -44,7 +44,7 @@ Verification artifacts live in `{spec_path}/probe/`. This is the physical seat f
 
 - **Evidence only.** Raw logs, scripts, results, patches. The interpretation belongs in `research.md` / `design.md` — never duplicate a conclusion here.
 - **`probe/README.md` is the index**: file → configuration → what the result showed → which `C<n>` it supports.
-- Each script states how to run it in its opening comment. If it needs a temporary patch to production code, say so, and **restore afterwards**.
+- **No hardcoded paths.** A probe never writes the spec directory's or the repository's path. A script derives its own directory from its location and references other probe files relative to it; when it needs the repository root, it asks git at run time (`git rev-parse --show-toplevel`). It then runs from anywhere, so its opening comment states only what it runs and what it requires. File names in `probe/README.md` are relative to `probe/`. If a script needs a temporary patch to production code, say so, and **restore afterwards**.
 - Keep measurements that support a claim. Discard exploratory runs that support nothing.
 - When a measurement is later invalidated, **do not delete it** — move it to a clearly separated section stating that no value may be drawn from it, and where the current answer is.
 
@@ -53,7 +53,7 @@ Verification artifacts live in `{spec_path}/probe/`. This is the physical seat f
 A `Load-bearing` claim that could not be verified does not disappear. When the user decides to proceed without measuring it, it is carried into `design.md` (Assumptions / Risks) as:
 
 ```
-- <claim> (C<n>) — 影響: <what fails if it is wrong> / signpost: <the observable sign that it has broken>
+- <claim> (C<n>) — impact: <what fails if it is wrong> / signpost: <the observable sign that it has broken>
 ```
 
 The signpost is the point: an unverified premise that is written down with a way to notice it failing is a managed risk, while the same premise left implicit is the accident this discipline exists to prevent.

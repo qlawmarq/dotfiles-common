@@ -3,7 +3,7 @@ name: sdd-spec-done
 description: >-
   Finalize an SDD feature: verify implementation quality, move spec to done, and commit.
   Runs lint/test/build checks, validates requirements and design alignment, completes the feature,
-  then checks whether the work introduced new patterns worth syncing into project steering.
+  then checks project steering against what the feature changed.
 argument-hint: "<feature-name>"
 ---
 
@@ -22,7 +22,7 @@ argument-hint: "<feature-name>"
   - Code is clean and does not require refactoring
   - Spec moved from `docs/tasks/todo/` to `docs/tasks/done/`
   - Changes committed with project-consistent commit message
-  - Steering checked for drift; if the feature introduced new patterns, additive updates are proposed, confirmed by the user, and committed separately
+  - Steering checked against what the feature changed (`docs/settings/rules/steering-principles.md`)
   - When a canon layer exists: `Used by` updated for the registry IDs this feature implemented, orphan identifiers reported, `check_canon.sh check` run (non-blocking), canon changes committed separately
 
 </background_information>
@@ -290,7 +290,7 @@ These files are staged with the feature commit (4f); they are part of completing
 - If unrelated unstaged changes exist, warn the user and exclude them
 - Commit with detected style, e.g.:
   ```
-  feat(<short-name>): <description from spec.json>
+  <type>(<short-name>): <summary>
   ```
 - Kind `verify`: the commit holds only the spec directory and the 4d inception updates, with the message `docs(spec): verdict <feature-name>`
 - The requirements.md and design.md edits from 4a are part of this commit. Add one body line per reconciled criterion, pointing at the decision by section heading, not line number (line numbers go stale with edits). A B override or C withdrawal points at the Step 3 confirmation:
@@ -302,39 +302,12 @@ These files are staged with the feature commit (4f); they are part of completing
 
 ### Step 5: Steering Sync Check (non-blocking)
 
-Steering (`docs/steering/`) is loaded as project memory by *every* SDD skill, so stale steering silently degrades every future spec. The completion of a feature is the natural moment to catch drift — but the goal is to keep steering **current and lean**, not to grow it with every feature. By design, most features introduce no steering-worthy change.
+Runs only on GO, after the feature is committed (Step 4), and never blocks completion. Apply `docs/settings/rules/steering-principles.md §Admission` and `§Updating` to what this feature changed, against the steering loaded in Step 1; promotion candidates for `behaviors.md` come from the spec's `behaviors.md` §Promotion Candidates.
 
-> **Golden rule** (from `docs/settings/rules/steering-principles.md`): "If new code follows existing patterns, steering shouldn't need updating." Treat "no update needed" as the expected, common outcome.
+- **Nothing to change**: report "Steering current — no update needed" and finish without touching steering.
+- **Changes**: propose, confirm, and commit per `§Updating` as `docs(steering): sync after <feature-name>`, in the commit style detected in Step 4e. Declined: leave steering untouched; it can be synced anytime with `/sdd-steering`.
 
-This step runs only on GO, *after* the feature is finalized and committed (Step 4). It never blocks completion — the feature is already done.
-
-#### 5a. Detect Drift (feature-scoped)
-
-Compare the steering loaded in Step 1 against what *this feature* actually introduced. Look only for **pattern-level** changes worth remembering as project memory — not catalog entries:
-
-- **tech.md**: a new framework / library / runtime / tool, a version jump, or a new technical convention this feature established
-- **structure.md**: a new architectural pattern, directory role, or naming/import convention
-- **product.md**: a materially new capability or shift in product purpose
-- **behaviors.md**: a behavior invariant that is verified, product-level, and cross-spec (future specs could plausibly violate it) — take candidates from the spec's `behaviors.md` "Promotion Candidates" section. One line each: statement — Grounds / Verify pointer. Present each candidate individually with its grounds and get its own answer — never a summarized batch. Scenario bodies never land here
-
-Ignore anything that merely follows an existing pattern. Never record file listings, dependency dumps, implementation details, secrets, or agent-tooling directories (`.claude/`, `.cursor/`, etc.) — see `docs/settings/rules/steering-principles.md`.
-
-#### 5b. No Drift → Done (common case)
-
-If the feature followed existing patterns, report **"Steering current — no update needed"** and finish. Do not touch steering. This is the expected outcome for most features.
-
-#### 5c. Drift Found → Propose, Confirm, Commit Separately
-
-1. **Draft additive updates.** Preserve all existing user content — add, don't replace, and follow the Preservation rules in `steering-principles.md` (note an `updated_at` timestamp and a brief reason for the change).
-2. **Present, then wait.** Show the proposed changes as a concise diff/summary and ask the user to confirm. Do not write anything yet.
-3. **On confirm**: apply the edits, then create a **separate** commit scoped to steering only — never amend or fold it into the feature commit:
-   ```
-   docs(steering): sync after <feature-name>
-   ```
-   Match the repo's commit style detected in Step 4e.
-4. **On decline**: leave steering untouched. Note it can be synced anytime with `/sdd-steering`.
-
-For a broad or periodic steering review beyond what this feature touched (e.g. after several merges or a refactor), point the user to `/sdd-steering`, which performs a full-codebase sync.
+For a review beyond what this feature touched, point the user to `/sdd-steering`.
 
 ### Step 6: Canon Sync (non-blocking, when a canon layer exists)
 
@@ -358,8 +331,7 @@ Canon changes for 2b's D items were already confirmed in the Step 3 batched conf
 - **No auto-push**: Commit locally only; pushing is the user's responsibility
 - **Scoped commits**: Only stage changes related to this feature
 - **Non-destructive**: If anything fails, the spec stays in `todo/`; the only writes are `criteria-audit.md` and the fix tasks added to tasks.md for B (and for C chosen to implement)
-- **Steering sync never blocks**: Drift is surfaced only after the feature is committed, requires user confirmation, and lands in its own `docs(steering):` commit — never bundled with the feature commit and never a GO/NO-GO gate
-- **Steering stays lean**: Additive only, pattern-level only; "no update needed" is the expected outcome for most features
+- **Steering sync never blocks**: Step 5 runs only after the feature is committed and is never a GO/NO-GO gate
 - **Canon sync never blocks**: Step 6 runs after the feature is committed (the canon confirmation for 2b's D items is taken in Step 3 instead), presents every changed section in full, pauses only for a new norm or an overturned one (`canon-layer.md` R2), and lands in its own `docs(canon):` commit
 
 </instructions>
@@ -370,7 +342,7 @@ Canon changes for 2b's D items were already confirmed in the Step 3 batched conf
 - **Bash for checks**: Execute lint, test, and build commands via Bash
 - **Grep/Read for traceability**: Search codebase for requirement and design evidence
 - **Bash for git**: Use git commands for commit style detection, staging, and committing
-- **Edit for steering**: When syncing steering (Step 5c), use Edit to apply additive changes to `docs/steering/*.md` after user confirmation, then commit them separately
+- **Edit for steering**: Apply the changes confirmed in Step 5 to `docs/steering/*.md` with Edit
 
 ## Output Description
 
@@ -440,5 +412,5 @@ Provide output in the language specified in spec.json:
 
 - Feature is finalized and committed
 - Spec is archived in `docs/tasks/done/<feature-name>/`
-- Steering is synced (separate commit) if the feature introduced new patterns; otherwise left as-is
+- Steering is updated in its own commit if the feature changed what it holds; otherwise left as-is
 - Ready to start next feature with `/sdd-spec-init "description"`

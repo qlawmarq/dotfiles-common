@@ -62,6 +62,3 @@ if (!user.can('resource:action')) throw ForbiddenError(); // domain
 - Use API keys or OAuth client credentials
 - Scope keys minimally; rotate and audit usage
 - Rate limit by identity (user/key)
-
----
-_Focus on patterns and decisions. No library-specific code._

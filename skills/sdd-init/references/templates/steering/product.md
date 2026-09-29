@@ -18,16 +18,11 @@
 
 <!--
 Optional. If the product's philosophy lives in a deeper canon (decision docs + registry —
-structure and change control: docs/settings/rules/canon-layer.md), declare the root here so
-SDD skills can resolve it. Delete this section if product.md is the sole canon. If contents
-disagree, the canon is authoritative; enumerable norms live only in its registry.md.
-Committed canon text is in force; it changes through the "Canon changes" section of the
-phase that produced the decision (or /sdd-canon-update), never by a separate ceremony.
+docs/settings/rules/canon-layer.md), declare where it lives so SDD skills can resolve it.
+Delete this section if product.md is the sole canon.
 -->
 
 - Canon root: [path, default `docs/canon/` — `README.md` is the index]
 - Registry: [`<canon-root>/registry.md` — enumerable norms, cite by ID]
 - How to search: [e.g. grep by the `keywords` line; plain terms such as the name of a feature or an entity]
-
----
-_Focus on patterns and purpose, not exhaustive feature lists_
+- Authority: where this file and the canon disagree, the canon wins

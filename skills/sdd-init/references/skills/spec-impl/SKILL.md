@@ -50,7 +50,7 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 
 **Validate approvals**:
 
-- Verify tasks are approved in spec.json (stop if not, see Safety & Fallback)
+- Verify tasks are approved in spec.json (if not, stop and ask the user; see Safety & Fallback)
 
 ### Step 2: Select Tasks
 
@@ -153,7 +153,9 @@ Provide brief summary in the language specified in spec.json:
 **Tasks Not Approved or Missing Spec Files**:
 
 - **Stop Execution**: All spec files must exist and tasks must be approved
-- **Suggested Action**: "Complete previous phases: `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-tasks`"
+- **Tasks Approval**: The approval is the user's decision. Ask for it, and write `approvals.tasks.approved: true` (with `updated_at`) only on their explicit yes — never on your own judgment
+- **Suggested Action (tasks not approved)**: Ask the user to approve the tasks, per Tasks Approval
+- **Suggested Action (missing spec files)**: "Complete previous phases: `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-tasks`"
 
 **Test Failures**:
 

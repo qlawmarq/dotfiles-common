@@ -49,6 +49,3 @@ Choose per risk profile; document default.
 ## Incident Response & DR
 - Standard playbook: detect → assess → mitigate → communicate → resolve → post-mortem
 - Backups with retention; test restore; defined RPO/RTO
-
----
-_Focus on rollout patterns and safeguards. No provider-specific steps._

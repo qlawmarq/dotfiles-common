@@ -118,19 +118,9 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
 
 ### Parallel Analysis (default)
 
-- Assume parallel analysis is enabled unless explicitly disabled (e.g. `--sequential` flag).
-- Identify tasks that can run concurrently when **all** conditions hold:
-  - No data dependency on other pending tasks
-  - No shared file or resource contention
-  - No prerequisite review/approval from another task
+- Assume parallel analysis is enabled unless explicitly disabled (e.g. `--sequential` flag); conditions, marking, and grouping: `docs/settings/rules/tasks-parallel-analysis.md`.
 - Validate that identified parallel tasks operate within separate boundaries defined in the design's structure section.
 - Confirm API/event contracts from design.md do not overlap in ways that cause conflicts.
-- Append `(P)` immediately after the task number for each parallel-capable task:
-  - Example: `- [ ] 2.1 (P) Build background worker`
-  - Apply to both major tasks and sub-tasks when appropriate.
-- If sequential mode is requested, omit `(P)` markers entirely.
-- Group parallel tasks logically (same parent when possible) and highlight any ordering caveats in detail bullets.
-- Explicitly call out dependencies that prevent `(P)` even when tasks look similar.
 
 ### Checkbox Format
 

@@ -12,7 +12,7 @@ Verdict vocabulary and the over-claim rule: docs/settings/rules/spec-kinds.md.
 ### Assumptions
 Omit when every claim this design rests on is measured.
 
-- `<claim>` (`C<n>`) — 影響: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
+- `<claim>` (`C<n>`) — impact: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 
 ## Design Decisions
 

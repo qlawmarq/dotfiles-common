@@ -40,7 +40,7 @@ design. -->
 
 ## Promotion Candidates
 
-<!-- Product-level, cross-spec invariants this feature establishes — one line each. Proposed for
-docs/steering/behaviors.md, confirmed by the user at /sdd-spec-done. "None" is the common outcome. -->
+<!-- Invariants proposed for docs/steering/behaviors.md at /sdd-spec-done; criteria and line format:
+docs/settings/rules/steering-principles.md §File focus. -->
 
 - {{INVARIANT_STATEMENT}} — Grounds: {{CITATION}} / Verify: {{TEST_OR_PROBE}}

@@ -8,7 +8,7 @@
 
 - **Language**: [e.g., TypeScript, Python]
 - **Framework**: [e.g., React, Next.js, Django]
-- **Runtime**: [e.g., Node.js 20+]
+- **Runtime**: [e.g., Node.js]
 
 ## Key Libraries
 
@@ -28,7 +28,7 @@
 ## Development Environment
 
 ### Required Tools
-[Key tools and version requirements]
+[Key tools]
 
 ### Common Commands
 ```bash
@@ -40,6 +40,3 @@
 ## Key Technical Decisions
 
 [Important architectural choices and rationale]
-
----
-_Document standards and patterns, not every dependency_
