@@ -91,6 +91,7 @@ Read `inception-decomposition.md` (§3, §4). Group capabilities into **Units of
 - **independent-test statement**: "Can be fully verified by [action] and delivers [value]."
 - **priority** P1 / P2 / P3 + one-line "why"
 - **subdomain class** (Core / Supporting / Generic), rough **size** (S / M / L)
+- **kind** (per `docs/settings/rules/spec-kinds.md`)
 
 Validate every unit against INVEST. Split any oversized unit using Lawrence's nine patterns (§4). Prefer roughly equal-sized units; carve off low-value functionality so it can be deprioritized.
 
@@ -116,7 +117,7 @@ Write `docs/inception/<plan-id>/dependencies.md` (matrix + a Mermaid graph + the
 For each unit, in build order, create a stub SDD spec so it can enter the normal flow:
 
 1. Generate the spec directory `docs/tasks/todo/<YYYY-MM-DD>-<unit-slug>/`, resolving same-day name collisions with a numeric suffix (same convention as `/sdd-spec-init`). Check `docs/tasks/todo/` and `docs/tasks/done/` for conflicts.
-2. Write `spec.json` from `docs/settings/templates/specs/init.json`, replacing `{{FEATURE_NAME}}` and `{{TIMESTAMP}}`, setting `language`, and filling the **`plan` linkage block**:
+2. Write `spec.json` from `docs/settings/templates/specs/init.json`, replacing `{{FEATURE_NAME}}` and `{{TIMESTAMP}}`, setting `language` and the unit's `kind`, and filling the **`plan` linkage block**:
    ```json
    "plan": {
      "parent": "<plan-id>",
@@ -152,10 +153,10 @@ Finally, write `docs/inception/<plan-id>/inception.json` (plan metadata + the un
 Provide output in the configured language:
 
 1. **Plan summary**: mode (greenfield/brownfield), plan-id, number of units.
-2. **Roadmap table**: unit | priority | size | subdomain class | depends-on | spec directory. Mark the walking-skeleton unit.
+2. **Roadmap table**: unit | kind | priority | size | subdomain class | depends-on | spec directory. Mark the walking-skeleton unit.
 3. **Build order**: the ordered sequence, noting parallel-capable groups.
 4. **Scaffolded specs**: list of created `docs/tasks/todo/<...>/` directories.
-5. **Next steps**: start the first (walking-skeleton) unit, e.g. ``/sdd-spec-requirements <first-unit>`` → behaviors → research → design → tasks → impl → done, then move to the next unit in build order. Mention `/sdd-spec-status <feature-name>` for progress.
+5. **Next steps**: start the first (walking-skeleton) unit, e.g. ``/sdd-spec-requirements <first-unit>`` → behaviors (when the kind produces behaviors) → research → design → tasks → impl → done, then move to the next unit in build order. Mention `/sdd-spec-status <feature-name>` for progress.
 
 **Format**: concise Markdown. Keep the summary readable at a glance.
 

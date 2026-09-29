@@ -150,7 +150,7 @@ Provide output in the language derived from `--lang`:
    - Run `/sdd-steering` to generate project steering from codebase analysis
    - Run `/sdd-steering-custom` to add domain-specific steering (optional)
    - For a large/greenfield effort: run `/sdd-plan "product goal"` to decompose it into right-sized specs
-   - For a single feature: run `/sdd-spec-init "description"` to start your first specification
+   - For a single piece of work (a feature, fix, refactor, verification or chore): run `/sdd-spec-init "description"` — it classifies the kind and picks the templates
 7. **Created Directory Structure**: Show the final tree
 
 **Format**: Concise Markdown, under 300 words

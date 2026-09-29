@@ -34,7 +34,7 @@ A detail bullet names the design block it realizes (for example `per design §<C
 - Connect to the overall system (no hanging features)
 - Progress incrementally (no big jumps in complexity)
 - Validate core functionality early in sequence
-- Respect architecture boundaries defined in design.md (Architecture Pattern & Boundary Map)
+- Respect architecture boundaries defined in the design's structure section
 - Honor interface contracts documented in design.md
 - Use major task summaries sparingly—omit detail bullets if the work is fully captured by child tasks.
 
@@ -73,6 +73,8 @@ A detail bullet names the design block it realizes (for example `per design §<C
 - Documentation tasks
 - User testing
 - Marketing/business activities
+
+`verify`: tasks are per `tasks-verify.md`; §1's file-path avoidance (records go to `probe/…`), §2's integration ending and §5 do not apply. `chore`: the deliverable itself (documents, configuration, data) is the task's work; §5's exclusion of documentation tasks does not apply.
 
 ### Optional Test Coverage Tasks
 
@@ -121,7 +123,7 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
   - No data dependency on other pending tasks
   - No shared file or resource contention
   - No prerequisite review/approval from another task
-- Validate that identified parallel tasks operate within separate boundaries defined in the Architecture Pattern & Boundary Map.
+- Validate that identified parallel tasks operate within separate boundaries defined in the design's structure section.
 - Confirm API/event contracts from design.md do not overlap in ways that cause conflicts.
 - Append `(P)` immediately after the task number for each parallel-capable task:
   - Example: `- [ ] 2.1 (P) Build background worker`

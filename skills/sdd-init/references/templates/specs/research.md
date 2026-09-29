@@ -11,7 +11,8 @@
 
 ## Summary
 - **Feature**: `<feature-name>`
-- **Discovery Scope**: New Feature / Extension / Simple Addition / Complex Integration
+- **Kind**: <from spec.json>
+- **Discovery depth**: full | light | minimal
 - **Key Findings**: 3 at most, each naming the `C<n>` it comes from.
   - `C1` — Finding
   - `C2` — Finding
@@ -42,6 +43,7 @@ Claims that could not be settled, and what it would take to settle them. Leaving
 | C_ |                 |                              |                      | yes / no      |
 
 ## Architecture Pattern Evaluation
+Omit when no structural option was compared (usual for fix, verify and chore).
 Candidate patterns considered, with the claims that inform the comparison.
 
 | Option | Description | Strengths | Risks / Limitations | Evidence |

@@ -4,15 +4,16 @@
 
 ## Summary
 
-| ID | Name | Priority | Class | Size | Walking skeleton | Independent test (short) |
-|----|------|----------|-------|------|------------------|--------------------------|
-| U1 | {{UNIT_SLUG}} | P1 | Core | M | ✅ | … |
+| ID | Name | Kind | Priority | Class | Size | Walking skeleton | Independent test (short) |
+|----|------|------|----------|-------|------|------------------|--------------------------|
+| U1 | {{UNIT_SLUG}} | feature | P1 | Core | M | ✅ | … |
 
 <!-- One detail block per unit, in build order. -->
 
 ## U1 — {{UNIT_TITLE}}
 
 - **Purpose:** <!-- one sentence -->
+- **Kind:** <kind> (`docs/settings/rules/spec-kinds.md`)
 - **Subdomain class:** Core | Supporting | Generic
 - **Priority:** P1 — _why:_ <!-- one line -->
 - **Size:** S | M | L

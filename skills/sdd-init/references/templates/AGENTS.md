@@ -33,8 +33,9 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
   - Use for 0->1 greenfield builds, scaling a prototype, or any effort too large for one spec.
   - Decomposes the goal into ordered Units of Work and scaffolds one spec per unit under `docs/tasks/todo/`.
   - For a single focused feature, skip this and start at Phase 1 with `/sdd-spec-init`.
+- Spec kind: `/sdd-spec-init` classifies the work into a kind or recommends no spec; the kinds, their templates and phases: `docs/settings/rules/spec-kinds.md`.
 - Phase 1 (Specification):
-  - `/sdd-spec-init "description"`
+  - `/sdd-spec-init "description" [--kind=<kind>]`
   - `/sdd-spec-requirements <feature-name>` (always interactive — elicit, don't invent)
   - `/sdd-validate-requirements <feature-name>` (recommended: catch gold-plating / untraceable requirements before they propagate)
   - `/sdd-spec-behavior <feature-name>` (recommended: formulate concrete behavior scenarios grounded in the product's purpose — catches concept drift before design)
@@ -64,6 +65,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 - For large/greenfield efforts, run Inception first (`/sdd-plan`) to decompose into right-sized specs, then run each spec through the workflow below.
 - Workflow: Requirements → Behaviors → Research → Design → Tasks → Implementation → Completion
 - Human review required each phase; use `-y` only for intentional fast-track
+- **Match the ceremony to the kind** — which phases each spec kind runs is in `docs/settings/rules/spec-kinds.md`.
 - **Research measures, it does not reason.** Size/count/duration, the behavior of existing code, external specs, and performance are settled by running something — never by reading (`docs/settings/rules/evidence-discipline.md`). Evidence lives in `<spec>/probe/`. What cannot be measured is written as `unverified` and, if the design depends on it, carried into `design.md` Assumptions with a signpost.
 - A spec that is internally consistent is not thereby correct — it must also serve the product intent in `docs/steering/product.md`. `/sdd-spec-behavior` grounds each behavior there; `/sdd-validate-requirements` and `/sdd-validate-design` check it, and a contradiction is NO-GO. For contradictions *between* layers (spec vs spec, steering vs inception) or a backlog of open decisions, use `/sdd-grill`.
 - Steering is kept current incrementally: `/sdd-spec-done` auto-detects feature-scoped drift at completion. Use `/sdd-steering` for the initial bootstrap and for periodic full-codebase reviews (e.g. after several merges or a refactor).

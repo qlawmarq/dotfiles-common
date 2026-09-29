@@ -36,14 +36,14 @@ Verify `research.md` independently. **Start from its claims and check them yours
 
 1. **Resolve Spec Path**: `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Error if neither exists.
 
-2. **Load Context**: `{spec_path}/spec.json` (language), `research.md`, `requirements.md`, `behaviors.md` and `gap-analysis.md` (if they exist), `{spec_path}/probe/README.md` (if it exists), and `docs/settings/rules/evidence-discipline.md`.
+2. **Load Context**: `{spec_path}/spec.json` (language, `kind`), `research.md`, `requirements.md`, `behaviors.md` and `gap-analysis.md` (if they exist), `{spec_path}/probe/README.md` (if it exists), and `docs/settings/rules/evidence-discipline.md`.
 
 3. **Run the five checks**. Dispatch the independent lookups as parallel sub-agents so large files and command output stay out of the main context (`dialogue-grounding.md`).
 
    1. **Reproduce** — for each claim typed `measured`, actually run what `Verification` names (probe script, test, command) and compare the output to the claim. Anything you cannot run is **un-reproduced**, not verified. Record what you ran.
    2. **Citation fidelity** — for each `sourced` claim, check the cited source actually supports it, and that `file:line` references say what the claim says they say. A citation that is merely *adjacent* to the claim does not support it.
    3. **Unmeasured assertions** — list **every** claim that falls under one of the four kinds in `evidence-discipline.md` §1 but has `Verification: none` or only a document reference. This list is not capped.
-   4. **Coverage** — check the investigation items required by `requirements.md`, `behaviors.md` (Verification lines) and `gap-analysis.md` against what `research.md` actually investigated. List anything untouched.
+   4. **Coverage** — check the investigation items required by `requirements.md`, `behaviors.md` (Verification lines), `gap-analysis.md`, and the items `docs/settings/rules/spec-kinds.md` requires measured for this kind against what `research.md` actually investigated. List anything untouched.
    5. **Design premises** — a claim that is `Load-bearing` and not verified by checks 1–2 is **contested**. Also work backwards: if a recommendation rests on a claim whose `Load-bearing` line is blank, the line is wrong — flag it.
 
 4. **Report and decide** (see Output Description). In interactive mode, put each contested claim to the user and record the answer. In `--batch`, list them as open assumptions.

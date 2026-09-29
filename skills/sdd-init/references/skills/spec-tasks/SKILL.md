@@ -47,7 +47,7 @@ Generate implementation tasks for the specified feature based on approved requir
 
 **Read all necessary context**:
 
-- `{spec_path}/spec.json`, `requirements.md`, `design.md`
+- `{spec_path}/spec.json`, `requirements.md`, `design.md` (read `kind` from spec.json)
 - `{spec_path}/behaviors.md` (if exists) for scenario verification needs
 - `{spec_path}/tasks.md` (if exists, for merge mode)
 - **Entire `docs/steering/` directory** for complete project memory
@@ -64,7 +64,7 @@ Generate implementation tasks for the specified feature based on approved requir
 
 - Read `docs/settings/rules/tasks-generation.md` for principles and `docs/settings/rules/document-hygiene.md`
 - If `sequential` is **false**: Read `docs/settings/rules/tasks-parallel-analysis.md` for parallel judgement criteria
-- Read `docs/settings/templates/specs/tasks.md` as a **format reference only**. Do NOT copy any of its content into the output. Specifically, the output must not contain: `{{PLACEHOLDER}}` macros (e.g. `{{NUMBER}}`, `{{TASK_DESCRIPTION}}`), the `## Task Format Template` section heading, or blockquote annotations from the template
+- Read the kind's tasks template (`docs/settings/rules/spec-kinds.md` §4) as a **format reference only**. Do NOT copy any of its content into the output. Specifically, the output must not contain: `{{PLACEHOLDER}}` macros (e.g. `{{NUMBER}}`, `{{TASK_DESCRIPTION}}`), the `## Task Format Template` section heading, or blockquote annotations from the template
 
 **Output structure**: The generated `tasks.md` must start with `# Implementation Plan`, followed by `## Tasks` containing only the generated task list. No template sections, placeholders, or formatting examples.
 
@@ -72,6 +72,7 @@ Generate implementation tasks for the specified feature based on approved requir
 
 - Use language specified in spec.json
 - Map all requirements to tasks
+- `fix`: the first task per root cause is its Regression Guard, with a detail bullet that its failing run is recorded in `probe/` before the code changes (an exception to TDD test deduplication); tasks are grouped by root cause, not by ledger row
 - If `behaviors.md` exists: ensure every scenario's `Verification:` is covered by a task — auto-test scenarios fold into the implementing task's TDD work; probe scenarios get an explicit probe-and-record task; manual scenarios get a verification task naming the procedure. Do not leave any scenario unverified
 - When documenting requirement coverage, list numeric requirement IDs only (comma-separated) without descriptive suffixes, parentheses, translations, or free-form labels
 - Ensure all design components included

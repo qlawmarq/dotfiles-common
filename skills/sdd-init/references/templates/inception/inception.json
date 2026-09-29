@@ -10,6 +10,7 @@
     {
       "unit_id": "U1",
       "name": "{{UNIT_SLUG}}",
+      "kind": "feature",
       "priority": "P1",
       "subdomain_class": "Core",
       "size": "M",

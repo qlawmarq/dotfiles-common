@@ -3,6 +3,7 @@
   "created_at": "{{TIMESTAMP}}",
   "updated_at": "{{TIMESTAMP}}",
   "language": "ja",
+  "kind": "feature",
   "phase": "initialized",
   "approvals": {
     "requirements": {

@@ -43,14 +43,14 @@ Elicit complete, traceable requirements for the specified feature based on the p
 1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
-   - Read `{spec_path}/spec.json` for language and metadata
+   - Read `{spec_path}/spec.json` for language, `kind`, and metadata
    - Read `{spec_path}/requirements.md` for project description; when the description is a pointer to an inception unit (`units.md §U<N>`), read that unit's entry — it is the scope brief
    - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Guidelines**:
    - Read `docs/settings/rules/requirements-elicitation.md` for the elicit-don't-invent rules, the ask-vs-assume gate, and traceability/scope discipline — **this governs how you run this phase**
    - Read `docs/settings/rules/ears-format.md` for EARS syntax rules and `docs/settings/rules/document-hygiene.md`
-   - Read `docs/settings/templates/specs/requirements.md` for document structure (note the Out of Scope and Assumptions & Open Questions sections)
+   - Read `docs/settings/rules/spec-kinds.md` §4–§5 for the kind's requirements template and what this kind elicits; read that template for document structure (note the Out of Scope and Assumptions & Open Questions sections)
 
 4. **Draft from grounded input only**:
    - Read the project description and all steering context, and draft requirements covering **only** what is clearly grounded in that input
@@ -66,6 +66,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Before finishing, give a short confirmation summary covering both what you included and **what you deliberately left out of scope**, and get the user's confirmation. When a canon layer is declared (`docs/steering/product.md §Canon References`), open that summary with the `## Canon changes` section from Step 8 — the same yes covers both
 
 6. **Finalize Requirements**:
+   - Keep the `## Project Description (Input)` section written at init above the template's sections (every kind).
    - Group related functionality into logical requirement areas
    - Check that every requirement traces to user input or steering — if a requirement has no legitimate source, remove it or raise it as a proposal
    - Fill the **Out of Scope** section with what you deliberately excluded, and the **Assumptions & Open Questions** section with anything still unresolved
@@ -135,7 +136,7 @@ Provide output in the language specified in spec.json with:
 
 - Review generated requirements at `{spec_path}/requirements.md`
 - **Recommended Validation**: Run `/sdd-validate-requirements <feature-name>` to verify every requirement traces to your input and catch any gold-plating before it propagates into design and implementation. Catching an invented feature here is far cheaper than unwinding it later.
-- **Recommended Behavior Formulation**: Run `/sdd-spec-behavior <feature-name>` to formulate concrete scenarios grounded in the product's purpose (generates behaviors.md) — this is where concept drift is caught before design
+- **Recommended Behavior Formulation** (when the kind produces behaviors): Run `/sdd-spec-behavior <feature-name>` to formulate concrete scenarios grounded in the product's purpose (generates behaviors.md) — this is where concept drift is caught before design
 - **Optional Gap Analysis** (for existing codebases):
   - Run `/sdd-validate-gap <feature-name>` to analyze implementation gap with current code
   - Identifies existing components, integration points, and implementation strategy

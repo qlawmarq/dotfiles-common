@@ -57,6 +57,7 @@ Interactive requirements quality review for the specified feature, focused on de
    - Read `docs/settings/rules/requirements-review.md` for review criteria and process
    - Read `docs/settings/rules/concept-alignment.md` for the forward-traceability (concept) check
    - Read `docs/settings/rules/ears-format.md` to check acceptance-criteria conformance
+   - Read the kind's requirements template as the structure reference (`docs/settings/rules/spec-kinds.md` §4)
 
 4. **Execute Requirements Review** (skip interactive dialogue in `--batch` mode):
    - Follow requirements-review.md process: Build trace map → identify Critical Issues → recognize Strengths → GO/NO-GO
@@ -110,7 +111,7 @@ Provide output in the language specified in spec.json with:
 
 - **Missing Requirements**: If requirements.md doesn't exist, stop with message: "Run `/sdd-spec-requirements <feature-name>` first to generate requirements"
 - **Requirements Not Generated**: If requirements phase not marked as generated in spec.json, warn but proceed with review
-- **Missing Out of Scope / Assumptions sections**: Treat absence as a finding (unbounded scope / hidden assumptions), not a blocker
+- **Missing Out of Scope / Assumptions sections**: Treat absence as a finding (unbounded scope / hidden assumptions), not a blocker, unless the kind's template marks the section "Omit when …" and its condition holds
 - **Empty Steering Directory**: Warn user that project context is missing and may affect review quality
 - **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 

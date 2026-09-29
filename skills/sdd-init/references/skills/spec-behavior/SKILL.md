@@ -41,6 +41,8 @@ Formulate behavior scenarios for the specified feature from its approved require
 
 Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
+**Kind gate**: read `kind` from `{spec_path}/spec.json`. If the kind does not produce behaviors (`docs/settings/rules/spec-kinds.md` §4), say "`<kind>` specs do not formulate behaviors (see `docs/settings/rules/spec-kinds.md`); next: `/sdd-spec-research <feature-name>`" and stop without changing spec.json.
+
 ### Step 1: Load Context
 
 - `{spec_path}/spec.json`, `requirements.md`, `behaviors.md` (if exists, for merge mode)

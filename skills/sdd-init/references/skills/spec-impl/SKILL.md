@@ -44,7 +44,7 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 
 **Read all necessary context**:
 
-- `{spec_path}/spec.json`, `requirements.md`, `design.md`, `tasks.md`
+- `{spec_path}/spec.json`, `requirements.md`, `design.md`, `tasks.md` (read `kind` from spec.json)
 - `{spec_path}/behaviors.md` (if exists) for scenario verification obligations
 - **Entire `docs/steering/` directory** for complete project memory
 
@@ -60,6 +60,14 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 - Otherwise: Execute all pending tasks (unchecked `- [ ]` in tasks.md)
 
 ### Step 3: Execute Tasks
+
+#### Kind: verify
+
+Execute the tasks per design.md §Protocol. Write evidence to `{spec_path}/probe/` and the judgments to `{spec_path}/verdict.md` (structure: `docs/settings/templates/specs/verdict.md`). No TDD; product code is not modified. Of the Always steps only MARK COMPLETE applies. The Pre-Code Gate and TDD sections below apply to the other kinds unchanged.
+
+#### Kind: fix
+
+Per root cause, write the Regression Guard first and save its failing run to `probe/` before changing code; after the fix, re-run every Defect Ledger reproduction into `probe/`. A repair that departs from design §Root Cause is written into §Deviations from Diagnosis in the same turn.
 
 #### Pre-Code Gate (before writing any code)
 
@@ -79,7 +87,7 @@ For each selected task, first judge whether the task involves **testable logic**
 1. **RED - Write Failing Test**:
    - Write test for the next small piece of functionality
    - When a `behaviors.md` scenario marked `auto-test` covers this task, derive the test directly from its Given/When/Then (the scenario's concrete values are the test fixture) and record the test name against the scenario
-   - Test should fail (code doesn't exist yet)
+   - Test should fail (the code does not exist yet, or — for `fix` — the defect is still present)
    - Use descriptive test names
 
 2. **GREEN - Write Minimal Code**:

@@ -12,7 +12,7 @@ argument-hint: "<feature-name> [-y]"
 
 - **Mission**: Generate comprehensive research document (research.md) that captures discovery findings, architectural investigations, and design recommendations
 - **Success Criteria**:
-  - Appropriate discovery process executed based on Feature Type classification
+  - Appropriate discovery process executed based on the discovery depth classification
   - Current codebase analysis and best practice research completed
   - Research findings structured in research.md template format
   - Findings provide sufficient context for the subsequent design phase
@@ -46,7 +46,7 @@ Investigate the existing codebase and research best practices to generate a stru
 
 **Read all necessary context**:
 
-- `{spec_path}/spec.json` for language and metadata
+- `{spec_path}/spec.json` for language, `kind`, and metadata
 - `{spec_path}/requirements.md` for project requirements
 - `{spec_path}/behaviors.md` (if exists) for grounded behavior scenarios — research must serve these behaviors, and their Verification lines (probe/test needs) may require investigation
 - `{spec_path}/gap-analysis.md` (if exists) for existing gap analysis results
@@ -56,7 +56,7 @@ Investigate the existing codebase and research best practices to generate a stru
 - `docs/settings/templates/specs/research.md` for research document structure
 - `docs/settings/rules/evidence-discipline.md` — the claim format, what must be measured rather than reasoned, and the `probe/` convention
 
-Do **not** load the discovery rules here — Step 2 classifies the Feature Type first and then reads only the one rule that applies.
+Do **not** load the discovery rules here — Step 2 classifies the discovery depth first and then reads only the one rule that applies.
 
 **Validate requirements approval**:
 
@@ -68,15 +68,14 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
 
 **Critical: This phase ensures research is based on complete, accurate information.**
 
-1. **Classify Feature Type**:
-   - **New Feature** (greenfield) → Full discovery required
-   - **Extension** (existing system) → Integration-focused discovery
-   - **Simple Addition** (CRUD/UI) → Minimal or no discovery
-   - **Complex Integration** → Comprehensive analysis required
+1. **Classify discovery depth (full | light | minimal)**:
+   - **full** → new capability without an existing counterpart, or a complex integration with external systems
+   - **light** → change within an existing system; integration-focused discovery
+   - **minimal** → small, well-patterned change, or runs that use only the repository's own tooling; quick pattern check only
 
 2. **Execute Appropriate Discovery Process** (in every path, write the findings per `docs/settings/rules/document-hygiene.md`):
 
-   **For Complex/New Features (Full Discovery)**:
+   **full**:
    - Read and execute `docs/settings/rules/design-discovery-full.md`
    - Conduct thorough research using WebSearch/WebFetch:
      - Latest architectural patterns and best practices
@@ -84,17 +83,17 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
      - Official documentation, migration guides, known issues
      - Performance benchmarks and security considerations
 
-   **For Extensions (Light Discovery)**:
+   **light**:
    - Read and execute `docs/settings/rules/design-discovery-light.md`
    - Focus on integration points, existing patterns, compatibility
    - Use Grep to analyze existing codebase patterns
 
-   **For Simple Additions (Minimal Discovery)**:
+   **minimal**:
    - Skip formal discovery, quick pattern check only
 
 3. **Incorporate Gap Analysis** (if available): use the `gap-analysis.md` findings as additional context and prioritize the gaps it identified. The discovery rule you read above governs *what* to investigate — do not restate its steps here.
 
-4. **Measure what cannot be reasoned**: apply `evidence-discipline.md` §1 throughout. Size, count and duration; the behavior of existing code; external specs; performance — these are settled by running something, never by reading. Write the verification artifacts (scripts, raw logs, results) to `{spec_path}/probe/` with a `README.md` index, per §3 of that rule. Record what you ran so a reader can re-run it.
+4. **Measure what cannot be reasoned**: apply `evidence-discipline.md` §1 throughout. Size, count and duration; the behavior of existing code; external specs; performance — these are settled by running something, never by reading. Write the verification artifacts (scripts, raw logs, results) to `{spec_path}/probe/` with a `README.md` index, per §3 of that rule. Record what you ran so a reader can re-run it. Measure what `docs/settings/rules/spec-kinds.md` requires for this spec's kind.
 
 5. **Retain findings for Step 3** in the claim form of `evidence-discipline.md` §2: each claim carries its type, its reproducer, its confidence, and what breaks in the design if it turns out to be wrong.
 
@@ -107,6 +106,8 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
 2. **Populate the template**. Two sections carry the discipline and must not be filled loosely:
    - **Research Log** — one `C<n>` claim per finding, each with its four tag lines. A claim is typed `measured` only when `Verification` names something re-runnable.
    - **Summary / Key Findings** — may contain nothing that lacks a `C<n>` entry below. Never restate a lower bound, a partial count, or a sample as a total.
+
+   In **Summary**, record `Kind` (from spec.json) and `Discovery depth` (from Step 2).
 
    Fill the remaining sections (Unverified & Open, Architecture Pattern Evaluation, Recommendation, Risks, References) as the template describes. Each recommendation names the `C<n>` it rests on.
 
@@ -123,7 +124,7 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
 
 ## Tool Guidance
 
-- **Read first**: Load all context (spec, steering, template, rule, gap-analysis) before taking action; read the discovery rule only after classifying the Feature Type
+- **Read first**: Load all context (spec, steering, template, rule, gap-analysis) before taking action; read the discovery rule only after classifying the discovery depth
 - **Run things**: use Bash and the project's test/probe tooling to measure. Grep locates code; it does not establish behavior
 - **Research when uncertain**: Use WebSearch/WebFetch for external dependencies, APIs, and latest best practices
 - **Write last**: Generate research.md only after all research and analysis complete
@@ -133,7 +134,7 @@ Do **not** load the discovery rules here — Step 2 classifies the Feature Type 
 Provide brief summary in the language specified in spec.json:
 
 1. **Status**: Confirm research document generated at `{spec_path}/research.md` (and `probe/` if verification artifacts were produced)
-2. **Discovery Type**: Which discovery process was executed (full/light/minimal)
+2. **Kind & Discovery depth**: The spec's kind and which discovery process was executed (full/light/minimal)
 3. **Key Findings**: 2-3 critical insights that will inform the design, each with its `C<n>`
 4. **Unverified**: Any load-bearing claim that could not be measured — name it plainly
 5. **Next Action**: Guidance for next step

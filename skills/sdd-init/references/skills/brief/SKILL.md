@@ -54,7 +54,7 @@ A topic lookup. The answer lives somewhere specific and the work is finding it.
 A cross-spec status report. This is the horizontal counterpart to `/sdd-spec-status`.
 
 1. Read every `docs/tasks/todo/*/spec.json` and `docs/tasks/done/*/spec.json`. They are small — read them all.
-2. For each: `phase`, `approvals.*.approved`, `ready_for_implementation`, and the `plan` block (`unit_id`, `priority`, `depends_on`).
+2. For each: `kind`, `phase`, `approvals.*.approved`, `ready_for_implementation`, and the `plan` block (`unit_id`, `priority`, `depends_on`); for a `verify` spec, read `verdict.md` when it exists.
 3. For specs with a `tasks.md`, count `- [x]` against `- [ ]` for implementation progress.
 4. Assemble: what is in flight, what is blocked and on what, what is done, and which unfinished specs nothing depends on.
 5. If an inception plan exists, read its `inception.json` for the unit→spec map and report progress against the intended build order.
@@ -101,7 +101,7 @@ Order by what unblocks the most: a decision that several specs depend on outrank
 Provide output in the project's configured language, resolved in this order: if `--scope=spec:<feature-name>`, that spec's `spec.json` `language`; otherwise `docs/settings/templates/specs/init.json` `language`; failing both, `ja`.
 
 - **Shape A**: the answer, its citation, where it is applied, and current-vs-superseded if relevant.
-- **Shape B**: a compact table — spec | phase | approvals | depends_on | progress — plus a short prose read of what is in flight, blocked, and stalled, and the recommended next action.
+- **Shape B**: a compact table — spec | kind | phase | approvals | depends_on | progress — plus a short prose read of what is in flight, blocked, and stalled, and the recommended next action.
 - **Shape C**: the open decisions ordered by how much each unblocks, each with its citation, ending with a pointer to `/sdd-grill`.
 
 **Format**: Markdown, proportionate to the question. Tables only for enumerable facts; explanation in prose around them.

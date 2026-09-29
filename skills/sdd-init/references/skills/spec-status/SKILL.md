@@ -44,8 +44,8 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 
 ### Step 1: Load Spec Context
 
-- Read `{spec_path}/spec.json` for metadata and phase status
-- Read existing files: `requirements.md`, `behaviors.md`, `design.md`, `tasks.md` (if they exist)
+- Read `{spec_path}/spec.json` for metadata, `kind`, and phase status
+- Read existing files: `requirements.md`, `behaviors.md`, `design.md`, `tasks.md`, `verdict.md` (if they exist)
 - Check `{spec_path}/` directory for available files
 
 ### Step 2: Analyze Status
@@ -53,11 +53,12 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 **Parse each phase**:
 
 - **Requirements**: Count requirements and acceptance criteria
-- **Behaviors**: Check if `behaviors.md` exists; count scenarios and how many `Verification:` lines carry evidence (absent in legacy specs — not a defect)
+- **Behaviors**: Check if `behaviors.md` exists; count scenarios and how many `Verification:` lines carry evidence (absent in legacy specs — not a defect); `n/a` when the kind does not produce behaviors (`spec-kinds.md` §4)
 - **Research**: Check if `research.md` exists (✅ completed / ⏳ pending)
-- **Design**: Check for architecture, components, diagrams
+- **Design**: Check that the sections of the kind's design template are present (`spec-kinds.md` §4)
 - **Tasks**: Count completed vs total tasks (parse `- [x]` vs `- [ ]`)
-- **Approvals**: Check approval status in spec.json
+- **Verdict** (kind `verify`): the verdict per question from `verdict.md` §Summary, or absent
+- **Approvals**: Check approval status in spec.json; an absent approval key (such as `approvals.behaviors`) reads as `n/a`
 
 ### Step 3: Generate Report
 
@@ -89,8 +90,8 @@ Provide the report in the language specified in that spec's `spec.json`. In list
 
 **Report Structure**:
 
-1. **Feature Overview**: Name, phase, last updated
-2. **Phase Status**: Requirements, Research, Design, Tasks with completion %
+1. **Feature Overview**: Name, kind, phase, last updated
+2. **Phase Status**: Requirements, Behaviors (`n/a` when the kind does not produce behaviors), Research, Design, Tasks with completion %; for `verify`, also Verdict: the verdict per question, or absent
 3. **Task Progress**: If tasks exist, show X/Y completed
 4. **Next Action**: Specific command to run next
 5. **Issues**: Any blockers or missing elements
@@ -113,6 +114,6 @@ Provide the report in the language specified in that spec's `spec.json`. In list
 
 ### List All Specs
 
-When invoked with no feature name, read every `spec.json` under `docs/tasks/todo/` and `docs/tasks/done/` (they are small — read them all) and report one row per spec: feature name, `phase`, approval state, and — where `tasks.md` exists — completed/total task counts. Sort `todo/` before `done/`.
+When invoked with no feature name, read every `spec.json` under `docs/tasks/todo/` and `docs/tasks/done/` (they are small — read them all) and report one row per spec: feature name, kind, `phase`, approval state, and — where `tasks.md` exists — completed/total task counts. Sort `todo/` before `done/`.
 
 If no specs exist at all, say so and point at `/sdd-plan` (large effort) or `/sdd-spec-init` (single feature).

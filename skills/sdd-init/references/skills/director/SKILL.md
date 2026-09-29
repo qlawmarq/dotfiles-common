@@ -42,7 +42,7 @@ Confirm SDD is initialized (`docs/settings/` exists). Then read:
 - `docs/settings/rules/change-propagation.md`
 - The entire `docs/steering/` directory
 - The canon README, when `docs/steering/product.md §Canon References` declares a canon root
-- With a feature name, from `docs/tasks/todo/<feature-name>/` (or `docs/tasks/done/<feature-name>/`): `spec.json`, `requirements.md`, `behaviors.md`, `research.md`, `design.md`, `tasks.md`, `probe/README.md` — whichever exist
+- With a feature name, from `docs/tasks/todo/<feature-name>/` (or `docs/tasks/done/<feature-name>/`): `spec.json` (with its `kind`), `requirements.md`, `behaviors.md`, `research.md`, `design.md`, `tasks.md`, `probe/README.md`, and `verdict.md` for a `verify` spec — whichever exist
 
 Then report (see Output Description) and wait for inquiries.
 
@@ -71,6 +71,7 @@ No new document is created. Each kind of ruling lands in an existing seat:
 | An approved deviation | Fix design.md. A deviation that is not written into design is not approved. What changed during implementation is held by design.md's git diff |
 | Sent back (a deviation not agreed) | A fix task in tasks.md, in the same form as `/sdd-spec-done` class B |
 | A probe's ship verdict | The behaviors.md `Verification:` line, pointing at the evidence. No verdict note in the body of a probe result file |
+| A probe's verdict, non-feature kinds | design.md §Verification Plan (fix, refactor, chore) / verdict.md (verify) |
 | Wording of requirements, canon, or inception | In that document, after the user's yes |
 | An overturned ruling | Fix the relevant section of design.md, and say it was overturned in one sentence (as `canon-layer.md` does for an overturned decision) |
 
@@ -178,7 +179,7 @@ Provide all output in the language resolved in §Language.
 
 1. **Subject**: the feature or topic, or the whole project
 2. **Documents read**: the list
-3. **Spec state** (with a feature name): phase from spec.json, and the unfinished tasks in tasks.md
+3. **Spec state** (with a feature name): kind and phase from spec.json, and the unfinished tasks in tasks.md
 4. **Open questions and assumptions**: each with its citation
 5. The line: "To give this session a stable name: `/rename director-<feature-name>`"
 

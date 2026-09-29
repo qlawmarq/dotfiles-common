@@ -3,7 +3,7 @@ name: sdd-spec-init
 description: >-
   Initialize a new SDD specification with detailed project description.
   Creates directory structure and metadata for a new feature specification.
-argument-hint: "<project-description>"
+argument-hint: "<project-description> [--kind=<kind>]"
 ---
 
 # Spec Initialization
@@ -12,6 +12,7 @@ argument-hint: "<project-description>"
 
 - **Mission**: Initialize the first phase of spec-driven development by creating directory structure and metadata for a new specification
 - **Success Criteria**:
+  - Classify the work into a spec kind the user confirms (or recommend no spec)
   - Generate appropriate feature name from project description
   - Create unique spec structure without conflicts
   - Provide clear path to next phase (requirements generation)
@@ -24,6 +25,7 @@ argument-hint: "<project-description>"
 
 This skill expects:
 1. **Project description** (required): A description of the feature or project to initialize
+2. **Kind** (optional): `--kind=<kind>` — a kind from `docs/settings/rules/spec-kinds.md`
 
 If inputs were provided with this skill invocation, use them directly.
 Otherwise, ask the user for the project description.
@@ -34,6 +36,7 @@ Generate a unique feature name from the project description and initialize the s
 
 ## Execution Steps
 
+0. **Classify Kind**: If `--kind` was given, use it. Otherwise read `docs/settings/rules/spec-kinds.md`, then: (a) if the request meets §2 No spec needed, recommend implementing it directly and stop — go on to (b) only if the user says they want a spec; (b) classify the request, state the kind with a one-line reason, and ask the user to confirm.
 1. **Generate Date-Prefixed Name**: Create feature name in `YYYY-MM-DD-[feature-name]` format using today's date (e.g., `2026-02-02-add-auth`). If same-day duplicates exist, append sequence number (e.g., `2026-02-02-01-add-auth`).
 2. **Check Uniqueness**: Verify `docs/tasks/todo/` and `docs/tasks/done/` for naming conflicts
 3. **Create Directory**: `docs/tasks/todo/[date-prefixed-feature-name]/`
@@ -44,6 +47,8 @@ Generate a unique feature name from the project description and initialize the s
      - `{{FEATURE_NAME}}` → generated feature name
      - `{{TIMESTAMP}}` → current ISO 8601 timestamp
      - `{{PROJECT_DESCRIPTION}}` → the provided project description
+     - `kind` in spec.json → the confirmed kind (`init.json` carries `"feature"` as the value to replace)
+   - When the kind does not produce behaviors (`spec-kinds.md` §4), remove the `approvals.behaviors` key from spec.json.
    - Write `spec.json` and `requirements.md` to spec directory
 
 ## Important Constraints
@@ -67,10 +72,12 @@ Generate a unique feature name from the project description and initialize the s
 Provide output in the language from `docs/settings/templates/specs/init.json` `language` (else `ja`) — read it before any user dialogue, since this skill creates `spec.json` from it and it does not exist yet when the run starts. Structure:
 
 1. **Generated Feature Name**: `feature-name` format with 1-2 sentence rationale
-2. **Project Summary**: Brief summary (1 sentence)
+2. **Project Summary**: Brief summary (1 sentence) and the kind with its one-line reason
 3. **Created Files**: Bullet list with full paths
 4. **Next Step**: Command block showing `/sdd-spec-requirements <feature-name>`
 5. **Notes**: Explain why only initialization was performed (2-3 sentences on phase separation)
+
+**No-spec exit**: one paragraph — the recommendation, the kind it would take, and that nothing was created.
 
 **Format Requirements**:
 

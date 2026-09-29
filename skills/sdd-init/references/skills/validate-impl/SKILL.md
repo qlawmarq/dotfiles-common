@@ -64,7 +64,7 @@ Validate implementation for feature(s) and task(s) based on approved specificati
 
 For each detected feature:
 
-- Read `{spec_path}/spec.json` for metadata
+- Read `{spec_path}/spec.json` for metadata and `kind`
 - Read `{spec_path}/requirements.md` for requirements
 - Read `{spec_path}/behaviors.md` for behavior scenarios (if exists)
 - Read `{spec_path}/design.md` for design structure
@@ -72,6 +72,8 @@ For each detected feature:
 - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 ### 3. Execute Validation
+
+**Kind `verify`**: check `verdict.md` and `probe/` instead of code — each completed run/record task has its evidence under `{spec_path}/probe/`, each completed judgment task has its question's verdict (`holds | partial | fails | unmeasured`) in `{spec_path}/verdict.md` with a `probe/` pointer, and every file the tasks changed is under `{spec_path}/`. The checks below apply to the other kinds.
 
 For each task, verify:
 

@@ -50,6 +50,7 @@ Keep EARS trigger keywords and fixed phrases in English (`When`, `If`, `While`, 
 - **Software Projects**: Use concrete system/service name (e.g., "Checkout Service", "User Auth Module")
 - **Process/Workflow**: Use responsible team/role (e.g., "Support Team", "Review Process")
 - **Non-Software**: Use appropriate subject (e.g., "Marketing Campaign", "Documentation")
+- **Verdict rules** (`verify` specs): the verdict is the subject — "the verdict for question N shall be holds".
 
 ## Quality Criteria
 

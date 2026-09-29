@@ -51,10 +51,10 @@ Write technical design document for the specified feature based on approved requ
 - `{spec_path}/spec.json`, `requirements.md`, `behaviors.md` (if exists), `design.md` (if exists), `research.md` (if exists)
 - `{spec_path}/probe/README.md` (if exists) — the index of verification artifacts behind the research claims. Reading recorded evidence is not independent discovery; open a specific probe result when a design decision turns on it
 - **Entire `docs/steering/` directory** for complete project memory
-- `docs/settings/templates/specs/design.md` for document structure
+- The kind's design template for document structure (`docs/settings/rules/spec-kinds.md` §4)
 - `docs/settings/rules/design-principles.md` for design principles, and `docs/settings/rules/document-hygiene.md`
 
-**If `behaviors.md` does NOT exist**: warn the user — in the language from spec.json — that behavior scenarios were not formulated, that `/sdd-spec-behavior <feature-name>` is recommended (it grounds the design in the product's purpose), and continue without them.
+**If `behaviors.md` does NOT exist and the kind produces behaviors (`spec-kinds.md` §4)**: warn the user — in the language from spec.json — that behavior scenarios were not formulated, that `/sdd-spec-behavior <feature-name>` is recommended (it grounds the design in the product's purpose), and continue without them.
 
 **Validate requirements approval**:
 
@@ -63,7 +63,7 @@ Write technical design document for the specified feature based on approved requ
 
 ### Step 2: Apply Research Context
 
-**Use the research results from `research.md` as design input. Do NOT conduct independent discovery or external research (no Feature Type classification, no Discovery process, no WebSearch/WebFetch) — that work belongs to `/sdd-spec-research`.**
+**Use the research results from `research.md` as design input. Do NOT conduct independent discovery or external research (no discovery depth classification, no Discovery process, no WebSearch/WebFetch) — that work belongs to `/sdd-spec-research`.**
 
 1. **If `research.md` was loaded in Step 1**:
    - Extract key findings: architecture patterns, technology decisions, integration points, risks, and design recommendations
@@ -78,7 +78,7 @@ Write technical design document for the specified feature based on approved requ
 
 Using the template and principles loaded in Step 1 and the research findings from Step 2:
 
-- **Follow specs/design.md template structure and generation instructions strictly**
+- **Follow the kind's design template structure and generation instructions strictly**
 - **Move, don't copy**: for each line of research.md §Recommendation, write a `D<n>` entry in design.md §Design Decisions (adopted or overturned, with the rejected options and consequences), then delete that line from research.md; delete the section when it is empty. `C<n>` claims stay where they are.
 - **Satisfy the behavior scenarios**: if `behaviors.md` exists, every scenario must be realizable by the design — walk each scenario through the designed components and report, in the command output, any scenario no component realizes — do not add a mapping table to design.md. A scenario the design cannot produce is a design gap; a design behavior that contradicts a scenario's `Grounds:` is concept drift — stop and report, don't design around it
 - **Integrate all discovery findings**: Use researched information (APIs, patterns, technologies) throughout component definitions, architecture decisions, and integration points
@@ -86,7 +86,7 @@ Using the template and principles loaded in Step 1 and the research findings fro
 - If existing design.md found in Step 1, use it as reference context (merge mode)
 - Apply design rules: Type Safety, Visual Communication, Formal Tone
 - Use language specified in spec.json
-- Ensure the sections carrying research-derived content — "Architecture Pattern & Boundary Map", "Components and Interfaces" — reflect it, and reference supporting details from `research.md`
+- Ensure the sections carrying research-derived content reflect it, and reference supporting details from `research.md`
 
 ### Step 4: Update Metadata
 
@@ -138,7 +138,7 @@ Provide brief summary in the language specified in spec.json:
 
 **Format**: Concise Markdown (under 200 words) - this is the command output, NOT the design document itself
 
-**Note**: The actual design document follows `docs/settings/templates/specs/design.md` structure.
+**Note**: The actual design document follows the kind's design template structure.
 
 ## Safety & Fallback
 
@@ -158,7 +158,7 @@ Provide brief summary in the language specified in spec.json:
 
 **Template Missing**:
 
-- **User Message**: "Template file missing at `docs/settings/templates/specs/design.md`"
+- **User Message**: "Template file missing at `docs/settings/templates/specs/<design template>`"
 - **Suggested Action**: "Check repository setup or restore template file"
 - **Fallback**: Use inline basic structure with warning
 

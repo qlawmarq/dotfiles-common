@@ -14,10 +14,10 @@ argument-hint: "<feature-name>"
 - **Mission**: Verify implementation quality comprehensively, then finalize the feature by moving the spec to done and creating a git commit
 - **Success Criteria**:
   - All tasks marked as completed in tasks.md
-  - Every acceptance criterion checked clause by clause by an independent auditor against the code, with every ID covered in `criteria-audit.md`
+  - Every acceptance criterion checked clause by clause by an independent auditor against the code, with every ID covered in `criteria-audit.md` (`verify`: 2j instead)
   - Every non-HOLDS audit item routed (A / B / C / D / E, or rejected as a false positive); stale criterion wording reconciled in requirements.md
   - Design alignment verified
-  - Lint, tests, and build pass without issues
+  - Lint, tests, and build pass without issues (`verify`: 2j instead)
   - Behavior scenarios (if formulated) verified with concrete evidence — no concept drift
   - Code is clean and does not require refactoring
   - Spec moved from `docs/tasks/todo/` to `docs/tasks/done/`
@@ -51,9 +51,10 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. Fe
 
 **Read all necessary context**:
 
-- `{spec_path}/spec.json` for metadata and language
+- `{spec_path}/spec.json` for metadata, language, and `kind`
 - `{spec_path}/requirements.md` for requirements
 - `{spec_path}/behaviors.md` for behavior scenarios (if exists)
+- `{spec_path}/verdict.md` for the judgments (kind `verify`)
 - `{spec_path}/design.md` for design structure
 - `{spec_path}/tasks.md` for task list
 - **Entire `docs/steering/` directory** for complete project memory
@@ -62,6 +63,8 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. Fe
 ### Step 2: Verification
 
 Execute all verification checks sequentially. Collect all issues before making a decision.
+
+**By kind**: `verify` skips 2b, 2c, 2d–2g and 2i and runs 2j instead. `fix` also runs 2b-fix after 2b. Every other check applies to every kind.
 
 #### 2a. Task Completion Check
 
@@ -83,7 +86,7 @@ Prints one line per numbered acceptance criterion: `N.M<TAB>text`.
 
 **② Independent auditor**
 
-Dispatch **one new sub-agent**, via whatever delegation tool the host harness provides. Pass it the extracted criteria list (the output of ①) and the instruction below, verbatim — and nothing else: no upstream history, no summary of the spec, no impressions of your own. It reads the repository's code and tests. The prohibition on other documents is in the instruction; no tool restriction is applied (in the acceptance run the auditor did read probe scripts under docs/, but no document).
+Dispatch **one new sub-agent**, via whatever delegation tool the host harness provides. Pass it the extracted criteria list (the output of ①) and the instruction below, verbatim — and nothing else: no upstream history, no summary of the spec, no impressions of your own. It reads the repository's code and tests. The prohibition on other documents is in the instruction; no tool restriction is applied (in the acceptance run the auditor did read probe scripts under docs/, but no document). For a `chore` whose deliverable is a document, name that document in the instruction as an auditable artifact.
 
 Auditor instruction:
 
@@ -140,6 +143,11 @@ Three rules:
 
 For each criterion that asserts an absence and has no test or guard in the audit's section C, flag as **Warning**: "Absence unverified". Report it only; adding a guard is not required.
 
+#### 2b-fix. Regression Guard Check (kind `fix`)
+
+- (i) Every Regression Guard named in design.md exists (grep the test name); (ii) `probe/` holds the guard's failing run from before the fix and the post-fix re-run of every Defect Ledger row
+- Missing → **Critical**: "Regression guard missing" / "Reproduction not re-run"
+
 #### 2c. Design Alignment
 
 - Check if design.md structure is reflected in implementation
@@ -185,7 +193,7 @@ For each criterion that asserts an absence and has no test or guard in the audit
 - For every scenario, confirm the `Verification:` line carries concrete, passing evidence (existing test / probe results file / manual observation record)
 - If a scenario lacks evidence or its evidence fails, flag as **Critical**: "Behavior not verified"
 - If the implemented behavior contradicts a scenario or a `docs/steering/behaviors.md` invariant, flag as **Critical**: "Concept drift detected"
-- If no behaviors.md exists, flag as **Info**: "No behavior scenarios — skipping" (legacy specs)
+- If no behaviors.md exists, flag as **Info**: "No behavior scenarios — skipping" (legacy specs); when the kind does not produce behaviors: "Behavior scenarios not applicable (`<kind>`)"
 
 #### 2h. Assumption Signpost Check (if design.md declares assumptions)
 
@@ -201,6 +209,11 @@ For each criterion that asserts an absence and has no test or guard in the audit
   - Missing error handling at system boundaries
   - Inconsistent patterns compared to existing codebase
 - If refactoring is needed, flag as **Warning**: "Refactoring recommended" with specific suggestions
+
+#### 2j. Verdict Check (kind `verify`)
+
+- `verdict.md` exists, and every question (`### N` in requirements.md) has a verdict from `holds | partial | fails | unmeasured` with a `probe/` pointer. If not, flag as **Critical**: "Verdict incomplete"
+- The files this spec's tasks changed — the working-tree changes the tasks made and any commits made during impl for this spec — are all under the spec directory. A product file among them is **Critical**: "verify spec changed product code". Unrelated working-tree changes are handled as in 4f (warn and exclude), not flagged here.
 
 ### Step 3: GO/NO-GO Decision
 
@@ -265,11 +278,7 @@ These files are staged with the feature commit (4f); they are part of completing
   - Conventional Commits (`feat:`, `fix:`, `chore:`, etc.) → use matching format
   - Scope usage (`feat(scope):`) → include feature name as scope
   - No clear pattern → default to Conventional Commits
-- Determine commit type from feature context:
-  - New feature → `feat`
-  - Bug fix → `fix`
-  - Refactoring → `refactor`
-  - Default → `feat`
+- Commit type: the kind's column in `docs/settings/rules/spec-kinds.md` §4
 
 #### 4f. Stage and Commit
 
@@ -283,6 +292,7 @@ These files are staged with the feature commit (4f); they are part of completing
   ```
   feat(<short-name>): <description from spec.json>
   ```
+- Kind `verify`: the commit holds only the spec directory and the 4d inception updates, with the message `docs(spec): verdict <feature-name>`
 - The requirements.md and design.md edits from 4a are part of this commit. Add one body line per reconciled criterion, pointing at the decision by section heading, not line number (line numbers go stale with edits). A B override or C withdrawal points at the Step 3 confirmation:
   ```
   Reconciled: 1.10 ← design.md §<section heading>

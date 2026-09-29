@@ -47,6 +47,8 @@ Target: each unit is an **independently shippable vertical slice**. Validate eve
 - **S**mall — implementable as one focused spec. A useful gut check: if its eventual requirements would exceed ~7–10 distinct requirement areas, it's probably two units.
 - **T**estable — has a concrete **independent-test statement**: "Can be fully verified by [action] and delivers [value]." If you can't write this sentence, the boundary is wrong.
 
+Each unit carries a `kind` (`spec-kinds.md`).
+
 Prefer **roughly equal-sized units** — this gives whoever sequences the roadmap maximum freedom. When sizes are lopsided, look for a split (§4) that carves the large one down or that peels low-value functionality out of it so it can be deprioritized.
 
 ## 4. Splitting a unit that is too big

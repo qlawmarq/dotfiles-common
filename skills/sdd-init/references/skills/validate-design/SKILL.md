@@ -48,7 +48,7 @@ Interactive design quality review for the specified feature based on approved re
 1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
-   - Read `{spec_path}/spec.json` for language and metadata
+   - Read `{spec_path}/spec.json` for language, `kind`, and metadata
    - Read `{spec_path}/requirements.md` for requirements
    - Read `{spec_path}/behaviors.md` for behavior scenarios (if exists)
    - Read `{spec_path}/research.md` for research findings (if exists)
@@ -58,11 +58,13 @@ Interactive design quality review for the specified feature based on approved re
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/design-review.md` for review criteria and process
    - Read `docs/settings/rules/concept-alignment.md` for the concept & behavior alignment check (design-review criterion 0)
+   - Read the kind's design template as the structure reference (`docs/settings/rules/spec-kinds.md` §4)
 
 4. **Execute Design Review** (skip interactive dialogue in `--batch` mode):
    - Follow design-review.md process: Analysis → Critical Issues → Strengths → GO/NO-GO
    - If `research.md` exists, verify that its key findings are reflected in the design — and, per design-review criterion 5, that no major design decision silently rests on a claim typed `unverified` or lacking a reproducer
    - **Recompute** per design-review criterion 6, in batch mode too: quote the code with Grep/Read for every contract stated twice, every concrete expression about existing code, and every branch site of a kind the design extends, and every acceptance criterion ID for criterion 6-D (coverage)
+   - Criterion 6-D (requirements without a component) checks the seats where the kind's templates carry criterion IDs: component `Requirements` fields in `design.md`; `Defects:` / `covers` / `Questions` fields, or the criterion's own guard, in the other templates
    - **Non-functional coverage** per design-review criterion 7
    - In batch mode: Perform bulk review and output complete results without user dialogue
    - In interactive mode (default): Engage interactively with user

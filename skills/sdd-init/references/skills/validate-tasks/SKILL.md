@@ -48,7 +48,7 @@ Interactive implementation task review for the specified feature based on approv
 1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
-   - Read `{spec_path}/spec.json` for language and metadata
+   - Read `{spec_path}/spec.json` for language, `kind`, and metadata
    - Read `{spec_path}/requirements.md` for requirements
    - Read `{spec_path}/behaviors.md` for behavior scenarios (if exists)
    - Read `{spec_path}/design.md` for design document
@@ -61,6 +61,7 @@ Interactive implementation task review for the specified feature based on approv
    - Review implementation tasks using tasks-generation.md process
    - Ensure there are no issues with consistency between documents, no overly burdensome tasks, and no ambiguous tasks or designs.
    - If `behaviors.md` exists: verify every scenario's `Verification:` is covered by a task (auto-test in TDD work, probe as an explicit run-and-record task, manual as a named verification task) — an uncovered scenario is a Critical issue.
+   - Kind `verify` (structure: `docs/settings/templates/specs/tasks-verify.md`): verify every question in requirements.md has a run/record task and a judgment task — a question without both is a Critical issue.
    - In batch mode: Perform bulk review and output complete results without user dialogue
    - In interactive mode (default): Engage interactively with user
    - Use language specified in spec.json for output
