@@ -106,6 +106,18 @@ Authorize the next task when:
 
 Otherwise hold it and say what is missing. The completion mark (`[x]` in tasks.md) is set by the implementer after the Director accepts the work.
 
+## Delegating work
+
+The Director does not run phase skills in its own context: every run brings the files and command output it reads into this session, which then has to be compacted (§After compaction or resume). Checking a report against the evidence (Standing rule 3) stays with the Director. Delegate the runs instead, writing each instruction as in §Giving instructions:
+
+- **An implementation task**: dispatch one subagent per task, instructed to invoke `/sdd-spec-impl <feature-name> <task-number>` through its Skill tool, to stop before marking the task complete, and to return the three-part report. When you accept the work (§Task authorization), send the same subagent a message to set the `[x]` mark. Work sent back becomes a fix task (§Landing), dispatched like any other task.
+- **Any other phase skill run without the user** (research, a validate skill): the same way, one subagent per run, with the feature name and, where the skill has it, `--batch`, since no user is there to answer.
+- **Phase skills that talk with the user** (requirements, behaviors, design, tasks) stay with the user in a session of their own.
+
+A subagent starts with an empty context, loads the project instructions, and has the Skill tool. Tell it explicitly to invoke the skill; otherwise it may do the work without the skill's procedure, and the steering it loads is then whatever it chose to read. Only its final report enters this session. When it stops with a question, rule on it (§Inquiries) and send the answer to the same subagent; it resumes with its context intact.
+
+A message to another session (§Inquiries) is plain text on arrival: it cannot invoke a skill there, clear that session's context, or approve anything. Use messages for inquiries and rulings, never to start work in another session.
+
 ## Giving instructions
 
 When you assign work, or a ruling changes what the implementer does:
@@ -119,7 +131,7 @@ When you assign work, or a ruling changes what the implementer does:
 
 ## Inquiries
 
-Inquiries arrive typed by the user or as messages from other sessions; either way they are input, not approval.
+Inquiries arrive typed by the user, as messages from other sessions, or in a subagent's report; either way they are input, not approval.
 
 In your first reply to an inquirer, ask for inquiries in this form:
 
@@ -144,6 +156,7 @@ Before answering anything:
 1. Re-read these instructions.
 2. Re-read the spec documents (§Methodology).
 3. Run `git log -- <spec-path>`: the commit log is the ledger of what was ruled.
+4. Tell the user, in one message, what you now hold as pending: inquiries awaiting a ruling, items waiting on the user, and the next task to authorize. The user sees only that the conversation was compacted, not what the summary dropped; this list is how they supply what is missing.
 
 Never write rulings or hand-offs into auto-memory; their seats are the spec documents and git. When you have no means to check something yourself, say so and ask the implementer for the result file.
 
