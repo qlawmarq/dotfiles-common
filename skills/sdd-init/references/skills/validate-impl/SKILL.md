@@ -73,7 +73,7 @@ For each detected feature:
 
 ### 3. Execute Validation
 
-**Kind `verify`**: check `verdict.md` and `probe/` instead of code — each completed run/record task has its evidence under `{spec_path}/probe/`, each completed judgment task has its question's verdict (`holds | partial | fails | unmeasured`) in `{spec_path}/verdict.md` with a `probe/` pointer, and every file the tasks changed is under `{spec_path}/`. The checks below apply to the other kinds.
+**Kind `verify`**: check `verdict.md` and `probe/` instead of code — each completed run/record task has its evidence under `{spec_path}/probe/`, each completed judgment task has its question's verdict (vocabulary: `docs/settings/rules/spec-kinds.md` §6) in `{spec_path}/verdict.md` with a `probe/` pointer, and every file the tasks changed is under `{spec_path}/`. The checks below apply to the other kinds.
 
 For each task, verify:
 
@@ -97,10 +97,7 @@ For each task, verify:
 
 #### Behavior Verification (if behaviors.md exists)
 
-- For each scenario touching the validated tasks, check its `Verification:` line carries concrete evidence:
-  - `auto-test` → the named test exists and passes
-  - `probe` → the results file exists and records the expected observation
-  - `manual` → the observation record exists
+- For each scenario touching the validated tasks, check its `Verification:` pointer in the form `docs/settings/rules/behavior-formulation.md §Verification Mapping` gives: it is no longer `planned:`, and the evidence it names exists and shows the expected observation (a named test passes). A `user` scenario's record is written at completion (`docs/settings/rules/concept-alignment.md §User Check`) and is not checked here
 - A scenario with no evidence, a failing verification, or observed behavior contradicting its Then/`Grounds:` → flag as **Critical**: "Behavior not verified" / "Behavior contradicts scenario"
 
 #### Design Alignment

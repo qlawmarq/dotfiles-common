@@ -57,7 +57,7 @@ Interactive design quality review for the specified feature based on approved re
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/design-review.md` for review criteria and process
-   - Read `docs/settings/rules/concept-alignment.md` for the concept & behavior alignment check (design-review criterion 0)
+   - Read `docs/settings/rules/concept-alignment.md` §Resolving the Canon, §The Check, and, under §Findings, §Severity and §Finding Format for the concept & behavior alignment check (design-review criterion 0)
    - Read the kind's design template as the structure reference (`docs/settings/rules/spec-kinds.md` §4)
 
 4. **Execute Design Review** (skip interactive dialogue in `--batch` mode):

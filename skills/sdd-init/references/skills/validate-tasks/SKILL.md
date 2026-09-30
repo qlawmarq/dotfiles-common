@@ -55,12 +55,12 @@ Interactive implementation task review for the specified feature based on approv
    - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Review Guidelines**:
-   - Read `docs/settings/rules/tasks-generation.md` for the criteria the tasks must satisfy. It defines the criteria only — the issue format and GO/NO-GO shape are defined in Output Description below, so no other rule file is needed.
+   - Read `docs/settings/rules/tasks-generation.md` for the criteria the tasks must satisfy, and, if `behaviors.md` exists, `docs/settings/rules/behavior-formulation.md §Verification Mapping` for what covers each tier. The issue format and GO/NO-GO shape are defined in Output Description below.
 
 4. **Execute Task Review** (skip interactive dialogue in `--batch` mode):
    - Review implementation tasks using tasks-generation.md process
    - Ensure there are no issues with consistency between documents, no overly burdensome tasks, and no ambiguous tasks or designs.
-   - If `behaviors.md` exists: verify every scenario's `Verification:` is covered by a task (auto-test in TDD work, probe as an explicit run-and-record task, manual as a named verification task) — an uncovered scenario is a Critical issue.
+   - If `behaviors.md` exists: verify every scenario's `Verification:` is covered as its tier's Produced by column says — an uncovered scenario is a Critical issue, and so is a task for a `user` scenario.
    - Kind `verify` (structure: `docs/settings/templates/specs/tasks-verify.md`): verify every question in requirements.md has a run/record task and a judgment task — a question without both is a Critical issue.
    - In batch mode: Perform bulk review and output complete results without user dialogue
    - In interactive mode (default): Engage interactively with user

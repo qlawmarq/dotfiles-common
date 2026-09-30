@@ -37,6 +37,7 @@ Every finding in `research.md` is one claim with four tag lines. Keep the tag na
 - **No promotion in the summary.** A claim may appear in Summary / Key Findings only if it has a `C<n>` entry in the Research Log. Restating a lower bound as a total in the summary is the single most damaging failure this rule exists to stop.
 - **Recommendations and design decisions cite their claims.** A recommendation in research.md and a decision in design.md each name the `C<n>` they rest on, so a claim later found wrong points directly at what falls with it.
 - `Load-bearing` is left blank for claims the design does not depend on. Filling it in is what selects the small set worth spending measurement on.
+- **A claim can be a finding.** A measured claim that disagrees with a document, or that shows what a person using the product meets in its default configuration, is not recorded as a parameter to plan around: `concept-alignment.md §The Check` and `§Findings` apply in the same turn.
 
 ## 3. The `probe/` directory
 

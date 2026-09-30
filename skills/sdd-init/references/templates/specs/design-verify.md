@@ -61,4 +61,4 @@ A second reviewer given the same records reaches the same verdict; where they wo
 
 ## Verification Plan
 
-One dry run of §Procedure before the run sets start: it confirms the procedure executes, the record template captures every item, and one run costs what research measured. The dry run's record goes to `probe/` and counts toward no verdict.
+One dry run of §Procedure before the scripted run sets start: it confirms the procedure executes, the record template captures every item, and one run costs what research measured. The dry run's record goes to `probe/` and counts toward no verdict.

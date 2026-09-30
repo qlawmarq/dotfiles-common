@@ -28,7 +28,7 @@ graph TD
 
 > Walking skeleton first, then dependencies-first topological order; ties broken by priority then subdomain class. Units in the same step with no shared dependency may run in parallel.
 
-1. **U1 {{UNIT_SLUG}}** — walking skeleton (thinnest end-to-end slice through all seams)
+1. **U1 {{UNIT_SLUG}}** — walking skeleton (`docs/settings/rules/inception-decomposition.md` §6)
 2. <!-- next unit(s); group parallel-capable units together -->
 
 **Acyclic check:** confirmed no circular dependencies. <!-- A cycle means a boundary is wrong — re-cut. -->

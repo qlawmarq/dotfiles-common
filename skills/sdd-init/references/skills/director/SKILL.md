@@ -39,7 +39,6 @@ Confirm SDD is initialized (`docs/settings/` exists). Then read:
 - `docs/settings/rules/concept-alignment.md`
 - `docs/settings/rules/canon-layer.md`
 - `docs/settings/rules/document-hygiene.md`
-- `docs/settings/rules/change-propagation.md`
 - The entire `docs/steering/` directory
 - The canon README, when `docs/steering/product.md §Canon References` declares a canon root
 - With a feature name, from `docs/tasks/todo/<feature-name>/` (or `docs/tasks/done/<feature-name>/`): `spec.json` (with its `kind`), `requirements.md`, `behaviors.md`, `research.md`, `design.md`, `tasks.md`, `probe/README.md`, and `verdict.md` for a `verify` spec — whichever exist
@@ -53,7 +52,7 @@ Then report (see Output Description) and wait for inquiries.
 3. **Go and see.** Check claims such as "done", "tests pass", or "the existing code does this" against the diff, a test run, or a file:line quote before ruling. What you cannot check is `unverified`, and is never the ground of a ruling. Read a report in three parts — facts checked, readings, unverified — and let only the first ground a ruling; recheck the second yourself.
 4. **Everything is editable except what §Escalation reserves.** The Director edits the spec documents freely — design, the wording of behaviors, additions to research, fix tasks — and never touches an upstream document without the user's yes, nor a seat that belongs to someone else (§Landing).
 5. **Land a ruling as content.** Write it into the section of the document that owns it, at once. Never write who approved it or when (§Landing).
-6. **Carry changes through.** Whatever you change, fix the documents that `change-propagation.md` lists for it, in the same turn.
+6. **Carry changes through.** Whatever you change, carry it to the documents that cite it, in the same turn (`concept-alignment.md §After a Change`; `bash docs/settings/scripts/check_refs.sh refs <item>` lists what it can resolve).
 7. **The default answer to a proposal is no.** A judgment the documents do not settle, one that needs the user to experience the UX, or one where documents disagree goes to the user with a proposal attached. A proposal without the user's yes is not a decision (`dialogue-grounding.md`).
 8. **Authorize the next task** (§Task authorization) only after checking the completion report against the evidence, and only when no upstream change request touching the next task is pending.
 9. **Do not reopen settled points.** A point already ruled on is reopened only by a new fact (file:line, a measurement). Record dissent in one sentence among the ruling's reasons, and commit to the ruling.
@@ -63,37 +62,28 @@ When two or more Directors run, both take any upstream decision to the user, and
 
 ## Landing
 
-No new document is created. Each kind of ruling lands in an existing seat:
+No new document is created. A finding — a deviation approved or sent back, a change to requirements, canon, inception, or steering — lands where the table in `concept-alignment.md §Findings` routes it. The Director's own rulings land in these seats:
 
 | Ruling | Seat |
 | --- | --- |
 | An implementation-level decision (how a field is held, when a check runs, …) | The owning component's block in design.md for the contract; a `D<n>` entry in design.md §Design Decisions for the choice and what it rejected |
-| An approved deviation | Fix design.md. A deviation that is not written into design is not approved. What changed during implementation is held by design.md's git diff |
-| Sent back (a deviation not agreed) | A fix task in tasks.md, in the same form as `/sdd-spec-done` class B |
-| A probe's ship verdict | The behaviors.md `Verification:` line, pointing at the evidence. No verdict note in the body of a probe result file |
+| A probe's ship verdict | The behaviors.md `Verification:` line, pointing at the evidence. No verdict note in the body of a probe result file. A result that fails `concept-alignment.md §The Check` is a finding, not a verdict |
 | A probe's verdict, non-feature kinds | design.md §Verification Plan (fix, refactor, chore) / verdict.md (verify) |
-| Wording of requirements, canon, or inception | In that document, after the user's yes |
 | An overturned ruling | Fix the relevant section of design.md, and say it was overturned in one sentence (as `canon-layer.md` does for an overturned decision) |
 
-Seats that belong to others stay theirs: `probe/` and the `Verification:` line are the implementer's; the `[x]` mark is set by the implementer after the Director accepts the work (§Task authorization); `spec.json` approvals belong to each phase's skill.
+Seats that belong to others stay theirs: `probe/` and the `Verification:` line are the implementer's; a user check's record under `probe/` is written at completion (`concept-alignment.md §User Check`); the `[x]` mark is set by the implementer after the Director accepts the work (§Task authorization); `spec.json` approvals belong to each phase's skill.
 
 Never write who made a ruling or when into a document (`document-hygiene.md`, one fact, one seat).
 
 ## Escalation
 
-Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); canon (`canon-layer.md §Change Control` — `## Canon changes`, one confirmation, a standalone `docs(canon):` commit); the inception plan (units, dependencies — the build order is the owner's decision); steering (`steering-principles.md §Updating`). Everything else in the spec the Director edits.
+Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); canon (`canon-layer.md §Change Control`); the inception plan (units, dependencies — the build order is the user's decision); steering (`steering-principles.md §Updating`). Everything else in the spec the Director edits.
 
-Take these to the user:
+Take to the user every finding the table in `concept-alignment.md §Findings` gives to the user, and budget and duration (a wait beyond the limit of `concept-alignment.md §Waiting on a Run`, a change in parallelism).
 
-- Changes to requirements, canon, inception, or steering
-- Judgments that need something running to be seen (UX, look, feel)
-- Judgments the documents do not settle (an open question, a silent assumption)
-- Contradictions between documents (product.md vs canon, a spec vs inception)
-- Budget and duration (a run expected to exceed half a day, a change in parallelism)
+Put them in one message where possible, each item with the facts, the options, and a proposal. Tell the inquirer "waiting on the user" and what is being asked. When the user answers, land it (§Landing), carry it through (`concept-alignment.md §After a Change`), and return the result to the inquirer.
 
-Put them in one message where possible, each item with the facts, the options, and a proposal. The default answer to a proposal is no. Tell the inquirer "waiting on the user" and what is being asked. When the user answers, land it (§Landing), carry it through (`change-propagation.md`), and return the result to the inquirer.
-
-A change request carries: where (file and section), why (the facts, with file:line), the affected documents and tasks (from the `change-propagation.md` table), and whether it can be reversed. Only immediately before an upstream change request, add one paragraph of premortem: if this change failed, what would the reason be?
+A change request carries: where (file and section), why (the facts, with file:line), the affected documents and tasks (`concept-alignment.md §After a Change`), and whether it can be reversed. Only immediately before an upstream change request, add one paragraph of premortem: if this change failed, what would the reason be?
 
 A ruling's authority comes from the kind of document it lives in. What is in requirements, canon, or inception passed through the user; what is in design, behaviors, or tasks is the Director's (or the design phase's) decision. There is no other mark of authority.
 
@@ -111,7 +101,7 @@ Otherwise hold it and say what is missing. The completion mark (`[x]` in tasks.m
 
 The Director does not run phase skills in its own context: every run brings the files and command output it reads into this session, which then has to be compacted (§After compaction or resume). Checking a report against the evidence (Standing rule 3) stays with the Director. Delegate the runs instead, writing each instruction as in §Giving instructions:
 
-- **An implementation task**: dispatch one subagent per task, instructed to invoke `/sdd-spec-impl <feature-name> <task-number>` through its Skill tool, to stop before marking the task complete, and to return the three-part report. When you accept the work (§Task authorization), send the same subagent a message to set the `[x]` mark. Work sent back becomes a fix task (§Landing), dispatched like any other task.
+- **An implementation task**: dispatch one subagent per task, instructed to invoke `/sdd-spec-impl <feature-name> <task-number>` through its Skill tool, to stop before marking the task complete, and to return the three-part report. When you accept the work (§Task authorization), send the same subagent a message to set the `[x]` mark. Work sent back becomes a fix task (`concept-alignment.md §Findings`), dispatched like any other task.
 - **Any other phase skill run without the user** (research, a validate skill): the same way, one subagent per run, with the feature name and, where the skill has it, `--batch`, since no user is there to answer.
 - **Phase skills that talk with the user** (requirements, behaviors, design, tasks) stay with the user in a session of their own.
 

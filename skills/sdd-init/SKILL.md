@@ -146,7 +146,7 @@ Provide output in the language derived from `--lang`:
    - `marker_warning`: "Inconsistent SDD markers detected. A new section was appended."
 5. **Errors** (if any): Report from `errors` field
 6. **Next Steps** (numbered action items):
-   - When `retired_removed` or `retired_rules_removed` is not `none`: "Retired skills/rules were removed (`/sdd-canon-propose`, `/sdd-canon-ratify`, `ratification.md`, `normative-registry.md`, `canon/proposal.md`); project docs (canon README, `product.md §Canon References`, AGENTS.md) may still reference them — update on next touch. Canon now changes through each phase's `Canon changes` section (`docs/settings/rules/canon-layer.md`)."
+   - When `retired_removed` or `retired_rules_removed` is not `none`: "Retired skills and rules were removed. `bash docs/settings/scripts/check_refs.sh check` lists the references to them that remain in the project's documents."
    - Run `/sdd-steering` to generate project steering from codebase analysis
    - Run `/sdd-steering-custom` to add domain-specific steering (optional)
    - For a large/greenfield effort: run `/sdd-plan "product goal"` to decompose it into right-sized specs

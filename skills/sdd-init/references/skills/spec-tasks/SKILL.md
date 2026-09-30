@@ -73,7 +73,7 @@ Generate implementation tasks for the specified feature based on approved requir
 - Use language specified in spec.json
 - Map all requirements to tasks
 - `fix`: the first task per root cause is its Regression Guard, with a detail bullet that its failing run is recorded in `probe/` before the code changes (an exception to TDD test deduplication); tasks are grouped by root cause, not by ledger row
-- If `behaviors.md` exists: ensure every scenario's `Verification:` is covered by a task — auto-test scenarios fold into the implementing task's TDD work; probe scenarios get an explicit probe-and-record task; manual scenarios get a verification task naming the procedure. Do not leave any scenario unverified
+- If `behaviors.md` exists: cover every scenario's `Verification:` as its tier's Produced by column in `docs/settings/rules/behavior-formulation.md §Verification Mapping` says; a `user` scenario gets no task. Do not leave any scenario unverified
 - When documenting requirement coverage, list numeric requirement IDs only (comma-separated) without descriptive suffixes, parentheses, translations, or free-form labels
 - Ensure all design components included
 - Verify task progression is logical and incremental

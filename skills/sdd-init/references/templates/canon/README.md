@@ -1,6 +1,6 @@
 # Canon Index
 
-[One paragraph: what this canon governs. This directory is the product's decision record — structure and change control per `docs/settings/rules/canon-layer.md`. Committed text is in force; changes land through the "Canon changes" section of the SDD phase that produced them (or `/sdd-canon-update`) as standalone `docs(canon):` commits.]
+[One paragraph: what this canon governs. This directory is the product's decision record — structure per `docs/settings/rules/canon-layer.md §Structure`; how it changes: `docs/settings/rules/canon-layer.md §Change Control`.]
 
 ## Decision Log
 

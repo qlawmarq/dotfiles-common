@@ -165,7 +165,7 @@ SCRIPTS_COUNT=$(find docs/settings/scripts -type f 2>/dev/null | wc -l | tr -d '
 
 # Rules/templates retired upstream. Explicit list only — cp never removes, so a stale
 # rule would keep being loaded by skills that no longer reference it.
-RETIRED_RULES="ratification.md normative-registry.md"
+RETIRED_RULES="ratification.md normative-registry.md change-propagation.md"
 RETIRED_TEMPLATES="canon/proposal.md"
 RETIRED_RULES_REMOVED=""
 for name in $RETIRED_RULES; do

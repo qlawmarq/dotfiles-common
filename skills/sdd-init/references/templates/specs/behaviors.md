@@ -12,7 +12,8 @@ the rules; these scenarios are the examples that make them vivid — named actor
 Every scenario MUST carry:
   Grounds:      — forward traceability: one citation — the ID and one phrase (product.md section,
                   canon decision, or steering/behaviors.md invariant). See rules/behavior-formulation.md.
-  Verification: — auto-test | probe | manual, with a pointer or planned name.
+  Verification: — <tier> — <pointer>, the test name and paths in backticks; per rules/behavior-formulation.md
+                  §Verification Mapping.
 A scenario serving no citable purpose is scope without a reason. A scenario contradicting the
 canon is a Critical finding — report it, do not reword it to fit.
 -->
@@ -25,7 +26,7 @@ canon is a Critical finding — report it, do not reword it to fit.
 - **When** {{TRIGGERING_EVENT}}
 - **Then** {{OBSERVABLE_OUTCOME}}
 - **Grounds:** product.md §{{SECTION}} — {{ONE_PHRASE}}
-- **Verification:** auto-test — {{TEST_NAME_OR_PLAN}}
+- **Verification:** auto-test — planned: `{{TEST_NAME}}`
 - **Requirements:** {{NUMERIC_REQUIREMENT_IDS}}
 
 <!-- Additional scenarios follow the same pattern -->

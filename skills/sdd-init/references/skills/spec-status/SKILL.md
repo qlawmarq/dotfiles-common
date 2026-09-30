@@ -53,7 +53,7 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 **Parse each phase**:
 
 - **Requirements**: Count requirements and acceptance criteria
-- **Behaviors**: Check if `behaviors.md` exists; count scenarios and how many `Verification:` lines carry evidence (absent in legacy specs — not a defect); `n/a` when the kind does not produce behaviors (`spec-kinds.md` §4)
+- **Behaviors**: Check if `behaviors.md` exists (absent in legacy specs — not a defect); count scenarios, and how many `Verification:` pointers name evidence and how many are still `planned:` (`behavior-formulation.md §Verification Mapping`); the `user` scenarios this spec still lacks a record for are this spec's lines of `bash docs/settings/scripts/check_completion.sh outstanding`; `n/a` when the kind does not produce behaviors (`spec-kinds.md` §4)
 - **Research**: Check if `research.md` exists (✅ completed / ⏳ pending)
 - **Design**: Check that the sections of the kind's design template are present (`spec-kinds.md` §4)
 - **Tasks**: Count completed vs total tasks (parse `- [x]` vs `- [ ]`). Implementation progress comes from these checkboxes, not from `phase`; when every task of a spec in `todo/` is `[x]`, the next action is `/sdd-spec-done <feature-name>`
@@ -114,6 +114,6 @@ Provide the report in the language specified in that spec's `spec.json`. In list
 
 ### List All Specs
 
-When invoked with no feature name, read every `spec.json` under `docs/tasks/todo/` and `docs/tasks/done/` (they are small — read them all) and report one row per spec: feature name, kind, `phase`, approval state, and — where `tasks.md` exists — completed/total task counts. Sort `todo/` before `done/`.
+When invoked with no feature name, read every `spec.json` under `docs/tasks/todo/` and `docs/tasks/done/` (they are small — read them all) and report one row per spec: feature name, kind, `phase`, approval state, and — where `tasks.md` exists — completed/total task counts. Sort `todo/` before `done/`. Then list the `user` scenarios whose record does not exist yet, from `bash docs/settings/scripts/check_completion.sh outstanding` — do not read the behaviors files for them.
 
 If no specs exist at all, say so and point at `/sdd-plan` (large effort) or `/sdd-spec-init` (single feature).

@@ -25,9 +25,7 @@
   },
   "plan": {
     "parent": null,
-    "unit_id": null,
-    "priority": null,
-    "depends_on": []
+    "unit_id": null
   }
 }
 

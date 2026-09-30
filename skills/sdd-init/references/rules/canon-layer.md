@@ -21,8 +21,8 @@ Canon is updated by the phase skill that produced the decision, in the same sess
 
 1. **Dirty check first.** Before touching a canon file, `git status -- <file>`; if it already carries uncommitted changes from outside this session, show that diff before anything else — it is the only detection you get for parallel sessions in one working tree.
 2. **Edit the working tree directly** — `decisions/`, `registry.md`, the README index and Open Questions.
-3. **Present a `## Canon changes` section at the top of the reply**: per file, the **full text of every changed section** (readable text, not a diff; a modified item as *previous → new*) plus a one-line reason. Nothing to change → `Canon changes: none`.
-4. **R2 — the one pause.** If a change overturns or deletes an existing decision item, or changes/removes a registry `Norm`, put that item first as a *previous → new* pair and take one explicit confirmation for it. Everything else is approved by the phase's own explicit yes in the same session: `/sdd-plan` Gate 4, `/sdd-spec-requirements` confirmation summary, `/sdd-grill` closing confirmation, `/sdd-spec-done` GO, and for `/sdd-spec-design` and `/sdd-canon-update` a single "commit?" when the section is non-empty. Canon follows the latest confirmed text; later phases re-sync it. This is independent of `spec.json` approvals.
+3. **Present a `## Canon changes` section at the top of the reply**: per file, the **full text of every changed section** (readable text, not a diff; a modified item as *previous → new*) plus a one-line reason and the documents that follow the change (`concept-alignment.md §After a Change`). Nothing to change → `Canon changes: none`.
+4. **R2 — the one pause.** If a change overturns or deletes an existing decision item, or changes/removes a registry `Norm`, put that item first as a *previous → new* pair — with the checked fact behind it when the change rests on an observation of the product (`concept-alignment.md §Findings` 1) — and take one explicit confirmation for it. Everything else is approved by the phase's own explicit yes in the same session: `/sdd-plan` Gate 4, `/sdd-spec-requirements` confirmation summary, `/sdd-grill` closing confirmation, `/sdd-spec-done` GO, and for `/sdd-spec-design` and `/sdd-canon-update` a single "commit?" when the section is non-empty. Canon follows the latest confirmed text; later phases re-sync it. This is independent of `spec.json` approvals.
 5. **Commit right after the yes**, listing only the files this session edited — `git commit -m "docs(canon): <phase> <spec-or-topic>" -- <files>` — as a standalone commit. Never `git add <canon-root>` (it would silently canonize unrelated untracked files). Uncommitted canon binds nothing; a declined change is reverted with `git checkout -- <files>`.
 
 Humans may edit canon directly at any time; the commit is the record. Outside a phase, `/sdd-canon-update` runs the same protocol.
@@ -44,7 +44,7 @@ Prose cites IDs and never restates a list; an enumeration outside the registry i
 
 ## Drafting Discipline
 
-The five heuristics that actually changed drafts in the pilot: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and downstream references, don't recall; (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat — never restate. Plus: never renumber items and never issue a number the source text did not have.
+Five heuristics: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and downstream references, don't recall; (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat — never restate. Plus: never renumber items and never issue a number the source text did not have.
 
 ## Loading
 
@@ -56,4 +56,4 @@ Always-loaded: `product.md §Canon References` and the README index. Everything 
 
 ## Adoption
 
-Bringing an existing document set under the canon: move it in **file by file** and fix files when you touch them. No item-level inventory or per-item review — the pilot measured that path at ~1,000 units for one product.
+Bringing an existing document set under the canon: move it in **file by file** and fix files when you touch them. No item-level inventory or per-item review: for one product that path runs to about a thousand review units.

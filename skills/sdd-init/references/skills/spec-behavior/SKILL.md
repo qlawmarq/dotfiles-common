@@ -48,7 +48,7 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then 
 - `{spec_path}/spec.json`, `requirements.md`, `behaviors.md` (if exists, for merge mode)
 - **Entire `docs/steering/` directory** — `product.md` and `behaviors.md` (invariant ledger) are the anchors here
 - `docs/settings/rules/behavior-formulation.md` — **governs this phase**
-- `docs/settings/rules/concept-alignment.md` — canon resolution and severity rules
+- `docs/settings/rules/concept-alignment.md` — §Resolving the Canon, §The Check, and, under §Findings, §Severity and §Finding Format
 - `docs/settings/templates/specs/behaviors.md` for document structure
 
 **Validate requirements approval**: with `-y`, set `approvals.requirements.approved: true`; otherwise verify it is `true` (stop if not, see Safety & Fallback).

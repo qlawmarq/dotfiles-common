@@ -3,7 +3,7 @@ name: sdd-canon-update
 description: >-
   Land a product decision or registry change in the canon outside a spec phase — a
   decision reached in conversation, a correction, a refactor of decision files. Runs the
-  same "Canon changes" protocol the phase skills use; the phase skills embed it themselves.
+  same protocol the phase skills follow, `canon-layer.md §Change Control`.
 argument-hint: "\"change description\" [--from=<spec-or-session>]"
 ---
 
@@ -30,14 +30,11 @@ No input → list the canon README's Open Questions and ask which one to land.
 
 1. **Resolve the canon root** from `docs/steering/product.md §Canon References` (default `docs/canon/`). If none exists, propose scaffolding `README.md`, `decisions/`, `registry.md` from `docs/settings/templates/canon/` and the one-paragraph declaration in `product.md`; create only after the user confirms.
 2. **Locate what the change touches** — grep `keywords` lines and registry IDs JIT; never bulk-load. Name the affected decision items and IDs with paths.
-3. **Dirty check** each file you will edit (`git status -- <file>`); show any pre-existing uncommitted diff first.
-4. **Edit the working tree** under the drafting discipline in `canon-layer.md` (merge before creating, grounds from measurement as relative links, no empty policy declarations, no exception notes when a cleaner form exists, one fact one seat, no renumbering). Update the README index for a new decision; add `Used by` entries with the fixed vocabulary.
-5. **Present `## Canon changes`** at the top of the reply: per file, the full text of each changed section (modified items as *previous → new*) and a one-line reason. R2 items (overturn/delete a decision item, change/remove a registry Norm) come first as *previous → new* pairs, each with its own confirmation. Then ask once: commit?
-6. **On yes**: run `bash docs/settings/scripts/check_canon.sh check` (report findings; they never block), then `git commit -m "docs(canon): <slug>" -- <edited files>`. On no: `git checkout -- <edited files>` and report what was not landed.
+3. **Land it by `canon-layer.md §Change Control`**, drafting under its §Drafting Discipline, with the canon changes at the top of the reply. Then ask once: commit?
+4. **On yes**: run `bash docs/settings/scripts/check_canon.sh check` (report findings; they never block), then commit as `docs(canon): <slug>`. On no: revert the edited files and report what was not landed.
 
 ## Constraints
 
-- Do NOT `git add <canon-root>` wholesale — commit only the files this session edited.
 - Do NOT edit `proposals/archive/` or any directory the project marks archival.
 - Do NOT invent scope: every change traces to the description, a cited gap, or a cited source.
 

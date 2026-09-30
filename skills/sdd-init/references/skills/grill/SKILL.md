@@ -43,10 +43,10 @@ Do not open with questions. Open by finding out what is actually unsettled, then
 
 Confirm SDD is initialized (`docs/settings/` exists); if not, tell the user to run `/sdd-init` first and stop. Then sweep for gaps, using index-first retrieval and dispatching sub-agents for independent lookups:
 
-- **Unapproved and stalled work** — every `docs/tasks/*/*/spec.json`: which have `approvals.*.approved: false`, which sit in an early `phase` while their dependents wait, which `plan.depends_on` chains are blocked.
+- **Unapproved and stalled work** — every `docs/tasks/*/*/spec.json`: which have `approvals.*.approved: false`, which sit in an early `phase` while their dependents wait, which dependency chains in the plan (`inception.json` `depends_on`) are blocked.
 - **Declared open questions** — the *Assumptions & Open Questions* sections of `requirements.md`, and any open points recorded in `design.md`. These are gaps the project already admitted; they are the highest-value seeds because someone deliberately deferred them.
 - **Cross-layer contradictions** — where a spec's requirements or design conflict with `docs/steering/`, or with the unit boundary and scope recorded for it in the inception plan.
-- **Theme alignment** — whether the behavior a spec describes actually serves the product intent in `docs/steering/product.md` and respects the invariants in `docs/steering/behaviors.md`. A spec can be perfectly consistent with itself and still be the wrong thing to build. The per-spec skills apply this check via the concept-alignment lens (`docs/settings/rules/concept-alignment.md`); here it runs *across* specs and layers, where the per-spec gates cannot see.
+- **Theme alignment** — whether the behavior a spec describes actually serves the product intent in `docs/steering/product.md` and respects the invariants in `docs/steering/behaviors.md`. A spec can be perfectly consistent with itself and still be the wrong thing to build. The per-spec skills apply this check by `docs/settings/rules/concept-alignment.md §The Check`; here it runs *across* specs and layers, where the per-spec gates cannot see.
 - **Silent assumptions** — decisions the documents depend on but never state: unstated acceptance thresholds, undefined edge cases, scope boundaries nobody drew.
 
 Each seed becomes a node in the tree and must carry its citation. A gap you cannot cite is not a seed — it is a guess, and it does not belong in the tree.
@@ -86,7 +86,7 @@ Between rounds, keep the tree visible: say briefly what the last round settled a
 
 ## The proposal rule
 
-Every `➡️` is a **proposal, not a decision**. The default answer to an unconfirmed proposal is *no*. Nothing enters the settled set because you suggested it and the user did not object — only because they said yes.
+Every `➡️` is a **proposal, not a decision** (`dialogue-grounding.md`, "Facts are yours, decisions are the user's"). Nothing enters the settled set because you suggested it and the user did not object — only because they said yes.
 
 This matters more here than in ordinary conversation. `requirements-elicitation.md` forbids inventing capabilities the user did not ask for, because gold-plating is the main source of rework in an SDD project. A grilling session generates proposals fast, which makes it an efficient way to smuggle unrequested scope into a spec. Do not let a proposal graduate to a decision without an explicit answer, and when the user's answer is ambiguous, ask again rather than resolving it in your own favor.
 
@@ -120,15 +120,12 @@ Resolve the output language once, at the start of the session:
 
 Do not act on the session until the user confirms you have reached a shared understanding.
 
-Once confirmed, route each settled decision to the artifact that owns it, following `dialogue-grounding.md` §"Where dialogue output lands":
+Once confirmed, route each settled decision to the seat the table in `docs/settings/rules/concept-alignment.md §Findings` names, under `dialogue-grounding.md` §"Where dialogue output lands". What is this skill's own:
 
-- An open question declared in `requirements.md` or `design.md` is resolved in that file.
-- A project-wide rule that passes `steering-principles.md §Admission` belongs in `docs/steering/` — propose it per `§Updating`, and hand off to `/sdd-steering-custom` if it warrants its own file.
-- **Canon content lands here directly** (a canon-level decision or a registry norm, when `product.md §Canon References` declares a canon layer): follow `canon-layer.md §Change Control` — dirty-check, edit the canon working tree, open the landing plan with `## Canon changes` (full text of changed sections; an overturned decision or changed Norm first as *previous → new* with its own confirmation), and after the user's yes commit only those files as `docs(canon): grill <topic>`.
-- A unit boundary or ordering change belongs in the inception plan.
-- A decision governed by any additional change-control process the project documents is **filed into that process, not written directly**. Check the root `AGENTS.md` before writing to any layer.
+- A project-wide steering rule that warrants its own file is handed off to `/sdd-steering-custom`.
+- **Canon content lands here directly** (a canon-level decision or a registry norm, when `product.md §Canon References` declares a canon layer): follow `canon-layer.md §Change Control`, opening the landing plan with the canon changes; the commit is `docs(canon): grill <topic>`.
 
-Present the intended edits and get confirmation before writing. Editing content that `spec.json` records as approved is a re-approval — surface it as such rather than amending quietly.
+Present the intended edits and get confirmation before writing.
 
 ## Important constraints
 

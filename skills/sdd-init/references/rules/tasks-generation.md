@@ -71,7 +71,7 @@ A detail bullet names the design block it realizes (for example `per design §<C
 - Unit tests covered by TDD cycles (handled in implementation phase)
 - Deployment tasks
 - Documentation tasks
-- User testing
+- Asking the user to look at the product for a `user` scenario — asked at completion (`concept-alignment.md §User Check`), never a task an agent completes
 - Marketing/business activities
 
 `verify`: tasks are per `tasks-verify.md`; §1's file-path avoidance (records go to `probe/…`), §2's integration ending and §5 do not apply. `chore`: the deliverable itself (documents, configuration, data) is the task's work; §5's exclusion of documentation tasks does not apply.

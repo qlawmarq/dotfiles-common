@@ -31,7 +31,7 @@ This is the criterion most directly tied to the rework the user is trying to pre
 
 ### 2. Forward Traceability — the concept-alignment check (Critical)
 
-A requirement can trace perfectly to user input and still take the product somewhere it isn't meant to go. Apply the lens in `concept-alignment.md` (read it — it defines canon resolution, the three questions, and severity): does each requirement serve a citable product purpose, and does any requirement contradict `product.md`, the canon, or a `steering/behaviors.md` invariant? Contradictions and unsupported requirements are Critical (NO-GO) per that rule.
+A requirement can trace perfectly to user input and still take the product somewhere it isn't meant to go. Apply `concept-alignment.md` §Resolving the Canon, §The Check and the Severity and Finding Format of §Findings (read them): does each requirement serve a citable product purpose, and does any requirement contradict `product.md`, the canon, or a `steering/behaviors.md` invariant? Contradictions and unsupported requirements are Critical (NO-GO) per that rule.
 
 ### 3. Scope Conformance (Critical)
 

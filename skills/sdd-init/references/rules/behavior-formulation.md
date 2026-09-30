@@ -20,7 +20,7 @@ Given <concrete initial state — named actors, real values>
 When <the triggering event>
 Then <the observable outcome>
 Grounds: <one citation — the ID and one phrase>
-Verification: auto-test | probe | manual — <pointer or planned name>
+Verification: <tier> — <pointer>
 ```
 
 - **One behavior per scenario.** Split compound behaviors.
@@ -45,15 +45,19 @@ Rules:
 
 The Introduction is one sentence of mapping and one line of actors; values and defaults are not listed there.
 
-## Verification Mapping (adaptive)
+## Verification Mapping
 
-Every scenario declares how it will be verified. Choose the strongest feasible tier:
+Every scenario declares how it will be verified, by the first tier that fits:
 
-1. **auto-test** — required when the behavior is deterministic, testable logic. Names the test (planned or existing). Connects to the TDD RED step in `/sdd-spec-impl`.
-2. **probe** — for simulation, emergent, or long-horizon behavior: a scripted run whose observed output is recorded in the spec's `probe/`.
-3. **manual** — last resort. Must state the exact procedure and expected observation so the result can be recorded as evidence at validation time.
+| Tier | For | Pointer | Produced by |
+| --- | --- | --- | --- |
+| `auto-test` | Deterministic, testable logic | The test's name and file | Implementation (the TDD RED step) |
+| `probe` | What only a run shows — emergent or long-horizon behavior, anything read on screen or in output | A results file under this spec's `probe/`, from a scripted or recorded run | Implementation, as its own task |
+| `user` | What only a person using the product can judge | `probe/user-S<N>.md`, the record the user check will leave (`concept-alignment.md §User Check`) | The user — never a task an agent completes |
 
-No tier is optional: a scenario without a Verification line is unfinished. Tools are not mandated — no Cucumber/Gherkin runner is required; the scenario text is the specification, the project's own test/probe infrastructure is the automation.
+What an agent can observe is a `probe`, never `user`. A probe in a constructed configuration shows the mechanism; what the default configuration does is the product check's (`concept-alignment.md §Product Check`).
+
+A pointer writes test names and paths in backticks. Until its evidence exists, an `auto-test` or `probe` pointer reads `planned: <name>`. At completion no pointer is `planned:`, a `probe` pointer names a file that exists under this spec, and an `auto-test` pointer names a test that exists in the repository — never another spec's future run. A scenario without a Verification line is unfinished. Tools are not mandated — no Cucumber/Gherkin runner is required; the scenario text is the specification, the project's own test/probe infrastructure is the automation.
 
 ## Promotion to `docs/steering/behaviors.md`
 

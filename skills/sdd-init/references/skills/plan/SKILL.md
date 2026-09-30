@@ -104,13 +104,13 @@ Write `docs/inception/<plan-id>/units.md` from the `units.md` template.
 Read `inception-decomposition.md` (§5, §6). Then:
 
 1. Build the **dependency matrix** (per unit: depends-on + integration method) and the **integration points** table.
-2. Identify the **walking-skeleton** unit — the thinnest end-to-end slice through every architectural seam — and sequence it first.
+2. Identify the **walking-skeleton** unit (`inception-decomposition.md` §6) and sequence it first.
 3. Topologically sort the rest (dependencies first), breaking ties by priority then subdomain class. Mark genuinely independent units as parallel-capable.
 4. Confirm the graph is **acyclic** — a cycle means a boundary from Stage 2 is wrong; go back and re-cut.
 
 Write `docs/inception/<plan-id>/dependencies.md` (matrix + a Mermaid graph + the ordered build sequence) and `docs/inception/<plan-id>/story-map.md` (every capability mapped to exactly one unit).
 
-**Gate 4**: Review the build order and dependency graph with the user. Run the §7 quality checklist. When a canon layer is declared (`docs/steering/product.md §Canon References`), open the Gate 4 presentation with a `## Canon changes` section (protocol: `docs/settings/rules/canon-layer.md §Change Control`): product decisions and non-goals from the vision that the canon lacks, registry IDs the units adopt (`Used by` += `plan: <plan-id>/U<n>`), and — first, as *previous → new* with its own confirmation — anything that overturns an existing decision. On GO, before Stage 5, commit only the canon files edited here as `docs(canon): plan <plan-id>`. In `--batch` mode this section joins the single end review.
+**Gate 4**: Review the build order and dependency graph with the user. Run the §7 quality checklist. When a canon layer is declared (`docs/steering/product.md §Canon References`), open the Gate 4 presentation with the canon changes, following `docs/settings/rules/canon-layer.md §Change Control`: product decisions and non-goals from the vision that the canon lacks, and registry IDs the units adopt (`Used by` += `plan: <plan-id>/U<n>`). Their commit, on GO and before Stage 5, is `docs(canon): plan <plan-id>`. In `--batch` mode they join the single end review.
 
 ### Stage 5 — Scaffold child specs
 
@@ -121,12 +121,10 @@ For each unit, in build order, create a stub SDD spec so it can enter the normal
    ```json
    "plan": {
      "parent": "<plan-id>",
-     "unit_id": "<U#>",
-     "priority": "<P1|P2|P3>",
-     "depends_on": ["<sibling-feature-name>", ...]
+     "unit_id": "<U#>"
    }
    ```
-   `depends_on` lists the **feature-names** (spec directory names) of prerequisite units, so downstream tooling can resolve order. Leave `phase` as `initialized`.
+   The unit's priority and dependencies are read from the plan (`inception.json`). Leave `phase` as `initialized`.
 3. Write `requirements.md` from `docs/settings/templates/specs/requirements-init.md`, replacing `{{PROJECT_DESCRIPTION}}` with the unit's **purpose in one sentence plus a pointer to its unit entry** (e.g. `docs/inception/<plan-id>/units.md §U7`). The unit entry is the single seat of the scope brief — do not copy responsibilities, scope lists, or test statements into the stub (the copy is what later contradicts the plan), and do **not** pre-write EARS criteria. `/sdd-spec-requirements` reads the referenced entry at elicitation time.
 4. Record the unit → spec-directory mapping.
 
@@ -135,7 +133,7 @@ Finally, write `docs/inception/<plan-id>/inception.json` (plan metadata + the un
 ## Important constraints
 
 - Do NOT generate per-unit requirements (EARS), research, or design here. Inception stops at boundaries, scope briefs, and sequencing. Each child spec generates its own detail later.
-- Do NOT modify anything under existing `docs/tasks/*/` specs; only create new spec directories.
+- Do NOT modify anything under existing `docs/tasks/*/` specs; only create new spec directories — except deleting the `todo/` spec of a unit a re-cut drops (`inception-decomposition.md` §8).
 - Keep all artifacts in the language resolved from `--lang` / init.json. EARS keywords (when they later appear in specs) stay English; everything else follows the configured language.
 - If the goal is actually a single feature (one vertical slice, no meaningful sub-boundaries), say so and recommend `/sdd-spec-init` instead of forcing an over-decomposition.
 

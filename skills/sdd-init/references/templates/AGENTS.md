@@ -9,7 +9,7 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 - Steering: `docs/steering/`
 - Inception (large-scale plans): `docs/inception/`
 - Specs: `docs/tasks/`
-- Canon (optional): declared in `docs/steering/product.md §Canon References` (default `docs/canon/`)
+- Canon (optional): declared under `## Canon References` in `docs/steering/product.md` (default `docs/canon/`)
 
 ### Steering vs Specification vs Inception
 
@@ -50,14 +50,14 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
   - `/sdd-validate-impl <feature-name>` (optional: mid-implementation validation)
 - Phase 3 (Completion): `/sdd-spec-done <feature-name>`
   - Verifies quality, finalizes the spec, commits the feature, then runs a non-blocking steering check on what the feature changed.
-  - At completion, an independent auditor checks every acceptance criterion clause by clause against the code; stale criterion wording is fixed, and disputed items are asked once in a single batched question.
+  - At completion, an independent auditor checks every acceptance criterion clause by clause against the code, and a reviewer that did not build the spec runs the product from its real entry (`docs/settings/rules/concept-alignment.md §Product Check`; which kinds get which check: `docs/settings/rules/spec-kinds.md` §4). What needs your decision is asked once in a single batched question.
 - Progress check: `/sdd-spec-status [feature-name]` (use anytime; no argument lists every spec)
 - Orientation & dialogue (anytime, belongs to no phase):
   - `/sdd-brief ["question"]` — read-only. Answers what was decided about a topic, where the project stands across every spec, or what needs deciding next, with citations. Use it instead of opening documents one by one.
   - `/sdd-grill ["topic"]` — a relentless interview that works the project's open decisions in rounds until nothing is left silently assumed. Use it before committing to a spec, when steering / inception / specs may have drifted apart, or to clear a backlog of open questions.
   - `/sdd-director [feature-name]` — holds the product's direction during implementation: rules on inquiries against the documents, fixes the design, and takes changes to requirements, canon, inception, or steering to you.
 - Canon (when the product keeps a canon layer — concept decisions, normative registry):
-  - Phase skills land canon changes themselves: `/sdd-plan` (Gate 4), `/sdd-spec-requirements` (confirmation summary), `/sdd-spec-design` (only when non-empty), `/sdd-spec-done` (after GO), `/sdd-grill` (landing) — each shows a `## Canon changes` section with the full text of every changed section, then commits it as its own `docs(canon):` commit after your yes.
+  - Phase skills land canon changes themselves — `/sdd-plan`, `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-done`, `/sdd-grill` — by `docs/settings/rules/canon-layer.md §Change Control`.
   - `/sdd-canon-update "change"` — the same protocol for a decision reached outside a phase; scaffolds the canon layer on first use.
 
 ## Development Rules
@@ -67,10 +67,11 @@ Spec Driven Development implementation on AI-DLC (AI Development Life Cycle)
 - Human review required each phase; use `-y` only for intentional fast-track
 - **Match the ceremony to the kind** — which phases each spec kind runs is in `docs/settings/rules/spec-kinds.md`.
 - **Research measures, it does not reason.** Size/count/duration, the behavior of existing code, external specs, and performance are settled by running something — never by reading (`docs/settings/rules/evidence-discipline.md`). Evidence lives in `<spec>/probe/`. What cannot be measured is written as `unverified` and, if the design depends on it, carried into `design.md` Assumptions with a signpost.
-- A spec that is internally consistent is not thereby correct — it must also serve the product intent in `docs/steering/product.md`. `/sdd-spec-behavior` grounds each behavior there; `/sdd-validate-requirements` and `/sdd-validate-design` check it, and a contradiction is NO-GO. For contradictions *between* layers (spec vs spec, steering vs inception) or a backlog of open decisions, use `/sdd-grill`.
+- A spec that is internally consistent is not thereby correct — it must also serve the product intent in `docs/steering/product.md`. `/sdd-spec-behavior` grounds each behavior there; `/sdd-validate-requirements` and `/sdd-validate-design` check it in the documents, `/sdd-spec-done` in the running product (`docs/settings/rules/concept-alignment.md`), and a contradiction is NO-GO. For contradictions *between* layers (spec vs spec, steering vs inception) or a backlog of open decisions, use `/sdd-grill`.
 - **Steering**: what it holds and how it changes are defined in `docs/settings/rules/steering-principles.md`. `/sdd-spec-done` applies them to each finished feature; `/sdd-steering` to the whole codebase (bootstrap, periodic reviews).
-- **Canon changes ride inside the phase that produced them** (`docs/settings/rules/canon-layer.md §Change Control`): the agent edits the canon working tree, shows every changed section in full at the top of the reply, pauses only for an overturned decision or a changed registry Norm (*previous → new*, one confirmation), and commits only the edited files as a standalone `docs(canon):` commit after your yes. Committed text is in force; uncommitted edits bind nothing.
-- **Documents are the source of truth.** Whatever you change, carry it through the documents listed in `docs/settings/rules/change-propagation.md` in the same turn.
+- **Canon changes ride inside the phase that produced them**, as standalone `docs(canon):` commits — the procedure is `docs/settings/rules/canon-layer.md §Change Control`.
+- **Documents are the source of truth.** Whatever you change, carry it to the documents that cite it in the same turn (`docs/settings/rules/concept-alignment.md §After a Change`).
+- **A long wait is the user's call.** Before waiting on a run beyond the limit, tell the user how long it would take and ask what would shorten it (`docs/settings/rules/concept-alignment.md §Waiting on a Run`).
 - **One fact, one seat** — approvals, statuses, and dates are recorded in their designated seat and never restated in body prose; template comments and unrequested meta-sections never ship (`docs/settings/rules/document-hygiene.md`).
 - Stay within the scope the user asked for; gather the context you need yourself, and ask only when essential information is missing or the request is critically ambiguous.
 - **The requirements phase elicits, it does not author.** During `/sdd-spec-requirements`, do not fill gaps with assumptions or add capabilities the user did not request. Every requirement must trace to user input or an explicit confirmation; unclear or scope-affecting points must be resolved through interactive dialogue, and anything left unresolved is logged as an assumption/open question rather than baked into a requirement. Inventing unrequested features ("gold-plating") is the main source of rework — `/sdd-validate-requirements` exists to catch it.

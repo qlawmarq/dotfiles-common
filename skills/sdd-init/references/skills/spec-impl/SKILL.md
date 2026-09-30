@@ -86,7 +86,7 @@ For each selected task, first judge whether the task involves **testable logic**
 
 1. **RED - Write Failing Test**:
    - Write test for the next small piece of functionality
-   - When a `behaviors.md` scenario marked `auto-test` covers this task, derive the test directly from its Given/When/Then (the scenario's concrete values are the test fixture) and record the test name against the scenario
+   - When a `behaviors.md` scenario marked `auto-test` covers this task, derive the test directly from its Given/When/Then (the scenario's concrete values are the test fixture) and record the test name as the scenario's pointer
    - Test should fail (the code does not exist yet, or — for `fix` — the defect is still present)
    - Use descriptive test names
 
@@ -107,7 +107,8 @@ For each selected task, first judge whether the task involves **testable logic**
 #### Always
 
 1. **VERIFY**: All existing tests pass, no regressions
-   - When a task fulfills a `behaviors.md` scenario's `Verification:`, update that line with the concrete evidence pointer (test name, probe results file, or manual observation record)
+   - When a task fulfills a `behaviors.md` scenario's `Verification:`, replace its `planned:` pointer with the evidence, in the form `docs/settings/rules/behavior-formulation.md §Verification Mapping` gives for its tier
+   - When what you meet disagrees with a document, with code outside this spec, or with the product's purpose, read `docs/settings/rules/concept-alignment.md §Findings` and route it there. Do not add a workaround and proceed
 2. **POST-TASK REFACTORING REVIEW** (after all sub-tasks of a major task are complete):
    - **REVIEW**: Evaluate refactoring needs from the following perspectives:
      - Duplication: Are there similar patterns introduced across sub-tasks?
@@ -119,6 +120,7 @@ For each selected task, first judge whether the task involves **testable logic**
    - **SKIP** (if no refactoring needed): Mark review as complete and proceed to next major task
    - _Note: This is a bird's-eye review layer distinct from TDD's per-cycle Refactor step, which focuses on local improvements within individual test cycles_
 3. **MARK COMPLETE**: Update checkbox from `- [ ]` to `- [x]` in tasks.md
+   - Work that waits on the user's observation is not complete until the user's record exists (`docs/settings/rules/concept-alignment.md §User Check`)
 
 ## Critical Constraints
 
@@ -140,7 +142,7 @@ For each selected task, first judge whether the task involves **testable logic**
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Facts checked**: commands run and their output, file:line quotes, tests and their results — including the task numbers executed, the completed tasks marked in tasks.md, and the remaining tasks count
+1. **Facts checked**: commands run and their output, file:line quotes, tests and their results — including the task numbers executed, the completed tasks marked in tasks.md, the remaining tasks count, and the findings routed (where each went)
 2. **Readings**: interpretations and inferences, marked as such
 3. **Unverified**: what was not checked
 

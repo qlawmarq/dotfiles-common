@@ -79,10 +79,9 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Set `approvals.requirements.generated: true`
    - Update `updated_at` timestamp
 
-8. **Canon changes** (only when a canon layer is declared; protocol: `docs/settings/rules/canon-layer.md §Change Control`):
+8. **Canon changes** (only when a canon layer is declared; follow `docs/settings/rules/canon-layer.md §Change Control`):
    - Draft time (Step 4): grep the canon JIT for the decisions and registry IDs the feature touches. Product-level decisions the user settled in dialogue, new enumerable norms, and registry IDs this feature adopts (`Used by` += `spec: <feature-dir-name>`) are edited into the canon working tree; requirements.md cites decisions/IDs and never copies them
-   - Present the changed sections in full at the top of the Step 5 confirmation summary; an overturned decision or changed Norm (R2) is shown first as *previous → new* with its own confirmation
-   - After the user's yes: commit only the canon files edited here — `docs(canon): requirements <feature-name>` — as its own commit. Nothing to change → `Canon changes: none`
+   - The canon changes open the Step 5 confirmation summary; after the user's yes the commit is `docs(canon): requirements <feature-name>`
 
 ## Important Constraints
 
