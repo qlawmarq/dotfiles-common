@@ -24,7 +24,7 @@ Focus on capabilities and outcomes, not code structure.
 
 **Rationale**: Implementation details (files, methods, types) are defined in design.md. Tasks describe the functional work to be done.
 
-A detail bullet names the design block it realizes (for example `per design §<ComponentName>`); it does not restate that block's conditions, fields or values.
+A detail bullet names the design block it realizes (for example `per design §<ComponentName>`) — the block is the contract's seat (`document-hygiene.md`, one contract, one seat).
 
 ### 2. Task Integration & Progression
 

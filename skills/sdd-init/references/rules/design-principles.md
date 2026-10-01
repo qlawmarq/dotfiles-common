@@ -51,7 +51,6 @@
 - **Contract First**: Define interfaces before implementation
 - **Versioning**: Plan for API evolution
 - **Idempotency**: Design for retry safety
-- **One seat per contract**: a signature, field, value, threshold or branch rule is written once, in the block of the component that owns it; other sections, diagrams and documents refer to it by name
 
 ## Documentation Standards
 
@@ -81,7 +80,7 @@
 
 ### Deduplication
 
-Governed by `docs/settings/rules/document-hygiene.md`. In design.md the usual offenders are prose restating a diagram or a summary table, and the same point repeated across Overview / Architecture / Components. A contract stated in two places is a defect even when the two agree — see the contract rule in `document-hygiene.md`.
+Governed by `docs/settings/rules/document-hygiene.md`. In design.md the usual offenders are prose restating a diagram or a summary table, and the same point repeated across Overview / Architecture / Components.
 
 ## Diagram Guidelines
 

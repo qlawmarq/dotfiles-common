@@ -1,6 +1,6 @@
 # Steering Principles
 
-Steering (`docs/steering/`) is project memory: every file in it is loaded into every session. This file is the one definition of what steering holds and how it changes; skills and templates name the section they apply and do not restate it.
+Steering (`docs/steering/`) is project memory: every file in it is loaded into every session. This file is the one definition of what steering holds and how it changes; skills and templates name the section they apply (one fact, one seat: `document-hygiene.md`).
 
 ---
 
@@ -11,7 +11,7 @@ A line belongs in steering only when all four hold:
 1. **It guides future work** — a cross-cutting pattern, convention, or decision that new work must follow. Golden rule: if new code follows existing patterns, steering shouldn't need updating.
 2. **No other seat holds it.** Facts owned by code, configuration, a manifest (versions, dependencies), the canon, `AGENTS.md`/`CLAUDE.md`, the rules in `docs/settings/`, a spec, or another steering file are not copied here; when a reader needs one, name where it lives (`document-hygiene.md`).
 3. **It is not a catalog** — no file or directory listings, per-component descriptions, dependency lists, or implementation details. State the pattern and show one example.
-4. **It is not history** — no dates, change reasons, or "added after …" notes; git holds when and why a line changed.
+4. **It is not history** — no dates, change reasons, or "added after …" notes (`document-hygiene.md`, one fact, one seat).
 
 Never admitted: secrets (API keys, passwords, credentials, database URLs, internal hosts), agent-tooling directories (`.claude/`, `.cursor/`, `.gemini/`, …), and documentation of `docs/settings/` (methodology, not project knowledge). Pointing to `docs/tasks/` or another steering file is fine.
 
@@ -53,7 +53,7 @@ One domain per file. A decision carries its rationale.
 - Facts derived from code (`tech.md`, `structure.md`) are shown as one diff and confirmed together. Policy — everything in `product.md`, plus the `behaviors.md` invariants — is never derived from code, however obvious the change looks: present it one item at a time, each with its grounds, and get an answer for each.
 - Nothing is written before the user confirms. Confirmed edits land in their own `docs(steering):` commit, never bundled with another commit.
 - A section the user wrote is not removed or rewritten without asking.
-- A confirmed change is carried down by `concept-alignment.md §After a Change`.
+- A confirmed change is carried down by `document-hygiene.md §After a Change`.
 
 ---
 

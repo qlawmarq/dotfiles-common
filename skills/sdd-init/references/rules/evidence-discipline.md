@@ -6,7 +6,7 @@ A wrong research finding becomes an unchallengeable design premise: `/sdd-spec-d
 
 The failure mode is not sloppiness — it is **answering an empirical question by reasoning instead of measuring**. A research document full of citations and `file:line` references reads as authoritative whether or not anything was ever run.
 
-This file is the single seat for the claim format, the measurement rule, the `probe/` convention, and the assumption register. `/sdd-spec-research` and `/sdd-validate-research` read it; the research template and those skills reference it and do not restate it.
+This file is the single seat for the claim format, the measurement rule, the `probe/` convention, and the assumption register. `/sdd-spec-research` and `/sdd-validate-research` read it; the research template and those skills name its sections (one fact, one seat: `document-hygiene.md`).
 
 ## 1. Questions that must be measured, not reasoned
 

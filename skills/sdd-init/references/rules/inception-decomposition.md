@@ -105,11 +105,11 @@ If any check fails, revise the decomposition rather than scaffolding specs you'l
 
 ## 8. Maintaining the plan after scaffolding
 
-`units.md` stays the boundary map, never a log. A unit entry holds boundaries and dependencies; the spec holds everything deeper, and history lives in git.
+`units.md` stays the boundary map, never a log. A unit entry holds boundaries and dependencies; the spec holds everything deeper (`document-hygiene.md`, one fact, one seat).
 
 - **Completed unit**: `/sdd-spec-done` repoints its Summary row to the done spec and deletes its detail block — the done spec is the record.
-- **Boundary or ordering change** (a finding, a canon change, re-planning): edit `units.md`, `dependencies.md`, `story-map.md` and `inception.json` together, with the user, then carry it down (`concept-alignment.md §After a Change`). A re-cut plan re-runs §7.
+- **Boundary or ordering change** (a finding, a canon change, re-planning): edit `units.md`, `dependencies.md`, `story-map.md` and `inception.json` together, with the user, then carry it down (`document-hygiene.md §After a Change`). A re-cut plan re-runs §7.
 - **A gate's verdict other than `holds`**: the units that depend on the gate (`inception.json` `depends_on`) do not start — or stop at their next task — until the plan is re-cut. A unit the re-cut drops has its `todo/` spec deleted; git keeps it.
-- **Never**: revision-history appendixes, status notes in prose (status lives in `inception.json` and the spec's location), or per-unit content restating canon or a spec — cite IDs instead.
+- **Status or decision content creeping into a unit entry**: a unit's status is `inception.json` and the spec's location; what canon or a spec decides is cited by ID (`document-hygiene.md`, one fact, one seat).
 
 A `units.md` growing past ~500 lines signals that detail blocks are accumulating spec-phase content; move that content to the owning specs.

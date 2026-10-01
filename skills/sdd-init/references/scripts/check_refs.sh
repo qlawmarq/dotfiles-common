@@ -98,7 +98,7 @@ function addh(f, h,  i, c, p) {                         # a heading, plus its co
     h = hnorm(h); HN[f, ++HC[f]] = h; c = length(h)
     for (i = 1; i <= NGL; i++) { p = index(h, GL[i]); if (p > 1 && p - 1 < c) c = p - 1 }
     if (c < length(h)) HN[f, ++HC[f]] = trim(substr(h, 1, c))
-    if (match(h, /（[^）]+）|\([^)]+\)/)) HN[f, ++HC[f]] = trim(substr(h, RSTART + (substr(h, RSTART, 1) == "(" ? 1 : 3), RLENGTH - (substr(h, RSTART, 1) == "(" ? 2 : 6)))   # the gloss itself, e.g. やらないこと（Out-of-Scope）
+    if (match(h, /（[^）]+）|\([^)]+\)/)) HN[f, ++HC[f]] = trim(substr(h, RSTART + (substr(h, RSTART, 1) == "(" ? 1 : 3), RLENGTH - (substr(h, RSTART, 1) == "(" ? 2 : 6)))   # the gloss itself, e.g. `<heading>（Out-of-Scope）` → Out-of-Scope
 }
 function loadheads(f,  l, h, cur, k, sl, inf) {        # headings, their labels (`## 4.`, `## A.`; list item 9 under `## 4.` = 4.9), anchors
     if (f in HL) return; HL[f] = 1; HC[f] = 0; cur = ""

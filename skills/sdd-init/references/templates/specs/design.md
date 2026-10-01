@@ -47,7 +47,7 @@ One entry per decision that shaped this design, including decisions settled duri
 
 ## Architecture
 
-> Every contract has one seat: the block of the component that owns it (§Components and Interfaces). Diagrams carry names and edges only; flows, tables and the Overview refer to a contract by name and never restate its content. research.md holds measurements and option evaluation; the decision itself lives in §Design Decisions. A decision that rests on a research claim cites it inline as `(C<n>)`.
+> A contract's seat is the block of the component that owns it (§Components and Interfaces; `docs/settings/rules/document-hygiene.md`). Diagrams carry names and edges only. research.md holds measurements and option evaluation; the decision itself lives in §Design Decisions. A decision that rests on a research claim cites it inline as `(C<n>)`.
 
 ### Existing Architecture Analysis (if applicable)
 When modifying existing systems:
@@ -86,7 +86,7 @@ Skip this section entirely for simple CRUD changes.
 
 ## Components and Interfaces
 
-Group components by domain or layer; the headings are the index. Each component block is the only seat of its contract — its signature, fields, values, thresholds and branch rules appear here and nowhere else in the document. List requirement IDs as `2.1, 2.3`. Only components introducing new boundaries (logic hooks, external integrations, persistence) need a full block; presentation components need the Field table plus a short Implementation Note.
+Group components by domain or layer; the headings are the index. Each component block is its contract's seat (§Architecture). List requirement IDs as `2.1, 2.3`. Only components introducing new boundaries (logic hooks, external integrations, persistence) need a full block; presentation components need the Field table plus a short Implementation Note.
 
 When multiple UI components share the same contract, reference a base interface/props definition instead of duplicating code blocks.
 

@@ -2,7 +2,7 @@
 
 ## Objective
 
-Keep every layer in step with the product's purpose: the spec documents, the code, and the product as it actually runs. A spec can pass every internal check (requirements ↔ design ↔ code) and still build the wrong thing, and a product can satisfy every spec and still fail what it promises. This file is the one definition of the check, what a finding is, where it goes, and how a change is carried down.
+Keep every layer in step with the product's purpose: the spec documents, the code, and the product as it actually runs. A spec can pass every internal check (requirements ↔ design ↔ code) and still build the wrong thing, and a product can satisfy every spec and still fail what it promises. This file is the one definition of the check, what a finding is, and where it goes; how a change is carried to the documents that cite it is `document-hygiene.md §After a Change`.
 
 **The user** is the person these skills work for. A role an agent plays (a director, a product manager) is never the user: what it rules is never the user's decision. **The product's main uses** are what `product.md` says a person does with the product — under whatever heading it says so (in the template, Target Use Cases) — together with the canon it points to. A `product.md` that nowhere says what a person does with the product is itself a finding against steering.
 
@@ -58,7 +58,7 @@ A finding is a disagreement between two layers that a check, a review, a measure
 
 1. **Check it before it changes anything.** A claim about what the product does — the user's included — is run before any document changes (`evidence-discipline.md` §1), and sorted: is it about what the product does, or about how it is shown? Quoting what someone said is not a check.
 2. **State it in use** when it concerns product intent: what happens to a person using the product — how long they wait, what they can do meanwhile — not only a count or a mechanism.
-3. **Route it to the most upstream layer that is wrong**; the layers below follow by §After a Change. Work that depends on the finding waits until it is closed; the rest goes on.
+3. **Route it to the most upstream layer that is wrong**; the layers below follow by `document-hygiene.md §After a Change`. Work that depends on the finding waits until it is closed; the rest goes on.
 
 | What is wrong | Where it goes | The user decides |
 | --- | --- | --- |
@@ -94,7 +94,3 @@ Conflict: <what the artifact does vs. what the canon says>
 In use: <what happens to a person using the product — when the finding concerns product intent>
 Action: <the row of the table above>
 ```
-
-## After a Change
-
-Whoever changes a layer carries the change, in the same turn, to every document in the live layers that cites the changed item — `bash docs/settings/scripts/check_refs.sh refs <item>` lists what it can resolve; grep the ID, number or term for the rest. Code that implements it follows as a fix task or its own `fix` spec (§Findings), never as a silent edit. A follower that is the user's to change goes to the user in the same turn. Done specs and archives are records and are not edited; a user check's record arriving later is an addition, not an edit.

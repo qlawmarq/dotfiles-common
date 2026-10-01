@@ -67,29 +67,29 @@ Verify `research.md` independently. **Start from its claims and check them yours
 
 ## Output Description
 
-In the language from spec.json, exactly four blocks. Do not add sections.
+In the language from spec.json (the labels below translated with it), exactly four blocks. Do not add sections.
 
 ```
-判定: GO | NO-GO — <one line of rationale>
+Verdict: GO | NO-GO — <one line of rationale>
 
-未実測の断定（全件）:
-- C<n>: <claim> — <which of the four kinds> / 現状: <what evidence exists>
+Unmeasured assertions (all):
+- C<n>: <claim> — <which of the four kinds> / Evidence now: <what evidence exists>
 
-争点（要判断）:
+Contested (needs a decision):
 C<n>: <claim>
-壊れる先: <what in the design fails if this is wrong>   裏付け: <current evidence>
-実測案: <command / test / probe>   → 実測 / このまま / やり直し
+Breaks: <what in the design fails if this is wrong>   Evidence: <current evidence>
+Measure by: <command / test / probe>   → measure / keep / redo
 
-その他の指摘: <max 3, one line each>
+Other notes: <max 3, one line each>
 ```
 
-- Omit a block when it is empty, except `判定`. Say `争点なし` explicitly rather than dropping the block silently — "nothing contested" is itself a finding worth recording.
+- Omit a block when it is empty, except `Verdict`. Say "nothing contested" explicitly rather than dropping the block silently — it is itself a finding worth recording.
 - Keep the whole report under ~400 words plus the lists.
 
 ## Safety & Fallback
 
 - **No `research.md`**: stop — "Run `/sdd-spec-research <feature-name>` first."
-- **`research.md` predates the claim format** (no `C<n>` entries): do not fail. Derive claims from its Findings and Recommendation, report that the format is missing as the first `その他の指摘`, and run the five checks on what you derived.
+- **`research.md` predates the claim format** (no `C<n>` entries): do not fail. Derive claims from its Findings and Recommendation, report that the format is missing as the first of `Other notes`, and run the five checks on what you derived.
 - **Reproducer cannot run here** (missing runtime, too slow, needs credentials): mark the claim un-reproduced with the reason and treat it as unverified for check 5. Do not silently pass it.
 - **Language undefined**: fall back to `docs/settings/templates/specs/init.json` `language`, then `ja`.
 

@@ -61,7 +61,8 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. Fe
 - `{spec_path}/design.md` for design structure
 - `{spec_path}/tasks.md` for task list
 - **Entire `docs/steering/` directory** for complete project memory
-- `docs/settings/rules/concept-alignment.md`, applied whole: §Findings to route and close every finding of this run, §Product Check for 2k, §User Check for Step 3, §After a Change for every document this run changes
+- `docs/settings/rules/concept-alignment.md`, applied whole: §Findings to route and close every finding of this run, §Product Check for 2k, §User Check for Step 3
+- `docs/settings/rules/document-hygiene.md` for every document this run writes or changes (§After a Change)
 
 ### Step 2: Verification
 
@@ -145,7 +146,7 @@ The B/C boundary is whether a decision recorded after the requirements exists.
 Where each class goes and how it is closed is `docs/settings/rules/concept-alignment.md §Findings`:
 
 - **A** → the Requirements row: into the Step 3 message, proposing previous → new criterion text.
-- **B** → the Code-inside row. Default is a code fix: the criterion stands, a fix task is added to tasks.md, NO-GO. The user may choose "fix the criterion" instead (the Requirements row), so B goes into the Step 3 message. An override is recorded in `## Requirements changes` (class: "B → fix the criterion") and as a `Reconciled: 3.5 ← spec-done confirmation` line in the commit body. Git holds the history.
+- **B** → the Code-inside row. Default is a code fix: the criterion stands, a fix task is added to tasks.md, NO-GO. The user may choose "fix the criterion" instead (the Requirements row), so B goes into the Step 3 message. An override is recorded in `## Requirements changes` (class: "B → fix the criterion") and as a `Reconciled: 3.5 ← spec-done confirmation` line in the commit body (`document-hygiene.md`, one fact, one seat).
 - **C** → the user decides which it is: implement (a fix task, as B) or withdraw the decision (the criterion is fixed to the code, as A). Into the Step 3 message.
 - **D** → the Canon-or-steering row: canon change control (`docs/settings/rules/canon-layer.md §Change Control`), into the Step 3 message. The criterion fix follows that answer.
 - **E** → the lead checks this spec's run records: probe results, the evidence on a behaviors.md `Verification:` line, tests, and the product-check report (2k) — so E is settled after 2k. If one shows the predicate, the item is rejected, quoting it. A document's statement is not a run record. If none does, the Cannot-tell row: into the Step 3 message as a ruling — proceed as is / fix the criterion.
@@ -287,7 +288,7 @@ After the answer, every B still resolved as a code fix, and every C the user cho
 Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the Step 3 answer resolved as "fix the criterion" (B overridden, C withdrawn, E, D). For a B override or a C withdrawal, record it in Requirements changes and as a `Reconciled: <ID> ← spec-done confirmation` line (4f). For D, fix the criterion only after the canon answer, following it.
 
 - Never renumber a criterion.
-- Carry each change to the documents that cite it (`concept-alignment.md §After a Change`).
+- Carry each change to the documents that cite it (`document-hygiene.md §After a Change`).
 - Do not add a revision-history section to any document — git holds the history (`docs/settings/rules/document-hygiene.md`, one fact, one seat).
 - Put `## Requirements changes` at the top of the reply: per criterion ID, the full previous → new text, then one line with the grounds (file:line) and the class. When there are canon changes, the `## Canon changes` section follows it.
 
@@ -371,7 +372,7 @@ Canon changes for 2b's D items were already confirmed in the Step 3 message; do 
 - **No A from code alone**: A requires a decision recorded after the requirements, quoted by file:line
 - **One message, before GO**: Everything that needs the user is asked in the one Step 3 message — the question before a third product check (2k) is the one exception; nothing is asked when nothing needs the user. A B still resolved as a code fix, a C the user chose to implement, or a product-check finding left to be fixed means NO-GO
 - **Completion record**: GO requires `check_completion.sh {spec_path}` to exit 0; a finding the user has closed does not block it
-- **Requirements changes are visible**: Every criterion changed is shown previous → new under `## Requirements changes` at the top of the reply and listed as `Reconciled:` in the feature commit body; no revision-history sections
+- **Requirements changes are visible**: Every criterion changed is shown previous → new under `## Requirements changes` at the top of the reply and listed as `Reconciled:` in the feature commit body (`document-hygiene.md`, one fact, one seat)
 - **No auto-push**: Commit locally only; pushing is the user's responsibility
 - **Scoped commits**: Only stage changes related to this feature
 - **Non-destructive**: If anything fails, the spec stays in `todo/`; the only writes are under `reviews/`, the user's answers under `probe/`, and what a finding's route calls for in Step 3 (a fix task in tasks.md, or a document edited for re-approval)

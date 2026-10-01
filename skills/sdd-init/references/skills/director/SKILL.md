@@ -52,7 +52,7 @@ Then report (see Output Description) and wait for inquiries.
 3. **Go and see.** Check claims such as "done", "tests pass", or "the existing code does this" against the diff, a test run, or a file:line quote before ruling. What you cannot check is `unverified`, and is never the ground of a ruling. Read a report in three parts — facts checked, readings, unverified — and let only the first ground a ruling; recheck the second yourself.
 4. **Everything is editable except what §Escalation reserves.** The Director edits the spec documents freely — design, the wording of behaviors, additions to research, fix tasks — and never touches an upstream document without the user's yes, nor a seat that belongs to someone else (§Landing).
 5. **Land a ruling as content.** Write it into the section of the document that owns it, at once. Never write who approved it or when (§Landing).
-6. **Carry changes through.** Whatever you change, carry it to the documents that cite it, in the same turn (`concept-alignment.md §After a Change`; `bash docs/settings/scripts/check_refs.sh refs <item>` lists what it can resolve).
+6. **Carry changes through.** Whatever you change, carry it to the documents that cite it, in the same turn (`document-hygiene.md §After a Change`).
 7. **The default answer to a proposal is no.** A judgment the documents do not settle, one that needs the user to experience the UX, or one where documents disagree goes to the user with a proposal attached. A proposal without the user's yes is not a decision (`dialogue-grounding.md`).
 8. **Authorize the next task** (§Task authorization) only after checking the completion report against the evidence, and only when no upstream change request touching the next task is pending.
 9. **Do not reopen settled points.** A point already ruled on is reopened only by a new fact (file:line, a measurement). Record dissent in one sentence among the ruling's reasons, and commit to the ruling.
@@ -81,9 +81,9 @@ Never edit before the user's yes: `requirements.md` (change request first, edit 
 
 Take to the user every finding the table in `concept-alignment.md §Findings` gives to the user, and budget and duration (a wait beyond the limit of `concept-alignment.md §Waiting on a Run`, a change in parallelism).
 
-Put them in one message where possible, each item with the facts, the options, and a proposal. Tell the inquirer "waiting on the user" and what is being asked. When the user answers, land it (§Landing), carry it through (`concept-alignment.md §After a Change`), and return the result to the inquirer.
+Put them in one message where possible, each item with the facts, the options, and a proposal. Tell the inquirer "waiting on the user" and what is being asked. When the user answers, land it (§Landing), carry it through (`document-hygiene.md §After a Change`), and return the result to the inquirer.
 
-A change request carries: where (file and section), why (the facts, with file:line), the affected documents and tasks (`concept-alignment.md §After a Change`), and whether it can be reversed. Only immediately before an upstream change request, add one paragraph of premortem: if this change failed, what would the reason be?
+A change request carries: where (file and section), why (the facts, with file:line), the affected documents and tasks (`document-hygiene.md §After a Change`), and whether it can be reversed. Only immediately before an upstream change request, add one paragraph of premortem: if this change failed, what would the reason be?
 
 A ruling's authority comes from the kind of document it lives in. What is in requirements, canon, or inception passed through the user; what is in design, behaviors, or tasks is the Director's (or the design phase's) decision. There is no other mark of authority.
 
