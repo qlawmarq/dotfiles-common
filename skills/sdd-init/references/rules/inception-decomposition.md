@@ -22,7 +22,7 @@ This file is the reference for `/sdd-plan`. Read it when running the Inception w
 - **A unit is a vertical slice, not a layer.** A good unit cuts through the whole stack (UI → logic → data) so it is observably valuable to a person using the product on its own. Slicing by architectural layer ("the database", "the API", "the frontend") is the anti-pattern — those pieces can't be demonstrated or shipped independently.
 - **Each unit must stand alone.** If you implemented only one unit and nothing else, it should still produce something testable and demonstrable — ideally a viable (if minimal) product. This is the single most important property; it is what lets each unit become its own spec without entangling the others.
 - **Patterns over exhaustiveness.** Inception defines *what the units are, where their boundaries lie, and how they depend on each other* — not the full requirements or design of each. Per-unit requirements (EARS), research, and design are deliberately deferred to each child spec's own flow. Resist the urge to fully specify a unit here; that re-creates the context-bloat problem you are trying to solve.
-- **The plan is external memory.** The Inception artifacts (`vision.md`, `units.md`, `dependencies.md`, `story-map.md`) are written to disk so each downstream spec — running in its own fresh context — can read only the slice it needs.
+- **The plan is external memory.** The Inception artifacts are written to disk so each downstream spec — running in its own fresh context — can read only the slice it needs.
 
 ## 2. Finding boundaries (where to cut)
 
@@ -69,12 +69,12 @@ Two tie-breakers: prefer the split that **exposes low-value functionality you ca
 
 ## 5. Dependencies and build order
 
-Produce a **dependency matrix** — for each unit: what it depends on, and how it integrates (shared data, synchronous call, event, shared library). Then derive the build order:
+Produce a **dependency matrix** — for each unit: what it depends on. Then derive the build order:
 
 - **Topological sort**: units with no dependencies build first; dependents build after their prerequisites.
 - **Independent units run in parallel** — units with no shared dependency are candidates for concurrent development tracks. But be honest: real software has fewer truly-parallel pieces than it first appears. Only call two units parallel when neither needs the other's interfaces or data.
 - **Circular dependency = wrong boundary.** If A needs B and B needs A, the boundary in §2 is misplaced. Re-cut, or extract the shared piece into a third unit both depend on.
-- Record integration points explicitly (initiator → target, method, rough frequency) so each child spec knows its contract surface without reading its siblings' designs.
+- Record integration points explicitly (initiator → target, method — shared data, synchronous call, event, shared library — rough frequency) so each child spec knows its contract surface without reading its siblings' designs.
 
 ## 6. Priority and sequencing
 
@@ -95,21 +95,21 @@ Before turning units into specs, confirm:
 
 - [ ] Every unit has an independent-test statement and passes INVEST.
 - [ ] No unit is a horizontal layer; each is a vertical slice.
-- [ ] The dependency graph is acyclic and has a clear build order.
+- [ ] The dependency matrix is acyclic and has a clear build order.
 - [ ] A walking-skeleton unit is sequenced first, and every main use is performed in it or in a unit before the first verification gate.
 - [ ] Every verification gate states what the user does and the question they answer.
 - [ ] Units are roughly equal-sized, or the lopsided ones have a justified reason.
-- [ ] Every capability/story from the vision maps to exactly one unit (nothing dropped, nothing duplicated).
+- [ ] Every capability is owned by exactly one unit (nothing dropped, nothing duplicated).
 
 If any check fails, revise the decomposition rather than scaffolding specs you'll have to untangle later.
 
 ## 8. Maintaining the plan after scaffolding
 
-`units.md` stays the boundary map, never a log. A unit entry holds boundaries and dependencies; the spec holds everything deeper (`document-hygiene.md`, one fact, one seat).
+`units.md` stays the boundary map, never a log. A unit entry holds boundaries; the spec holds everything deeper (`document-hygiene.md`, one fact, one seat).
 
-- **Completed unit**: `/sdd-spec-done` repoints its Summary row to the done spec and deletes its detail block — the done spec is the record.
-- **Boundary or ordering change** (a finding, a canon change, re-planning): edit `units.md`, `dependencies.md`, `story-map.md` and `inception.json` together, with the user, then carry it down (`document-hygiene.md §After a Change`). A re-cut plan re-runs §7.
-- **A gate's verdict other than `holds`**: the units that depend on the gate (`inception.json` `depends_on`) do not start — or stop at their next task — until the plan is re-cut. A unit the re-cut drops has its `todo/` spec deleted; git keeps it.
-- **Status or decision content creeping into a unit entry**: a unit's status is `inception.json` and the spec's location; what canon or a spec decides is cited by ID (`document-hygiene.md`, one fact, one seat).
+- **Completed unit**: `/sdd-spec-done` syncs the plan (its Inception Sync step) — the done spec is the record.
+- **Boundary or ordering change** (a finding, a canon change, re-planning): edit `units.md` and `dependencies.md` together, with the user, then carry it down (`document-hygiene.md §After a Change`). A re-cut plan re-runs §7.
+- **A gate's verdict other than `holds`**: the units that depend on the gate (`dependencies.md` Dependency Matrix) do not start — or stop at their next task — until the plan is re-cut. A unit the re-cut drops has its `todo/` spec deleted; git keeps it.
+- **Status or decision content creeping into a unit entry**: a unit's status and current kind are its spec's (`spec.json` and its location); what canon or a spec decides is cited by ID (`document-hygiene.md`, one fact, one seat).
 
 A `units.md` growing past ~500 lines signals that detail blocks are accumulating spec-phase content; move that content to the owning specs.

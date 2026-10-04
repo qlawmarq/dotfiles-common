@@ -6,25 +6,22 @@
 #                                                      #   status: ok | dangling | ambiguous (several same-named files) | external (outside the scan)
 #   check_refs.sh [opts] check                         # dangling references as `file:line: kind: raw`, then `check: N finding(s)` per kind
 #   check_refs.sh [opts] refs <target>                 # who cites <target>: a path, `path §section`, an ID, or /skill-name
-#   check_refs.sh [opts] graph [--mermaid] [--by dir]  # file digraph (DOT, or Mermaid); edge label = reference count
 #   check_refs.sh [opts] unused [--no-entry]           # scanned files no other file cites; entry files (AGENTS/README/SKILL.md, spec.json) listed apart
-#   check_refs.sh [opts] stats                         # per file: cited-by count, cites count, dangling count (most cited first)
 #   opts: --root <dir> (default: git top)   --scan <dir|file> (repeatable; default: the SDD project layout under root)
-#         --map FROM=TO (repeatable; e.g. docs/settings=<dist>/references)   --include-records (also cite from done/ archive/ probe/ reviews/)
-#         --skip-ids <FAM,...> (ID families `check` ignores, e.g. U; open-question tables of the canon README are always ignored)   -h
-#   kinds: link, path, section (`file §heading`), skill (/sdd-*), json:<field> (spec.json plan.parent / plan.unit_id, inception.json units), id:<family>
+#         --map FROM=TO (repeatable; e.g. docs/settings=<dist>/references)   --include-records (also cite from done/ archive/ probe/ reviews/)   -h
+#         (`check` ignores dangling IDs of the canon README's open-question tables)
+#   kinds: link, path, section (`file §heading`), skill (/sdd-*), json:<field> (spec.json plan.parent / plan.unit_id), id:<family>
 set -u
 
-ROOT=""; CMD=""; TARGET=""; RECORDS=0; MERMAID=0; BYDIR=0; NOENTRY=0; SKIPIDS=""; SCANS=""; MAPS=""
-usage() { sed -n 2,15p "$0"; }
+ROOT=""; CMD=""; TARGET=""; RECORDS=0; NOENTRY=0; SCANS=""; MAPS=""
+usage() { sed -n 2,13p "$0"; }
 while [ $# -gt 0 ]; do case "$1" in
-    --root|--scan|--map|--skip-ids) [ $# -ge 2 ] || { echo "$1 needs a value" >&2; usage >&2; exit 1; } ;; esac; case "$1" in
+    --root|--scan|--map) [ $# -ge 2 ] || { echo "$1 needs a value" >&2; usage >&2; exit 1; } ;; esac; case "$1" in
     --root) ROOT="$2"; shift 2 ;; --scan) SCANS="$SCANS$2
 "; shift 2 ;; --map) MAPS="$MAPS$2
 "; shift 2 ;;
-    --include-records) RECORDS=1; shift ;; --mermaid) MERMAID=1; shift ;; --no-entry) NOENTRY=1; shift ;; --skip-ids) SKIPIDS="$2"; shift 2 ;;
-    --by) [ "${2:-}" = dir ] || { echo "--by takes 'dir'" >&2; exit 1; }; BYDIR=1; shift 2 ;;
-    list|check|refs|graph|unused|stats) CMD="$1"; shift; [ "$CMD" = refs ] && { TARGET="${1:-}"; shift; } ;;
+    --include-records) RECORDS=1; shift ;; --no-entry) NOENTRY=1; shift ;;
+    list|check|refs|unused) CMD="$1"; shift; [ "$CMD" = refs ] && { TARGET="${1:-}"; shift; } ;;
     -h|--help) usage; exit 0 ;; *) echo "unknown arg: $1" >&2; exit 1 ;;
 esac; done
 [ -z "$CMD" ] && { usage; exit 1; }
@@ -33,7 +30,7 @@ esac; done
 cd "$ROOT" || exit 1
 
 # Canon root as in check_canon.sh: declared in product.md, else docs/canon
-CANON=$(grep -m1 -oE 'Canon root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Canon root:[[:space:]]*`?//; s#/$##')
+CANON=$(grep -m1 -oE 'Canon root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Canon root:[[:space:]]*`?//; /^\[/d; s#/$##')
 [ -z "$CANON" ] && CANON="docs/canon"
 AUTO=0
 if [ -z "$SCANS" ]; then                                  # default scan = the live SDD project layout
@@ -53,6 +50,8 @@ nested() { LC_ALL=C awk -v N="$T/nested" -v S="$T/scans" 'BEGIN { while ((getlin
     { for (i = 1; i <= n; i++) if ($0 == X[i] || index($0, X[i] "/") == 1) next; print }'; }
 find . \( -name .git -o -name node_modules \) -prune -o -type f -print | sed "s#^\./##" | nested | LC_ALL=C sort > "$T/files"
 find . \( -name .git -o -name node_modules \) -prune -o -type d -print | sed 's#^\./##' | nested > "$T/dirs"
+# extensions of the files git tracks or would track (outside git: every file under root)
+{ git ls-files -z -co --exclude-standard 2>/dev/null | tr '\0' '\n' | grep . || cat "$T/files"; } | sed -nE 's#.*/##; s#^\.[^.]*$##; s#.*\.([a-z][a-z0-9]*)$#\1#p' | sort -u > "$T/exts"
 
 # ---------- extract + resolve (one awk pass; byte-wise, so multibyte text is matched as bytes) ----------
 cat > "$T/refs.awk" <<'AWK'
@@ -69,7 +68,7 @@ function normp(p,  n, a, i, k, st, out) {              # collapse . and ..; "\00
 }
 function exists(p) { sub(/\/+$/, "", p); return p == "." || p == "" || (p in F) || (p in D) }
 function under(p, i) { for (i = 1; i <= NSC; i++) if (SC[i] == "." || p == SC[i] || index(p, SC[i] "/") == 1) return 1; return 0 }
-function trim(s) { sub(/^[ \t]+/, "", s); sub(/[ \t]+$/, "", s); return s }
+function trim(s) { sub(/^[ \t]+/, "", s); sub(/[ \t\r]+$/, "", s); return s }
 function placeholder(s) { return s ~ /[<>{}*$]|\.\.\./ || index(s, "…") }
 function emit(f, l, k, raw, res, st) { gsub(/\t/, " ", raw); print f ":" l "\t" k "\t" raw "\t" res "\t" st }
 function disp(s,  i, c, cut) {                         # a short, char-safe rendering of the text after §
@@ -228,34 +227,21 @@ function scanline(f, l, L,  s, s2, lk, tgt, after, c, fp, i, n, tk, t, st, anc, 
             sub(/-+$/, "", tok); emit(f, l, "id:spec", tok, (tok in DD) ? tok "@" DD[tok] : "", (tok in DD) ? "ok" : "dangling")
         } }
 }
-function jsonfile(f,  l, n, key, s, v, t, dep, pd, inarr, isspec, plan, k, i, parent, sd) {
-    isspec = basen(f) == "spec.json"; plan = basen(dirn(f)); n = 0; parent = ""
-    dep = 0; pd = -1; key = ""                          # token walk: "key":, "string", [ ] { }, null; spec.json keys count only inside "plan"
+function jsonfile(f,  l, n, key, s, v, t, dep, pd, k, i, parent) {   # spec.json: plan.parent / plan.unit_id
+    n = 0; parent = ""; dep = 0; pd = -1; key = ""      # token walk: "key":, "string", { }, null; keys count only inside "plan"
     while ((getline l < f) > 0) { n++; s = l
-        while (match(s, /"[^"]*"[ \t]*:|"[^"]*"|[][{}]|null/)) { t = substr(s, RSTART, RLENGTH); s = substr(s, RSTART + RLENGTH)
+        while (match(s, /"[^"]*"[ \t]*:|"[^"]*"|[{}]|null/)) { t = substr(s, RSTART, RLENGTH); s = substr(s, RSTART + RLENGTH)
             if (t == "{") { if (key == "plan") pd = dep; dep++; key = ""; continue }
             if (t == "}") { dep--; if (dep == pd) pd = -1; key = ""; continue }
-            if (t == "[") { if (key != "") inarr = 1; continue }
-            if (t == "]") { inarr = 0; key = ""; continue }
             if (t ~ /:$/) { key = t; sub(/^"/, "", key); sub(/"[ \t]*:$/, "", key); continue }
-            if (t == "null") { if (!inarr) key = ""; continue }
             v = substr(t, 2, length(t) - 2)
-            if ((isspec ? pd >= 0 && key ~ /^(parent|unit_id)$/ : key ~ /^(unit_id|spec_dir|depends_on)$/) && !placeholder(v)) {
-                JK[++k] = key; JV[k] = v; JL[k] = n; if (key == "parent") parent = v }
-            if (!inarr) key = "" }
+            if (t != "null" && pd >= 0 && key ~ /^(parent|unit_id)$/ && !placeholder(v)) { JK[++k] = key; JV[k] = v; JL[k] = n; if (key == "parent") parent = v }
+            key = "" }
     }
     close(f)
-    for (i = 1; i <= k; i++) { key = JK[i]; v = JV[i]
-        if (key == "parent") emit(f, JL[i], "json:parent", v, (v in PL) ? PL[v] : "", (v in PL) ? "ok" : "dangling")
-        else if (key == "unit_id" && isspec) emit(f, JL[i], "json:unit_id", v, ((parent, v) in DU) ? v "@" DU[parent, v] : "", ((parent, v) in DU) ? "ok" : "dangling")
-        else if (key == "unit_id") continue
-        else if (key == "spec_dir") { sd = v; sub(/\/+$/, "", sd)
-            if (exists(sd)) emit(f, JL[i], "json:spec_dir", v, sd, "ok")
-            else emit(f, JL[i], "json:spec_dir", v, (basen(sd) in SP) ? "moved: " dirn(SP[basen(sd)]) : "", "dangling") }
-        else { if ((plan, v) in DU) emit(f, JL[i], "json:depends_on", v, v "@" DU[plan, v], "ok")
-            else if (v in SP) emit(f, JL[i], "json:depends_on", v, SP[v], "ok")
-            else emit(f, JL[i], "json:depends_on", v, "", "dangling") }
-    }
+    for (i = 1; i <= k; i++) { v = JV[i]
+        if (JK[i] == "parent") emit(f, JL[i], "json:parent", v, (v in PL) ? PL[v] : "", (v in PL) ? "ok" : "dangling")
+        else emit(f, JL[i], "json:unit_id", v, ((parent, v) in DU) ? v "@" DU[parent, v] : "", ((parent, v) in DU) ? "ok" : "dangling") }
 }
 BEGIN {
     FS = "\t"; for (i = 1; i < 256; i++) ORD[sprintf("%c", i)] = i
@@ -263,21 +249,24 @@ BEGIN {
     NGL = split("（|(|＝|：|:| —|—| - ", GL, "|")
     ND = split("`||(|（|、|。|,|;|—|)|）|・|「|」", DL, "|"); DL[2] = "|"
     NPU = split("（ ） 「 」 『 』 【 】 、 。 ・ ： ； ！ ？ ＝ ／ 〔 〕 … ― — – “ ” ‘ ’ ＋ ～ 〜 ＆ ＃ ％ ＊ ， ． ＜ ＞ ［ ］ ｛ ｝ ｜ → ← ↔ ↑ ↓ ⇒ × ＿", PU, " ")
-    split("md json jsonl sh bash zsh txt yml yaml toml csv tsv gd tscn tres godot cfg ini py js mjs cjs ts tsx jsx rb go rs java kt swift c h cc cpp hpp cs html css scss sql xml svg png jpg example lock log", e, " ")
+    split("md json jsonl sh bash zsh txt yml yaml toml csv tsv cfg ini py js mjs cjs ts tsx jsx rb go rs java kt swift c h cc cpp hpp cs html css scss sql xml svg png jpg example lock log", e, " ")
     for (i in e) EXT[e[i]] = 1
+    while ((getline l < (T "/exts")) > 0) EXT[l] = 1
     SKRE = "/" SKP "[a-z0-9][a-z0-9-]*"
     while ((getline l < (T "/scans")) > 0) SC[++NSC] = l
-    while ((getline l < (T "/maps")) > 0) { i = index(l, "="); if (i) { MF[++NMP] = substr(l, 1, i - 1); MT[NMP] = substr(l, i + 1) } }
+    while ((getline l < (T "/maps")) > 0) { i = index(l, "="); if (i) { MF[++NMP] = substr(l, 1, i - 1); MT[NMP] = substr(l, i + 1); print MF[NMP] "=" normp(MT[NMP]) > (T "/nmaps") } }
     while ((getline l < (T "/dirs")) > 0) D[l] = 1
     while ((getline l < (T "/files")) > 0) { F[l] = 1; b = basen(l); BA[b] = BA[b] "\n" l
         if (under(l)) { BS[b] = BS[b] "\n" l
-            if ((l ~ /\.(md|sh)$/ || b == "spec.json" || (b == "inception.json" && basen(dirn(dirn(l))) == "inception")) && (RECS || l !~ /(^|\/)(done|archive|probe|reviews)\//)) SRC[++NS] = l }
+            if ((l ~ /\.(md|sh)$/ || b == "spec.json") && (RECS || l !~ /(^|\/)(done|archive|probe|reviews)\//)) SRC[++NS] = l }
         if (match(b, /^[^.-]+-[^\/]*\./)) { k = dirn(l) "/" substr(b, 1, index(b, "-") - 1) substr(b, match(b, /\.[^.]*$/)); VR[k] = VR[k] "\n" l }
         if (b == "SKILL.md") { while ((getline x < l) > 0) { if (x ~ /^name:/) { sub(/^name:[ \t]*/, "", x); gsub(/["' ]/, "", x); SK[x] = l; break } if (x ~ /^#/) break } close(l) }
         if (b == "spec.json" && basen(dirn(l)) !~ /[{<]/) SP[basen(dirn(l))] = l
-        if (b == "inception.json" && basen(dirn(dirn(l))) == "inception") { pn = basen(dirn(l)); PL[pn] = l   # plans: inception/<plan-id>/ only
-            while ((getline x < l) > 0) if (match(x, /"unit_id"[ \t]*:[ \t]*"[^"]+"/)) { u = substr(x, RSTART, RLENGTH); sub(/.*:[ \t]*"/, "", u); sub(/"$/, "", u)
-                if (placeholder(u)) continue; DU[pn, u] = l; DEF[u] = l; if (match(u, /^[A-Za-z]+[0-9]+$/)) { fm = u; sub(/[0-9]+$/, "", fm); FAM[fm] = 1 } }
+        if (b == "units.md" && basen(dirn(dirn(l))) == "inception") { pn = basen(dirn(l)); PL[pn] = l; n = 0; sm = 1; ic = 0   # plans: inception/<plan-id>/units.md
+            while ((getline x < l) > 0) { n++; if (x !~ /^\|/) { if (ic) sm = 0; continue }   # unit IDs: the ID column (else the first) of its first table, the Summary
+                if (!sm || x ~ /^\|[ \t\r:|-]+$/) continue; nc = split(x, cc, "|")
+                if (!ic) { for (i = nc; i > 1; i--) if (trim(cc[i]) == "ID") ic = i; if (!ic) ic = 2; continue }
+                u = trim(cc[ic]); if (u == "" || placeholder(u)) continue; DS[l ":" n ":" u] = 1; DU[pn, u] = l; DEF[u] = l; if (match(u, /^[A-Za-z]+[0-9]+$/)) { fm = u; sub(/[0-9]+$/, "", fm); FAM[fm] = 1 } }
             close(l) }
     }
     for (k in SP) if (k ~ /^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-/) { DD[k] = SP[k]; NDATE++ }
@@ -296,7 +285,7 @@ BEGIN {
     close(rg); for (k in FAM) NFAM++
     for (k in DEF) { fm = k; sub(/[0-9]+$/, "", fm); nm = substr(k, length(fm) + 1); DN[fm, nm + 0] = k }
     for (i = 1; i <= NS; i++) { f = SRC[i]; b = basen(f)
-        if (b == "spec.json" || b == "inception.json") { jsonfile(f); continue }
+        if (b == "spec.json") { jsonfile(f); continue }
         n = 0; while ((getline L < f) > 0) { n++; if (index(L, "`") || index(L, "](") || index(L, "§") || index(L, "/") || NFAM || NDATE) scanline(f, n, L) }
         close(f) }
     for (i = 1; i <= NS; i++) print SRC[i] > (T "/sources")
@@ -306,11 +295,11 @@ LC_ALL=C awk -v T="$T" -v AUTO="$AUTO" -v RECS="$RECORDS" -v CANON="$CANON" -v S
 touch "$T/sources" "$T/qfams"
 
 # ---------- subcommands: all derive from the list ----------
-tgt() { LC_ALL=C awk -F'\t' '{ t = $4; if ($2 ~ /^id:|^json:(unit_id|depends_on)/) sub(/^[^@]*@/, "", t); sub(/#.*$/, "", t); sub(/ \(\+[0-9]+\)$/, "", t); print t }'; }
+tgt() { LC_ALL=C awk -F'\t' '{ t = $4; if ($2 ~ /^id:|^json:unit_id/) sub(/^[^@]*@/, "", t); sub(/#.*$/, "", t); sub(/ \(\+[0-9]+\)$/, "", t); print t }'; }
 case "$CMD" in
 list) cat "$T/list" ;;
 check)
-    LC_ALL=C awk -F'\t' -v SKIP=",$SKIPIDS,$(cat "$T/qfams")," '$5 == "dangling" { f = $2; sub(/^id:/, "", f); if ($2 ~ /^id:/ && index(SKIP, "," f ",")) { sk++; next }
+    LC_ALL=C awk -F'\t' -v SKIP=",$(cat "$T/qfams")," '$5 == "dangling" { f = $2; sub(/^id:/, "", f); if ($2 ~ /^id:/ && index(SKIP, "," f ",")) { sk++; next }
         n++; c[$2]++; print $1 ": " $2 ": " $3 ($4 ~ /^moved:/ ? " (" $4 ")" : "") }
         $5 == "ambiguous" { a++ } $5 == "external" { e++ }
         END { printf "check: %d finding(s)\n", n; for (k in c) print "  " k ": " c[k] | "sort"; close("sort")
@@ -318,27 +307,18 @@ check)
               printf "  (not counted: ambiguous %d, external %d, dangling in skipped ID families [%s] %d)\n", a, e, s, sk; exit (n > 255 ? 255 : n) }' "$T/list"
     exit $? ;;
 refs)
-    LC_ALL=C awk -F'\t' -v Q="$TARGET" '
+    LC_ALL=C awk -F'\t' -v Q="$TARGET" -v M="$T/nmaps" '
         function hn(s) { gsub(/\*\*|`|"/, "", s); gsub(/[ \t]+/, " ", s); sub(/^ /, "", s); sub(/ $/, "", s); return tolower(s) }
         BEGIN { sec = ""; if (index(Q, "§")) { sec = hn(substr(Q, index(Q, "§") + 2)); Q = substr(Q, 1, index(Q, "§") - 1); sub(/[ `]+$/, "", Q); sub(/^`/, "", Q) }
-                sub(/^\.\//, "", Q); sub(/\/+$/, "", Q) }
-        { t = $4; if ($2 ~ /^id:|^json:(unit_id|depends_on)/) { id = t; sub(/@.*/, "", id); sub(/^[^@]*@/, "", t) } else id = ""
+                sub(/^\.\//, "", Q); sub(/\/+$/, "", Q)
+                while ((getline m < M) > 0) { i = index(m, "="); f = substr(m, 1, i - 1); if (i && (Q == f || index(Q, f "/") == 1)) { Q = substr(m, i + 1) substr(Q, length(f) + 1); sub(/^\.\//, "", Q); break } } }
+        { t = $4; if ($2 ~ /^id:|^json:unit_id/) { id = t; sub(/@.*/, "", id); sub(/^[^@]*@/, "", t) } else id = ""
           h = ""; if (index(t, "#")) { h = substr(t, index(t, "#") + 1); t = substr(t, 1, index(t, "#") - 1) }; sub(/ \(\+[0-9]+\)$/, "", h)
           if (Q ~ /^\//) hit = ($2 == "skill" && $3 == Q)
           else if (sec != "") hit = (t == Q || (Q !~ /\// && t ~ ("(^|/)" Q "$"))) && $2 == "section" && h != "" && (index(sec, h) == 1 || index(h, sec) == 1)
           else hit = ($3 == Q || id == Q || t == Q || index(t, Q "/") == 1) && $5 == "ok"
           if (hit) { n++; print $1 "\t" $2 "\t" $3 } }
         END { printf "refs: %d citation(s) of %s\n", n, Q (sec != "" ? " §" sec : "") > "/dev/stderr" }' "$T/list" ;;
-graph)
-    paste "$T/list" <(tgt < "$T/list") | LC_ALL=C awk -F'\t' -v BY="$BYDIR" -v MM="$MERMAID" '
-        function dn(p,  i) { i = match(p, /\/[^\/]*$/); return i ? substr(p, 1, i - 1) : "." }
-        $5 == "ok" && $6 != "" { s = $1; sub(/:[0-9]+$/, "", s); t = $6; if (BY) { s = dn(s); t = dn(t) } if (s == t) next; E[s "\t" t]++
-            if (!(s in ID)) ID[s] = ++n; if (!(t in ID)) ID[t] = ++n }
-        END { print MM ? "graph LR" : "digraph refs {\n  rankdir=LR; node [shape=box];"
-              for (k in ID) if (MM) printf "  n%d[\"%s\"]\n", ID[k], k | "sort -k1.4n"; close("sort -k1.4n")
-              for (e in E) { split(e, a, "\t")
-                  if (MM) printf "  n%d -->|%d| n%d\n", ID[a[1]], E[e], ID[a[2]] | "sort"; else printf "  \"%s\" -> \"%s\" [label=\"%d\"];\n", a[1], a[2], E[e] | "sort" }
-              close("sort"); if (!MM) print "}" }' ;;
 unused)
     paste "$T/list" <(tgt < "$T/list") | LC_ALL=C awk -F'\t' -v NOENTRY="$NOENTRY" -v SRCS="$T/sources" '
         $5 == "ok" { s = $1; sub(/:[0-9]+$/, "", s); if (s != $6) IN[$6] = 1 }
@@ -346,10 +326,5 @@ unused)
                   if (b ~ /^(AGENTS|CLAUDE|README|SKILL)\.md$|^spec\.json$/) ent[++ne] = f; else { print f; n++ } }
               if (!NOENTRY && ne) { print ""; print "entry files (not cited, expected):"; for (i = 1; i <= ne; i++) print "  " ent[i] }
               printf "unused: %d file(s)%s\n", n, NOENTRY ? "" : sprintf(", %d entry file(s)", ne) > "/dev/stderr" }' ;;
-stats)
-    paste "$T/list" <(tgt < "$T/list") | LC_ALL=C awk -F'\t' -v SRCS="$T/sources" '
-        { s = $1; sub(/:[0-9]+$/, "", s); A[s] = 1; if ($5 == "dangling") DG[s]++; if ($5 != "ok" || $6 == "" || $6 == s) next; I[$6]++; O[s]++; A[$6] = 1 }
-        END { while ((getline f < SRCS) > 0) A[f] = 1
-              for (f in A) printf "%d\t%d\t%d\t%s\n", I[f], O[f], DG[f], f }' | sort -t"$(printf '\t')" -k1,1nr -k4,4 | { printf 'cited_by\tcites\tdangling\tfile\n'; cat; } ;;
 esac
 exit 0

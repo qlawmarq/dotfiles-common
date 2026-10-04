@@ -3,7 +3,6 @@ name: sdd-spec-impl
 description: >-
   Execute SDD spec tasks using TDD methodology.
   Implements approved tasks following Red-Green-Refactor cycle.
-argument-hint: "<feature-name> [task-numbers]"
 ---
 
 # Implementation Task Executor
@@ -115,7 +114,7 @@ For each selected task, first judge whether the task involves **testable logic**
      - Naming: Do variable/function/module names accurately reflect intent?
      - Simplification: Is there unnecessary complexity or indirection?
      - Separation of concerns: Are responsibilities properly separated?
-     - Comment conventions: Do comments follow the steering comment rules (WHY-only; no spec/task/section number references, implementation history, completion forecasts, or temporal phrasing)?
+     - Comment conventions: Do comments follow the steering's comment rules, where steering defines them?
    - **EXECUTE** (if refactoring needed): Perform refactoring, then run all tests to confirm they pass
    - **SKIP** (if no refactoring needed): Mark review as complete and proceed to next major task
    - _Note: This is a bird's-eye review layer distinct from TDD's per-cycle Refactor step, which focuses on local improvements within individual test cycles_
@@ -125,7 +124,7 @@ For each selected task, first judge whether the task involves **testable logic**
 ## Critical Constraints
 
 - **TDD when warranted**: Use TDD only when the task introduces testable logic. Do NOT write tests that merely assert config values, string literals, or file contents
-- **Test the critical path, not every line**: Cover non-trivial logic with the smallest tests that fail if it breaks; do not add a separate test per trivial branch, getter, or wrapper (follow the testing steering's "critical paths deeply, breadth over 100% pursuit")
+- **Test the critical path, not every line**: Cover non-trivial logic with the smallest tests that fail if it breaks; do not add a separate test per trivial branch, getter, or wrapper
 - **Task Scope**: Implement only what the specific task requires
 - **No Regressions**: Existing tests must continue to pass
 - **Design Alignment**: Implementation must follow design.md specifications
@@ -136,7 +135,7 @@ For each selected task, first judge whether the task involves **testable logic**
 
 - **Read first**: Load all context before implementation
 - **Test first**: Write tests before code only when testable logic exists
-- Use **WebSearch/WebFetch** for library documentation when needed
+- **Search the web** for library documentation when needed
 
 ## Output Description
 

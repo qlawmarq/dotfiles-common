@@ -12,7 +12,7 @@ Enumerable norms (catalogs, entity lists, guards) live in [registry.md](registry
 
 ## Open Questions
 
-Gaps found mid-work are filed here, never resolved inline in a spec session.
+Gaps found mid-work are filed here.
 
 | # | Question | Raised by | Date |
 | --- | --- | --- | --- |

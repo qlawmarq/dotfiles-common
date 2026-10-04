@@ -3,7 +3,6 @@ name: sdd-validate-research
 description: >-
   Independently verify research findings before they become design premises.
   Re-runs the recorded evidence, checks citations, and surfaces unverified load-bearing assumptions.
-argument-hint: "<feature-name> [--batch]"
 ---
 
 # Research Validation
@@ -40,7 +39,7 @@ Verify `research.md` independently. **Start from its claims and check them yours
 
 3. **Run the five checks**. Dispatch the independent lookups as parallel sub-agents so large files and command output stay out of the main context (`dialogue-grounding.md`).
 
-   1. **Reproduce** — for each claim typed `measured`, actually run what `Verification` names (probe script, test, command) and compare the output to the claim. Anything you cannot run is **un-reproduced**, not verified. Record what you ran.
+   1. **Reproduce** — for each claim typed `measured`, actually run what `Verification` names (probe script, test, command) and compare the output to the claim. Anything you cannot run is **un-reproduced**, not verified.
    2. **Citation fidelity** — for each `sourced` claim, check the cited source actually supports it, and that `file:line` references say what the claim says they say. A citation that is merely *adjacent* to the claim does not support it.
    3. **Unmeasured assertions** — list **every** claim that falls under one of the four kinds in `evidence-discipline.md` §1 but has `Verification: none` or only a document reference. This list is not capped.
    4. **Coverage** — check the investigation items required by `requirements.md`, `behaviors.md` (Verification lines), `gap-analysis.md`, and the items `docs/settings/rules/spec-kinds.md` requires measured for this kind against what `research.md` actually investigated. List anything untouched.
@@ -61,19 +60,20 @@ Verify `research.md` independently. **Start from its claims and check them yours
 
 ## Tool Guidance
 
-- **Bash/test runners**: check 1 requires actually executing things. A validation that only reads is the failure this skill exists to fix.
+- **Shell/test runners**: check 1 requires actually executing things. A validation that only reads is the failure this skill exists to fix.
 - **Sub-agents**: run independent checks in parallel; report back findings, not file contents.
 - **Grep**: confirm or refute a claim's `file:line` citations against the current code.
 
 ## Output Description
 
-In the language from spec.json (the labels below translated with it), exactly four blocks. Do not add sections.
+In the language from spec.json (the labels below translated with it), these four blocks in this order. Do not add sections.
 
 ```
 Verdict: GO | NO-GO — <one line of rationale>
 
-Unmeasured assertions (all):
+Missing evidence (checks 3–4, all):
 - C<n>: <claim> — <which of the four kinds> / Evidence now: <what evidence exists>
+- <required item> — not investigated / Required by: <document>
 
 Contested (needs a decision):
 C<n>: <claim>
@@ -83,7 +83,7 @@ Measure by: <command / test / probe>   → measure / keep / redo
 Other notes: <max 3, one line each>
 ```
 
-- Omit a block when it is empty, except `Verdict`. Say "nothing contested" explicitly rather than dropping the block silently — it is itself a finding worth recording.
+- `Verdict` and `Contested` always appear ("nothing contested" when none — it is itself a finding worth recording); omit any other block that is empty.
 - Keep the whole report under ~400 words plus the lists.
 
 ## Safety & Fallback

@@ -10,7 +10,6 @@ description: >-
   start", turn a prototype into a real product, or do anything too large to fit comfortably in a
   single feature spec. Prefer this over /sdd-spec-init when the scope is a whole product or several
   features rather than one focused feature.
-argument-hint: "[\"product or project goal\"] [--lang=ja] [--batch]"
 ---
 
 # SDD Inception & Planning Orchestrator
@@ -20,7 +19,7 @@ argument-hint: "[\"product or project goal\"] [--lang=ja] [--batch]"
 - **Mission**: Decompose a large development goal into an ordered roadmap of independently-shippable **Units of Work**, then scaffold one SDD spec per unit so each can be developed through the normal `/sdd-spec-*` flow with small, bounded context.
 - **Why this exists**: The per-feature SDD flow is excellent for one feature, but a whole product crammed into one spec produces an overwhelming requirements/design/tasks set. This skill is the planning layer above specs — it defines *what the units are, where their boundaries lie, and in what order to build them*, and deliberately defers each unit's detailed requirements/design to that unit's own spec.
 - **Success Criteria**:
-  - A vision is captured and confirmed with the user.
+  - The plan's goal and non-goals are confirmed with the user.
   - The product is decomposed into vertical-slice Units of Work, each passing INVEST and each with an independent-test statement.
   - A dependency matrix and an ordered build sequence (walking-skeleton first) are produced.
   - One SDD spec stub is scaffolded per unit under `docs/tasks/todo/`, linked back to the plan.
@@ -35,7 +34,6 @@ argument-hint: "[\"product or project goal\"] [--lang=ja] [--batch]"
 This skill expects:
 1. **Goal** (optional positional): a description of the product / project / prototype to plan. If omitted, ask the user for it.
 2. **`--lang=<code>`** (optional): ISO 639-1 language for all generated documents. Default: read from `docs/settings/templates/specs/init.json` `language`, else `ja`.
-3. **`--batch`** (optional): run autonomously, skipping the interactive clarification dialogue and the per-stage approval gates. Use only when the user explicitly wants a fast first-pass draft they will review at the end.
 
 ## Methodology
 
@@ -47,7 +45,7 @@ This skill is itself prone to the context bloat it's meant to cure. Keep plan ar
 
 ## Workflow
 
-Run as five staged stages, each ending in a human **approval gate** (GO / revise / stop). At each gate, present the artifact concisely and ask the user to approve or request changes before proceeding. In `--batch` mode, skip the gates and run straight through, then present everything for a single review at the end. The gates exist because planning mistakes are expensive to unwind once specs are scaffolded — it is far cheaper to correct a boundary now than after ten specs depend on it.
+Stages 0–4 each end in a human **approval gate** (GO / revise / stop). At each gate, present the stage's result concisely and ask the user to approve or request changes before proceeding. The gates exist because planning mistakes are expensive to unwind once specs are scaffolded — it is far cheaper to correct a boundary now than after ten specs depend on it.
 
 ### Stage 0 — Intake & mode detection
 
@@ -61,23 +59,19 @@ Run as five staged stages, each ending in a human **approval gate** (GO / revise
 
 **Gate 0**: Confirm the mode and a one-paragraph restatement of the goal with the user.
 
-### Stage 1 — Vision & elaboration
+### Stage 1 — Elaboration
 
 Ask a focused set of high-leverage clarifying questions — not an interrogation. Cover only what changes the decomposition: the core problem, target users, the few outcomes that define success, hard constraints (tech, compliance, timeline), expected scale, and **explicit non-goals**. Propose answers where the steering or codebase already implies them, and let the user correct — this respects their time.
 
-Write `docs/inception/<plan-id>/vision.md` from the `vision.md` template. Keep it tight (problem, users, outcomes, success signals, constraints, non-goals).
+**Gate 1**: Confirm the answers and this plan's non-goals with the user.
 
-`<plan-id>` = `<YYYY-MM-DD>-<project-slug>` using today's date and a short kebab-case slug of the goal.
-
-**Gate 1**: Review the vision with the user.
-
-### Stage 2 — Capability map & boundary discovery
+### Stage 2 — Boundary discovery
 
 Read `docs/settings/rules/inception-decomposition.md` (§2). Then:
 
 1. List the product's significant **domain events** (past tense) along its timeline.
 2. Identify **bounded contexts** using the linguistic-shift and pivotal-event heuristics. Tag each emerging area's subdomain as **Core / Supporting / Generic**.
-3. Produce a draft **capability/story map**: the user-visible capabilities grouped by candidate boundary.
+3. List the user-visible capabilities grouped by candidate boundary.
 
 **Gate 2 (highest-leverage gate)**: Confirm the boundaries with the user before committing to units. Boundaries are the most expensive thing to get wrong — surface them explicitly and invite disagreement.
 
@@ -95,7 +89,9 @@ Read `inception-decomposition.md` (§3, §4). Group capabilities into **Units of
 
 Validate every unit against INVEST. Split any oversized unit using Lawrence's nine patterns (§4). Prefer roughly equal-sized units; carve off low-value functionality so it can be deprioritized.
 
-Write `docs/inception/<plan-id>/units.md` from the `units.md` template.
+`<plan-id>` = `<YYYY-MM-DD>-<project-slug>` using today's date and a short kebab-case slug of the goal.
+
+Write `docs/inception/<plan-id>/units.md` from the `units.md` template, with the plan's non-goals at its head.
 
 **Gate 3**: Review the unit list, sizes, and independent-test statements with the user.
 
@@ -103,38 +99,35 @@ Write `docs/inception/<plan-id>/units.md` from the `units.md` template.
 
 Read `inception-decomposition.md` (§5, §6). Then:
 
-1. Build the **dependency matrix** (per unit: depends-on + integration method) and the **integration points** table.
+1. Build the **dependency matrix** (per unit: depends-on) and the **integration points** table.
 2. Identify the **walking-skeleton** unit (`inception-decomposition.md` §6) and sequence it first.
 3. Topologically sort the rest (dependencies first), breaking ties by priority then subdomain class. Mark genuinely independent units as parallel-capable.
-4. Confirm the graph is **acyclic** — a cycle means a boundary from Stage 2 is wrong; go back and re-cut.
+4. Confirm the matrix is **acyclic** — a cycle means a boundary from Stage 2 is wrong; go back and re-cut.
 
-Write `docs/inception/<plan-id>/dependencies.md` (matrix + a Mermaid graph + the ordered build sequence) and `docs/inception/<plan-id>/story-map.md` (every capability mapped to exactly one unit).
+Write `docs/inception/<plan-id>/dependencies.md` (matrix + integration points + the ordered build sequence).
 
-**Gate 4**: Review the build order and dependency graph with the user. Run the §7 quality checklist. When a canon layer is declared (`docs/steering/product.md §Canon References`), open the Gate 4 presentation with the canon changes, following `docs/settings/rules/canon-layer.md §Change Control`: product decisions and non-goals from the vision that the canon lacks, and registry IDs the units adopt (`Used by` += `plan: <plan-id>/U<n>`). Their commit, on GO and before Stage 5, is `docs(canon): plan <plan-id>`. In `--batch` mode they join the single end review.
+**Gate 4**: Review the build order and dependency matrix with the user. Run the §7 quality checklist. When a canon layer is declared (`docs/steering/product.md §Canon References`), open the Gate 4 presentation with the canon changes, following `docs/settings/rules/canon-layer.md §Change Control`: product decisions and non-goals that the canon lacks (a non-goal that lands there leaves the head of `units.md`), and registry IDs the units adopt (`Used by` += `plan: <plan-id>/U<n>`). Their commit, on GO and before Stage 5, is `docs(canon): plan <plan-id>`.
 
 ### Stage 5 — Scaffold child specs
 
 For each unit, in build order, create a stub SDD spec so it can enter the normal flow:
 
-1. Generate the spec directory `docs/tasks/todo/<YYYY-MM-DD>-<unit-slug>/`, resolving same-day name collisions with a numeric suffix (same convention as `/sdd-spec-init`). Check `docs/tasks/todo/` and `docs/tasks/done/` for conflicts.
-2. Write `spec.json` from `docs/settings/templates/specs/init.json`, replacing `{{FEATURE_NAME}}` and `{{TIMESTAMP}}`, setting `language` and the unit's `kind`, and filling the **`plan` linkage block**:
+1. Generate the spec directory `docs/tasks/todo/<YYYY-MM-DD>-<unit-slug>/`, resolving name conflicts as `/sdd-spec-init` does.
+2. Write `spec.json` from `docs/settings/templates/specs/init.json`, replacing `{{FEATURE_NAME}}` and `{{TIMESTAMP}}`, setting `language` and the unit's `kind` with its approvals per `docs/settings/rules/spec-kinds.md` §4, and filling the **`plan` linkage block**:
    ```json
    "plan": {
      "parent": "<plan-id>",
      "unit_id": "<U#>"
    }
    ```
-   The unit's priority and dependencies are read from the plan (`inception.json`). Leave `phase` as `initialized`.
+   The unit's priority and dependencies stay in the plan; spec.json does not copy them. Leave `phase` as `initialized`.
 3. Write `requirements.md` from `docs/settings/templates/specs/requirements-init.md`, replacing `{{PROJECT_DESCRIPTION}}` with the unit's **purpose in one sentence plus a pointer to its unit entry** (e.g. `docs/inception/<plan-id>/units.md §U7`). The unit entry is the single seat of the scope brief — do not copy responsibilities, scope lists, or test statements into the stub (`document-hygiene.md`), and do **not** pre-write EARS criteria. `/sdd-spec-requirements` reads the referenced entry at elicitation time.
-4. Record the unit → spec-directory mapping.
-
-Finally, write `docs/inception/<plan-id>/inception.json` (plan metadata + the unit→spec mapping + status).
 
 ## Important constraints
 
 - Do NOT generate per-unit requirements (EARS), research, or design here. Inception stops at boundaries, scope briefs, and sequencing. Each child spec generates its own detail later.
 - Do NOT modify anything under existing `docs/tasks/*/` specs; only create new spec directories — except deleting the `todo/` spec of a unit a re-cut drops (`inception-decomposition.md` §8).
-- Keep all artifacts in the language resolved from `--lang` / init.json. EARS keywords (when they later appear in specs) stay English; everything else follows the configured language.
+- Keep all artifacts in the language resolved from `--lang` / init.json.
 - If the goal is actually a single feature (one vertical slice, no meaningful sub-boundaries), say so and recommend `/sdd-spec-init` instead of forcing an over-decomposition.
 
 </instructions>
@@ -142,9 +135,9 @@ Finally, write `docs/inception/<plan-id>/inception.json` (plan metadata + the un
 ## Tool Guidance
 
 - **Read** `docs/settings/rules/inception-decomposition.md`, the `docs/settings/templates/inception/*` templates, `docs/settings/templates/specs/init.json` + `requirements-init.md`, and the entire `docs/steering/` directory.
-- For brownfield surveys, use Glob/Grep for a lightweight structural scan — avoid reading large files end-to-end.
+- For brownfield surveys, search file names and contents for a lightweight structural scan — avoid reading large files end-to-end.
 - **Write** plan artifacts under `docs/inception/<plan-id>/` and spec stubs under `docs/tasks/todo/`.
-- Use **WebSearch/WebFetch** only if external domain knowledge is needed to find boundaries; keep it minimal.
+- **Search the web** only if external domain knowledge is needed to find boundaries; keep it minimal.
 
 ## Output Description
 
@@ -163,6 +156,5 @@ Provide output in the configured language:
 - **SDD not initialized**: if `docs/settings/` is missing, stop and tell the user to run `/sdd-init` first.
 - **Goal too small**: if it's really one feature, recommend `/sdd-spec-init` instead of decomposing.
 - **Circular dependency detected**: stop at Gate 4, explain which boundary is implicated, and revise Stage 2/3 rather than scaffolding.
-- **Name collision**: append a numeric suffix to the unit slug (same as `/sdd-spec-init`) and note it.
 - **Template missing**: report the specific missing path and suggest re-running `/sdd-init` (Update mode) to redeploy templates.
-- **User stops at a gate**: leave already-written plan artifacts in place (they're resumable) and do not scaffold specs until Stage 5 is approved.
+- **User stops at a gate**: leave already-written plan artifacts in place (they're resumable) and do not scaffold specs until Gate 4 is approved.

@@ -1,23 +1,24 @@
 #!/bin/bash
 # Canon layer machine checks (rules: docs/settings/rules/canon-layer.md §Checks). Report-only:
-# the exit code is the finding count, not a stop signal. Generic — configure by arguments, do not edit.
+# the exit code is the finding count (at most 255), not a stop signal. Generic — configure by arguments, do not edit.
 #
 #   check_canon.sh [--root <canon-root>] check              # (a) registry-ID resolution (b) link liveness (c) keywords line (d) enumerations outside registry
 #                                                            #   (e) banned terms from the TERM domain (f) canonical terms missing from every keywords line
-#   check_canon.sh [--root <canon-root>] used-by [--write]  # verify `Used by` entries, classify IDs, suggest doc-side refs (--write appends spec:/plan: only)
+#   check_canon.sh [--root <canon-root>] used-by            # verify `Used by` entries, classify IDs, suggest doc-side refs
 #   check_canon.sh commit-scope                              # pre-commit helper: exit 2 when staged canon files are bundled with other files
 #   check_canon.sh [--root <canon-root>] terms-prh           # emit the TERM vocabulary as a prh rule file (stdout) for optional textlint integration
 set -u
-cd "$(git rev-parse --show-toplevel 2>/dev/null || pwd)" || exit 1
 
-ROOT=""; CMD=""; WRITE=0
+ROOT=""; CMD=""
+usage() { sed -n 2,9p "$0"; }
 while [ $# -gt 0 ]; do case "$1" in
-    --root) ROOT="$2"; shift 2 ;; --write) WRITE=1; shift ;;
-    check|used-by|commit-scope|terms-prh) CMD="$1"; shift ;; -h|--help) sed -n 2,10p "$0"; exit 0 ;; *) echo "unknown arg: $1" >&2; exit 1 ;;
+    --root) [ $# -ge 2 ] || { echo "--root needs a value" >&2; usage >&2; exit 1; }; ROOT="$2"; shift 2 ;;
+    check|used-by|commit-scope|terms-prh) CMD="$1"; shift ;; -h|--help) usage; exit 0 ;; *) echo "unknown arg: $1" >&2; exit 1 ;;
 esac; done
-[ -z "$CMD" ] && { sed -n 2,10p "$0"; exit 1; }
+[ -z "$CMD" ] && { usage; exit 1; }
+cd "$(git rev-parse --show-toplevel 2>/dev/null || pwd)" || exit 1
 if [ -z "$ROOT" ]; then
-    ROOT=$(grep -m1 -oE 'Canon root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Canon root:[[:space:]]*`?//; s#/$##')
+    ROOT=$(grep -m1 -oE 'Canon root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Canon root:[[:space:]]*`?//; /^\[/d; s#/$##')
     [ -z "$ROOT" ] && ROOT="docs/canon"
 fi
 REG="$ROOT/registry.md"; DEC="$ROOT/decisions"; FINDINGS=0
@@ -79,31 +80,31 @@ if [ "$CMD" = "check" ]; then
                 grep -rnF --include='*.md' -- "$t" "$d" 2>/dev/null
             done | grep -v '/archive/' | grep -vF "$REG:" | cut -d: -f1,2 | sed -E "s|$|: (e) banned term '$t' → use '$cterm'|"
         done
-        if [ -n "$cterm" ] && grep -rlqF -- "$cterm" "$DEC" 2>/dev/null; then
+        if [ -n "$cterm" ]; then
             grep -hE '^- \*\*keywords\*\*:' "$DEC"/*.md 2>/dev/null | grep -qF -- "$cterm" \
                 || echo "$REG:1: (f) canonical term '$cterm' appears in no decision keywords line"
         fi
     done >> "$OUT"
     cat "$OUT"; FINDINGS=$(wc -l < "$OUT" | tr -d ' '); rm -f "$OUT"
-    echo "check: $FINDINGS finding(s)"; exit "$FINDINGS"
+    echo "check: $FINDINGS finding(s)"; [ "$FINDINGS" -gt 255 ] && exit 255; exit "$FINDINGS"
 fi
 
 # ---------- used-by ----------
 if [ "$CMD" = "used-by" ]; then
-    DOM=$(domains); tmp=$(mktemp); PH=$(printf '\001'); printf 'ID | implemented | planned | unresolved\n'
+    PH=$(printf '\001'); printf 'ID | implemented | planned | unresolved\n'
     while IFS= read -r raw; do
-        case "$raw" in \|*) ;; *) echo "$raw" >> "$tmp"; continue ;; esac
+        case "$raw" in \|*) ;; *) continue ;; esac
         line=$(printf '%s' "$raw" | sed "s/\\\\|/$PH/g")                                       # protect escaped pipes in Norm text
         id=$(echo "$line" | awk -F'|' '{gsub(/ /,"",$2); print $2}')
         nf=$(echo "$line" | awk -F'|' '{print NF}')
-        if ! echo "$id" | grep -qE "^[A-Z][A-Z0-9]+-[0-9]+$"; then echo "$raw" >> "$tmp"; continue; fi
-        if [ "$nf" -ne 6 ]; then report "$REG: $id: row has $((nf-2)) columns, expected 4 — skipped"; echo "$raw" >> "$tmp"; continue; fi
+        echo "$id" | grep -qE "^[A-Z][A-Z0-9]+-[0-9]+$" || continue
+        if [ "$nf" -ne 6 ]; then report "$REG: $id: row has $((nf-2)) columns, expected 4 — skipped"; continue; fi
         cell=$(echo "$line" | awk -F'|' '{print $5}' | sed -E 's/^ +| +$//g'); impl=0; plan=0; unres=""
         for tok in $(echo "$cell" | grep -oE '(code|spec|plan): *[^ ]+' | sed 's/: */:/'); do
             v=${tok#*:}; case "$tok" in
               code:*) [ -e "${v%% *}" ] && impl=$((impl+1)) || unres="$unres $tok" ;;
               spec:*) if [ -d "docs/tasks/done/$v" ]; then impl=$((impl+1)); elif [ -d "docs/tasks/todo/$v" ]; then plan=$((plan+1)); else unres="$unres $tok"; fi ;;
-              plan:*) [ -f "docs/inception/${v%%/*}/inception.json" ] && plan=$((plan+1)) || unres="$unres $tok" ;;
+              plan:*) [ -f "docs/inception/${v%%/*}/units.md" ] && plan=$((plan+1)) || unres="$unres $tok" ;;
             esac
         done
         add=""                                                                                # doc-side references not yet in the cell
@@ -113,11 +114,6 @@ if [ "$CMD" = "used-by" ]; then
         done
         [ -n "$add" ] && echo "$id: suggest adding$(echo "$add" | sed 's/:/: /g') to Used by"
         printf '%s | %s | %s |%s\n' "$id" "$impl" "$plan" "${unres:- —}"
-        if [ $WRITE -eq 1 ] && [ -n "$add" ]; then
-            new=$(echo "$cell $(echo "$add" | sed 's/:/: /g')" | sed -E 's/^— //; s/  +/ /g; s/^ +| +$//g')
-            echo "$line" | awk -F'|' -v OFS='|' -v c=" $new " '{$5=c; print}' | sed "s/$PH/\\\\|/g" >> "$tmp"
-        else echo "$raw" >> "$tmp"; fi
     done < "$REG"
-    if [ $WRITE -eq 1 ]; then mv "$tmp" "$REG"; echo "used-by: registry updated"; else rm -f "$tmp"; fi
-    exit $FINDINGS
+    [ "$FINDINGS" -gt 255 ] && exit 255; exit "$FINDINGS"
 fi

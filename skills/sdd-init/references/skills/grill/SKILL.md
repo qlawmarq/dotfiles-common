@@ -3,9 +3,7 @@ name: sdd-grill
 description: >-
   Relentlessly interview the user to settle open decisions in an SDD project.
   Builds a design tree from real gaps found in steering, inception, and specs,
-  then works it in rounds until nothing is left silently assumed.
-argument-hint: "[\"topic\"] [--scope=steering|inception|spec:<feature-name>|cross]"
-disable-model-invocation: true
+  then works it in rounds until nothing is left silently assumed. Use only when the user asks for it by name.
 ---
 
 # SDD Grilling Session
@@ -43,7 +41,7 @@ Do not open with questions. Open by finding out what is actually unsettled, then
 
 Confirm SDD is initialized (`docs/settings/` exists); if not, tell the user to run `/sdd-init` first and stop. Then sweep for gaps, using index-first retrieval and dispatching sub-agents for independent lookups:
 
-- **Unapproved and stalled work** — every `docs/tasks/*/*/spec.json`: which have `approvals.*.approved: false`, which sit in an early `phase` while their dependents wait, which dependency chains in the plan (`inception.json` `depends_on`) are blocked.
+- **Unapproved and stalled work** — every `docs/tasks/*/*/spec.json`: which have `approvals.*.approved: false`, which sit in an early `phase` while their dependents wait, which dependency chains in the plan (`dependencies.md` Dependency Matrix, Build Order) are blocked.
 - **Declared open questions** — the *Assumptions & Open Questions* sections of `requirements.md`, and any open points recorded in `design.md`. These are gaps the project already admitted; they are the highest-value seeds because someone deliberately deferred them.
 - **Cross-layer contradictions** — where a spec's requirements or design conflict with `docs/steering/`, or with the unit boundary and scope recorded for it in the inception plan.
 - **Theme alignment** — whether the behavior a spec describes actually serves the product intent in `docs/steering/product.md` and respects the invariants in `docs/steering/behaviors.md`. A spec can be perfectly consistent with itself and still be the wrong thing to build. The per-spec skills apply this check by `docs/settings/rules/concept-alignment.md §The Check`; here it runs *across* specs and layers, where the per-spec gates cannot see.
@@ -138,9 +136,9 @@ Present the intended edits and get confirmation before writing.
 
 ## Tool Guidance
 
-- **Read** `docs/settings/rules/dialogue-grounding.md` first, then `docs/steering/product.md` and the indexes (`spec.json`, `inception.json`) during the Stage 0 sweep.
-- **Glob/Grep** to locate open-question sections and cross-layer contradictions — do not open large `design.md` / `research.md` files whole.
-- **Sub-agents**, via whatever delegation tool the host harness provides, for independent fact-finding — dispatched in parallel and instructed to report findings with citations rather than file contents. If the harness has no sub-agent tool, do the lookups inline but keep them index-first.
+- **Read** `docs/settings/rules/dialogue-grounding.md` first, then `docs/steering/product.md` and the indexes (`spec.json`, the plan's `units.md` Summary and `dependencies.md`) during the Stage 0 sweep.
+- **Search** file names and contents to locate open-question sections and cross-layer contradictions — do not open large `design.md` / `research.md` files whole.
+- **Sub-agents**, via whatever delegation tool the host harness provides, for independent fact-finding — dispatched in parallel and instructed to report findings with citations rather than file contents (`dialogue-grounding.md`).
 - **Edit/Write** only after the user confirms the closing summary, and only on the artifacts identified in the landing step.
 
 ## Output Description

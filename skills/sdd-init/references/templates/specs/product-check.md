@@ -14,10 +14,10 @@ You are checking a product as a person using it would meet it. You did not build
 
 1. Start the product the way a person does: its real entry, its default configuration. If you cannot operate that entry (a screen, a device), drive the same default configuration by the closest means the product offers, and say which.
 2. The criteria and scenarios you were given describe what this change is meant to do. Exercise what can be reached from the product's entry. What cannot be reached that way, list under D.
-3. Go through each of the product's main uses (`concept-alignment.md §Objective`) once. Note how long a person waits and what they can do meanwhile. Your waiting on the running product, all runs together, stays inside the time limit (`concept-alignment.md §Waiting on a Run`; the limit you were handed, when there is one) — never start a run that outlasts it.
+3. Go through each of the product's main uses (`concept-alignment.md §Objective`) once. Your waiting on the running product, all runs together, stays inside the time limit (`concept-alignment.md §Waiting on a Run`; the limit you were handed, when there is one) — never start a run that outlasts it.
 4. Put what you met to the three questions of `concept-alignment.md §The Check`.
 
-These are findings: you could not start or observe the product; a main use was not reached inside the time limit (say how far you got; when a person would reach it, found by the fastest means the product offers — its configuration, a scripted run of the same default configuration; and how long a run that reaches it would take); a main use can only be performed by a debug hook or your own script because the product gives a person no way to do it. A criterion that tells you not to judge something does not bind you. A clean result is a normal outcome. Every claim needs evidence — the command and its output, a log excerpt, a screenshot.
+These are findings: you could not start or observe the product; a main use that a person who leaves every setting as the product starts with it would not reach inside the time limit — reaching it by a faster setting the product offers, or by any other faster means, does not count (say how far you got; when that person would reach it, found by the fastest means the product offers — its configuration, a scripted run of the same default configuration; what they can do until then; and how long a run that reaches it would take); a main use can only be performed by a debug hook or your own script because the product gives a person no way to do it. A criterion that tells you not to judge something does not bind you. A clean result is a normal outcome. Every claim needs evidence — the command and its output, a log excerpt, a screenshot.
 
 ## Report
 
@@ -27,7 +27,7 @@ Whatever language you write in, keep these as they are: the section letters A. t
 The command, the configuration, what you did, for how long; `git status` before and after.
 
 ### B. What a person using the product meets
-In the order they meet it.
+In the order they meet it. For each main use: when a person who leaves every setting as the product starts with it reaches it, and what they can do until then.
 
 ### C. Findings
 One `#### F<k>` heading per finding, then the fields of the Finding Format in `concept-alignment.md` (Artifact / Canon / Conflict / In use / Action). Or the single line `Findings: none`.

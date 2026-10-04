@@ -4,7 +4,6 @@ description: >-
   Land a product decision or registry change in the canon outside a spec phase — a
   decision reached in conversation, a correction, a refactor of decision files. Runs the
   same protocol the phase skills follow, `canon-layer.md §Change Control`.
-argument-hint: "\"change description\" [--from=<spec-or-session>]"
 ---
 
 # Canon Update
@@ -28,14 +27,13 @@ No input → list the canon README's Open Questions and ask which one to land.
 
 ## Steps
 
-1. **Resolve the canon root** from `docs/steering/product.md §Canon References` (default `docs/canon/`). If none exists, propose scaffolding `README.md`, `decisions/`, `registry.md` from `docs/settings/templates/canon/` and the one-paragraph declaration in `product.md`; create only after the user confirms.
+1. **Resolve the canon root** from `docs/steering/product.md §Canon References` (default `docs/canon/`). If none exists, propose scaffolding `README.md`, `decisions/`, `registry.md` from `docs/settings/templates/canon/` and the `## Canon References` section of `product.md` (form: `docs/settings/templates/steering/product.md`); create only after the user confirms.
 2. **Locate what the change touches** — grep `keywords` lines and registry IDs JIT; never bulk-load. Name the affected decision items and IDs with paths.
 3. **Land it by `canon-layer.md §Change Control`**, drafting under its §Drafting Discipline, with the canon changes at the top of the reply. Then ask once: commit?
 4. **On yes**: run `bash docs/settings/scripts/check_canon.sh check` (report findings; they never block), then commit as `docs(canon): <slug>`. On no: revert the edited files and report what was not landed.
 
 ## Constraints
 
-- Do NOT edit `proposals/archive/` or any directory the project marks archival.
 - Do NOT invent scope: every change traces to the description, a cited gap, or a cited source.
 
 </instructions>

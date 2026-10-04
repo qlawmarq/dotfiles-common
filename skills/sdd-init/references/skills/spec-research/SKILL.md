@@ -3,7 +3,6 @@ name: sdd-spec-research
 description: >-
   Execute independent research for an SDD specification.
   Investigates existing codebase and best practices, generating research.md.
-argument-hint: "<feature-name> [-y]"
 ---
 
 # Spec Research
@@ -77,7 +76,7 @@ Do **not** load the discovery rules here — Step 2 classifies the discovery dep
 
    **full**:
    - Read and execute `docs/settings/rules/design-discovery-full.md`
-   - Conduct thorough research using WebSearch/WebFetch:
+   - Conduct thorough research on the web:
      - Latest architectural patterns and best practices
      - External dependency verification (APIs, libraries, versions, compatibility)
      - Official documentation, migration guides, known issues
@@ -107,11 +106,9 @@ Do **not** load the discovery rules here — Step 2 classifies the discovery dep
    - **Research Log** — one `C<n>` claim per finding, each with its four tag lines. A claim is typed `measured` only when `Verification` names something re-runnable.
    - **Summary / Key Findings** — may contain nothing that lacks a `C<n>` entry below. Never restate a lower bound, a partial count, or a sample as a total.
 
-   In **Summary**, record `Kind` (from spec.json) and `Discovery depth` (from Step 2).
-
    Fill the remaining sections (Unverified & Open, Architecture Pattern Evaluation, Recommendation, Risks, References) as the template describes. Each recommendation names the `C<n>` it rests on.
 
-3. **Write research.md**: Output the completed document to `{spec_path}/research.md` using the Write tool.
+3. **Write research.md**: Output the completed document to `{spec_path}/research.md`.
 
 ## Critical Constraints
 
@@ -125,8 +122,8 @@ Do **not** load the discovery rules here — Step 2 classifies the discovery dep
 ## Tool Guidance
 
 - **Read first**: Load all context (spec, steering, template, rule, gap-analysis) before taking action; read the discovery rule only after classifying the discovery depth
-- **Run things**: use Bash and the project's test/probe tooling to measure. Grep locates code; it does not establish behavior
-- **Research when uncertain**: Use WebSearch/WebFetch for external dependencies, APIs, and latest best practices
+- **Run things**: use the shell and the project's test/probe tooling to measure. Grep locates code; it does not establish behavior
+- **Research when uncertain**: Search the web for external dependencies, APIs, and latest best practices
 - **Write last**: Generate research.md only after all research and analysis complete
 
 ## Output Description

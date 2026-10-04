@@ -3,7 +3,6 @@ name: sdd-spec-init
 description: >-
   Initialize a new SDD specification with detailed project description.
   Creates directory structure and metadata for a new feature specification.
-argument-hint: "<project-description> [--kind=<kind>]"
 ---
 
 # Spec Initialization
@@ -37,7 +36,7 @@ Generate a unique feature name from the project description and initialize the s
 ## Execution Steps
 
 0. **Classify Kind**: If `--kind` was given, use it. Otherwise read `docs/settings/rules/spec-kinds.md`, then: (a) if the request meets §2 No spec needed, recommend implementing it directly and stop — go on to (b) only if the user says they want a spec; (b) classify the request, state the kind with a one-line reason, and ask the user to confirm.
-1. **Generate Date-Prefixed Name**: Create feature name in `YYYY-MM-DD-[feature-name]` format using today's date (e.g., `2026-02-02-add-auth`). If same-day duplicates exist, append sequence number (e.g., `2026-02-02-01-add-auth`).
+1. **Generate Date-Prefixed Name**: Create feature name in `YYYY-MM-DD-[feature-name]` format using today's date (e.g., `2026-02-02-add-auth`).
 2. **Check Uniqueness**: Verify `docs/tasks/todo/` and `docs/tasks/done/` for naming conflicts
 3. **Create Directory**: `docs/tasks/todo/[date-prefixed-feature-name]/`
 4. **Initialize Files Using Templates**:
@@ -90,5 +89,5 @@ Provide output in the language from `docs/settings/templates/specs/init.json` `l
 
 - **Ambiguous Feature Name**: If feature name generation is unclear, propose 2-3 options and ask user to select
 - **Template Missing**: If template files don't exist in `docs/settings/templates/specs/`, report error with specific missing file path and suggest checking repository setup
-- **Directory Conflict**: If feature name already exists, append numeric suffix (e.g., `feature-name-2`) and notify user of automatic conflict resolution
+- **Directory Conflict**: If feature name already exists, append numeric suffix (e.g., `2026-02-02-add-auth-2`) and notify user of automatic conflict resolution
 - **Write Failure**: Report error with specific path and suggest checking permissions or disk space

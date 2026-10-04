@@ -3,7 +3,6 @@ name: sdd-validate-requirements
 description: >-
   Interactive requirements quality review and validation.
   Detects gold-plating (unrequested features), ambiguity, and scope creep before they propagate.
-argument-hint: "<feature-name> [--batch]"
 ---
 
 # Requirements Validation

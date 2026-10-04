@@ -237,7 +237,7 @@ if [ -f "$SPEC/behaviors.md" ]; then
         if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then git ls-files -co --exclude-standard
         else find . \( -path ./.git -o -path ./docs -o -name node_modules \) -prune -o -type f -print | sed 's#^\./##'; fi \
             | grep -v '^docs/' > "$TMP/files"
-        tr '\n' '\0' < "$TMP/files" > "$TMP/files0"
+        tr '\n' '\0' < "$TMP/files" > "$TMP/files0"; sed -nE 's#.*/##; s#^[^.]+##; s#.*(\.[^.]+)$#\1#p' "$TMP/files" | sort -u > "$TMP/exts"
         while IFS= read -r p; do ticks "$p" | while IFS= read -r t; do is_path "$t" || [ "${t#*::}" != "$t" ] || testkey "$t"; done; done < "$TMP/ptrs" | sort -u > "$TMP/names"
         [ -s "$TMP/names" ] && xargs -0 grep -hoFw -f "$TMP/names" -- < "$TMP/files0" 2>/dev/null | sort -u > "$TMP/found"
     fi
@@ -260,8 +260,10 @@ if [ -f "$SPEC/behaviors.md" ]; then
                 # every file-shaped word exists; of the name-shaped words (other words, e.g. a commit, may sit among them) at least one is found
                 nf=0; nn=0; hit=0; names=""
                 while IFS= read -r t; do
-                    if is_path "$t" || [ "${t#*::}" != "$t" ]; then nf=$((nf + 1)); p=$(bare_path "$t")
-                        fp=$(testfile "$p"); [ -n "$fp" ] || { fail "$bf:$ln: test file $p does not exist"; continue; }
+                    if is_path "$t" || [ "${t#*::}" != "$t" ]; then p=$(bare_path "$t"); fp=$(testfile "$p")
+                        # a dotted word that is no file and ends in no file extension of the repository (Suite.case) is a name
+                        [ -n "$fp" ] || [ "$p" != "$t" ] || [ "${t#*/}" != "$t" ] || grep -qxF -- ".${t##*.}" "$TMP/exts" || ! found "$t" || { nn=$((nn + 1)); hit=1; continue; }
+                        nf=$((nf + 1)); [ -n "$fp" ] || { fail "$bf:$ln: test file $p does not exist"; continue; }
                         nm=${t#*::}; [ "$nm" != "$t" ] && { grep -qwF -- "$nm" "$fp" || fail "$bf:$ln: test $nm not found in $p"; }
                     else nn=$((nn + 1)); names="$names $t"; [ $hit -eq 1 ] || { found "$(testkey "$t")" && hit=1; }
                     fi

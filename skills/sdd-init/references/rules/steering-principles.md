@@ -38,7 +38,7 @@ Never admitted: secrets (API keys, passwords, credentials, database URLs, intern
 
 One domain per file. A decision carries its rationale.
 
-- **product.md**: purpose, users, target use cases, core capabilities, value, scope and Out of Scope; where the canon lives, when one exists (its location, never its contents).
+- **product.md**: purpose, users, target use cases, core capabilities, value, scope, and Out of Scope when the product keeps one; where the canon lives, when one exists (its location, never its contents).
 - **tech.md**: architecture, key frameworks, and the technical decisions that shape code — not versions or dependency lists.
 - **structure.md**: organization patterns, directory roles, naming and import rules — not directory trees.
 - **behaviors.md**: cross-spec behavior invariants, one line each: `statement — Grounds: <citation> / Verify: <test or probe>`. An invariant from a spec is promoted only when it is **product-level** (the product's purpose or philosophy, not an implementation detail), **cross-spec** (a future spec could plausibly violate it), and **verified** (its evidence exists). Scenario bodies stay in the spec and the test suite.

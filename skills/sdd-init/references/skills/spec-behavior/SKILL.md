@@ -3,7 +3,6 @@ name: sdd-spec-behavior
 description: >-
   Formulate concrete behavior scenarios (BDD) for an SDD specification.
   Grounds every scenario in the product's purpose and philosophy, catching concept drift before design.
-argument-hint: "<feature-name> [-y]"
 ---
 
 # Behavior Formulation
@@ -93,7 +92,7 @@ Provide output in the language specified in spec.json:
 2. **Concept Findings**: canon conflicts found (in `concept-alignment.md` format) or "none — all scenarios grounded"
 3. **Open Questions**: what remains logged, and what was resolved in dialogue
 4. **Document Status**: behaviors.md written, spec.json updated
-5. **Next Steps**: `/sdd-spec-research <feature-name>` (or `/sdd-spec-design <feature-name> -y` for simple features)
+5. **Next Steps**: `/sdd-spec-research <feature-name>`
 
 **Format**: Concise Markdown, under 300 words
 

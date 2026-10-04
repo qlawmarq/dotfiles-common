@@ -4,7 +4,6 @@ description: >-
   Answer questions about an SDD project by reading across steering, inception, and every spec.
   Use when the user asks what was decided about something, where the project currently stands,
   what is blocking progress, or what needs deciding next — anything that spans more than one spec.
-argument-hint: "[\"question\"] [--scope=steering|inception|spec:<feature-name>|all]"
 ---
 
 # SDD Project Briefing
@@ -47,7 +46,7 @@ A topic lookup. The answer lives somewhere specific and the work is finding it.
 1. Grep for the user's own domain term across `docs/steering/`, `docs/inception/`, and `docs/tasks/` — and across the canon root when `product.md §Canon References` declares one, since that is where product decisions actually live. Use the vocabulary they used; follow the terms the documents use for each other.
 2. Follow cross-references between layers. A decision recorded in steering is usually applied in a spec, and a spec usually cites the steering or unit that constrains it — the fastest path between layers is the reference the documents already contain.
 3. Report the decision, where it is recorded, and — when it matters — where it is *applied*. Note supersession: if a later spec or steering file changed an earlier decision, say which is current.
-4. **Report what is in force, not what is drafted.** In the canon, committed text is the decision (`docs/settings/rules/canon-layer.md`); uncommitted working-tree edits and README Open Questions are not — check `git status -- <canon-root>` and say plainly when the honest answer is "edited, not yet committed" or "still an open question". `proposals/archive/`, where it exists, is history, not the current view.
+4. **Report what is in force, not what is drafted.** In the canon, committed text is the decision (`docs/settings/rules/canon-layer.md`); uncommitted working-tree edits and README Open Questions are not — check `git status -- <canon-root>` and say plainly when the honest answer is "edited, not yet committed" or "still an open question".
 
 ### Shape B — "Where does the project stand?"
 
@@ -57,10 +56,10 @@ A cross-spec status report. This is the horizontal counterpart to `/sdd-spec-sta
 2. For each: `kind`, `phase`, `approvals.*.approved`, and the `plan` block (`parent`, `unit_id`); for a `verify` spec, read `verdict.md` when it exists.
 3. For specs with a `tasks.md`, count `- [x]` against `- [ ]` for implementation progress.
 4. Assemble: what is in flight, what is blocked and on what, what is done, and which unfinished specs nothing depends on.
-5. If an inception plan exists, read its `inception.json` for the unit→spec map and each unit's `priority` and `depends_on`, and report progress against the intended build order.
+5. If an inception plan exists, read its `units.md` Summary for each unit's priority and `dependencies.md` (Dependency Matrix, Build Order) — each spec's `plan` block maps it to its unit — and report progress against the build order.
 6. List the `user` scenarios whose record does not exist yet with `bash docs/settings/scripts/check_completion.sh outstanding` — do not read the behaviors files for them.
 
-Flag anything that looks stalled — a spec sitting in an early phase while specs whose units declare its unit in `depends_on` are further along — but report it as an observation, not a verdict.
+Flag anything that looks stalled — a spec sitting in an early phase while specs whose units depend on its unit (Dependency Matrix) are further along — but report it as an observation, not a verdict.
 
 ### Shape C — "What should I decide next?"
 
@@ -92,17 +91,17 @@ Order by what unblocks the most: a decision that several specs depend on outrank
 
 ## Tool Guidance
 
-- **Read** `docs/settings/rules/dialogue-grounding.md`, then the indexes: `spec.json` files, `inception.json`, `docs/steering/product.md`.
-- **Grep/Glob** for topic lookups and for locating open-question sections — search headings before bodies.
-- **Sub-agents**, via whatever delegation tool the host harness provides, to run independent lookups in parallel — instructed to report findings with citations rather than file contents. If the harness has no sub-agent tool, do the lookups inline but keep them index-first.
-- **Never** Edit, Write, or NotebookEdit.
+- **Read** `docs/settings/rules/dialogue-grounding.md`, then the indexes: `spec.json` files, the plan's `units.md` Summary and `dependencies.md` (Dependency Matrix, Build Order), `docs/steering/product.md`.
+- **Search** file names and contents for topic lookups and for locating open-question sections — search headings before bodies.
+- **Sub-agents**, via whatever delegation tool the host harness provides, to run independent lookups in parallel — instructed to report findings with citations rather than file contents (`dialogue-grounding.md`).
+- **Never** edit or create files.
 
 ## Output Description
 
 Provide output in the project's configured language, resolved in this order: if `--scope=spec:<feature-name>`, that spec's `spec.json` `language`; otherwise `docs/settings/templates/specs/init.json` `language`; failing both, `ja`.
 
 - **Shape A**: the answer, its citation, where it is applied, and current-vs-superseded if relevant.
-- **Shape B**: a compact table — spec | kind | phase | approvals | depends_on | progress — plus the `user` scenarios not yet run, a short prose read of what is in flight, blocked, and stalled, and the recommended next action.
+- **Shape B**: a compact table — spec | kind | phase | approvals | depends on | progress — plus the `user` scenarios not yet run, a short prose read of what is in flight, blocked, and stalled, and the recommended next action.
 - **Shape C**: the open decisions ordered by how much each unblocks, each with its citation, ending with a pointer to `/sdd-grill`.
 
 **Format**: Markdown, proportionate to the question. Tables only for enumerable facts; explanation in prose around them.

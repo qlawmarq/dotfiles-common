@@ -34,7 +34,7 @@ A detail bullet names the design block it realizes (for example `per design §<C
 - Connect to the overall system (no hanging features)
 - Progress incrementally (no big jumps in complexity)
 - Validate core functionality early in sequence
-- Respect architecture boundaries defined in the design's structure section
+- Respect the architecture boundaries the design defines
 - Honor interface contracts documented in design.md
 - Use major task summaries sparingly—omit detail bullets if the work is fully captured by child tasks.
 
@@ -119,7 +119,7 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
 ### Parallel Analysis (default)
 
 - Assume parallel analysis is enabled unless explicitly disabled (e.g. `--sequential` flag); conditions, marking, and grouping: `docs/settings/rules/tasks-parallel-analysis.md`.
-- Validate that identified parallel tasks operate within separate boundaries defined in the design's structure section.
+- Validate that identified parallel tasks operate within separate boundaries the design defines.
 - Confirm API/event contracts from design.md do not overlap in ways that cause conflicts.
 
 ### Checkbox Format

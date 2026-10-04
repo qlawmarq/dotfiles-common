@@ -3,9 +3,7 @@ name: sdd-director
 description: >-
   Hold the product's direction during implementation, with the project's documents as the source of truth.
   Rules on inquiries from implementers, fixes the design, takes upstream changes to the user,
-  and keeps documents and code in step.
-argument-hint: "[feature-name | \"topic\"]"
-disable-model-invocation: true
+  and keeps documents and code in step. Use only when the user asks for it by name.
 ---
 
 # SDD Director
@@ -99,13 +97,13 @@ Otherwise hold it and say what is missing. The completion mark (`[x]` in tasks.m
 
 ## Delegating work
 
-The Director does not run phase skills in its own context: every run brings the files and command output it reads into this session, which then has to be compacted (§After compaction or resume). Checking a report against the evidence (Standing rule 3) stays with the Director. Delegate the runs instead, writing each instruction as in §Giving instructions:
+The Director does not run phase skills in its own context: every run brings the files and command output it reads into this session, which then has to be summarized (§After summarization or resume). Checking a report against the evidence (Standing rule 3) stays with the Director. Delegate the runs instead, via whatever delegation tool the host harness provides (with no sub-agents: `concept-alignment.md §Product Check`), writing each instruction as in §Giving instructions:
 
-- **An implementation task**: dispatch one subagent per task, instructed to invoke `/sdd-spec-impl <feature-name> <task-number>` through its Skill tool, to stop before marking the task complete, and to return the three-part report. When you accept the work (§Task authorization), send the same subagent a message to set the `[x]` mark. Work sent back becomes a fix task (`concept-alignment.md §Findings`), dispatched like any other task.
+- **An implementation task**: dispatch one subagent per task, instructed to invoke the skill `/sdd-spec-impl <feature-name> <task-number>`, to stop before marking the task complete, and to return the three-part report. When you accept the work (§Task authorization), send the same subagent a message to set the `[x]` mark. Work sent back becomes a fix task (`concept-alignment.md §Findings`), dispatched like any other task.
 - **Any other phase skill run without the user** (research, a validate skill): the same way, one subagent per run, with the feature name and, where the skill has it, `--batch`, since no user is there to answer.
 - **Phase skills that talk with the user** (requirements, behaviors, design, tasks) stay with the user in a session of their own.
 
-A subagent starts with an empty context, loads the project instructions, and has the Skill tool. Tell it explicitly to invoke the skill; otherwise it may do the work without the skill's procedure, and the steering it loads is then whatever it chose to read. Only its final report enters this session. When it stops with a question, rule on it (§Inquiries) and send the answer to the same subagent; it resumes with its context intact.
+A subagent starts with an empty context, loads the project instructions, and can invoke skills. Tell it explicitly to invoke the skill; otherwise it may do the work without the skill's procedure, and the steering it loads is then whatever it chose to read. Only its final report enters this session. When it stops with a question, rule on it (§Inquiries) and send the answer to the same subagent; it resumes with its context intact.
 
 A message to another session (§Inquiries) is plain text on arrival: it cannot invoke a skill there, clear that session's context, or approve anything. Use messages for inquiries and rulings, never to start work in another session.
 
@@ -140,16 +138,16 @@ Reply in this form:
 - Where it landed (document and section)
 - What happens next, including authorization of the next task
 
-## After compaction or resume
+## After summarization or resume
 
 Before answering anything:
 
 1. Re-read these instructions.
 2. Re-read the spec documents (§Methodology).
 3. Run `git log -- <spec-path>`: the commit log is the ledger of what was ruled.
-4. Tell the user, in one message, what you now hold as pending: inquiries awaiting a ruling, items waiting on the user, and the next task to authorize. The user sees only that the conversation was compacted, not what the summary dropped; this list is how they supply what is missing.
+4. Tell the user, in one message, what you now hold as pending: inquiries awaiting a ruling, items waiting on the user, and the next task to authorize. The user cannot see what the summary dropped; this list is how they supply what is missing.
 
-Never write rulings or hand-offs into auto-memory; their seats are the spec documents and git. When you have no means to check something yourself, say so and ask the implementer for the result file.
+Never write rulings or hand-offs into memory the harness keeps across sessions; their seats are the spec documents and git. When you have no means to check something yourself, say so and ask the implementer for the result file.
 
 ## Language
 
@@ -171,7 +169,6 @@ Provide all output in the language resolved in §Language.
 2. **Documents read**: the list
 3. **Spec state** (with a feature name): kind and phase from spec.json, and the unfinished tasks in tasks.md
 4. **Open questions and assumptions**: each with its citation
-5. The line: "To give this session a stable name: `/rename director-<feature-name>`"
 
 Then wait for inquiries.
 

@@ -16,7 +16,6 @@
 
 ## Overview 
 2-3 paragraphs max
-**Purpose**: This feature delivers [specific value] to [target users].
 **Users**: [Target user groups] will utilize this for [specific workflows].
 **Impact** (if applicable): Changes the current [system state] by [specific modifications] (effects on the current system only — never a summary of a contract).
 

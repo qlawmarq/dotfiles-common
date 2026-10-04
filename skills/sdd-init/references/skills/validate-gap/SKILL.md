@@ -3,7 +3,6 @@ name: sdd-validate-gap
 description: >-
   Analyze implementation gap between requirements and existing codebase.
   Evaluates multiple implementation approaches for brownfield projects.
-argument-hint: "<feature-name>"
 ---
 
 # Implementation Gap Validation
@@ -48,7 +47,7 @@ Analyze implementation gap for the specified feature based on approved requireme
 4. **Execute Gap Analysis**:
    - Follow gap-analysis.md framework for thorough investigation
    - Analyze existing codebase using search and read tools
-   - Use WebSearch/WebFetch for external dependency research if needed
+   - Search the web for external dependency research if needed
    - Evaluate multiple implementation approaches (extend/new/hybrid)
    - Use language specified in spec.json for output
 
@@ -72,7 +71,7 @@ Analyze implementation gap for the specified feature based on approved requireme
 
 - **Read first**: Load all context (spec, steering, rules) before analysis
 - **Search extensively**: Examine codebase for patterns, conventions, and integration points
-- **WebSearch/WebFetch**: Research external dependencies and best practices when needed
+- **Web search**: Research external dependencies and best practices when needed
 - **Write last**: Generate analysis only after complete investigation
 
 ## Output Description
@@ -100,7 +99,7 @@ Provide output in the language specified in spec.json with:
 
 ### Next Phase: Research & Discovery
 
-The workflow is **Requirements → Behaviors → Gap (optional) → Research → Validate Research → Design → Tasks**. Gap analysis surfaces "Research Needed" items; the research phase resolves them and `/sdd-validate-research` checks that they were actually resolved rather than assumed. Do NOT skip research and jump to design.
+Phase order: `docs/settings/rules/spec-kinds.md` §4. Gap analysis surfaces "Research Needed" items; the research phase resolves them and `/sdd-validate-research` checks that they were actually resolved rather than assumed. Do NOT skip research and jump to design.
 
 **If Gap Analysis Complete**:
 

@@ -6,7 +6,7 @@ EARS (Easy Approach to Requirements Syntax) is the standard format for acceptanc
 
 EARS patterns describe the logical structure of a requirement (condition + subject + response) and are not tied to any particular natural language.  
 All acceptance criteria should be written in the target language configured for the specification (for example, `spec.json.language` / `ja`).  
-Keep EARS trigger keywords and fixed phrases in English (`When`, `If`, `While`, `Where`, `The system shall`, `The [system] shall`) and localize only the variable parts (`[event]`, `[precondition]`, `[trigger]`, `[feature is included]`, `[response/action]`) into the target language. Do not interleave target-language text inside the trigger or fixed English phrases themselves.
+Keep EARS trigger keywords and fixed phrases in English (`When`, `If`, `then`, `While`, `Where`, `The system shall`, `The [system] shall`) and localize only the variable parts (`[event]`, `[precondition]`, `[trigger]`, `[feature is included]`, `[response/action]`) into the target language. Do not interleave target-language text inside the trigger or fixed English phrases themselves.
 
 ## Primary EARS Patterns
 
@@ -24,7 +24,7 @@ Keep EARS trigger keywords and fixed phrases in English (`When`, `If`, `While`, 
 
 ### 3. Unwanted Behavior Requirements
 
-- **Pattern**: If [trigger], the [system] shall [response/action]
+- **Pattern**: If [trigger], then the [system] shall [response/action]
 - **Use Case**: System response to errors, failures, or undesired situations
 - **Example**: If invalid credit card number is entered, then the website shall display error message
 

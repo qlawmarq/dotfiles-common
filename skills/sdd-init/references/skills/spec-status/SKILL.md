@@ -3,7 +3,6 @@ name: sdd-spec-status
 description: >-
   Show specification status and progress for an SDD feature.
   Displays current phase, completion percentages, and next actions.
-argument-hint: "[feature-name]"
 ---
 
 # Specification Status
@@ -57,7 +56,7 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 - **Research**: Check if `research.md` exists (✅ completed / ⏳ pending)
 - **Design**: Check that the sections of the kind's design template are present (`spec-kinds.md` §4)
 - **Tasks**: Count completed vs total tasks (parse `- [x]` vs `- [ ]`). Implementation progress comes from these checkboxes, not from `phase`; when every task of a spec in `todo/` is `[x]`, the next action is `/sdd-spec-done <feature-name>`
-- **Verdict** (kind `verify`): the verdict per question from `verdict.md` §Summary, or absent
+- **Verdict** (kind `verify`): the verdict per question from the `**Verdict:**` line of each `verdict.md` question, or absent
 - **Approvals**: Check approval status in spec.json; an absent approval key (such as `approvals.behaviors`) reads as `n/a`
 
 ### Step 3: Generate Report

@@ -4,7 +4,6 @@ description: >-
   Finalize an SDD feature: verify implementation quality, move spec to done, and commit.
   Runs lint/test/build checks, an independent criteria audit and product check, routes every finding,
   completes the feature, then checks project steering against what the feature changed.
-argument-hint: "<feature-name>"
 ---
 
 # Feature Completion
@@ -94,7 +93,7 @@ Prints one line per numbered acceptance criterion: `N.M<TAB>text`.
 
 **② Independent auditor**
 
-Dispatch **one new sub-agent**, via whatever delegation tool the host harness provides. Pass it the extracted criteria list (the output of ①) and the instruction below, verbatim — and nothing else: no upstream history, no summary of the spec, no impressions of your own. It reads the repository's code and tests. The prohibition on other documents is in the instruction; no tool restriction is applied. For a `chore` whose deliverable is a document, name that document in the instruction as an auditable artifact.
+Dispatch **one new sub-agent**, via whatever delegation tool the host harness provides (with no sub-agents: `concept-alignment.md §Product Check`). Pass it the extracted criteria list (the output of ①) and the instruction below, verbatim — and nothing else: no upstream history, no summary of the spec, no impressions of your own. It reads the repository's code and tests. The prohibition on other documents is in the instruction; no tool restriction is applied. For a `chore` whose deliverable is a document, name that document in the instruction as an auditable artifact.
 
 Auditor instruction:
 
@@ -130,7 +129,7 @@ Exit 0 prints `OK: <count> criteria covered`. Exit 1 prints `MISSING: <ID>` (std
 
 **④ Routing by the lead**
 
-With every document and the canon loaded, classify each non-HOLDS item of `criteria-audit-<n>.md` one at a time. **Gather the evidence first (file:line quotes of the decision and of the code); choose the class last.**
+With every document loaded, classify each non-HOLDS item of `criteria-audit-<n>.md` one at a time. **Gather the evidence first (file:line quotes of the decision and of the code); choose the class last.**
 
 | Class | Condition |
 | --- | --- |
@@ -248,7 +247,7 @@ Runs only when 2a and 2d–2f passed in this run; otherwise it is not run, and t
 **The message to the user (one, before GO)**: the details stay in the report files; each item takes 1–3 lines.
 
 1. **What needs the user's decision**
-   - Every A, B, C, D and unclosed E of 2b — each with its ID, class, evidence, and the proposed action (A: previous → new criterion text; B: code fix by default, or "fix the criterion"; C: implement / withdraw the decision; D: the proposed canon change, presented per `canon-layer.md §Change Control`; E: proceed as is / fix the criterion). The canon confirmation for D items is taken here, not after GO in Step 6.
+   - Every A, B, C, D and unclosed E of 2b — each with its ID, class, evidence, and the proposed action (A: previous → new criterion text; B: code fix by default, or "fix the criterion"; C: implement / withdraw the decision; D: the proposed canon change, presented per `canon-layer.md §Change Control`; E: proceed as is / fix the criterion). The canon confirmation for D items is taken here, and the change is committed on that answer (`canon-layer.md §Change Control` 5).
    - Every product-check finding still `open`: the reviewer's `In use:` line — its `Conflict:` line where there is none — word for word, then one line with your proposed answer (with the refutation, when you hold one). For a main use not reached inside the time limit: how long a run that reaches it would take, and the ways to shorten it (`concept-alignment.md §Waiting on a Run`) — no longer run starts before the user's answer.
    - In a run where 2a and 2d–2f passed: every `user` scenario of behaviors.md without its `probe/user-S<N>.md` — what to do and what should happen (`concept-alignment.md §User Check`), and whether the spec may complete with S<N> `not run`.
    - A verdict other than `holds` (2j).
@@ -304,12 +303,7 @@ Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the S
 
 #### 4d. Inception Sync (when the spec belongs to a plan)
 
-If `spec.json` carries a `plan` block, update `docs/inception/<parent>/` to reflect completion:
-
-- In `units.md`, repoint the unit's Summary-row Spec link from `todo/` to `done/` and, when the file keeps per-unit detail blocks, delete the completed unit's block — the Summary row and the done spec are the record.
-- In `inception.json`, repoint the unit's `spec_dir` from `todo/` to `done/`, and update its `status` when that field exists.
-
-These files are staged with the feature commit (4f); they are part of completing the unit.
+If `spec.json` carries a `plan` block and `docs/inception/<parent>/units.md` keeps per-unit detail blocks, delete the completed unit's block — the Summary row and the done spec are the record. The edit is staged with the feature commit (4f); it is part of completing the unit.
 
 #### 4e. Detect Commit Message Style
 
@@ -359,9 +353,7 @@ If `docs/steering/product.md §Canon References` declares a canon root, follow `
 1. **`Used by`**: for every registry ID this feature adopted (rows carrying `spec: <this-feature>` plus IDs its code references), append `code: <path Symbol>` in `<canon-root>/registry.md`. The `spec:` entry stays — the spec now lives in `done/`, so the script classifies it as implemented.
 2. **Orphans**: grep the enums / const catalogs this feature touched; an identifier with no registry row is reported. Norm → propose the row in the Canon changes section; implementation detail → ignore; unsure → an Open Question in the canon README. Never silently adopt or delete a norm.
 3. Run `bash docs/settings/scripts/check_canon.sh check` and report its findings.
-4. The commit is `docs(canon): sync after <feature-name>`. Nothing changed → report "Canon current".
-
-Canon changes for 2b's D items were already confirmed in the Step 3 message; do not ask for them again here.
+4. When this step changed the canon, present the Canon changes section and ask once — commit? On yes, commit as `docs(canon): sync after <feature-name>`; on no, revert (`canon-layer.md §Change Control` 5) and report what was not landed. Nothing changed → report "Canon current".
 
 ## Critical Constraints
 
@@ -370,24 +362,24 @@ Canon changes for 2b's D items were already confirmed in the Step 3 message; do 
 - **Independent criteria audit**: The auditor receives only the criteria list and reads only code and tests; routing is the lead's job, evidence first and class last. No quota or cap on the number of findings
 - **Independent product check**: The reviewer receives only what `product-check.md` lists (`concept-alignment.md §Product Check`); who closes its findings: `concept-alignment.md §Findings` 5
 - **No A from code alone**: A requires a decision recorded after the requirements, quoted by file:line
-- **One message, before GO**: Everything that needs the user is asked in the one Step 3 message — the question before a third product check (2k) is the one exception; nothing is asked when nothing needs the user. A B still resolved as a code fix, a C the user chose to implement, or a product-check finding left to be fixed means NO-GO
+- **One message, before GO**: Everything that needs the user before GO is asked in the one Step 3 message — the question before a third product check (2k) is the one exception; nothing is asked when nothing needs the user. A B still resolved as a code fix, a C the user chose to implement, or a product-check finding left to be fixed means NO-GO
 - **Completion record**: GO requires `check_completion.sh {spec_path}` to exit 0; a finding the user has closed does not block it
 - **Requirements changes are visible**: Every criterion changed is shown previous → new under `## Requirements changes` at the top of the reply and listed as `Reconciled:` in the feature commit body (`document-hygiene.md`, one fact, one seat)
 - **No auto-push**: Commit locally only; pushing is the user's responsibility
 - **Scoped commits**: Only stage changes related to this feature
-- **Non-destructive**: If anything fails, the spec stays in `todo/`; the only writes are under `reviews/`, the user's answers under `probe/`, and what a finding's route calls for in Step 3 (a fix task in tasks.md, or a document edited for re-approval)
+- **Non-destructive**: If anything fails, the spec stays in `todo/`; the only writes are under `reviews/`, the user's answers under `probe/`, and what a finding's route calls for in Step 3 (`concept-alignment.md §Findings`)
 - **Steering sync never blocks**: Step 5 runs only after the feature is committed and is never a GO/NO-GO gate
-- **Canon sync never blocks**: Step 6 runs after the feature is committed (the canon confirmation for 2b's D items is taken in Step 3 instead), follows `canon-layer.md §Change Control`, and lands in its own `docs(canon):` commit
+- **Canon sync never blocks**: Step 6 runs after the feature is committed, follows `canon-layer.md §Change Control`, and lands in its own `docs(canon):` commit only when confirmed (Step 6 item 4)
 
 </instructions>
 
 ## Tool Guidance
 
 - **Read first**: Load all context (spec, steering, implementation) before verification
-- **Bash for checks**: Execute lint, test, and build commands via Bash
+- **Shell for checks**: Execute lint, test, and build commands in the shell
 - **Grep/Read for traceability**: Search codebase for requirement and design evidence
-- **Bash for git**: Use git commands for commit style detection, staging, and committing
-- **Edit for steering**: Apply the changes confirmed in Step 5 to `docs/steering/*.md` with Edit
+- **Shell for git**: Use git commands for commit style detection, staging, and committing
+- **Edit for steering**: Apply the changes confirmed in Step 5 to `docs/steering/*.md`
 
 ## Output Description
 
@@ -408,7 +400,7 @@ Provide output in the language specified in spec.json:
 3. **Completion Actions**: Confirm spec moved and commit created
 4. **Commit Details**: Show commit hash and message
 5. **Steering Sync**: One of — "Steering current — no update needed", "Steering updated (separate commit `<hash>`)", or "Steering update declined"
-6. **Canon Sync** (when a canon layer exists): "Canon current", or the Canon changes landed (commit hash), orphans routed, and `check_canon.sh` findings
+6. **Canon Sync** (when a canon layer exists): "Canon current", or the Canon changes landed (commit hash) or declined and reverted, orphans routed, and `check_canon.sh` findings
 
 **Format**: Concise Markdown, under 300 words (the Step 3 message is not counted)
 

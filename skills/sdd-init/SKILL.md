@@ -3,7 +3,6 @@ name: sdd-init
 description: >-
   Initialize SDD (Spec-Driven Development) in the current project.
   Deploys rules, templates, skills, and project configuration from user-level SDD resources.
-argument-hint: "[--lang=ja] [--target=claude|agents|all] [--force]"
 ---
 
 # SDD Project Initialization
@@ -65,7 +64,7 @@ All mechanical file operations are handled by `sdd-init.sh` located alongside th
 
 ### Step 0: Pre-flight Checks
 
-Run a single Bash command to gather all pre-flight information:
+Run a single shell command to gather all pre-flight information:
 
 ```bash
 echo "git_root=$([ -d .git ] && echo yes || echo no) sdd_exists=$([ -d docs/settings ] && echo yes || echo no)"
@@ -91,7 +90,7 @@ If `--target` was NOT provided as an argument:
 
 ### Step 2: Execute Initialization
 
-Resolve paths and run the helper script in a single Bash call:
+Resolve paths and run the helper script in a single shell command:
 
 ```bash
 SKILL_DIR="<resolved_skill_dir>"
@@ -110,21 +109,21 @@ The script outputs a structured report between `===SDD_INIT_REPORT===` and `===E
 
 ### Step 3: Output Summary
 
-Parse the structured report and generate a summary. Do NOT use Read or Edit tools — all information is in the script output.
+Parse the structured report and generate a summary. Do NOT read or edit files — all information is in the script output.
 
 ## Important Constraints
 
 - DO NOT modify any files inside `docs/tasks/` (preserves existing specifications)
-- DO NOT use Read, Edit, or Write tools for file operations — the helper script handles everything
+- DO NOT read, edit, or write files yourself — the helper script handles everything
 - Use absolute paths for source paths to ensure reliability
 
 </instructions>
 
 ## Tool Guidance
 
-- Use **Bash** (1 call) for pre-flight checks in Step 0
-- Use **Bash** (1 call) to run `sdd-init.sh` in Step 2
-- Do NOT use Read, Edit, Write, or Glob — the helper script handles all file operations
+- Run **one shell command** for pre-flight checks in Step 0
+- Run `sdd-init.sh` in **one shell command** in Step 2
+- Do NOT read, edit, write, or search for files — the helper script handles all file operations
 
 ## Output Description
 

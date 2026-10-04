@@ -3,7 +3,6 @@ name: sdd-validate-tasks
 description: >-
   Interactive task quality review and validation.
   Ensures consistency across documentation and readiness for implementation.
-argument-hint: "<feature-name> [--batch]"
 ---
 
 # Task Validation

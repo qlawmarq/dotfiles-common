@@ -10,9 +10,6 @@
 ---
 
 ## Summary
-- **Feature**: `<feature-name>`
-- **Kind**: <from spec.json>
-- **Discovery depth**: full | light | minimal
 - **Key Findings**: 3 at most, each naming the `C<n>` it comes from.
   - `C1` — Finding
   - `C2` — Finding

@@ -3,7 +3,6 @@ name: sdd-spec-design
 description: >-
   Create comprehensive technical design for an SDD specification.
   Translates requirements (WHAT) into architectural design (HOW).
-argument-hint: "<feature-name> [-y]"
 ---
 
 # Technical Design
@@ -63,7 +62,7 @@ Write technical design document for the specified feature based on approved requ
 
 ### Step 2: Apply Research Context
 
-**Use the research results from `research.md` as design input. Do NOT conduct independent discovery or external research (no discovery depth classification, no Discovery process, no WebSearch/WebFetch) — that work belongs to `/sdd-spec-research`.**
+**Use the research results from `research.md` as design input. Do NOT conduct independent discovery or external research (no discovery depth classification, no Discovery process, no web search or fetch) — that work belongs to `/sdd-spec-research`.**
 
 1. **If `research.md` was loaded in Step 1**:
    - Extract key findings: architecture patterns, technology decisions, integration points, risks, and design recommendations
@@ -119,7 +118,7 @@ Design rarely produces canon-level content — architecture belongs in steering 
 ## Tool Guidance
 
 - **Read first**: Load all context before taking action (specs, `research.md`, steering, templates, rules)
-- **No WebSearch/WebFetch**: `research.md` is the sole source of discovery context here
+- **No web search or fetch**: `research.md` is the sole source of discovery context here
 - **Analyze existing code**: Use Grep to find patterns and integration points in codebase
 - **Write last**: Generate design.md only after loading all context including research findings
 

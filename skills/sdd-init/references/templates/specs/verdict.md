@@ -3,12 +3,6 @@
 <!-- The deliverable of a verify spec. Vocabulary and the over-claim rule: docs/settings/rules/spec-kinds.md.
 Raw records stay in probe/; this file cites them and never copies them. -->
 
-## Summary
-
-| Question | Verdict |
-|----------|---------|
-| 1 | holds \| partial \| fails \| unmeasured |
-
 ## Question 1: {{QUESTION}}
 
 - **Verdict:** holds | partial | fails | unmeasured

@@ -8,7 +8,7 @@ Keep every layer in step with the product's purpose: the spec documents, the cod
 
 ## Resolving the Canon
 
-1. **Baseline (always)**: `docs/steering/product.md` — the product's purpose, themes, core capabilities, and Out of Scope.
+1. **Baseline (always)**: `docs/steering/product.md` — the product's purpose, themes, and core capabilities.
 2. **Canon layer (when declared)**: if `product.md` contains a `## Canon References` section, it names the canon root (structure: `canon-layer.md`; default `docs/canon/`) and how to search it. For enumerable norms — catalogs, entity lists, guards — the canon's `registry.md` is the authoritative seat; cite entries by ID. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the canon. **Committed text binds**: an uncommitted canon edit or a README Open Question is not a decision — reliance on it is itself a finding.
 3. **Established invariants**: `docs/steering/behaviors.md` — cross-spec behavior invariants distilled from completed features. Already loaded with steering.
 
@@ -19,7 +19,7 @@ When `product.md` and a deeper canon disagree, the canon wins if `product.md` sa
 For each requirement / scenario / design decision under review — and for each fact a run shows — ask three questions:
 
 1. **What does it serve?** Name the product purpose, theme, or capability it advances (a citable section or decision). "It was requested" is a *source*, not a *purpose* — both are required.
-2. **Does it contradict?** Check against the product's Value Proposition and Core Capabilities, the Out of Scope lists (the spec's, and the product's when steering keeps one), and every applicable invariant in `steering/behaviors.md`.
+2. **Does it contradict?** Check against the product's Value Proposition and Core Capabilities, the Out of Scope lists (the spec's and the product's), and every applicable invariant in `steering/behaviors.md`.
 3. **Would the behavior read as the product?** For behavior a person using the product sees: does the resulting behavior express the product's philosophy, or would it feel like a different product? (This is the question that pure traceability checks never ask.)
 
 Scale effort to exposure: mechanical/internal changes need only a contradiction check; behavior-shaping changes need all three questions.
@@ -30,9 +30,9 @@ A measured fact is held to the same questions as a document: a probe result, a r
 
 Before a spec is completed, when its kind's completion checks include it (`spec-kinds.md` §4), the product itself is run and looked at. A passing test, a constructed configuration, or a count read from a log does not by itself show what a person using the product meets, and the look is not put off to a later spec.
 
-- **Who**: a reviewer that did not build the spec — a fresh sub-agent that does not inherit the conversation of the session that dispatches it, on a model no smaller than that session's where the harness lets it choose. Where the harness has no sub-agents, the user is asked to run it in a separate session.
+- **Who**: a reviewer that did not build the spec — a fresh sub-agent that does not inherit the conversation of the session that dispatches it, on a model no smaller than that session's where the harness lets it choose. Where the harness has no sub-agents, the user is asked to run it — or any other audit or skill run dispatched to a sub-agent — in a separate session.
 - **How**: it follows `docs/settings/templates/specs/product-check.md`, which fixes what it is handed, what it may read, what it does, and the form of its report.
-- **Time**: the reviewer's waiting on the running product, all its runs together, stays inside the limit of §Waiting on a Run. A main use not reached by then is a finding.
+- **Time**: the reviewer's waiting on the running product, all its runs together, stays inside the limit of §Waiting on a Run.
 - **Record**: the reviewer writes its own report under `{spec_path}/reviews/`. Nobody else edits it.
 
 A re-run after a fix is a new reviewer and a new report; from the third run on, the user decides whether to run again.

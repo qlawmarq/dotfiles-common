@@ -3,7 +3,6 @@ name: sdd-validate-design
 description: >-
   Interactive technical design quality review and validation.
   Conducts GO/NO-GO assessment with balanced feedback.
-argument-hint: "<feature-name> [--batch]"
 ---
 
 # Technical Design Validation

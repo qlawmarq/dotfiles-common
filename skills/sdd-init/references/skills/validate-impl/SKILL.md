@@ -3,7 +3,6 @@ name: sdd-validate-impl
 description: >-
   Validate implementation against requirements, design, and tasks.
   Checks test coverage, requirements traceability, and design alignment.
-argument-hint: "[feature-name] [task-numbers]"
 ---
 
 # Implementation Validation
@@ -86,7 +85,7 @@ For each task, verify:
 
 - Tests exist for task-related functionality
 - Tests pass (no failures or errors)
-- Use Bash to run test commands (e.g., `npm test`, `pytest`)
+- Run test commands in the shell (e.g., `npm test`, `pytest`)
 - If tests fail or don't exist, flag as "Test coverage issue"
 
 #### Requirements Traceability
@@ -136,7 +135,7 @@ Provide summary in the language specified in spec.json:
 
 - **Conversation parsing**: Extract `/sdd-spec-impl` patterns from history
 - **Read context**: Load all specs and steering before validation
-- **Bash for tests**: Execute test commands to verify pass status
+- **Shell for tests**: Execute test commands to verify pass status
 - **Search for traceability**: Examine codebase for requirement evidence
 - **File structure checks**: Verify file structure matches design
 

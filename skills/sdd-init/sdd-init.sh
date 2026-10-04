@@ -8,7 +8,7 @@
 #
 # Required:
 #   --src=<path>          Absolute path to references/ directory
-#   --skills-src=<path>   Absolute path to parent of sdd-* skill directories
+#   --skills-src=<path>   Absolute path to references/skills/ directory
 #
 # Options:
 #   --lang=<code>         ISO 639-1 language code (default: ja)
@@ -109,7 +109,8 @@ inject_sdd_section() {
         local tmp
         tmp=$(mktemp)
         awk -v bm="$begin" -v em="$end" -v cf="$content_file" '
-            $0 == bm {
+            { l = $0; sub(/\r$/, "", l) }
+            l == bm {
                 print bm
                 while ((getline line < cf) > 0) print line
                 close(cf)
@@ -117,7 +118,7 @@ inject_sdd_section() {
                 skip = 1
                 next
             }
-            $0 == em && skip { skip = 0; next }
+            l == em && skip { skip = 0; next }
             !skip { print }
         ' "$target_file" > "$tmp"
         mv "$tmp" "$target_file"
@@ -166,7 +167,7 @@ SCRIPTS_COUNT=$(find docs/settings/scripts -type f 2>/dev/null | wc -l | tr -d '
 # Rules/templates retired upstream. Explicit list only — cp never removes, so a stale
 # rule would keep being loaded by skills that no longer reference it.
 RETIRED_RULES="ratification.md normative-registry.md change-propagation.md"
-RETIRED_TEMPLATES="canon/proposal.md"
+RETIRED_TEMPLATES="canon/proposal.md inception/vision.md inception/story-map.md inception/inception.json"
 RETIRED_RULES_REMOVED=""
 for name in $RETIRED_RULES; do
     if [ -f "docs/settings/rules/$name" ]; then
@@ -187,11 +188,6 @@ if [ -f "docs/settings/templates/specs/init.json" ]; then
     sed -i '' "s|\"language\": \"[^\"]*\"|\"language\": \"${LANG_CODE}\"|" docs/settings/templates/specs/init.json
 fi
 
-# Update inception.json language field
-if [ -f "docs/settings/templates/inception/inception.json" ]; then
-    sed -i '' "s|\"language\": \"[^\"]*\"|\"language\": \"${LANG_CODE}\"|" docs/settings/templates/inception/inception.json
-fi
-
 # === Step 3: Steering Stubs ===
 for f in docs/settings/templates/steering/*.md; do
     [ -f "$f" ] || continue
@@ -205,33 +201,17 @@ for f in docs/settings/templates/steering/*.md; do
 done
 
 # === Step 4: Deploy SDD Skills ===
-
-# Detect skill directory naming pattern:
-#   Deployed layout (~/.claude/skills/): sdd-spec-init/, sdd-spec-design/, ...
-#   Source tree layout (modules/.../sdd/): spec-init/, spec-design/, ...
-if [ -d "$SKILLS_SRC/sdd-spec-init" ]; then
-    SKILL_GLOB="sdd-*"
-    SKIP_NAMES="sdd-init"
-    DEPLOY_PREFIX=""
-elif [ -d "$SKILLS_SRC/spec-init" ]; then
-    SKILL_GLOB="*"
-    SKIP_NAMES="init"
-    DEPLOY_PREFIX="sdd-"
-else
-    append_csv ERRORS "skills_source_invalid"
-    SKILL_GLOB=""
-fi
+[ -d "$SKILLS_SRC/spec-init" ] || { append_csv ERRORS "skills_source_invalid"; SKILLS_SRC=""; }
 
 deploy_skill_set() {
     local dest_base="$1"
-    [ -z "$SKILL_GLOB" ] && return
-    for skill_dir in "$SKILLS_SRC"/$SKILL_GLOB/; do
+    [ -z "$SKILLS_SRC" ] && return
+    for skill_dir in "$SKILLS_SRC"/*/; do
         [ -d "$skill_dir" ] || continue
         local dir_name
         dir_name=$(basename "$skill_dir")
-        [ "$dir_name" = "$SKIP_NAMES" ] && continue
         [ -f "$skill_dir/SKILL.md" ] || continue
-        local deploy_name="${DEPLOY_PREFIX}${dir_name}"
+        local deploy_name="sdd-${dir_name}"
         mkdir -p "$dest_base/$deploy_name"
         cp "$skill_dir/SKILL.md" "$dest_base/$deploy_name/SKILL.md"
     done
@@ -271,10 +251,9 @@ case "$TARGET" in
 esac
 
 # Count deployed skills
-if [ -n "$SKILL_GLOB" ]; then
-    for d in "$SKILLS_SRC"/$SKILL_GLOB/; do
+if [ -n "$SKILLS_SRC" ]; then
+    for d in "$SKILLS_SRC"/*/; do
         [ -d "$d" ] || continue
-        [ "$(basename "$d")" = "$SKIP_NAMES" ] && continue
         [ -f "$d/SKILL.md" ] || continue
         SKILLS_COUNT=$((SKILLS_COUNT + 1))
     done

@@ -3,7 +3,6 @@ name: sdd-spec-tasks
 description: >-
   Generate implementation tasks for an SDD specification.
   Translates technical design into executable, properly-sized work items.
-argument-hint: "<feature-name> [-y] [--sequential]"
 ---
 
 # Implementation Tasks Generator

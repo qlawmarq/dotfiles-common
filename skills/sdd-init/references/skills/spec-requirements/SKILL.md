@@ -3,7 +3,6 @@ name: sdd-spec-requirements
 description: >-
   Elicit testable requirements for an SDD specification through dialogue with the user.
   Creates traceable, scoped requirements in EARS format — never inventing features the user did not ask for.
-argument-hint: "<feature-name>"
 ---
 
 # Requirements Generation
@@ -44,7 +43,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language, `kind`, and metadata
-   - Read `{spec_path}/requirements.md` for project description; when the description is a pointer to an inception unit (`units.md §U<N>`), read that unit's entry — it is the scope brief
+   - Read `{spec_path}/requirements.md` for project description; when the description is a pointer to an inception unit (`units.md §U<N>`), read that unit's entry and the plan's non-goals at the head of `units.md` — together they are the scope brief
    - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
 
 3. **Read Guidelines**:
@@ -100,7 +99,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 
 - **Read first**: Load all context (spec, steering, rules, templates) before generation
 - **Write last**: Update requirements.md only after complete generation
-- Use **WebSearch/WebFetch** only if external domain knowledge needed
+- **Search the web** only if external domain knowledge needed
 
 ## Output Description
 
@@ -114,7 +113,7 @@ Provide output in the language specified in spec.json with:
 **Format Requirements**:
 
 - Include file paths in code blocks
-- Include all URL references if WebSearch/WebFetch used
+- Include all URL references if the web was searched
 - Keep summary concise (under 300 words)
 
 ## Safety & Fallback

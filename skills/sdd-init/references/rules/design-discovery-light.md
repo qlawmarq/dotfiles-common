@@ -20,7 +20,7 @@ Quickly analyze existing system and integration requirements for feature extensi
 **For new or changed dependencies only**:
 
 - Confirm version compatibility, that API contracts have not changed, and licensing — by checking, not by assuming (`evidence-discipline.md` §1: documentation alone does not settle an external spec)
-- Use WebSearch for official documentation and known compatibility issues
+- Search the web for official documentation and known compatibility issues
 
 ### 3. Integration Risk Assessment
 

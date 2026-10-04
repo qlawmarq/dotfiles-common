@@ -112,7 +112,7 @@ Acknowledge 1-2 strong aspects to maintain balanced feedback.
 
 ### Critical Issues (≤3)
 
-For each: Issue, Impact, Recommendation, Traceability (e.g., 1.1, 1.2), Evidence (design.md section).
+In the Step 2 format.
 
 ### Recomputation discrepancies
 
@@ -133,7 +133,7 @@ Engage on designer's perspective, alternatives, clarifications, and necessary ch
 ## Length & Focus
 
 - Summary: 2–3 sentences
-- Each critical issue: 5–7 lines total (including Issue/Impact/Recommendation/Traceability/Evidence)
+- Each critical issue: 5–7 lines total
 - Overall review: keep concise (~400 words guideline; the Recomputation discrepancies list is outside it)
 
 ## Review Guidelines
@@ -148,7 +148,7 @@ Engage on designer's perspective, alternatives, clarifications, and necessary ch
 
 ## Final Checklist
 
-- **Critical Issues ≤ 3** and each includes Impact and Recommendation
+- **Critical Issues ≤ 3** and each includes Impact and Suggestion
 - **Traceability**: Each issue references requirement ID/section
 - **Evidence**: Each issue cites design doc location
 - **Recomputation**: every contract stated twice, every concrete expression about existing code, and every branch site of an extended kind checked, and every criterion ID grepped, with each discrepancy quoted

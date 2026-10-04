@@ -4,11 +4,9 @@
 
 ## Dependency Matrix
 
-| Unit | Depends on | Integration method |
-|------|------------|--------------------|
-| U1 {{UNIT_SLUG}} | — | — (walking skeleton) |
-
-<!-- Integration method = shared data | sync call | event | shared library -->
+| Unit | Depends on |
+|------|------------|
+| U1 | — |
 
 ## Integration Points
 
@@ -16,19 +14,7 @@
 |-----------|--------|--------|-----------|
 | | | | |
 
-## Dependency Graph
-
-```mermaid
-graph TD
-  U1["U1 {{UNIT_SLUG}}<br/>(walking skeleton)"]
-  %% U2 --> U1   (U2 depends on U1)
-```
-
 ## Build Order
 
-> Walking skeleton first, then dependencies-first topological order; ties broken by priority then subdomain class. Units in the same step with no shared dependency may run in parallel.
-
-1. **U1 {{UNIT_SLUG}}** — walking skeleton (`docs/settings/rules/inception-decomposition.md` §6)
+1. **U1**
 2. <!-- next unit(s); group parallel-capable units together -->
-
-**Acyclic check:** confirmed no circular dependencies. <!-- A cycle means a boundary is wrong — re-cut. -->
