@@ -14,8 +14,6 @@
   - `C1` — Finding
   - `C2` — Finding
 
-_Every entry needs a `C<n>` below **at the same scope** — a lower bound does not become a total by being summarized._
-
 ## Research Log
 One entry per claim, grouped by topic. Tag lines per `evidence-discipline.md` §2.
 
@@ -24,10 +22,6 @@ One entry per claim, grouped by topic. Tag lines per `evidence-discipline.md` §
 - **Method**: What you did — commands run, code read, sources consulted, probes executed.
 
 #### C1: `<the claim>`
-- Type: measured | sourced | inferred | unverified
-- Verification: `<probe/<file> | test name | command + output | URL + retrieval date | none>`
-- Confidence: high | medium | low
-- Load-bearing: `<what breaks in the design if this is wrong — blank if nothing does>`
 - **Implications**: How this affects architecture, contracts, or implementation.
 
 _Repeat `#### C<n>` for each claim, and the `###` subsection for each topic._

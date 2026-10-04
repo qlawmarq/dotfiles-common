@@ -13,7 +13,7 @@ The root is declared in `docs/steering/product.md §Canon References` (default `
 - `registry.md` — the sole seat of enumerable norms (§Registry).
 - `proposals/archive/` — history from earlier processes, if present. Read-only; never edit or extend it.
 
-**Committed text is in force.** There are no status words or ratification markers; a decision that was overturned says so in one Background sentence, and `git log -- <canon-root>` is the record.
+**Committed text is in force.** There are no status words or ratification markers; `git log -- <canon-root>` is the record.
 
 ## Change Control — "Canon changes"
 
@@ -44,7 +44,7 @@ Prose cites IDs and never restates a list; an enumeration outside the registry i
 
 ## Drafting Discipline
 
-Five heuristics: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and downstream references, don't recall; (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat (`document-hygiene.md`). Plus: never renumber items and never issue a number the source text did not have.
+Five heuristics: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and downstream references, don't recall; (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat (`document-hygiene.md`). Plus: never renumber items — a withdrawn item keeps its number with a one-line note — and never issue a number the source text did not have.
 
 ## Loading
 

@@ -41,7 +41,7 @@ A requirement can trace perfectly to user input and still take the product somew
 
 ### 4. Ambiguity & Vagueness
 
-- Lint for unmeasurable terms — *fast, scalable, user-friendly, efficient, robust, flexible, adequate, intuitive, as appropriate, etc.* Each should be replaced by a measurable criterion or recorded as an open question.
+- Lint for unmeasurable terms (`ears-format.md` §Quality Criteria).
 - Apply the two-reviewer test: would two readers reach the same pass/fail decision from this requirement? If not, it's ambiguous.
 
 ### 5. Testability & EARS Conformance
@@ -60,7 +60,7 @@ A requirement can trace perfectly to user input and still take the product somew
 
 ### Step 1: Build the trace map
 
-Read the **Project Description (Input)** and all steering context first, then walk each requirement and classify its source as: clearly grounded, derived-and-reasonable, or **unsourced/suspicious**. This map is the backbone of the review.
+Read the **Project Description (Input)** — and the unit entry it points to, when a plan wrote it — and all steering context first, then walk each requirement and classify its source as: clearly grounded, derived-and-reasonable, or **unsourced/suspicious**. This map is the backbone of the review.
 
 ### Step 2: Identify Critical Issues (≤3)
 
@@ -94,9 +94,13 @@ Acknowledge 1-2 well-grounded, well-formed aspects to keep feedback balanced.
 
 The headline list: every requirement that does not trace to user input, each with its ID and what the user actually said (or the absence thereof). If there are none, say so explicitly — that's a strong positive signal.
 
+### Concept Conflicts
+
+Every requirement that contradicts or fails to serve the product canon, in `concept-alignment.md` §Finding Format, with no cap (or "none found").
+
 ### Critical Issues (≤3)
 
-For each: Concern, Type, Impact, Suggestion, Evidence.
+In the Step 2 format.
 
 ### Strengths
 
@@ -112,16 +116,6 @@ For each suspicious requirement, ask the user directly whether they wanted it �
 
 ## Length & Focus
 
-- Summary: 2-3 sentences
 - Unsourced list: one line per requirement
 - Each critical issue: 6-8 lines
-- Overall review: concise (~450 words guideline)
-
-## Final Checklist
-
-- **Every requirement's text checked** against the Project Description (Input) and steering — unsourced ones listed explicitly
-- **Concept alignment checked** (`concept-alignment.md`) — conflicts with product.md/canon/invariants listed explicitly
-- **Out of Scope section present** and not contradicted
-- **Critical Issues ≤ 3**, each with Type, Impact, Suggestion, Evidence
-- **Ambiguity/testability** spot-checked
-- **Decision**: GO/NO-GO with clear rationale and next steps
+- Overall review: concise (~450 words guideline; the Unsourced and Concept Conflicts lists are outside it)

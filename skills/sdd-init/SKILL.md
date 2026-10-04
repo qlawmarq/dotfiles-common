@@ -31,10 +31,9 @@ This skill expects:
    - `agents`: Deploy to `.agents/skills/`
    - `all`: Deploy to both
    - If omitted: Ask the user interactively
-3. **Force flag** (optional): `--force` — Skip confirmation prompt when SDD is already initialized (defaults to Update mode)
+3. **Force flag** (optional): `--force` — see Step 0
 
 If inputs were provided with this skill invocation, use them directly.
-Otherwise, use the default language (`ja`).
 
 ## Source Files Location
 
@@ -52,13 +51,7 @@ Validate: `${SRC}/rules/` and `${SRC}/templates/` must exist. `${SKILLS_SRC}/spe
 
 ## Helper Script
 
-All mechanical file operations are handled by `sdd-init.sh` located alongside this SKILL.md at `${SKILL_DIR}/sdd-init.sh`. This script:
-- Creates directory structures
-- Copies rules, templates, and skills
-- Updates `init.json` language field
-- Initializes steering stubs
-- Performs marker-based injection into AGENTS.md
-- Outputs a structured report
+All mechanical file operations are done by `${SKILL_DIR}/sdd-init.sh`.
 
 ## Execution Steps
 
@@ -73,7 +66,7 @@ echo "git_root=$([ -d .git ] && echo yes || echo no) sdd_exists=$([ -d docs/sett
 Process results:
 1. **`git_root=no`**: Stop with error — "SDD initialization must be run from the git repository root."
 2. **`sdd_exists=yes` AND `--force` not set**: Ask the user how to proceed:
-   - **Update** (default): Overwrite rules, templates, and skills. Preserve `docs/steering/` and `docs/tasks/`.
+   - **Update** (default): Overwrite rules, templates, and skills; create only missing steering stubs; leave `docs/tasks/` untouched.
    - **Full Reinitialize**: Overwrite everything except `docs/tasks/`.
    - **Cancel**: Abort.
 3. **`sdd_exists=yes` AND `--force` set**: Proceed with Update mode silently.
@@ -81,7 +74,7 @@ Process results:
 
 ### Step 1: Target Selection
 
-If `--target` was NOT provided as an argument:
+If `--target` was not given:
 - Ask the user which platform(s) to initialize:
   - **Claude Code** (`claude`): `.claude/skills/`
   - **Agents** (`agents`): `.agents/skills/` — for Codex CLI / Gemini CLI
@@ -109,21 +102,14 @@ The script outputs a structured report between `===SDD_INIT_REPORT===` and `===E
 
 ### Step 3: Output Summary
 
-Parse the structured report and generate a summary. Do NOT read or edit files — all information is in the script output.
+Parse the structured report and generate a summary.
 
 ## Important Constraints
 
-- DO NOT modify any files inside `docs/tasks/` (preserves existing specifications)
-- DO NOT read, edit, or write files yourself — the helper script handles everything
+- Do not read, edit or write project files yourself; `sdd-init.sh` does every file operation and its report holds what the summary needs.
 - Use absolute paths for source paths to ensure reliability
 
 </instructions>
-
-## Tool Guidance
-
-- Run **one shell command** for pre-flight checks in Step 0
-- Run `sdd-init.sh` in **one shell command** in Step 2
-- Do NOT read, edit, write, or search for files — the helper script handles all file operations
 
 ## Output Description
 
@@ -137,13 +123,14 @@ Provide output in the language derived from `--lang`:
    - Scripts: `scripts_count` files deployed to `docs/settings/scripts/`
    - Steering stubs: `steering_created` / `steering_skipped`
    - Retired skills removed: `retired_removed`; retired rules/templates removed: `retired_rules_removed` (mention only when not `none`)
-   - AGENTS.md: `agents_md` status (created / updated / appended / skipped)
+   - AGENTS.md: `agents_md` status (created / updated / appended / appended:marker_warning / skipped / write_failed)
 3. **Configuration**: Language set to `lang_name` (`lang_code`)
 4. **Warnings** (if any):
    - `claude_gitignored`: "`.claude/` is excluded by .gitignore. Project-level SDD skills will not be version controlled."
    - `agents_gitignored`: "`.agents/` is excluded by .gitignore. Project-level SDD skills will not be version controlled."
-   - `marker_warning`: "Inconsistent SDD markers detected. A new section was appended."
+   - `agents_md=appended:marker_warning`: "Inconsistent SDD markers detected. A new section was appended."
 5. **Errors** (if any): Report from `errors` field
+   - `agents_md_write_failed`: "AGENTS.md could not be written, so it has no SDD section. Make it writable and re-run `/sdd-init`."
 6. **Next Steps** (numbered action items):
    - When `retired_removed` or `retired_rules_removed` is not `none`: "Retired skills and rules were removed. `bash docs/settings/scripts/check_refs.sh check` lists the references to them that remain in the project's documents."
    - Run `/sdd-steering` to generate project steering from codebase analysis
@@ -158,26 +145,10 @@ Provide output in the language derived from `--lang`:
 
 ### Error Scenarios
 
-**Not in Git Repository Root**:
-- **Stop Execution**: Cannot proceed without git repository
-- **User Message**: "SDD initialization must be run from the git repository root. Current directory does not contain `.git/`."
-
-**Existing SDD Setup Detected** (without `--force`):
-- **Prompt User**: Ask to choose Update / Full Reinitialize / Cancel
-- **Default Recommendation**: Update (safest, preserves user content)
-- **Behavior by mode**:
-  - `fresh`: All operations create new (default for new projects)
-  - `update`: Overwrite rules, templates, skills. Create only missing steering stubs.
-  - `full`: All operations overwrite (except `docs/tasks/`)
-
 **Helper Script Failure**:
 - If script exits with error, report the error message to the user
 - Check `errors` field in the report for partial failures
 
-**AGENTS.md Marker Inconsistency**:
-- Script handles automatically: appends new section and reports `marker_warning`
-- Include warning in output summary
-
 **Source Files Not Found**:
 - **Stop Execution**: Cannot proceed without SDD resources
-- **User Message**: "SDD resources not found. Ensure SDD skills are installed at user level (run dotfiles apply.sh with claude module)."
+- **User Message**: "SDD resources not found. Ensure the sdd-init skill is installed with its `references/` directory."

@@ -17,10 +17,7 @@
 - Authorization: check permissions before actions; deny by default
 - Centralize policies; avoid duplicating checks across code
 
-Pattern:
-```typescript
-if (!user.hasPermission('resource:action')) throw ForbiddenError();
-```
+Pattern: an action without permission `resource:action` raises a forbidden error.
 
 ## Secrets & Configuration
 - Never commit secrets; store in secret manager or env

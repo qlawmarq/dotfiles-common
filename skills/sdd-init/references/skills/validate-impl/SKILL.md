@@ -68,7 +68,7 @@ For each detected feature:
 - Read `{spec_path}/behaviors.md` for behavior scenarios (if exists)
 - Read `{spec_path}/design.md` for design structure
 - Read `{spec_path}/tasks.md` for task list
-- **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
+- Read the entire `docs/steering/` directory
 
 ### 3. Execute Validation
 
@@ -85,7 +85,7 @@ For each task, verify:
 
 - Tests exist for task-related functionality
 - Tests pass (no failures or errors)
-- Run test commands in the shell (e.g., `npm test`, `pytest`)
+- Run the project's test command (its build configuration, else `docs/steering/tech.md` (§Common Commands)) in the shell
 - If tests fail or don't exist, flag as "Test coverage issue"
 
 #### Requirements Traceability
@@ -103,7 +103,6 @@ For each task, verify:
 
 - Check if design.md structure is reflected in implementation
 - Verify key interfaces, components, and modules exist
-- Confirm file structure matches design
 - If misalignment found, flag as "Design deviation"
 
 #### Regression Check
@@ -112,32 +111,14 @@ For each task, verify:
 - Verify no existing tests are broken
 - If regressions detected, flag as "Regression detected"
 
-### 4. Generate Report
-
-Provide summary in the language specified in spec.json:
-
-- Validation summary by feature
-- Coverage report (tasks, requirements, design)
-- Issues and deviations with severity (Critical/Warning)
-- GO/NO-GO decision
-
 ## Important Constraints
 
-- **Conversation-aware**: Prioritize conversation history for auto-detection
 - **Non-blocking warnings**: Design deviations are warnings unless critical
 - **Test-first focus**: Test coverage is mandatory for GO decision
 - **Traceability required**: All requirements must be traceable to implementation
 - **Behavior evidence required**: When behaviors.md exists, unverified or contradicted scenarios block GO
 
 </instructions>
-
-## Tool Guidance
-
-- **Conversation parsing**: Extract `/sdd-spec-impl` patterns from history
-- **Read context**: Load all specs and steering before validation
-- **Shell for tests**: Execute test commands to verify pass status
-- **Search for traceability**: Examine codebase for requirement evidence
-- **File structure checks**: Verify file structure matches design
 
 ## Output Description
 
@@ -159,9 +140,8 @@ Provide output in the language specified in spec.json with:
 ### Error Scenarios
 
 - **No Implementation Found**: If no `/sdd-spec-impl` in history and no `[x]` tasks, report "No implementations detected"
-- **Test Command Unknown**: If test framework unclear, warn and skip test validation (manual verification required)
+- **Test Command Unknown**: If neither source gives a test command, warn and skip test validation (manual verification required)
 - **Missing Spec Files**: If spec.json/requirements.md/design.md missing, stop with error
-- **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 
 ### Next Steps Guidance
 
@@ -176,4 +156,4 @@ Provide output in the language specified in spec.json with:
 - Re-run `/sdd-spec-impl <feature-name> <task-numbers>` for fixes
 - Re-validate with `/sdd-validate-impl <feature-name> <task-numbers>`
 
-**Note**: Validation is recommended after implementation. Use `/sdd-spec-done` for the final completion workflow.
+**Note**: Optional — run it on implemented tasks at any point. Use `/sdd-spec-done` for the final completion workflow.

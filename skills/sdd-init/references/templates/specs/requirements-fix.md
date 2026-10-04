@@ -19,7 +19,7 @@ the full statement lives in the matching requirement below. Reproduction points 
 ## Requirements
 
 ### 1: {{DEFECT_TITLE}}
-<!-- One heading per ledger row, same numeric ID. Headings carry a leading numeric ID only. -->
+<!-- One heading per ledger row, same numeric ID. -->
 **Current behavior:** When {{CONDITION}}, the {{COMPONENT}} {{INCORRECT_BEHAVIOR}}
 **Priority:** Must | Should | Could
 

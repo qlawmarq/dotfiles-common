@@ -75,30 +75,18 @@ Order by what unblocks the most: a decision that several specs depend on outrank
 ## Answering
 
 - **Lead with the answer.** The user asked a question; give the answer first, then the support.
-- **Cite everything.** Repo-relative path plus the narrowest locator you have. See `dialogue-grounding.md` §Citations.
-- **Separate documented from inferred.** When you combined facts to reach a conclusion, say which facts.
-- **Say when it is not written down.** "The documents do not settle this" is a real answer and often the most useful one — it tells the user they have a gap. Never fill the gap with a plausible invention.
 - **Match the question's size.** A one-fact lookup gets a couple of sentences, not a report with headings.
-
-## Important constraints
-
-- Do NOT write, edit, or create any file.
-- Do NOT bulk-load. `spec.json` files can be read exhaustively; `design.md` and `research.md` files cannot. Use sub-agents for independent lookups so large files stay out of the main context.
-- Do NOT audit beyond the question. Mention an adjacent finding in one line; do not pursue it uninvited.
-- Do NOT do another phase's work. Point at the owning skill instead.
 
 </instructions>
 
 ## Tool Guidance
 
-- **Read** `docs/settings/rules/dialogue-grounding.md`, then the indexes: `spec.json` files, the plan's `units.md` Summary and `dependencies.md` (Dependency Matrix, Build Order), `docs/steering/product.md`.
+- **Read** `docs/steering/product.md` and the indexes `dialogue-grounding.md` names before any document body.
 - **Search** file names and contents for topic lookups and for locating open-question sections — search headings before bodies.
-- **Sub-agents**, via whatever delegation tool the host harness provides, to run independent lookups in parallel — instructed to report findings with citations rather than file contents (`dialogue-grounding.md`).
-- **Never** edit or create files.
 
 ## Output Description
 
-Provide output in the project's configured language, resolved in this order: if `--scope=spec:<feature-name>`, that spec's `spec.json` `language`; otherwise `docs/settings/templates/specs/init.json` `language`; failing both, `ja`.
+Provide output in the project's configured language, resolved in this order: if `--scope=spec:<feature-name>`, that spec's `spec.json` `language`; otherwise `docs/settings/templates/specs/init.json` `language`.
 
 - **Shape A**: the answer, its citation, where it is applied, and current-vs-superseded if relevant.
 - **Shape B**: a compact table — spec | kind | phase | approvals | depends on | progress — plus the `user` scenarios not yet run, a short prose read of what is in flight, blocked, and stalled, and the recommended next action.

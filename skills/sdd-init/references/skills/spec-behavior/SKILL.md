@@ -50,7 +50,7 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then 
 - `docs/settings/rules/concept-alignment.md` — §Resolving the Canon, §The Check, and, under §Findings, §Severity and §Finding Format
 - `docs/settings/templates/specs/behaviors.md` for document structure
 
-**Validate requirements approval**: with `-y`, set `approvals.requirements.approved: true`; otherwise verify it is `true` (stop if not, see Safety & Fallback).
+**Validate requirements approval**: with `-y`, set `approvals.requirements.approved: true`; otherwise verify it is `true`; if not, stop and suggest `/sdd-spec-behavior <feature-name> -y`.
 
 ### Step 2: Ground in the Canon
 
@@ -65,28 +65,19 @@ Following `concept-alignment.md`: identify the product purposes, themes, and Out
 
 ### Step 4: Finalize
 
-- Write `{spec_path}/behaviors.md` following the template (merge if one existed); use the language from spec.json
+- Write `{spec_path}/behaviors.md` following the template (merge if one existed)
 - List Promotion Candidates only if this feature establishes invariants that qualify per `steering-principles.md §File focus` ("none" is the common outcome)
-- Update spec.json: set `phase: "behaviors-generated"`, `approvals.behaviors: {generated: true, approved: false}` (add the key if the spec predates it), `approvals.requirements.approved: true`, update `updated_at`
+- Update spec.json: set `phase: "behaviors-generated"`, `approvals.behaviors: {generated: true, approved: false}` (add the key if the spec predates it), `approvals.requirements.approved: true`
 
 ## Important Constraints
 
-- **Scenarios illustrate requirements; they do not extend them.** New capability ideas surfaced by examples go to Open Questions as proposals, default answer *no*.
-- **Every scenario grounded and verifiable** — no `Grounds:`, no scenario; no `Verification:`, not finished.
-- **Canon conflicts stop at reporting** — resolution belongs to the user (`/sdd-canon-update`, or the phase that owns the decision).
 - WHAT-level only: scenarios describe observable behavior, never design or implementation.
 
 </instructions>
 
-## Tool Guidance
-
-- **Read first**: spec, steering, rules, template — before drafting
-- **Grep** the canon (per Canon References) and codebase JIT; never bulk-load
-- **Write last**: `behaviors.md` after the dialogue settles
-
 ## Output Description
 
-Provide output in the language specified in spec.json:
+Write behaviors.md and this output in spec.json `language`:
 
 1. **Scenario Summary**: scenario titles with the purpose each serves (one line each). End with one line `Scenarios: n / acceptance criteria: m` — a ratio at or above 1 is a sign the requirements are being restated, not exemplified.
 2. **Concept Findings**: canon conflicts found (in `concept-alignment.md` format) or "none — all scenarios grounded"
@@ -98,10 +89,7 @@ Provide output in the language specified in spec.json:
 
 ## Safety & Fallback
 
-- **Requirements Not Approved**: Stop. Suggest `/sdd-spec-behavior <feature-name> -y` to auto-approve and proceed
 - **Missing requirements.md**: Stop. Suggest `/sdd-spec-requirements <feature-name>` first
 - **product.md missing or stub-only**: Warn that grounding will be weak; suggest `/sdd-steering` first. Proceed only if the user confirms, marking ungroundable scenarios explicitly
 - **Canon Reference lookup fails** (declared path missing): report the broken declaration as a finding; fall back to product.md alone
-- **Old spec.json without `approvals.behaviors`**: add the key when updating — never fail on its absence
 - **Template Missing**: use inline structure with warning, keeping Grounds/Verification lines mandatory
-- **Language Undefined**: fall back to `docs/settings/templates/specs/init.json` `language`, then `ja`

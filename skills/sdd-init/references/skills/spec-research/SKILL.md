@@ -15,7 +15,6 @@ description: >-
   - Current codebase analysis and best practice research completed
   - Research findings structured in research.md template format
   - Findings provide sufficient context for the subsequent design phase
-  - spec.json is NOT updated (research.md existence is the sole completion indicator)
 
 </background_information>
 
@@ -49,9 +48,7 @@ Investigate the existing codebase and research best practices to generate a stru
 - `{spec_path}/requirements.md` for project requirements
 - `{spec_path}/behaviors.md` (if exists) for grounded behavior scenarios — research must serve these behaviors, and their Verification lines (probe/test needs) may require investigation
 - `{spec_path}/gap-analysis.md` (if exists) for existing gap analysis results
-- **Entire `docs/steering/` directory** for complete project memory:
-  - Default files: `structure.md`, `tech.md`, `product.md`
-  - All custom steering files
+- The entire `docs/steering/` directory
 - `docs/settings/templates/specs/research.md` for research document structure
 - `docs/settings/rules/evidence-discipline.md` — the claim format, what must be measured rather than reasoned, and the `probe/` convention
 
@@ -65,8 +62,6 @@ Do **not** load the discovery rules here — Step 2 classifies the discovery dep
 
 ### Step 2: Discovery & Analysis
 
-**Critical: This phase ensures research is based on complete, accurate information.**
-
 1. **Classify discovery depth (full | light | minimal)**:
    - **full** → new capability without an existing counterpart, or a complex integration with external systems
    - **light** → change within an existing system; integration-focused discovery
@@ -76,59 +71,37 @@ Do **not** load the discovery rules here — Step 2 classifies the discovery dep
 
    **full**:
    - Read and execute `docs/settings/rules/design-discovery-full.md`
-   - Conduct thorough research on the web:
-     - Latest architectural patterns and best practices
-     - External dependency verification (APIs, libraries, versions, compatibility)
-     - Official documentation, migration guides, known issues
-     - Performance benchmarks and security considerations
 
    **light**:
    - Read and execute `docs/settings/rules/design-discovery-light.md`
-   - Focus on integration points, existing patterns, compatibility
-   - Use Grep to analyze existing codebase patterns
 
    **minimal**:
    - Skip formal discovery, quick pattern check only
 
 3. **Incorporate Gap Analysis** (if available): use the `gap-analysis.md` findings as additional context and prioritize the gaps it identified. The discovery rule you read above governs *what* to investigate — do not restate its steps here.
 
-4. **Measure what cannot be reasoned**: apply `evidence-discipline.md` §1 throughout. Size, count and duration; the behavior of existing code; external specs; performance — these are settled by running something, never by reading. Write the verification artifacts (scripts, raw logs, results) to `{spec_path}/probe/` with a `README.md` index, per §3 of that rule. Record what you ran so a reader can re-run it. Measure what `docs/settings/rules/spec-kinds.md` requires for this spec's kind.
+4. **Measure what cannot be reasoned**: apply `evidence-discipline.md` §1 and §3 (artifacts in `{spec_path}/probe/`), and measure what `docs/settings/rules/spec-kinds.md` §5 requires for this spec's kind.
 
-5. **Retain findings for Step 3** in the claim form of `evidence-discipline.md` §2: each claim carries its type, its reproducer, its confidence, and what breaks in the design if it turns out to be wrong.
+5. **Retain findings for Step 3** as claims in the form of `evidence-discipline.md` §2.
 
 ### Step 3: Generate research.md
 
 **Using the template loaded in Step 1 (`docs/settings/templates/specs/research.md`) and the discovery findings from Step 2, generate research.md.**
 
-1. **Language Compliance**: Write all content in the language specified by `spec.json.language` (e.g., `"ja"` means Japanese).
+1. **Populate the template** per `evidence-discipline.md` §2 (Research Log, Summary / Key Findings); fill the remaining sections as the template describes.
 
-2. **Populate the template**. Two sections carry the discipline and must not be filled loosely:
-   - **Research Log** — one `C<n>` claim per finding, each with its four tag lines. A claim is typed `measured` only when `Verification` names something re-runnable.
-   - **Summary / Key Findings** — may contain nothing that lacks a `C<n>` entry below. Never restate a lower bound, a partial count, or a sample as a total.
-
-   Fill the remaining sections (Unverified & Open, Architecture Pattern Evaluation, Recommendation, Risks, References) as the template describes. Each recommendation names the `C<n>` it rests on.
-
-3. **Write research.md**: Output the completed document to `{spec_path}/research.md`.
+2. **Write research.md**: Output the completed document to `{spec_path}/research.md`.
 
 ## Critical Constraints
 
-- **No spec.json update**: Do NOT modify spec.json — no phase transition, no approval state change. The existence of research.md is the sole indicator of research completion.
-- **Measure, don't reason**: the four kinds of claim in `evidence-discipline.md` §1 may not be settled by reading. If you cannot measure one, type it `unverified` and say what would settle it — an honest gap is a result, an invented certainty is a defect the design inherits.
+- **No phase update**: research does not set `phase` or an approval of its own in spec.json (only Step 1's `-y` writes the requirements approval); the existence of research.md is the sole indicator of research completion.
 - **Steering alignment**: Respect existing architecture patterns from steering context
-- **Language compliance**: Use the language specified in `spec.json.language`
 
 </instructions>
 
-## Tool Guidance
-
-- **Read first**: Load all context (spec, steering, template, rule, gap-analysis) before taking action; read the discovery rule only after classifying the discovery depth
-- **Run things**: use the shell and the project's test/probe tooling to measure. Grep locates code; it does not establish behavior
-- **Research when uncertain**: Search the web for external dependencies, APIs, and latest best practices
-- **Write last**: Generate research.md only after all research and analysis complete
-
 ## Output Description
 
-Provide brief summary in the language specified in spec.json:
+Write research.md and this summary in spec.json `language` (e.g. `"ja"` means Japanese):
 
 1. **Status**: Confirm research document generated at `{spec_path}/research.md` (and `probe/` if verification artifacts were produced)
 2. **Kind & Discovery depth**: The spec's kind and which discovery process was executed (full/light/minimal)

@@ -35,7 +35,7 @@ content() { LC_ALL=C awk -v KF="${2:-}" '{ l = $0; out = ""
         print NR "\t" out }' "$1"; }
 
 US=$(printf '\037')                                        # field separator of the records below (fields may be empty)
-# Verification lines of a behaviors.md as `NR US scenario number US tier US pointer`; both the rule's
+# Verification lines of a behaviors.md as `NR US scenario number US tier US pointer`; both the bare
 # `Verification: <tier> — <pointer>` and the template's `- **Verification:** <tier> — <pointer>`
 verification_lines() { content "$1" | LC_ALL=C awk -F'\t' '
     $2 ~ /^#+[ \t]/ { h = $2; sub(/^#+[ \t]+/, "", h); sc = ""

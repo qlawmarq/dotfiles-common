@@ -2,11 +2,10 @@
 
 ## Core Design Principles
 
-### 1. Type Safety is Mandatory
+### 1. Explicit Contracts
 
-- Define explicit types for all parameters and returns
-- Use discriminated unions for error handling
-- Specify generic constraints clearly
+- Every parameter, return and error case has a stated type or shape
+- Error cases are part of the contract, not an afterthought
 
 ### 2. Design vs Implementation
 
@@ -71,13 +70,6 @@
 
 ## Section Authoring Guidance
 
-### Requirement IDs
-
-- Reference requirements as `2.1, 2.3` without prefixes (no “Requirement 2.1”).
-- All requirements MUST have numeric IDs. If a requirement lacks a numeric ID, stop and fix `requirements.md` before continuing.
-- Use `N.M`-style numeric IDs where `N` is the top-level requirement number from requirements.md (for example, Requirement 1 → 1.1, 1.2; Requirement 2 → 2.1, 2.2).
-- Every component block and task must reference the same canonical numeric ID.
-
 ### Deduplication
 
 Governed by `docs/settings/rules/document-hygiene.md`. In design.md the usual offenders are prose restating a diagram or a summary table, and the same point repeated across Overview / Architecture / Components.
@@ -104,10 +96,10 @@ graph TB
 
 - **Plain Mermaid only** – avoid custom styling or unsupported syntax.
 - **Node IDs** – alphanumeric plus underscores only (e.g., `Client`, `ServiceA`). Do not use `@`, `/`, or leading `-`.
-- **Labels** – simple words. Do not embed parentheses `()`, square brackets `[]`, quotes `"`, or slashes `/`.
-  - ❌ `DnD[@dnd-kit/core]` → invalid ID (`@`).
-  - ❌ `UI[KanbanBoard(React)]` → invalid label (`()`).
-  - ✅ `DndKit[dnd-kit core]` → use plain text in labels, keep technology details in the accompanying description.
+- **Labels** – simple words. Do not embed parentheses `()`, square brackets `[]`, quotes `"`, `@`, or slashes `/`.
+  - ❌ `@Lib[Lib]` → invalid ID (`@`).
+  - ❌ `UI[Board(web)]` → invalid label (`()`).
+  - ✅ `CoreLib[core lib]` → use plain text in labels, keep technology details in the accompanying description.
   - ℹ️ Mermaid strict-mode will otherwise fail with errors like `Expecting 'SQE' ... got 'PS'`; remove punctuation from labels before rendering.
 - **Edges** – show data or control flow direction.
 - **Groups** – using Mermaid subgraphs to cluster related components is allowed; use it sparingly for clarity.

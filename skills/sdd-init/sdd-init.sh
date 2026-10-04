@@ -95,7 +95,7 @@ inject_sdd_section() {
 
     # File doesn't exist: create new
     if [ ! -f "$target_file" ]; then
-        { printf '%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } > "$target_file"
+        { printf '%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } > "$target_file" || { echo "write_failed"; return; }
         echo "created"
         return
     fi
@@ -121,20 +121,21 @@ inject_sdd_section() {
             l == em && skip { skip = 0; next }
             !skip { print }
         ' "$target_file" > "$tmp"
-        mv "$tmp" "$target_file"
+        if ! cat "$tmp" > "$target_file"; then rm -f "$tmp"; echo "write_failed"; return; fi
+        rm -f "$tmp"
         echo "updated"
         return
     fi
 
     # Inconsistent markers: warn and append
     if [ "$has_begin" -eq 1 ] || [ "$has_end" -eq 1 ]; then
-        { printf '\n%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } >> "$target_file"
+        { printf '\n%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } >> "$target_file" || { echo "write_failed"; return; }
         echo "appended:marker_warning"
         return
     fi
 
     # No markers: append
-    { printf '\n%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } >> "$target_file"
+    { printf '\n%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } >> "$target_file" || { echo "write_failed"; return; }
     echo "appended"
 }
 
@@ -185,7 +186,8 @@ TEMPLATES_COUNT=$(find docs/settings/templates -type f 2>/dev/null | wc -l | tr 
 
 # Update init.json language field
 if [ -f "docs/settings/templates/specs/init.json" ]; then
-    sed -i '' "s|\"language\": \"[^\"]*\"|\"language\": \"${LANG_CODE}\"|" docs/settings/templates/specs/init.json
+    sed "s|\"language\": \"[^\"]*\"|\"language\": \"${LANG_CODE}\"|" docs/settings/templates/specs/init.json > docs/settings/templates/specs/init.json.tmp
+    mv docs/settings/templates/specs/init.json.tmp docs/settings/templates/specs/init.json
 fi
 
 # === Step 3: Steering Stubs ===
@@ -266,6 +268,7 @@ if [ -f "$TEMPLATE_FILE" ]; then
     sed "s|{{DEFAULT_LANGUAGE_NAME}}|${LANG_NAME}|g" "$TEMPLATE_FILE" > "$CONFIG_TMP"
 
     AGENTS_MD_STATUS=$(inject_sdd_section "AGENTS.md" "$CONFIG_TMP")
+    [ "$AGENTS_MD_STATUS" = "write_failed" ] && append_csv ERRORS "agents_md_write_failed"
 
     rm -f "$CONFIG_TMP"
 else

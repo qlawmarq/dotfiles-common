@@ -49,28 +49,29 @@ Write technical design document for the specified feature based on approved requ
 
 - `{spec_path}/spec.json`, `requirements.md`, `behaviors.md` (if exists), `design.md` (if exists), `research.md` (if exists)
 - `{spec_path}/probe/README.md` (if exists) — the index of verification artifacts behind the research claims. Reading recorded evidence is not independent discovery; open a specific probe result when a design decision turns on it
-- **Entire `docs/steering/` directory** for complete project memory
+- The entire `docs/steering/` directory
 - The kind's design template for document structure (`docs/settings/rules/spec-kinds.md` §4)
 - `docs/settings/rules/design-principles.md` for design principles, and `docs/settings/rules/document-hygiene.md`
 
-**If `behaviors.md` does NOT exist and the kind produces behaviors (`spec-kinds.md` §4)**: warn the user — in the language from spec.json — that behavior scenarios were not formulated, that `/sdd-spec-behavior <feature-name>` is recommended (it grounds the design in the product's purpose), and continue without them.
+**If `behaviors.md` does not exist and the kind produces behaviors (`spec-kinds.md` §4)**: warn the user that behavior scenarios were not formulated, that `/sdd-spec-behavior <feature-name>` is recommended (it grounds the design in the product's purpose), and continue without them.
 
 **Validate requirements approval**:
 
 - If auto-approve flag was provided: Auto-approve requirements in spec.json
-- Otherwise: Verify approval status (stop if unapproved, see Safety & Fallback)
+- Otherwise: verify approval status; if unapproved, stop with: "Requirements not yet approved. Run `/sdd-spec-design <feature-name> -y` to auto-approve them and proceed."
+- Requirement IDs: `docs/settings/rules/ears-format.md` §Requirement IDs; stop if requirements.md does not have them.
 
 ### Step 2: Apply Research Context
 
-**Use the research results from `research.md` as design input. Do NOT conduct independent discovery or external research (no discovery depth classification, no Discovery process, no web search or fetch) — that work belongs to `/sdd-spec-research`.**
+Use the research results in `research.md` as design input. Discovery and external research (discovery-depth classification, the Discovery process, web search or fetch) belong to `/sdd-spec-research`; do not run them here.
 
 1. **If `research.md` was loaded in Step 1**:
    - Extract key findings: architecture patterns, technology decisions, integration points, risks, and design recommendations
    - Note which claims are typed `unverified` or carry no reproducer. Any of these the design ends up depending on goes in the design's Assumptions section, with what fails if it is wrong and the signpost that would reveal it — a premise carried silently is the failure this exists to prevent
    - Retain these findings for Step 3
 
-2. **If `research.md` does NOT exist**:
-   - Warn the user — in the language from spec.json — that `research.md` was not generated, that `/sdd-spec-research <feature-name>` is recommended, and that design will continue without research findings
+2. **If `research.md` does not exist**:
+   - Warn the user that `research.md` was not generated, that `/sdd-spec-research <feature-name>` is recommended, and that design will continue without research findings
    - Continue with design generation without discovery findings
 
 ### Step 3: Generate Design Document
@@ -83,8 +84,6 @@ Using the template and principles loaded in Step 1 and the research findings fro
 - **Integrate all discovery findings**: Use researched information (APIs, patterns, technologies) throughout component definitions, architecture decisions, and integration points
 - **Stop on contradiction**: if a research claim conflicts with what the code or the environment actually shows, do not design around the discrepancy — stop and report it. The claim, not the design, is what needs fixing. Re-investigation belongs to `/sdd-spec-research`
 - If existing design.md found in Step 1, use it as reference context (merge mode)
-- Apply design rules: Type Safety, Visual Communication, Formal Tone
-- Use language specified in spec.json
 - Ensure the sections carrying research-derived content reflect it, and reference supporting details from `research.md`
 
 ### Step 4: Update Metadata
@@ -95,38 +94,22 @@ In spec.json:
 - Set `approvals.design.generated: true, approved: false`
 - Set `approvals.requirements.approved: true`
 - If `behaviors.md` exists: set `approvals.behaviors.approved: true` (add the key if missing)
-- Update `updated_at` timestamp
 
 ## Canon changes (only when a canon layer is declared)
 
 Design rarely produces canon-level content — architecture belongs in steering (`steering-principles.md §Admission`) or in design.md. But a product-level threshold or boundary the design had to settle is one: land it by `docs/settings/rules/canon-layer.md §Change Control`, with the canon changes at the top of the output; the commit is `docs(canon): design <feature-name>`. When there is nothing, write nothing — do not print an empty section.
 
-## Critical Constraints
-
-- **Type Safety**:
-  - Enforce strong typing aligned with the project's technology stack.
-  - For statically typed languages, define explicit types/interfaces and avoid unsafe casts.
-  - For TypeScript, never use `any`; prefer precise types and generics.
-  - For dynamically typed languages, provide type hints/annotations where available (e.g., Python type hints) and validate inputs at boundaries.
-  - Document public interfaces and contracts clearly to ensure cross-component type safety.
-- **Steering Alignment**: Respect existing architecture patterns from steering context
-- **Design Focus**: Architecture and interfaces ONLY, no implementation code
-- **Requirement IDs**: Use numeric requirement IDs only (e.g. "1.1", "1.2", "3.1", "3.3") exactly as defined in requirements.md. Do not invent new IDs or use alphabetic labels.
-
 </instructions>
 
 ## Tool Guidance
 
-- **Read first**: Load all context before taking action (specs, `research.md`, steering, templates, rules)
-- **No web search or fetch**: `research.md` is the sole source of discovery context here
 - **Analyze existing code**: Use Grep to find patterns and integration points in codebase
-- **Write last**: Generate design.md only after loading all context including research findings
 
 ## Output Description
 
 **Command execution output** (separate from design.md content):
 
-Provide brief summary in the language specified in spec.json:
+Write design.md, the warnings above and this summary in spec.json `language`:
 
 1. **Status**: Confirm design document generated at `{spec_path}/design.md`
 2. **Research Context**: Whether `research.md` was available and used
@@ -135,19 +118,13 @@ Provide brief summary in the language specified in spec.json:
 5. **Decisions**: `D<n>` entries written, and the Recommendation lines moved out of research.md (count)
 6. **Next Action**: Approval workflow guidance (see Safety & Fallback)
 
-**Format**: Concise Markdown (under 200 words) - this is the command output, NOT the design document itself
+**Format**: Concise Markdown (under 200 words) - this is the command output, not the design document itself
 
 **Note**: The actual design document follows the kind's design template structure.
 
 ## Safety & Fallback
 
 ### Error Scenarios
-
-**Requirements Not Approved**:
-
-- **Stop Execution**: Cannot proceed without approved requirements
-- **User Message**: "Requirements not yet approved. Approval required before design generation."
-- **Suggested Action**: "Run `/sdd-spec-design <feature-name> -y` to auto-approve requirements and proceed"
 
 **Missing Requirements**:
 
@@ -165,9 +142,6 @@ Provide brief summary in the language specified in spec.json:
 
 - **Warning**: "Steering directory empty or missing - design may not align with project standards"
 - **Proceed**: Continue with generation but note limitation in output
-
-**Invalid Requirement IDs**:
-  - **Stop Execution**: If requirements.md is missing numeric IDs or uses non-numeric headings (for example, "Requirement A"), stop and instruct the user to fix requirements.md before continuing.
 
 ### Next Phase: Task Generation
 

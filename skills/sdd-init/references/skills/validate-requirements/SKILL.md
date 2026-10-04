@@ -31,13 +31,11 @@ Otherwise, ask the user for the feature name.
 
 ### Batch Mode (`--batch`)
 
-When `--batch` flag is provided, the skill runs in non-interactive batch mode:
-- **Skip** the interactive discussion of suspicious requirements (Step 4)
-- Perform a bulk review of the requirements against the original input and steering context
-- Output the complete review result — including the unsourced-requirements list and GO/NO-GO — directly
-- Do not engage in back-and-forth dialogue with the user
+With `--batch`, the skill runs without the user:
+- Every check in Step 4 still runs
+- The Interactive Discussion of `requirements-review.md` §Output Format is omitted; the complete review with its GO/NO-GO decision is output directly, without back-and-forth with the user
 
-When `--batch` is NOT provided, maintain the default interactive behavior (engage in dialogue, especially to confirm whether suspicious requirements were actually wanted).
+Without `--batch`, maintain the default interactive behavior (engage in dialogue, especially to confirm whether suspicious requirements were actually wanted).
 
 ## Core Task
 
@@ -50,7 +48,7 @@ Interactive requirements quality review for the specified feature, focused on de
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` — including the **Project Description (Input)** section, the **Out of Scope** section, and the **Assumptions & Open Questions** section
-   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
+   - Read the entire `docs/steering/` directory
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/requirements-review.md` for review criteria and process
@@ -58,13 +56,7 @@ Interactive requirements quality review for the specified feature, focused on de
    - Read `docs/settings/rules/ears-format.md` to check acceptance-criteria conformance
    - Read the kind's requirements template as the structure reference (`docs/settings/rules/spec-kinds.md` §4)
 
-4. **Execute Requirements Review** (skip interactive dialogue in `--batch` mode):
-   - Follow requirements-review.md process: Build trace map → identify Critical Issues → recognize Strengths → GO/NO-GO
-   - **Run the traceability sweep on every requirement**, even when you cap critical issues at three: cross-check each requirement's text against the Project Description (Input) and steering. List every requirement that does not trace to a legitimate source.
-   - **Run the concept-alignment sweep on every requirement** (per `concept-alignment.md`): does it serve a citable product purpose, and does it contradict `product.md`, the declared canon, or a `steering/behaviors.md` invariant? List every conflict — contradictions are Critical.
-   - In batch mode: perform bulk review and output complete results without user dialogue
-   - In interactive mode (default): for each suspicious requirement, ask the user whether they actually wanted it — this distinguishes "the agent invented it" from "the user wanted it but didn't spell it out"
-   - Use language specified in spec.json for output
+4. **Execute Requirements Review** per `requirements-review.md` §Review Process.
 
 5. **Provide Decision and Next Steps**:
    - Clear GO/NO-GO decision with rationale
@@ -72,37 +64,13 @@ Interactive requirements quality review for the specified feature, focused on de
 
 ## Important Constraints
 
-- **Detect, don't redesign**: surface problems; do not rewrite the requirements or invent the missing ones yourself
-- **Trace-first**: the primary check for every requirement is its text against the Project Description (Input) and steering
-- **Purpose-second**: the companion question is "what product purpose does this serve?" — concept conflicts are NO-GO by default
-- **Invented features are NO-GO by default**: an unsourced requirement must be confirmed by the user or removed before proceeding
-- **Interactive approach**: engage in dialogue, not one-way evaluation
-- **Balanced assessment**: recognize both strengths and weaknesses
 - **Confirm before filing**: check each finding against the source itself — quote the `file:line` (spec, steering, canon, code) it rests on, or for an absence what you searched, and run the test, probe or command for any claim about how code behaves. Report what you could not confirm as unconfirmed, not as a Critical Issue.
 
 </instructions>
 
-## Tool Guidance
-
-- **Read first**: Load all context (spec, steering, rules) before review
-- **Grep if needed**: Search the original input/steering to confirm or refute that a requirement traces to it
-- **Interactive**: Engage with the user to resolve whether suspicious requirements were wanted
-
 ## Output Description
 
-Provide output in the language specified in spec.json with:
-
-1. **Review Summary**: Brief overview (2-3 sentences) of how well-grounded the requirements are and their readiness
-2. **Unrequested / Unsourced Requirements**: The headline list — every requirement that does not trace to user input, with its ID and what the user actually said (or "none found")
-3. **Concept Conflicts**: every requirement that contradicts or fails to serve the product canon, in `concept-alignment.md` finding format (or "none found")
-4. **Critical Issues**: Maximum 3, following requirements-review.md format (Concern, Type, Impact, Suggestion, Evidence)
-5. **Strengths**: 1-2 positive aspects
-6. **Final Assessment**: GO/NO-GO decision with rationale and next steps
-
-**Format Requirements**:
-
-- Follow requirements-review.md output format
-- Keep summary concise
+Write the review in spec.json `language`, following `requirements-review.md` §Output Format.
 
 ## Safety & Fallback
 
@@ -112,14 +80,13 @@ Provide output in the language specified in spec.json with:
 - **Requirements Not Generated**: If requirements phase not marked as generated in spec.json, warn but proceed with review
 - **Missing Out of Scope / Assumptions sections**: Treat absence as a finding (unbounded scope / hidden assumptions), not a blocker, unless the kind's template marks the section "Omit when …" and its condition holds
 - **Empty Steering Directory**: Warn user that project context is missing and may affect review quality
-- **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 
 ### Next Phase: Research & Design
 
 **If Requirements Pass Validation (GO Decision)**:
 
 - Apply any agreed changes, then proceed
-- **Recommended**: run `/sdd-spec-behavior <feature-name>` to formulate product-grounded behavior scenarios
+- **Recommended** (when the kind produces behaviors): run `/sdd-spec-behavior <feature-name>` to formulate product-grounded behavior scenarios
 - **Optional Gap Analysis** (for existing codebases): run `/sdd-validate-gap <feature-name>`
 - Run `/sdd-spec-research <feature-name>` to execute research & discovery
 - Then `/sdd-spec-design <feature-name>` to proceed to design

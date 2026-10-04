@@ -6,8 +6,7 @@
 
 ## Structural Goal
 
-<!-- What changes and how, in terms of structure: modules, boundaries, dependencies, names. No new behavior —
-a behavior change makes this a feature or fix spec (docs/settings/rules/spec-kinds.md). -->
+<!-- What changes and how, in terms of structure: modules, boundaries, dependencies, names. -->
 
 - {{CURRENT_STRUCTURE}} → {{TARGET_STRUCTURE}} — {{REASON}}
 

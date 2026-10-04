@@ -39,7 +39,7 @@ Analyze implementation gap for the specified feature based on approved requireme
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
    - Read `{spec_path}/requirements.md` for requirements
-   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
+   - Read the entire `docs/steering/` directory
 
 3. **Read Analysis Guidelines**:
    - Read `docs/settings/rules/gap-analysis.md` for comprehensive analysis framework
@@ -49,34 +49,19 @@ Analyze implementation gap for the specified feature based on approved requireme
    - Analyze existing codebase using search and read tools
    - Search the web for external dependency research if needed
    - Evaluate multiple implementation approaches (extend/new/hybrid)
-   - Use language specified in spec.json for output
 
 5. **Generate Analysis Document**:
    - Write the analysis to `{spec_path}/gap-analysis.md`, following the output guidelines in gap-analysis.md
    - Present multiple viable options with trade-offs
    - Flag areas requiring further research
 
-   This file is what carries the analysis into the next phase: `/sdd-spec-research` reads `{spec_path}/gap-analysis.md` if it is there. This skill is optional — when it is skipped the file simply does not exist, and research proceeds without it. Do NOT modify spec.json; the file's existence is the only record that gap analysis ran.
-
-## Important Constraints
-
-- **Information over Decisions**: Provide analysis and options, not final implementation choices
-- **Multiple Options**: Present viable alternatives when applicable
-- **Thorough Investigation**: Use tools to deeply understand existing codebase
-- **Explicit Gaps**: Clearly flag areas needing research or investigation
+   This file is what carries the analysis into the next phase: `/sdd-spec-research` reads `{spec_path}/gap-analysis.md` if it is there. This skill is optional — when it is skipped the file simply does not exist, and research proceeds without it. Leave spec.json unchanged; the file's existence is the only record that gap analysis ran.
 
 </instructions>
 
-## Tool Guidance
-
-- **Read first**: Load all context (spec, steering, rules) before analysis
-- **Search extensively**: Examine codebase for patterns, conventions, and integration points
-- **Web search**: Research external dependencies and best practices when needed
-- **Write last**: Generate analysis only after complete investigation
-
 ## Output Description
 
-Provide output in the language specified in spec.json with:
+Write gap-analysis.md and this summary in spec.json `language`:
 
 1. **Analysis Summary**: Brief overview (3-5 bullets) of scope, challenges, and recommendations
 2. **Document Status**: Confirm the analysis was written to `{spec_path}/gap-analysis.md`
@@ -95,11 +80,10 @@ Provide output in the language specified in spec.json with:
 - **Requirements Not Approved**: If requirements not approved, warn user but proceed (gap analysis can inform requirement revisions)
 - **Empty Steering Directory**: Warn user that project context is missing and may affect analysis quality
 - **Integration Scope Unclear**: flag it for full discovery in /sdd-spec-research rather than blocking
-- **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 
 ### Next Phase: Research & Discovery
 
-Phase order: `docs/settings/rules/spec-kinds.md` §4. Gap analysis surfaces "Research Needed" items; the research phase resolves them and `/sdd-validate-research` checks that they were actually resolved rather than assumed. Do NOT skip research and jump to design.
+Phase order: `docs/settings/rules/spec-kinds.md` §4. Gap analysis surfaces "Research Needed" items; the research phase resolves them and `/sdd-validate-research` checks that they were actually resolved rather than assumed. Research comes before design; do not skip it.
 
 **If Gap Analysis Complete**:
 

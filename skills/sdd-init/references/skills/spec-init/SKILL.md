@@ -42,9 +42,7 @@ Generate a unique feature name from the project description and initialize the s
 4. **Initialize Files Using Templates**:
    - Read `docs/settings/templates/specs/init.json`
    - Read `docs/settings/templates/specs/requirements-init.md`
-   - Replace placeholders:
-     - `{{FEATURE_NAME}}` → generated feature name
-     - `{{TIMESTAMP}}` → current ISO 8601 timestamp
+   - Fill in:
      - `{{PROJECT_DESCRIPTION}}` → the provided project description
      - `kind` in spec.json → the confirmed kind (`init.json` carries `"feature"` as the value to replace)
    - When the kind does not produce behaviors (`spec-kinds.md` §4), remove the `approvals.behaviors` key from spec.json.
@@ -52,23 +50,13 @@ Generate a unique feature name from the project description and initialize the s
 
 ## Important Constraints
 
-- DO NOT generate requirements/design/tasks at this stage
-- Follow stage-by-stage development principles
-- Maintain strict phase separation
-- Only initialization is performed in this phase
+- Only initialization happens in this phase; requirements, design and tasks are generated in their own phases.
 
 </instructions>
 
-## Tool Guidance
-
-- Use file search tools to check existing spec directories for name uniqueness
-- Read templates: `init.json` and `requirements-init.md`
-- Write to create spec.json and requirements.md after placeholder replacement
-- Perform validation before any file write operation
-
 ## Output Description
 
-Provide output in the language from `docs/settings/templates/specs/init.json` `language` (else `ja`) — read it before any user dialogue, since this skill creates `spec.json` from it and it does not exist yet when the run starts. Structure:
+Provide output in the language from `docs/settings/templates/specs/init.json` `language` — read it before any user dialogue, since this skill creates `spec.json` from it and it does not exist yet when the run starts. Structure:
 
 1. **Generated Feature Name**: `feature-name` format with 1-2 sentence rationale
 2. **Project Summary**: Brief summary (1 sentence) and the kind with its one-line reason

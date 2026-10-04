@@ -27,7 +27,6 @@ This skill expects:
 
 If inputs were provided with this skill invocation, use them directly.
 Otherwise, ask the user for the feature name.
-If task numbers are not provided, all pending tasks will be executed.
 
 ## Core Task
 
@@ -45,7 +44,7 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 
 - `{spec_path}/spec.json`, `requirements.md`, `design.md`, `tasks.md` (read `kind` from spec.json)
 - `{spec_path}/behaviors.md` (if exists) for scenario verification obligations
-- **Entire `docs/steering/` directory** for complete project memory
+- The entire `docs/steering/` directory
 
 **Validate approvals**:
 
@@ -79,7 +78,7 @@ Write the least code that satisfies the task. Stop at the first rung that holds:
 
 The gate is a reflex, not a research project — take the highest rung that holds and move on. No abstraction with one implementation, no config for a value that never changes, no scaffolding "for later". Never gate away (build it fully): input validation at trust boundaries, error handling that prevents data loss, security, accessibility, or anything the task explicitly requires.
 
-For each selected task, first judge whether the task involves **testable logic** (functions, classes, algorithms, data transformations) or **non-testable changes** (config values, text/prompt edits, file moves, simple field changes).
+For each selected task, first judge whether the task involves **testable logic** (functions, classes, algorithms, data transformations) or **non-testable changes** (config values, text/prompt edits, file moves, simple field changes). Tests check behavior: do not write a test that only asserts a config value, a string literal, or a file's contents.
 
 #### When testable logic exists → TDD (Red-Green-Refactor)
 
@@ -101,7 +100,6 @@ For each selected task, first judge whether the task involves **testable logic**
 #### When no testable logic exists → Direct Implementation
 
 - Apply the change directly
-- Run existing tests to confirm no regressions
 
 #### Always
 
@@ -123,18 +121,14 @@ For each selected task, first judge whether the task involves **testable logic**
 
 ## Critical Constraints
 
-- **TDD when warranted**: Use TDD only when the task introduces testable logic. Do NOT write tests that merely assert config values, string literals, or file contents
 - **Test the critical path, not every line**: Cover non-trivial logic with the smallest tests that fail if it breaks; do not add a separate test per trivial branch, getter, or wrapper
 - **Task Scope**: Implement only what the specific task requires
-- **No Regressions**: Existing tests must continue to pass
 - **Design Alignment**: Implementation must follow design.md specifications
 
 </instructions>
 
 ## Tool Guidance
 
-- **Read first**: Load all context before implementation
-- **Test first**: Write tests before code only when testable logic exists
 - **Search the web** for library documentation when needed
 
 ## Output Description
@@ -154,7 +148,7 @@ Provide brief summary in the language specified in spec.json:
 **Tasks Not Approved or Missing Spec Files**:
 
 - **Stop Execution**: All spec files must exist and tasks must be approved
-- **Tasks Approval**: The approval is the user's decision. Ask for it, and write `approvals.tasks.approved: true` (with `updated_at`) only on their explicit yes — never on your own judgment
+- **Tasks Approval**: The approval is the user's decision. Ask for it, and write `approvals.tasks.approved: true` only on their explicit yes — never on your own judgment
 - **Suggested Action (tasks not approved)**: Ask the user to approve the tasks, per Tasks Approval
 - **Suggested Action (missing spec files)**: "Complete previous phases: `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-tasks`"
 
@@ -162,17 +156,6 @@ Provide brief summary in the language specified in spec.json:
 
 - **Stop Implementation**: Fix failing tests before continuing
 - **Action**: Debug and fix, then re-run
-
-### Task Execution
-
-**Execute specific task(s)**:
-
-- `/sdd-spec-impl <feature-name> 1.1` - Single task
-- `/sdd-spec-impl <feature-name> 1,2,3` - Multiple tasks
-
-**Execute all pending**:
-
-- `/sdd-spec-impl <feature-name>` - All unchecked tasks
 
 ### After All Tasks Completed
 

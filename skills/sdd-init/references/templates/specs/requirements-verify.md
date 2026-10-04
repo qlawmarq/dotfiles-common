@@ -7,11 +7,7 @@ The deliverable is verdict.md (`docs/settings/rules/spec-kinds.md`). -->
 
 ## Questions
 
-<!--
-One heading per question, numeric ID only. The criteria are verdict rules: the verdict for the question is the
-subject, the observation across the runs is the condition, and the verdict word is one of
-holds | partial | fails | unmeasured.
--->
+<!-- One heading per question. The criteria are verdict rules (`docs/settings/rules/ears-format.md` §Subject Selection Guidelines; verdict words: `docs/settings/rules/spec-kinds.md` §6). -->
 
 ### 1: {{QUESTION}}
 **Priority:** Must | Should | Could

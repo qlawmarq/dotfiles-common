@@ -8,8 +8,6 @@
 | --- | --- | --- | --- |
 | D01 | [one-line title] | [3–6 search terms] | [decisions/d01-slug.md](decisions/d01-slug.md) |
 
-Enumerable norms (catalogs, entity lists, guards) live in [registry.md](registry.md) and are cited by ID.
-
 ## Open Questions
 
 Gaps found mid-work are filed here.

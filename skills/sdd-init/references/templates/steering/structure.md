@@ -24,14 +24,7 @@
 
 ## Import Organization
 
-```typescript
-// Example import patterns
-import { Something } from '@/path'  // Absolute
-import { Local } from './local'     // Relative
-```
-
-**Path Aliases**:
-- `@/`: [Maps to]
+[How modules reference each other — absolute vs relative, aliases]
 
 ## Code Organization Principles
 

@@ -22,7 +22,7 @@ Focus on capabilities and outcomes, not code structure.
 - Class names and API contracts
 - Specific data structures
 
-**Rationale**: Implementation details (files, methods, types) are defined in design.md. Tasks describe the functional work to be done.
+**Rationale**: Implementation details (methods, types, contracts) are defined in design.md. Tasks describe the functional work to be done.
 
 A detail bullet names the design block it realizes (for example `per design §<ComponentName>`) — the block is the contract's seat (`document-hygiene.md`, one contract, one seat).
 
@@ -54,21 +54,21 @@ A detail bullet names the design block it realizes (for example `per design §<C
 
 **End each task detail section with**:
 
-- `_Requirements: X.X, Y.Y_` listing **only numeric requirement IDs** (comma-separated). Never append descriptive text, parentheses, translations, or free-form labels.
-- For cross-cutting requirements, list every relevant requirement ID. All requirements MUST have numeric IDs in requirements.md. If an ID is missing, stop and correct requirements.md before generating tasks.
+- `_Requirements: X.X, Y.Y_` — criterion IDs; `ears-format.md` §Requirement IDs holds their form, how they are cited, and the stop when requirements.md has none.
+- For cross-cutting requirements, list every relevant criterion ID.
 - Reference components/interfaces from design.md when helpful (e.g., `_Contracts: AuthService API`)
 
 ### 5. Code-Only Focus
 
-**Include ONLY**:
+**Include only**:
 
 - Coding tasks (implementation)
-- Testing tasks requiring separate execution (integration, E2E, performance)
+- Testing tasks requiring separate execution (§6)
 - Technical setup tasks (infrastructure, configuration)
 
 **Exclude**:
 
-- Unit tests covered by TDD cycles (handled in implementation phase)
+- Unit tests covered by TDD cycles (§6)
 - Deployment tasks
 - Documentation tasks
 - Asking the user to look at the product for a `user` scenario — asked at completion (`concept-alignment.md §User Check`), never a task an agent completes
@@ -76,20 +76,13 @@ A detail bullet names the design block it realizes (for example `per design §<C
 
 `verify`: tasks are per `tasks-verify.md`; §1's file-path avoidance (records go to `probe/…`), §2's integration ending and §5 do not apply. `chore`: the deliverable itself (documents, configuration, data) is the task's work; §5's exclusion of documentation tasks does not apply.
 
-### Optional Test Coverage Tasks
-
-- When the design already guarantees functional coverage and rapid MVP delivery is prioritized, mark purely test-oriented follow-up work (e.g., baseline rendering/unit tests) as **optional** using the `- [ ]*` checkbox form.
-- Only apply the optional marker when the sub-task directly references acceptance criteria from requirements.md in its detail bullets.
-- Never mark implementation work or integration-critical verification as optional—reserve `*` for auxiliary/deferrable test coverage that can be revisited post-MVP.
-
 ### 6. TDD Test Deduplication
 
-Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implementation phase MUST NOT be generated as independent sub-tasks.
+Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implementation phase are never generated as independent sub-tasks.
 
 **Principles**:
 
-- Do NOT list unit tests that are naturally covered by TDD cycles (Red-Green-Refactor) as independent sub-tasks
-- Integration tests, E2E tests, and performance tests that require separate execution outside TDD cycles SHOULD still be generated as independent tasks
+- Integration tests, E2E tests, and performance tests that require separate execution outside TDD cycles are still generated as independent tasks
 - Describe behaviors to verify as regular detail items, not with a "Unit test:" label
 
 **Examples**:
@@ -112,15 +105,13 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
 
 ### Sequential Numbering
 
-- Major tasks MUST increment: 1, 2, 3, 4, 5...
+- Major tasks increment: 1, 2, 3, 4, 5...
 - Sub-tasks reset per major task: 1.1, 1.2, then 2.1, 2.2...
 - Never repeat major task numbers
 
 ### Parallel Analysis (default)
 
 - Assume parallel analysis is enabled unless explicitly disabled (e.g. `--sequential` flag); conditions, marking, and grouping: `docs/settings/rules/tasks-parallel-analysis.md`.
-- Validate that identified parallel tasks operate within separate boundaries the design defines.
-- Confirm API/event contracts from design.md do not overlap in ways that cause conflicts.
 
 ### Checkbox Format
 
@@ -139,7 +130,7 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
   - Detail items...
   - _Requirements: Z.Z, W.W_
 
-- [ ] 2. Next major task (NOT 1 again!)
+- [ ] 2. Next major task (never 1 again)
 - [ ] 2.1 Sub-task...
 ```
 
@@ -147,13 +138,10 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
 
 **Mandatory Check**:
 
-- ALL requirements from requirements.md MUST be covered
+- Every requirement in requirements.md is covered by at least one task
 - Review any designs with ambiguous work content
 - Split any tasks with excessive workload
-- Cross-reference every requirement ID with task mappings
+- Cross-reference every criterion ID with task mappings
 - If gaps found: Return to requirements or design phase
-- No requirement should be left without corresponding tasks
-
-Use `N.M`-style numeric requirement IDs where `N` is the top-level requirement number from requirements.md (for example, Requirement 1 → 1.1, 1.2; Requirement 2 → 2.1, 2.2), and `M` is a local index within that requirement group.
 
 Document any intentionally deferred requirements with rationale.

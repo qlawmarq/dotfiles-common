@@ -3,17 +3,9 @@
 ## Introduction
 {{INTRODUCTION}}
 
-<!--
-Every requirement below must trace back to the user's input or an explicit confirmation.
-A requirement that traces to neither has no legitimate source — it is gold-plating. Remove it or
-raise it as a proposal in "Assumptions & Open Questions". Tag each requirement with a MoSCoW priority
-(Must / Should / Could) traceable to user intent.
--->
-
 ## Requirements
 
 ### Requirement 1: {{REQUIREMENT_AREA_1}}
-<!-- Requirement headings MUST include a leading numeric ID only (for example: "Requirement 1: ...", "1. Overview", "2 Feature: ..."). Alphabetic IDs like "Requirement A" are not allowed. -->
 **Objective:** As a {{ROLE}}, I want {{CAPABILITY}}, so that {{BENEFIT}}
 **Priority:** Must | Should | Could
 
@@ -36,16 +28,9 @@ raise it as a proposal in "Assumptions & Open Questions". Tag each requirement w
 
 ## Out of Scope
 
-Capabilities deliberately **not** included in this specification — especially ones a reasonable reader
-might assume are present. Writing them down turns silent assumptions into auditable decisions.
-
 - {{OUT_OF_SCOPE_ITEM}} — reason / where it was excluded (e.g., user said "just X for now")
 
 ## Assumptions & Open Questions
-
-Unresolved gaps and the assumptions made to proceed. Items here are **not yet confirmed requirements**.
-Scope-/behavior-affecting questions should be resolved with the user before this document is approved;
-trivial, reversible assumptions may stay logged here for confirmation.
 
 - **Assumption:** {{ASSUMPTION}} — impact if wrong / needs confirmation
 - **Open question:** {{QUESTION}} — who/what is needed to resolve it

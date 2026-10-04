@@ -31,7 +31,7 @@
 - Integration points deferred
 
 ### Assumptions
-Research claims this design depends on that were **not** verified. Each needs the sign that would reveal it has broken. Omit the section when there are none — do not write "none" as filler.
+Omit the section when there are none.
 
 - `<claim>` (`C<n>`) — impact: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 
@@ -46,8 +46,6 @@ One entry per decision that shaped this design, including decisions settled duri
 
 ## Architecture
 
-> A contract's seat is the block of the component that owns it (§Components and Interfaces; `docs/settings/rules/document-hygiene.md`). Diagrams carry names and edges only. research.md holds measurements and option evaluation; the decision itself lives in §Design Decisions. A decision that rests on a research claim cites it inline as `(C<n>)`.
-
 ### Existing Architecture Analysis (if applicable)
 When modifying existing systems:
 - Current architecture patterns and constraints
@@ -56,10 +54,10 @@ When modifying existing systems:
 - Technical debt addressed or worked around
 
 ### Architecture Pattern & Boundary Map
-**RECOMMENDED**: Include Mermaid diagram showing the chosen architecture pattern and system boundaries (required for complex features, optional for simple additions)
+**Recommended**: Include Mermaid diagram showing the chosen architecture pattern and system boundaries (required for complex features, optional for simple additions)
 
 **Architecture Integration**:
-- Selected pattern: [name only — its contract lives in the owning component's block]
+- Selected pattern: [name only]
 - Domain/feature boundaries: [how responsibilities are separated to avoid conflicts]
 - Existing patterns preserved: [list key patterns]
 - New components rationale: [why each is needed]
@@ -85,9 +83,9 @@ Skip this section entirely for simple CRUD changes.
 
 ## Components and Interfaces
 
-Group components by domain or layer; the headings are the index. Each component block is its contract's seat (§Architecture). List requirement IDs as `2.1, 2.3`. Only components introducing new boundaries (logic hooks, external integrations, persistence) need a full block; presentation components need the Field table plus a short Implementation Note.
+Group components by domain or layer; the headings are the index. Only components introducing new boundaries (logic hooks, external integrations, persistence) need a full block; presentation components need the Field table plus a short Implementation Note.
 
-When multiple UI components share the same contract, reference a base interface/props definition instead of duplicating code blocks.
+When multiple UI components share the same contract, reference a base interface definition instead of duplicating code blocks.
 
 ### [Domain / Layer]
 
@@ -97,7 +95,6 @@ When multiple UI components share the same contract, reference a base interface/
 |-------|--------|
 | Intent | 1-line description of the responsibility |
 | Requirements | 2.1, 2.3 |
-| Owner / Reviewers | (optional) |
 
 **Responsibilities & Constraints**
 - Primary responsibility
@@ -116,10 +113,8 @@ Summarize external dependency findings here; deeper investigation (API signature
 **Contracts**: Service [ ] / API [ ] / Event [ ] / Batch [ ] / State [ ]  ← check only the ones that apply; the subsections of unchecked types are deleted.
 
 ##### Service Interface
-```typescript
-interface [ComponentName]Service {
-  methodName(input: InputType): Result<OutputType, ErrorType>;
-}
+```
+[ComponentName].[method]([input]: [InputType]) → [OutputType] | [ErrorType]
 ```
 (state each once — in the docstring when the language has one, otherwise here)
 - Preconditions:
@@ -127,9 +122,9 @@ interface [ComponentName]Service {
 - Invariants:
 
 ##### API Contract
-| Method | Endpoint | Request | Response | Errors |
-|--------|----------|---------|----------|--------|
-| POST | /api/resource | CreateRequest | Resource | 400, 409, 500 |
+| Operation | Request | Response | Errors |
+|-----------|---------|----------|--------|
+| [name] | [shape] | [shape] | [error cases] |
 
 ##### Event Contract
 - Published events:  
@@ -197,9 +192,9 @@ Record only feature-specific decisions or deviations; baseline standards live in
 Concrete error handling patterns and recovery mechanisms for each error type.
 
 ### Error Categories and Responses
-**User Errors** (4xx): Invalid input → field-level validation; Unauthorized → auth guidance; Not found → navigation help
-**System Errors** (5xx): Infrastructure failures → graceful degradation; Timeouts → circuit breakers; Exhaustion → rate limiting  
-**Business Logic Errors** (422): Rule violations → condition explanations; State conflicts → transition guidance
+**User Errors**: Invalid input → field-level validation; Unauthorized → auth guidance; Not found → navigation help
+**System Errors**: Infrastructure failures → graceful degradation; Timeouts → circuit breakers; Exhaustion → rate limiting  
+**Business Logic Errors**: Rule violations → condition explanations; State conflicts → transition guidance
 
 **Process Flow Visualization** (when complex business logic exists):
 Include Mermaid flowchart only for complex error scenarios with business workflows.
@@ -230,6 +225,6 @@ Include a Mermaid flowchart showing migration phases when schema/data movement i
 - Phase breakdown, rollback triggers, validation checkpoints
 
 ## Supporting References (Optional)
-- Create this section only when keeping the information in the main body would hurt readability (e.g., very long TypeScript definitions, vendor option matrices, exhaustive schema tables).
+- Create this section only when keeping the information in the main body would hurt readability (e.g., very long type definitions, vendor option matrices, exhaustive schema tables).
 - Link to the supporting references from the main text instead of inlining large snippets.
-- Background research notes and comparisons live in `research.md`; a decision drawn from them is written here once and cites its claim as `(C<n>)`.
+- Background research notes and comparisons live in `research.md`.

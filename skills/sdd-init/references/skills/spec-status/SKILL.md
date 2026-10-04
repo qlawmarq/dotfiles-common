@@ -25,7 +25,7 @@ This skill expects:
 1. **Feature name** (optional): The feature directory name in `docs/tasks/`
 
 - **With a feature name** → the detailed single-spec report described below.
-- **Without one** → list every spec in `docs/tasks/todo/` and `docs/tasks/done/` with its phase and task progress. Do not ask the user which feature they meant; the list is the answer.
+- **Without one** → the list in §List All Specs. Do not ask the user which feature they meant; the list is the answer.
 
 For a cross-spec view that also covers dependencies, blockers, and the inception plan, use `/sdd-brief` — this skill stays focused on one spec's phase detail.
 
@@ -61,35 +61,17 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 
 ### Step 3: Generate Report
 
-Create report in the language specified in spec.json covering:
-
-1. **Current Phase & Progress**: Where the spec is in the workflow
-2. **Completion Status**: Percentage complete for each phase
-3. **Task Breakdown**: If tasks exist, show completed/remaining counts
-4. **Next Actions**: What needs to be done next
-5. **Blockers**: Any issues preventing progress
-
-## Critical Constraints
-
-- Use language from spec.json
-- Calculate accurate completion percentages
-- Identify specific next action commands
+Write the report per Output Description.
 
 </instructions>
 
-## Tool Guidance
-
-- **Read**: Load spec.json first, then other spec files as needed
-- **Parse carefully**: Extract completion data from tasks.md checkboxes
-- Use file search tools to check which spec files exist
-
 ## Output Description
 
-Provide the report in the language specified in that spec's `spec.json`. In list mode there is no single spec.json — use `docs/settings/templates/specs/init.json` `language`, else `ja`.
+Write the report in that spec's `spec.json` `language`; in list mode, in `docs/settings/templates/specs/init.json` `language`.
 
 **Report Structure**:
 
-1. **Feature Overview**: Name, kind, phase, last updated
+1. **Feature Overview**: Name, kind, phase
 2. **Phase Status**: Requirements, Behaviors (`n/a` when the kind does not produce behaviors), Research, Design, Tasks with completion %; for `verify`, also Verdict: the verdict per question, or absent
 3. **Task Progress**: If tasks exist, show X/Y completed
 4. **Next Action**: Specific command to run next

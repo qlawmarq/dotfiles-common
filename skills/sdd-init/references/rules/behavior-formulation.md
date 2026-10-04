@@ -12,16 +12,7 @@ A spec can be internally consistent (requirements ↔ design ↔ code) and still
 
 ## Scenario Format
 
-Use Gherkin structure. Keep the keywords (`Given`, `When`, `Then`, `And`, `But`) in English; write the variable content in the target language from spec.json (same policy as EARS trigger keywords).
-
-```
-### Scenario N: <one-line behavior title>
-Given <concrete initial state — named actors, real values>
-When <the triggering event>
-Then <the observable outcome>
-Grounds: <one citation — the ID and one phrase>
-Verification: <tier> — <pointer>
-```
+Use Gherkin structure. Keep the keywords (`Given`, `When`, `Then`, `And`, `But`) in English; write the variable content in the target language from spec.json (same policy as EARS trigger keywords); the form is `docs/settings/templates/specs/behaviors.md` §Scenarios.
 
 - **One behavior per scenario.** Split compound behaviors.
 - **Concrete over abstract**: "Given the order holds 3 items and the stock of item B is 0", not "Given an order with an out-of-stock item". Concrete values expose edge cases that abstract rules hide.
@@ -29,7 +20,7 @@ Verification: <tier> — <pointer>
 
 ## Grounding Discipline (the `Grounds:` line)
 
-Every scenario MUST cite the product purpose it serves — this is **forward traceability**:
+Every scenario cites the product purpose it serves — this is **forward traceability**:
 
 - `product.md §<section>` — a purpose, theme, or capability stated in steering
 - A canon decision, when `product.md` declares Canon References (see `concept-alignment.md` for lookup rules)

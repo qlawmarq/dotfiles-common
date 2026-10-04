@@ -13,7 +13,7 @@ Build the map at runtime from what actually exists. Do not assume any layer is p
 | Layer | Path | What it holds | How to read it |
 | --- | --- | --- | --- |
 | Steering | `docs/steering/` | Project-wide rules and context: `product.md` (why/what), `tech.md`, `structure.md`, plus custom files | Small enough to read fully when the topic is project-wide; otherwise read the file that owns the topic |
-| Canon (optional) | declared in `product.md §Canon References` (default `docs/canon/`) | Product decisions: `decisions/` (the why), `registry.md` (enumerable norms) | `README.md` decision log and `registry.md` are the indexes; JIT-grep decisions by their `keywords` line. Committed text is in force; uncommitted edits bind nothing (`canon-layer.md`) |
+| Canon (optional) | declared in `product.md §Canon References` | Product decisions: `decisions/` (the why), `registry.md` (enumerable norms) | `README.md` decision log and `registry.md` are the indexes; JIT-grep decisions by their `keywords` line. Committed text is in force; uncommitted edits bind nothing (`canon-layer.md`) |
 | Inception | `docs/inception/<plan-id>/` | `units.md`, `dependencies.md` — unit boundaries and build order | Read the `units.md` Summary first; `units.md` is often large, so target the relevant unit. The unit→spec map is each `spec.json` `plan` block |
 | Specs | `docs/tasks/todo/<feature>/`, `docs/tasks/done/<feature>/` | `spec.json`, `requirements.md`, `research.md`, `design.md`, `tasks.md` | `spec.json` is small — read all of them freely. The Markdown files are large; open only the ones the question touches |
 | Settings | `docs/settings/rules/`, `docs/settings/templates/` | The methodology itself | Read a rule only when you need the technique it defines |

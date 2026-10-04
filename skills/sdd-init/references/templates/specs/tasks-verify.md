@@ -3,7 +3,7 @@
 <!--
 Tasks for a verify spec are preparation, runs with their records, and judgment — per design.md §Protocol.
 When a session of the user's could settle a Must question, that session is the first task (`docs/settings/rules/spec-kinds.md` §6).
-A helper script lives in `probe/`. `_Requirements:` lists the question's criterion IDs.
+A helper script lives in `probe/`.
 -->
 
 ## Task Format Template

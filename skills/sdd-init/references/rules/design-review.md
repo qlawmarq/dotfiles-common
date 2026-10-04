@@ -47,7 +47,7 @@ A design can integrate perfectly with the architecture and still build the wrong
 ### 4. Type Safety & Interface Design
 
 - Proper type definitions and interface contracts
-- Avoidance of unsafe patterns (e.g., `any` in TypeScript)
+- Avoidance of unchecked or untyped escape hatches
 - Clear API boundaries and data structures
 - Input validation and error handling coverage
 
@@ -64,7 +64,7 @@ Check what the design asserts against its own text and against the code, instead
 | A — internal contradiction | The same contract stated in two or more places (a table and a diagram, Data Models and a Service Interface) | Quote both and compare. A difference is a discrepancy |
 | B — concrete expression | Formulas, thresholds, enum values, and function, class, or string names the design asserts about existing code | Grep or read the code and quote it. Report names that do not exist, values that differ, and names that collide |
 | C — missed branch site | A design that adds a value to an existing enum or kind | Grep every site that branches on that kind (match / switch / assert / tables) and list the ones the design does not mention |
-| D — uncovered criterion | Every acceptance criterion ID in requirements.md | Grep the IDs against the `Requirements` field of every component block. List the IDs no block carries. An ID listed in design.md §Requirements without a component is assigned |
+| D — uncovered criterion | Every acceptance criterion ID (`N.M`) in requirements.md | Grep each against the field that carries it: a component's `Requirements` (`feature`); a guard's `covers`, or the `guard:` on the criterion itself (`fix`); the `guard:` on the criterion itself (`refactor`, and a `chore` criterion that keeps a behavior); its question's N in a run set's `Questions` (`verify`). A `chore` reached-state criterion is judged by design.md §Verification Plan's exit condition, not grepped. List the IDs nothing carries; an ID in design.md §Requirements without a component is assigned |
 
 ### 7. Non-functional Coverage
 
@@ -85,8 +85,8 @@ For each issue:
 **Concern**: [Specific problem]
 **Impact**: [Why it matters]
 **Suggestion**: [Concrete improvement]
-**Traceability**: [Requirement ID/section from requirements.md]
-**Evidence**: [Design doc section/heading]
+**Traceability**: [Criterion ID or section of requirements.md; a steering constraint when it justifies the issue]
+**Evidence**: [Design doc section/heading, diagram, or artifact]
 ```
 
 ### Step 3: Recognize Strengths
@@ -97,12 +97,6 @@ Acknowledge 1-2 strong aspects to maintain balanced feedback.
 
 - **GO**: No concept/behavior conflict, no critical architectural misalignment, requirements addressed, clear implementation path, acceptable risks
 - **NO-GO**: Concept or behavior-invariant contradiction, fundamental conflicts, critical gaps, high failure risk, disproportionate complexity
-
-## Traceability & Evidence
-
-- Link each critical issue to the relevant requirement(s) from `requirements.md` (ID or section).
-- Cite evidence locations in the design document (section/heading, diagram, or artifact) to support the assessment.
-- When applicable, reference constraints from steering context to justify the issue.
 
 ## Output Format
 
@@ -116,7 +110,7 @@ In the Step 2 format.
 
 ### Recomputation discrepancies
 
-Every discrepancy found under criterion 6, each with its kind (A / B / C / D) and, for A–C, both quotes (design and code, or the two design locations). Separate from Critical Issues (≤3), with no cap on the count. List the discrepancies only; whether the design or the code is wrong is settled in dialogue with the designer. D items are listed as *unassigned*, not as Critical; whether the design misses them or the block's field is incomplete is settled in dialogue.
+Every discrepancy found under criterion 6, each with its kind (A / B / C / D) and, for A–C, both quotes (design and code, or the two design locations). Separate from Critical Issues (≤3), with no cap on the count. List the discrepancies only; whether the design or the code is wrong is settled in dialogue with the designer. D items are listed as *unassigned*, not as Critical; whether the design misses them or the carrying field is incomplete is settled in dialogue.
 
 ### Design Strengths
 
@@ -132,25 +126,10 @@ Engage on designer's perspective, alternatives, clarifications, and necessary ch
 
 ## Length & Focus
 
-- Summary: 2–3 sentences
 - Each critical issue: 5–7 lines total
 - Overall review: keep concise (~400 words guideline; the Recomputation discrepancies list is outside it)
 
 ## Review Guidelines
 
-1. **Critical Focus**: Only flag issues that significantly impact success
-2. **Constructive Tone**: Provide solutions, not just criticism
-3. **Interactive Approach**: Engage in dialogue rather than one-way evaluation
-4. **Balanced Assessment**: Recognize both strengths and weaknesses
-5. **Clear Decision**: Make definitive GO/NO-GO recommendation
-6. **Actionable Feedback**: Ensure all suggestions are implementable
-7. **Grounded Claims**: Before raising an issue about how code, tests or probes behave, check it against the source — run it or quote the `file:line` — never infer it from names or reasoning alone
-
-## Final Checklist
-
-- **Critical Issues ≤ 3** and each includes Impact and Suggestion
-- **Traceability**: Each issue references requirement ID/section
-- **Evidence**: Each issue cites design doc location
-- **Recomputation**: every contract stated twice, every concrete expression about existing code, and every branch site of an extended kind checked, and every criterion ID grepped, with each discrepancy quoted
-- **Non-functional**: security, performance, migration and dependency criticality present where required
-- **Decision**: GO/NO-GO with clear rationale and next steps
+1. **Actionable Feedback**: Ensure all suggestions are implementable
+2. **Grounded Claims**: Before raising an issue about how code, tests or probes behave, check it against the source — run it or quote the `file:line` — never infer it from names or reasoning alone

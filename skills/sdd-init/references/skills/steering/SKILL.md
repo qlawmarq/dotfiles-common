@@ -15,7 +15,6 @@ description: >-
 
 - Bootstrap: Generate core steering from codebase (first-time)
 - Sync: Keep steering and codebase aligned (maintenance)
-- Both apply `docs/settings/rules/steering-principles.md` to the whole codebase
 
 **Success Criteria**:
 
@@ -41,7 +40,7 @@ Check `docs/steering/` status:
 1. Load `docs/settings/rules/steering-principles.md`, `docs/settings/rules/document-hygiene.md`, and the templates in `docs/settings/templates/steering/`
 2. Analyze codebase (JIT):
    - Use file search tools to find source files
-   - Read README, package.json, etc.
+   - Read the README and build manifests
    - Search for patterns in the codebase
 3. Extract what passes `§Admission`, into the files `§File focus` assigns
 4. Propose the files (following the templates), confirm, write, and commit per `steering-principles.md §Updating`
@@ -64,18 +63,9 @@ Check `docs/steering/` status:
 
 </instructions>
 
-## Tool guidance
-
-- Use file search tools to find source and config files
-- Read steering documents, project docs, and config files
-- Search for patterns in the codebase
-- List directory contents to analyze structure
-
-**JIT Strategy**: Fetch when needed, not upfront.
-
 ## Output description
 
-Write the steering documents and this summary in the project's language: `docs/settings/templates/specs/init.json` `language`, else `ja`. The templates' section headings are scaffolding — translate them.
+Write the steering documents and this summary in the project's language: `docs/settings/templates/specs/init.json` `language`. The templates' section headings are scaffolding — translate them.
 
 Chat summary only.
 
@@ -110,23 +100,10 @@ Confirmed and committed per steering-principles.md §Updating.
 - Consider api-standards.md
 ```
 
-## Examples
-
-### Bootstrap
-
-**Input**: Empty steering, React TypeScript project
-**Output**: 3 files with patterns - "Feature-first", "TypeScript strict", "No default exports"
-
-### Sync
-
-**Input**: Existing steering, new `/api` directory
-**Output**: Updated structure.md, flagged non-compliant files, suggested api-standards.md
-
 ## Safety & Fallback
 
 - **Uncertainty**: Report both states, ask user
 
 ## Notes
 
-- `behaviors.md` is not generated from code analysis; sync only flags stale invariants
 - Templates and principles are external for customization

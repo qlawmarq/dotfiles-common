@@ -42,33 +42,13 @@ description: >-
 
 5. **Propose, confirm, and create** `docs/steering/{name}.md` per `steering-principles.md §Updating`
 
-## Available Templates
-
-Templates available in `docs/settings/templates/steering-custom/`:
-
-1. **api-standards.md** - REST/GraphQL conventions, error handling
-2. **testing.md** - Test organization, mocking, coverage
-3. **security.md** - Auth patterns, input validation, secrets
-4. **database.md** - Schema design, migrations, query patterns
-5. **error-handling.md** - Error types, logging, retry strategies
-6. **authentication.md** - Auth flows, permissions, session management
-7. **deployment.md** - CI/CD, environments, rollback procedures
-
-Load template when needed, customize for project.
+Templates: `docs/settings/templates/steering-custom/` — each states its purpose in its `[Purpose: …]` line.
 
 </instructions>
 
-## Tool guidance
-
-- **Read**: Load template, analyze existing code
-- **File search**: Find related files for pattern analysis
-- **Search**: Look for specific patterns in the codebase
-
-**JIT Strategy**: Load template only when creating that type of steering.
-
 ## Output description
 
-Write the steering document and this summary in the project's language: `docs/settings/templates/specs/init.json` `language`, else `ja`. The template's section headings are scaffolding — translate them.
+Write the steering document and this summary in the project's language: `docs/settings/templates/specs/init.json` `language`. The template's section headings are scaffolding — translate them.
 
 Chat summary with file location.
 
@@ -76,35 +56,18 @@ Chat summary with file location.
 ✅ Custom Steering Created
 
 ## Created:
-- docs/steering/api-standards.md
+- docs/steering/[name].md
 
 ## Based On:
-- Template: api-standards.md
-- Analyzed: src/api/ directory patterns
-- Extracted: REST conventions, error format
+- Template: [name].md (or none)
+- Analyzed: [paths examined]
+- Extracted: [patterns found]
 
 ## Content:
-- Endpoint naming patterns
-- Request/response format
-- Error handling conventions
-- Authentication approach
+- [topic covered]
 
 Review and customize as needed.
 ```
-
-## Examples
-
-### Success: API Standards
-
-**Input**: "Create API standards steering"
-**Action**: Load template, analyze src/api/, extract patterns
-**Output**: api-standards.md with project-specific REST conventions
-
-### Success: Testing Strategy
-
-**Input**: "Document our testing approach"
-**Action**: Load template, analyze test files, extract patterns
-**Output**: testing.md with test organization and mocking strategies
 
 ## Safety & Fallback
 

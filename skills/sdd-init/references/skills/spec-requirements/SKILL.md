@@ -29,10 +29,6 @@ This skill expects:
 If inputs were provided with this skill invocation, use them directly.
 Otherwise, ask the user for the feature name.
 
-### This phase is always interactive
-
-Requirements generation runs interactively by design — there is no non-interactive/batch mode. The whole point of this phase is to elicit and confirm what the user wants, and the most common failure mode is an agent silently inventing features to "complete" the picture. That silent invention is exactly what an interactive clarification dialogue prevents. If you find yourself about to fill a gap with a guess, stop and ask instead (see `requirements-elicitation.md`).
-
 ## Core Task
 
 Elicit complete, traceable requirements for the specified feature based on the project description in requirements.md and a clarification dialogue with the user. **Do not invent requirements the user did not ask for or confirm.**
@@ -44,7 +40,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language, `kind`, and metadata
    - Read `{spec_path}/requirements.md` for project description; when the description is a pointer to an inception unit (`units.md §U<N>`), read that unit's entry and the plan's non-goals at the head of `units.md` — together they are the scope brief
-   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
+   - Read the entire `docs/steering/` directory
 
 3. **Read Guidelines**:
    - Read `docs/settings/rules/requirements-elicitation.md` for the elicit-don't-invent rules, the ask-vs-assume gate, and traceability/scope discipline — **this governs how you run this phase**
@@ -64,19 +60,17 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Offer additions you think might be wanted as *proposals* ("Did you also want X? I'll leave it out unless you confirm"), defaulting to leaving them out
    - Before finishing, give a short confirmation summary covering both what you included and **what you deliberately left out of scope**, and get the user's confirmation. When a canon layer is declared (`docs/steering/product.md §Canon References`), open that summary with the `## Canon changes` section from Step 8 — the same yes covers both
 
-6. **Finalize Requirements**:
+6. **Finalize Requirements** (write requirements.md now, after the Step 5 confirmation):
    - Keep the `## Project Description (Input)` section written at init above the template's sections (every kind).
    - Group related functionality into logical requirement areas
    - Check that every requirement traces to user input or steering — if a requirement has no legitimate source, remove it or raise it as a proposal
    - Fill the **Out of Scope** section with what you deliberately excluded, and the **Assumptions & Open Questions** section with anything still unresolved
    - Tag requirements with MoSCoW priority traceable to user intent
-   - Apply EARS format to all acceptance criteria; replace vague terms (fast, user-friendly, robust, …) with measurable criteria or log them as open questions
-   - Use language specified in spec.json
+   - Apply EARS format to all acceptance criteria
 
 7. **Update Metadata**:
    - Set `phase: "requirements-generated"`
    - Set `approvals.requirements.generated: true`
-   - Update `updated_at` timestamp
 
 8. **Canon changes** (only when a canon layer is declared; follow `docs/settings/rules/canon-layer.md §Change Control`):
    - Draft time (Step 4): grep the canon JIT for the decisions and registry IDs the feature touches. Product-level decisions the user settled in dialogue, new enumerable norms, and registry IDs this feature adopts (`Used by` += `spec: <feature-dir-name>`) are edited into the canon working tree; requirements.md cites decisions/IDs and never copies them
@@ -84,26 +78,17 @@ Elicit complete, traceable requirements for the specified feature based on the p
 
 ## Important Constraints
 
-- **No assumptions, no invention**: every requirement must trace to the user's input or an explicit confirmation. If unclear, ask — never guess (see the ask-vs-assume gate in `requirements-elicitation.md`).
-- **Elicit, don't author**: your job is to discover and confirm needs, not to decide what the user "probably also wants". The default answer to any unconfirmed proposal is *no*.
-- Focus on WHAT, not HOW (no implementation details)
-- Requirements must be testable and verifiable
-- Choose appropriate subject for EARS statements (system/service name for software)
-- Generate an initial grounded draft first, then iterate with user feedback (no long sequential questionnaire upfront)
 - **Use the project's canonical terms.** When the canon registry declares a `TERM` vocabulary, write requirements in its canonical terms; if the dialogue coins a new recurring term, surface it in the confirmation summary so the user can register it (or map it to an existing term) instead of letting a synonym take root.
-- Requirement headings in requirements.md MUST include a leading numeric ID only (for example: "Requirement 1", "1.", "2 Feature ..."); do not use alphabetic IDs like "Requirement A".
 
 </instructions>
 
 ## Tool Guidance
 
-- **Read first**: Load all context (spec, steering, rules, templates) before generation
-- **Write last**: Update requirements.md only after complete generation
 - **Search the web** only if external domain knowledge needed
 
 ## Output Description
 
-Provide output in the language specified in spec.json with:
+Write requirements.md and this summary in spec.json `language`:
 
 1. **Generated Requirements Summary**: Brief overview of major requirement areas (3-5 bullets), each noting its source
 2. **Out of Scope & Open Questions**: Briefly state what you deliberately left out and any assumptions/questions still open — this makes invented-feature risk visible to the user
@@ -121,12 +106,9 @@ Provide output in the language specified in spec.json with:
 ### Error Scenarios
 
 - **Missing Project Description**: If requirements.md lacks a project description and no unit pointer resolves, ask user for feature details
-- **Ambiguous Requirements**: Resolve through the clarification dialogue — propose an initial draft and ask targeted questions; never resolve ambiguity by guessing. Log anything still unresolved in Assumptions & Open Questions.
 - **Template Missing**: If template files don't exist, use inline fallback structure with warning, but still include an Out of Scope section and an Assumptions & Open Questions section
-- **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
-- **Incomplete Requirements**: After generation, explicitly ask the user if requirements cover all expected functionality. Resolve gaps by asking — do not fill them with invented requirements.
 - **Steering Directory Empty**: Warn user that project context is missing and may affect requirement quality
-- **Non-numeric Requirement Headings**: If existing headings do not include a leading numeric ID (for example, they use "Requirement A"), normalize them to numeric IDs and keep that mapping consistent (never mix numeric and alphabetic labels).
+- **Non-numeric Requirement Headings**: If existing headings do not have the form of `docs/settings/rules/ears-format.md` §Requirement IDs, normalize them to it and keep that mapping consistent.
 
 ### Next Phase: Research & Design
 

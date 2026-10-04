@@ -9,7 +9,7 @@ Keep every layer in step with the product's purpose: the spec documents, the cod
 ## Resolving the Canon
 
 1. **Baseline (always)**: `docs/steering/product.md` — the product's purpose, themes, and core capabilities.
-2. **Canon layer (when declared)**: if `product.md` contains a `## Canon References` section, it names the canon root (structure: `canon-layer.md`; default `docs/canon/`) and how to search it. For enumerable norms — catalogs, entity lists, guards — the canon's `registry.md` is the authoritative seat; cite entries by ID. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the canon. **Committed text binds**: an uncommitted canon edit or a README Open Question is not a decision — reliance on it is itself a finding.
+2. **Canon layer (when declared)**: if `product.md` contains a `## Canon References` section, it names the canon root (structure and loading: `canon-layer.md`) and how to search it. For enumerable norms — catalogs, entity lists, guards — the canon's `registry.md` is the authoritative seat; cite entries by ID. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the canon. **Committed text binds**: an uncommitted canon edit or a README Open Question is not a decision — reliance on it is itself a finding.
 3. **Established invariants**: `docs/steering/behaviors.md` — cross-spec behavior invariants distilled from completed features. Already loaded with steering.
 
 When `product.md` and a deeper canon disagree, the canon wins if `product.md` says so; otherwise flag the inconsistency itself as a finding.

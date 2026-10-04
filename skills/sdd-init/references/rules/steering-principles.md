@@ -18,8 +18,8 @@ Never admitted: secrets (API keys, passwords, credentials, database URLs, intern
 **Bad** (catalog):
 
 ```markdown
-- /components/Button.tsx - Primary button with variants
-- /components/Input.tsx - Text input with validation
+- components/Button - Primary button with variants
+- components/Input - Text input with validation
   ... (50+ files)
 ```
 
@@ -28,7 +28,7 @@ Never admitted: secrets (API keys, passwords, credentials, database URLs, intern
 ```markdown
 ## UI Components (`/components/ui/`)
 
-- Named by function (Button, Input, Modal); export the component and its props type
+- Named by function (Button, Input, Modal); each exposes its public interface
 - No business logic
 ```
 

@@ -12,7 +12,6 @@ description: >-
 
 - **Mission**: Apply one canon change (concept decision, registry row, README index/open question) directly to the working tree, present it in full, and commit it as its own `docs(canon):` commit. Protocol and drafting discipline: `docs/settings/rules/canon-layer.md` — read it first; this file adds only the ad-hoc entry point.
 - **When to use**: the decision did not arise inside `/sdd-plan`, `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-done`, or `/sdd-grill` (those land their own canon changes). Also the scaffolding path when no canon root exists yet.
-- **Success Criteria**: changed sections shown in full before the yes; R2 items confirmed individually; standalone commit listing only the edited files; `check_canon.sh check` run and its findings reported.
 
 </background_information>
 
@@ -34,13 +33,13 @@ No input → list the canon README's Open Questions and ask which one to land.
 
 ## Constraints
 
-- Do NOT invent scope: every change traces to the description, a cited gap, or a cited source.
+- Add no scope: every change traces to the description, a cited gap, or a cited source.
 
 </instructions>
 
 ## Output Description
 
-Resolve the language from `docs/settings/templates/specs/init.json` `language` (default `ja`). Report: the Canon changes section, R2 confirmations taken, check findings, and the commit hash (or "not landed" with the reason). Concise Markdown.
+Resolve the language from `docs/settings/templates/specs/init.json` `language`. Report: the Canon changes section, R2 confirmations taken, check findings, and the commit hash (or "not landed" with the reason). Concise Markdown.
 
 ## Safety & Fallback
 

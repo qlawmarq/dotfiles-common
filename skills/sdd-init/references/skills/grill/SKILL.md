@@ -78,9 +78,7 @@ Give options when the decision has discernible alternatives; when it does not, s
 
 Between rounds, keep the tree visible: say briefly what the last round settled and what it unblocked. The user should never have to reconstruct where the session is.
 
-**Finding facts is your job, never the user's.** When a frontier question needs a fact from the repository or the environment, dispatch a sub-agent to find it — do not ask the user for anything you could look up. Do not block on it either: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent to report. Ask the rest of the frontier now.
-
-**The decisions are the user's.** Put each to them and wait.
+When a frontier question needs a fact, dispatch a sub-agent to find it and do not block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for its report. Ask the rest of the frontier now.
 
 ## The proposal rule
 
@@ -108,11 +106,7 @@ Render the headings and body in the project's configured language (see §Languag
 
 ## Language
 
-Resolve the output language once, at the start of the session:
-
-1. If `--scope=spec:<feature-name>`, use that spec's `spec.json` `language`.
-2. Otherwise use `docs/settings/templates/specs/init.json` `language`.
-3. If neither specifies one, default to `ja`.
+Resolve the output language once, at the start: with `--scope=spec:<feature-name>`, that spec's `spec.json` `language`; otherwise `docs/settings/templates/specs/init.json` `language`.
 
 ## Landing the outcome
 
@@ -127,19 +121,13 @@ Present the intended edits and get confirmation before writing.
 
 ## Important constraints
 
-- Do NOT author requirements, designs, or tasks here. When the conversation reaches the point where a spec artifact should be produced, name the owning skill (`/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-tasks`) and hand off.
-- Do NOT ask the user anything the repository can answer.
-- Do NOT bulk-load the corpus. Index-first retrieval, sub-agents for parallel lookups.
-- Do NOT let the tree drift outside `--scope`. Note an out-of-scope finding in one line and move on.
+- Keep the tree inside `--scope`; note an out-of-scope finding in one line and move on.
 
 </instructions>
 
 ## Tool Guidance
 
-- **Read** `docs/settings/rules/dialogue-grounding.md` first, then `docs/steering/product.md` and the indexes (`spec.json`, the plan's `units.md` Summary and `dependencies.md`) during the Stage 0 sweep.
 - **Search** file names and contents to locate open-question sections and cross-layer contradictions — do not open large `design.md` / `research.md` files whole.
-- **Sub-agents**, via whatever delegation tool the host harness provides, for independent fact-finding — dispatched in parallel and instructed to report findings with citations rather than file contents (`dialogue-grounding.md`).
-- **Edit/Write** only after the user confirms the closing summary, and only on the artifacts identified in the landing step.
 
 ## Output Description
 
@@ -154,9 +142,7 @@ Provide all output in the language resolved in §Language:
 
 ## Safety & Fallback
 
-- **SDD not initialized**: `docs/settings/` missing → tell the user to run `/sdd-init` first and stop.
 - **No gaps found in scope**: report that the scope looks settled, cite what you checked, and offer a wider scope rather than inventing questions.
 - **Scope too large to sweep**: if the project has many specs, sweep `spec.json` files for all of them (they are small) but limit the deep gap-reading to the specs the topic touches, and say which ones you covered.
-- **User answers ambiguously**: treat the question as still open. Re-ask it in the next round rather than resolving it yourself.
 - **User stops mid-session**: produce the closing summary for what was settled so far and list the unvisited branches, so the session is resumable.
 - **Change control blocks a write**: record the outcome in the intake the process defines, tell the user which decisions are waiting on that process, and do not edit the governed files.

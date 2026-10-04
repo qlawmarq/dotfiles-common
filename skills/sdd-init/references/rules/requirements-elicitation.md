@@ -45,11 +45,11 @@ Before a requirement is accepted, it should be:
 
 - **Necessary** — tied to a real, traceable need; removing it would leave a genuine deficiency. (This is the anti-gold-plating test.)
 - **Singular** — one requirement per statement; watch for "and"/"or" hiding two needs.
-- **Unambiguous** — one reasonable interpretation. Lint for vague terms — *fast, user-friendly, efficient, robust, flexible, adequate, as appropriate, etc.* — and replace them with a measurable, testable criterion, or flag the term as an open question if you can't.
+- **Unambiguous** — one reasonable interpretation; no unmeasurable term (`ears-format.md` §Quality Criteria).
 - **Verifiable** — you can describe how you'd confirm it's met. If you can't write an acceptance test for it, it isn't a requirement yet.
 - **In EARS format** — acceptance criteria follow the patterns in `ears-format.md`. EARS fixes structure and testability but does *not* catch vagueness or illegitimate scope, so apply it *after* the traceability and necessity checks above, not instead of them.
 
-## What this phase does NOT do
+## What this phase does not do
 
 - It does not choose technologies, architectures, or implementation approaches (that's research/design). Keep requirements at WHAT, not HOW.
 - It does not pad coverage to look thorough. A short, fully-grounded requirements document is better than a long one half-filled with plausible inventions.

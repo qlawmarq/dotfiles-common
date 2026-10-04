@@ -32,14 +32,7 @@ Principles: stable code enums, no secrets, include trace info.
 - Data/external layer: Wrap provider errors with safe, actionable codes
 - Unknown errors: Bubble to global handler → 500 + generic message
 
-Example pattern:
-```typescript
-try { return await useCase(); }
-catch (e) {
-  if (e instanceof BusinessError) return respondMapped(e);
-  logError(e); return respondInternal();
-}
-```
+Example pattern: run the use case; a business error is mapped to its response; any other error is logged and answered with the generic internal error.
 
 ## Logging (context over noise)
 Log: operation, userId (if available), code, message, stack, requestId, minimal context.

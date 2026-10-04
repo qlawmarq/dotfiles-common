@@ -5,7 +5,7 @@ Raw records stay in probe/; this file cites them and never copies them. -->
 
 ## Question 1: {{QUESTION}}
 
-- **Verdict:** holds | partial | fails | unmeasured
+- **Verdict:** {{VERDICT_WORD}}
 - **Evidence:** `probe/{{PATH}}` — {{RUNS}} runs × {{K}} trials, {{AGGREGATION}}
 - **Reasoning:** {{ONE_TO_THREE_SENTENCES}} <!-- which verdict rule matched, and on which records -->
 

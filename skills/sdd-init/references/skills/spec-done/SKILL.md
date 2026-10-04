@@ -21,7 +21,7 @@ description: >-
   - Design alignment verified
   - Lint, tests, and build pass without issues (`verify`: 2j instead)
   - Implemented behavior contradicts no scenario or invariant — no concept drift
-  - Code is clean and does not require refactoring
+  - Code-quality findings reported (2i)
   - Spec moved from `docs/tasks/todo/` to `docs/tasks/done/`
   - Changes committed with project-consistent commit message
   - Steering checked against what the feature changed (`docs/settings/rules/steering-principles.md`)
@@ -47,7 +47,7 @@ Run comprehensive quality verification on the completed feature. If all checks p
 
 ### Step 0: Resolve Spec Path
 
-Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. Features already in `docs/tasks/done/` are already completed and cannot be finalized again. If not found in `todo/`, report an error.
+Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. If it is in `docs/tasks/done/` instead, stop with "Feature already completed"; if it is in neither, stop with "Feature not found. Check available specs with `/sdd-spec-status`".
 
 ### Step 1: Load Context
 
@@ -59,7 +59,7 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. Fe
 - `{spec_path}/verdict.md` for the judgments (kind `verify`)
 - `{spec_path}/design.md` for design structure
 - `{spec_path}/tasks.md` for task list
-- **Entire `docs/steering/` directory** for complete project memory
+- The entire `docs/steering/` directory
 - `docs/settings/rules/concept-alignment.md`, applied whole: §Findings to route and close every finding of this run, §Product Check for 2k, §User Check for Step 3
 - `docs/settings/rules/document-hygiene.md` for every document this run writes or changes (§After a Change)
 
@@ -73,15 +73,17 @@ Execute all verification checks sequentially. Collect all issues before making a
 
 **Routing record**: when this run has findings, the lead writes `{spec_path}/reviews/routing-<n>.md`, one line per non-HOLDS audit ID and per product-check finding: `<ID> — <open, or its closure (`concept-alignment.md §Findings` 4)> — <where, the quoted refutation, or the file holding the user's answer>`. An audit ID is the criterion's (`3.5`), a product-check ID is `F<k>`; outside its own run's files, a product-check finding of run m is `R<m>-F<k>`. A line stays `open` until it is closed, in its own run's `routing-<m>.md`.
 
+**Commands** (2d–2f): lint, test and build commands come from the project's build configuration (its scripts or targets), else `docs/steering/tech.md` (§Common Commands).
+
 #### 2a. Task Completion Check
 
 - Parse tasks.md for all checkboxes
-- ALL tasks must be `[x]` (completed)
+- Every task must be `[x]`
 - If any `[ ]` remain, flag as **Critical**: "Incomplete tasks found"
 
 #### 2b. Acceptance Criteria Audit
 
-The criteria are checked clause by clause by an auditor that has not read the upstream documents, then the lead routes each discrepancy. The context loaded in Step 1 is used for routing (④), never handed to the auditor. One audit run finds some discrepancies, not all — treat it as a way to find drift, not a guarantee of none.
+The criteria are checked clause by clause by an auditor that has not read the upstream documents, then the lead routes each discrepancy. The context loaded in Step 1 is used for routing (④), never handed to the auditor. One audit run finds some discrepancies, not all — treat it as a way to find drift, not a guarantee of none; there is no quota or cap on the number of findings.
 
 **① Extract the criteria**
 
@@ -170,39 +172,23 @@ For each criterion that asserts an absence and has no test or guard in the audit
 
 - Check if design.md structure is reflected in implementation
 - Verify key interfaces, components, and modules exist
-- Confirm file structure matches design
 - If misalignment found, flag as **Warning**: "Design deviation"
 
 #### 2d. Lint Check
 
-- Detect lint command from project configuration:
-  1. `package.json` scripts (`lint`, `lint:check`)
-  2. `Makefile` targets (`lint`)
-  3. `pyproject.toml` / `Cargo.toml` equivalents
-  4. Steering context (`docs/steering/tech.md`)
-- Run detected lint command
+- Run the lint command
 - If lint fails, flag as **Critical**: "Lint errors detected"
 - If no lint command detected, flag as **Info**: "No lint configuration found — skipping"
 
 #### 2e. Test Check
 
-- Detect test command from project configuration:
-  1. `package.json` scripts (`test`, `test:unit`)
-  2. `Makefile` targets (`test`)
-  3. `pyproject.toml` / `Cargo.toml` equivalents
-  4. Steering context (`docs/steering/tech.md`)
-- Run detected test command
+- Run the test command
 - If tests fail, flag as **Critical**: "Test failures detected"
 - If no test command detected, flag as **Warning**: "No test configuration found — manual verification required"
 
 #### 2f. Build Check
 
-- Detect build command from project configuration:
-  1. `package.json` scripts (`build`, `compile`)
-  2. `Makefile` targets (`build`)
-  3. `pyproject.toml` / `Cargo.toml` equivalents
-  4. Steering context (`docs/steering/tech.md`)
-- Run detected build command
+- Run the build command
 - If build fails, flag as **Critical**: "Build errors detected"
 - If no build command detected, flag as **Info**: "No build configuration found — skipping"
 
@@ -267,13 +253,7 @@ After the answer, every B still resolved as a code fix, and every C the user cho
 
 **If NO-GO**:
 
-- Present all issues categorized by severity (Critical / Warning / Info)
-- For each issue, provide:
-  - Description of the problem
-  - Specific file(s) or location(s) affected
-  - Suggested corrective action
-- Suggest next steps: fix issues, then re-run `/sdd-spec-done <feature-name>`
-- **Stop execution here** — do not proceed to Step 4
+- **Stop execution here** — do not proceed to Step 4. The spec stays in `todo/`; this run's only writes are under `reviews/`, the user's answers under `probe/`, and what a finding's route calls for in Step 3.
 
 **If GO**:
 
@@ -293,9 +273,7 @@ Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the S
 
 #### 4b. Update Metadata
 
-- Update `spec.json`:
-  - Set `phase: "done"`
-  - Update `updated_at` timestamp
+- Set `spec.json` `phase: "done"`
 
 #### 4c. Move Spec to Done
 
@@ -335,7 +313,7 @@ If `spec.json` carries a `plan` block and `docs/inception/<parent>/units.md` kee
   Reconciled: 1.10 ← design.md §<section heading>
   Reconciled: 3.5 ← spec-done confirmation
   ```
-- **Do NOT push** — leave that to the user
+- Do not push; pushing is the user's.
 
 ### Step 5: Steering Sync Check (non-blocking)
 
@@ -355,31 +333,7 @@ If `docs/steering/product.md §Canon References` declares a canon root, follow `
 3. Run `bash docs/settings/scripts/check_canon.sh check` and report its findings.
 4. When this step changed the canon, present the Canon changes section and ask once — commit? On yes, commit as `docs(canon): sync after <feature-name>`; on no, revert (`canon-layer.md §Change Control` 5) and report what was not landed. Nothing changed → report "Canon current".
 
-## Critical Constraints
-
-- **todo/ only**: Only finalize features in `docs/tasks/todo/` — never re-process `done/`
-- **All checks must pass**: Zero Critical issues for GO decision
-- **Independent criteria audit**: The auditor receives only the criteria list and reads only code and tests; routing is the lead's job, evidence first and class last. No quota or cap on the number of findings
-- **Independent product check**: The reviewer receives only what `product-check.md` lists (`concept-alignment.md §Product Check`); who closes its findings: `concept-alignment.md §Findings` 5
-- **No A from code alone**: A requires a decision recorded after the requirements, quoted by file:line
-- **One message, before GO**: Everything that needs the user before GO is asked in the one Step 3 message — the question before a third product check (2k) is the one exception; nothing is asked when nothing needs the user. A B still resolved as a code fix, a C the user chose to implement, or a product-check finding left to be fixed means NO-GO
-- **Completion record**: GO requires `check_completion.sh {spec_path}` to exit 0; a finding the user has closed does not block it
-- **Requirements changes are visible**: Every criterion changed is shown previous → new under `## Requirements changes` at the top of the reply and listed as `Reconciled:` in the feature commit body (`document-hygiene.md`, one fact, one seat)
-- **No auto-push**: Commit locally only; pushing is the user's responsibility
-- **Scoped commits**: Only stage changes related to this feature
-- **Non-destructive**: If anything fails, the spec stays in `todo/`; the only writes are under `reviews/`, the user's answers under `probe/`, and what a finding's route calls for in Step 3 (`concept-alignment.md §Findings`)
-- **Steering sync never blocks**: Step 5 runs only after the feature is committed and is never a GO/NO-GO gate
-- **Canon sync never blocks**: Step 6 runs after the feature is committed, follows `canon-layer.md §Change Control`, and lands in its own `docs(canon):` commit only when confirmed (Step 6 item 4)
-
 </instructions>
-
-## Tool Guidance
-
-- **Read first**: Load all context (spec, steering, implementation) before verification
-- **Shell for checks**: Execute lint, test, and build commands in the shell
-- **Grep/Read for traceability**: Search codebase for requirement and design evidence
-- **Shell for git**: Use git commands for commit style detection, staging, and committing
-- **Edit for steering**: Apply the changes confirmed in Step 5 to `docs/steering/*.md`
 
 ## Output Description
 
@@ -388,7 +342,7 @@ Provide output in the language specified in spec.json:
 ### If NO-GO
 
 1. **Verification Summary**: Table of all checks with pass/fail status
-2. **Issues**: List of issues by severity with descriptions and suggestions (including the number of B items left as code fixes and the fix task added to tasks.md for each)
+2. **Issues**: by severity (Critical / Warning / Info), each with the problem, the file(s) or location affected, and the corrective action (including the number of B items left as code fixes and the fix task added to tasks.md for each)
 3. **Next Steps**: Specific commands to fix issues and re-run
 
 **Format**: Markdown with severity indicators, under 500 words (the Step 3 message is not counted)
@@ -407,12 +361,6 @@ Provide output in the language specified in spec.json:
 ## Safety & Fallback
 
 ### Error Scenarios
-
-**Feature Not Found in todo/**:
-
-- **Stop Execution**: Cannot finalize a feature that doesn't exist in todo/
-- **Check done/**: If found in `docs/tasks/done/`, report "Feature already completed"
-- **Neither**: Report "Feature not found. Check available specs with `/sdd-spec-status`"
 
 **Incomplete Tasks**:
 

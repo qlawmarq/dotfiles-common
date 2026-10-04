@@ -43,11 +43,7 @@
 - Domain/service: fine-grained decisions
 - UI: conditional rendering (no security reliance)
 
-Example pattern:
-```typescript
-requirePermission('resource:action'); // route
-if (!user.can('resource:action')) throw ForbiddenError(); // domain
-```
+Example pattern: the route requires permission `resource:action`; the domain checks the same permission and raises a forbidden error when it is missing.
 
 ### Ownership
 - Pattern: owner OR privileged role can act

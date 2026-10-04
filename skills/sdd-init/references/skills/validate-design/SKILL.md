@@ -30,13 +30,11 @@ Otherwise, ask the user for the feature name.
 
 ### Batch Mode (`--batch`)
 
-When `--batch` flag is provided, the skill runs in non-interactive batch mode:
-- **Skip** the interactive design review dialogue (Step 4)
-- Perform a bulk review of the design against requirements and steering context
-- Output the complete review result with GO/NO-GO decision directly
-- Do not engage in back-and-forth dialogue with the user
+With `--batch`, the skill runs without the user:
+- Every check in Step 4 still runs
+- The Interactive Discussion of `design-review.md` §Output Format is omitted; the complete review with its GO/NO-GO decision is output directly, without back-and-forth with the user
 
-When `--batch` is NOT provided, maintain the default interactive behavior (engage in dialogue throughout the review process).
+Without `--batch`, maintain the default interactive behavior (engage in dialogue throughout the review process).
 
 ## Core Task
 
@@ -52,57 +50,27 @@ Interactive design quality review for the specified feature based on approved re
    - Read `{spec_path}/behaviors.md` for behavior scenarios (if exists)
    - Read `{spec_path}/research.md` for research findings (if exists)
    - Read `{spec_path}/design.md` for design document
-   - **Load ALL steering context**: Read the entire `docs/steering/` directory — default and custom files alike, regardless of mode settings
+   - Read the entire `docs/steering/` directory
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/design-review.md` for review criteria and process
    - Read `docs/settings/rules/concept-alignment.md` §Resolving the Canon, §The Check, and, under §Findings, §Severity and §Finding Format for the concept & behavior alignment check (design-review criterion 0)
    - Read the kind's design template as the structure reference (`docs/settings/rules/spec-kinds.md` §4)
 
-4. **Execute Design Review** (skip interactive dialogue in `--batch` mode):
-   - Follow design-review.md process: Analysis → Critical Issues → Strengths → GO/NO-GO
+4. **Execute Design Review** per `design-review.md` §Review Process:
    - If `research.md` exists, verify that its key findings are reflected in the design — and, per design-review criterion 5, that no major design decision silently rests on a claim typed `unverified` or lacking a reproducer
-   - **Recompute** per design-review criterion 6, in batch mode too: quote the code with Grep/Read for every contract stated twice, every concrete expression about existing code, and every branch site of a kind the design extends, and every acceptance criterion ID for criterion 6-D (coverage)
-   - Criterion 6-D (requirements without a component) checks the seats where the kind's templates carry criterion IDs: component `Requirements` fields in `design.md`; `Defects:` / `covers` / `Questions` fields, or the criterion's own guard, in the other templates
+   - **Recompute** per `design-review.md` criterion 6, in batch mode too
    - **Non-functional coverage** per design-review criterion 7
-   - In batch mode: Perform bulk review and output complete results without user dialogue
-   - In interactive mode (default): Engage interactively with user
-   - Use language specified in spec.json for output
 
 5. **Provide Decision and Next Steps**:
    - Clear GO/NO-GO decision with rationale
    - Guide user on proceeding based on decision
 
-## Important Constraints
-
-- **Quality assurance, not perfection seeking**: Accept acceptable risk
-- **Critical focus only**: Significantly impacting success
-- **Interactive approach**: Engage in dialogue, not one-way evaluation
-- **Balanced assessment**: Recognize both strengths and weaknesses
-- **Actionable feedback**: All suggestions must be implementable
-
 </instructions>
-
-## Tool Guidance
-
-- **Read first**: Load all context (spec, steering, rules) before review
-- **Grep/Read to recompute**: every formula, name, threshold and branch site the design asserts about existing code is quoted from the code, not taken from the document
-- **Interactive**: Engage with user throughout the review process
 
 ## Output Description
 
-Provide output in the language specified in spec.json with:
-
-1. **Review Summary**: Brief overview (2-3 sentences) of design quality and readiness
-2. **Critical Issues**: Maximum 3, following design-review.md format
-3. **Recomputation discrepancies (no cap)**: every discrepancy from criterion 6, with its kind and both quotes, and the unassigned IDs from criterion 6-D (coverage)
-4. **Design Strengths**: 1-2 positive aspects
-5. **Final Assessment**: GO/NO-GO decision with rationale and next steps
-
-**Format Requirements**:
-
-- Follow design-review.md output format
-- Keep summary concise
+Write the review in spec.json `language`, following `design-review.md` §Output Format.
 
 ## Safety & Fallback
 
@@ -111,7 +79,6 @@ Provide output in the language specified in spec.json with:
 - **Missing Design**: If design.md doesn't exist, stop with message: "Run `/sdd-spec-design <feature-name>` first to generate design document"
 - **Design Not Generated**: If design phase not marked as generated in spec.json, warn but proceed with review
 - **Empty Steering Directory**: Warn user that project context is missing and may affect review quality
-- **Language Undefined**: If spec.json omits `language`, fall back to `docs/settings/templates/specs/init.json` `language`, then to `ja` (the `/sdd-init` default)
 
 ### Next Phase: Task Generation
 

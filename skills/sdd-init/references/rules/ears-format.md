@@ -55,5 +55,11 @@ Keep EARS trigger keywords and fixed phrases in English (`When`, `If`, `then`, `
 ## Quality Criteria
 
 - Requirements must be testable, verifiable, and describe a single behavior.
-- Use objective language: "shall" for mandatory behavior, "should" for recommendations; avoid ambiguous terms.
+- Use objective language: "shall" for mandatory behavior, "should" for recommendations. An unmeasurable term — *fast, scalable, user-friendly, efficient, robust, flexible, adequate, intuitive, as appropriate*, and the like — is replaced by a measurable criterion, or recorded as an open question.
 - Follow EARS syntax: [condition], the [system] shall [response/action].
+
+## Requirement IDs
+
+- A requirement heading is `### N`, `### N: …`, `### N. …`, `### N …` or `### Requirement N: …`, N a number; a letter, a translated `Requirement` or a full-width colon is not read. Its criteria are the unindented `M. …` lines under `#### Acceptance Criteria` (that heading stays in English) up to the next `###` or `####` heading; the criterion ID is `N.M`, M the number written. The requirements end at the first `## ` heading after them (`docs/settings/scripts/list_criteria.sh` reads this form).
+- Cite criterion IDs bare — `2.1, 2.3` — with no "Requirement", text, parentheses or translation.
+- A requirements.md without numeric IDs is fixed there before design or tasks go on.
