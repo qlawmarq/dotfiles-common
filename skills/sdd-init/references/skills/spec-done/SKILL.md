@@ -22,10 +22,10 @@ description: >-
   - Lint, tests, and build pass without issues (`verify`: 2j instead)
   - Implemented behavior contradicts no scenario or invariant — no concept drift
   - Code-quality findings reported (2i)
-  - Spec moved from `docs/tasks/todo/` to `docs/tasks/done/`
+  - Spec moved from `docs/specs/todo/` to `docs/specs/done/`
   - Changes committed with project-consistent commit message
   - Steering checked against what the feature changed (`docs/settings/rules/steering-principles.md`)
-  - When a canon layer exists: `Used by` updated for the registry IDs this feature implemented, orphan identifiers reported, `check_canon.sh check` run (non-blocking), canon changes committed separately
+  - When decision records exist: `Used by` updated for the registry IDs this feature implemented, orphan identifiers reported, `check_decisions.sh check` run (non-blocking), decision changes committed separately
 
 </background_information>
 
@@ -34,7 +34,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 
 If inputs were provided with this skill invocation, use them directly.
 Otherwise, ask the user for the feature name.
@@ -47,7 +47,7 @@ Run comprehensive quality verification on the completed feature. If all checks p
 
 ### Step 0: Resolve Spec Path
 
-Look for the feature directory in `docs/tasks/todo/<feature-name>/` **only**. If it is in `docs/tasks/done/` instead, stop with "Feature already completed"; if it is in neither, stop with "Feature not found. Check available specs with `/sdd-spec-status`".
+Look for the feature directory in `docs/specs/todo/<feature-name>/` **only**. If it is in `docs/specs/done/` instead, stop with "Feature already completed"; if it is in neither, stop with "Feature not found. Check available specs with `/sdd-spec-status`".
 
 ### Step 1: Load Context
 
@@ -100,7 +100,7 @@ Dispatch **one new sub-agent**, via whatever delegation tool the host harness pr
 Auditor instruction:
 
 ```
-You are auditing whether the code in this repository does what a list of acceptance criteria says. Your only inputs are the criteria below (one criterion per line: ID<TAB>text) and the repository's code and tests. Do not read any document under docs/ — requirements, design, research, tasks, behaviors, steering, canon, validate-* reports — and do not look for design notes or history. Code, tests and probe scripts are inputs wherever they live, including under docs/. Do not modify any file.
+You are auditing whether the code in this repository does what a list of acceptance criteria says. Your only inputs are the criteria below (one criterion per line: ID<TAB>text) and the repository's code and tests. Do not read any document under docs/ — requirements, design, research, tasks, behaviors, steering, decision records, validate-* reports — and do not look for design notes or history. Code, tests and probe scripts are inputs wherever they live, including under docs/. Do not modify any file.
 
 For every criterion:
 1. Take its `shall` predicate — the thing asserted to happen.
@@ -138,7 +138,7 @@ With every document loaded, classify each non-HOLDS item of `criteria-audit-<n>.
 | **A** — criterion wording is stale | A decision recorded after the requirements — in research.md, design.md or tasks.md — can be quoted by file:line, and the code implements it |
 | **B** — implementation diverged | No decision recorded after the requirements can be quoted that supports the code's behavior |
 | **C** — decided but not implemented | A decision recorded after the requirements asks for the behavior, and the code does not do it (no such decision, only the criterion → B) |
-| **D** — upstream document is stale | Canon or steering states something the code contradicts, and the criterion inherited it |
+| **D** — upstream document is stale | A decision record or steering states something the code contradicts, and the criterion inherited it |
 | **E** — checked against a run | A criterion the auditor marked NO-SEAT or RUNTIME-ONLY — the code alone cannot settle it (e.g. a probe shows it; only a run can confirm it) |
 | False positive | The auditor misread the code |
 
@@ -149,7 +149,7 @@ Where each class goes and how it is closed is `docs/settings/rules/concept-align
 - **A** → the Requirements row: into the Step 3 message, proposing previous → new criterion text.
 - **B** → the Code-inside row. Default is a code fix: the criterion stands, a fix task is added to tasks.md, NO-GO. The user may choose "fix the criterion" instead (the Requirements row), so B goes into the Step 3 message. An override is recorded in `## Requirements changes` (class: "B → fix the criterion") and as a `Reconciled: 3.5 ← spec-done confirmation` line in the commit body (`document-hygiene.md`, one fact, one seat).
 - **C** → the user decides which it is: implement (a fix task, as B) or withdraw the decision (the criterion is fixed to the code, as A). Into the Step 3 message.
-- **D** → the Canon-or-steering row: canon change control (`docs/settings/rules/canon-layer.md §Change Control`), into the Step 3 message. The criterion fix follows that answer.
+- **D** → the 'Decision records or steering' row: decision change control (`docs/settings/rules/decision-records.md §Change Control`), into the Step 3 message. The criterion fix follows that answer.
 - **E** → the lead checks this spec's run records: probe results, the evidence on a behaviors.md `Verification:` line, tests, and the product-check report (2k) — so E is settled after 2k. If one shows the predicate, the item is rejected, quoting it. A document's statement is not a run record. If none does, the Cannot-tell row: into the Step 3 message as a ruling — proceed as is / fix the criterion.
 - **False positive** → rejected, quoting the refuting file:line. Its row stays in `criteria-audit-<n>.md`.
 
@@ -158,8 +158,8 @@ Each item gets its line in `routing-<n>.md`: rejected items when rejected, the r
 Three rules:
 
 1. **Never choose A on the strength of the code alone.** If you cannot quote the decision, it is not A.
-2. **Compare the authority of the decision.** Decisions in research.md, design.md or tasks.md rank below requirements and canon — that is why A is always confirmed, never applied silently. If the decision contradicts canon or steering, route to D.
-3. **Confirm once, before GO.** Every A, B, C, D and unclosed E goes into the one Step 3 message — requirements and canon changes become visible before any commit.
+2. **Compare the authority of the decision.** Decisions in research.md, design.md or tasks.md rank below requirements and decision records — that is why A is always confirmed, never applied silently. If the decision contradicts a decision record or steering, route to D.
+3. **Confirm once, before GO.** Every A, B, C, D and unclosed E goes into the one Step 3 message — requirements and decision changes become visible before any commit.
 
 For each criterion that asserts an absence and has no test or guard in the audit's section C, flag as **Warning**: "Absence unverified". Report it only; adding a guard is not required.
 
@@ -217,7 +217,7 @@ For each criterion that asserts an absence and has no test or guard in the audit
 
 - Every verdict points at the `probe/` records it rests on, and those records meet the question's rule in requirements.md (vocabulary: `docs/settings/rules/spec-kinds.md` §6). If not, flag as **Critical**: "Verdict incomplete". That `verdict.md` has a verdict for every question is checked by `check_completion.sh` (Step 3)
 - The files this spec's tasks changed — the working-tree changes the tasks made and any commits made during impl for this spec — are all under the spec directory. A product file among them is **Critical**: "verify spec changed product code". Unrelated working-tree changes are handled as in 4f (warn and exclude), not flagged here.
-- A verdict other than `holds` is a finding (`spec-kinds.md` §6): it goes into item 1 of the Step 3 message with the row of `concept-alignment.md §Findings` it falls under, and the user's answer closes it in the seat that row names (the plan, the canon). The spec still completes with its verdict.
+- A verdict other than `holds` is a finding (`spec-kinds.md` §6): it goes into item 1 of the Step 3 message with the row of `concept-alignment.md §Findings` it falls under, and the user's answer closes it in the seat that row names (the plan, the decision records). The spec still completes with its verdict.
 
 #### 2k. Product Check
 
@@ -233,7 +233,7 @@ Runs only when 2a and 2d–2f passed in this run; otherwise it is not run, and t
 **The message to the user (one, before GO)**: the details stay in the report files; each item takes 1–3 lines.
 
 1. **What needs the user's decision**
-   - Every A, B, C, D and unclosed E of 2b — each with its ID, class, evidence, and the proposed action (A: previous → new criterion text; B: code fix by default, or "fix the criterion"; C: implement / withdraw the decision; D: the proposed canon change, presented per `canon-layer.md §Change Control`; E: proceed as is / fix the criterion). The canon confirmation for D items is taken here, and the change is committed on that answer (`canon-layer.md §Change Control` 5).
+   - Every A, B, C, D and unclosed E of 2b — each with its ID, class, evidence, and the proposed action (A: previous → new criterion text; B: code fix by default, or "fix the criterion"; C: implement / withdraw the decision; D: the proposed decision change, presented per `decision-records.md §Change Control`; E: proceed as is / fix the criterion). The decision-records confirmation for D items is taken here, and the change is committed on that answer (`decision-records.md §Change Control` 5).
    - Every product-check finding still `open`: the reviewer's `In use:` line — its `Conflict:` line where there is none — word for word, then one line with your proposed answer (with the refutation, when you hold one). For a main use not reached inside the time limit: how long a run that reaches it would take, and the ways to shorten it (`concept-alignment.md §Waiting on a Run`) — no longer run starts before the user's answer.
    - In a run where 2a and 2d–2f passed: every `user` scenario of behaviors.md without its `probe/user-S<N>.md` — what to do and what should happen (`concept-alignment.md §User Check`), and whether the spec may complete with S<N> `not run`.
    - A verdict other than `holds` (2j).
@@ -264,12 +264,12 @@ After the answer, every B still resolved as a code fix, and every C the user cho
 
 #### 4a. Reconcile Requirements
 
-Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the Step 3 answer resolved as "fix the criterion" (B overridden, C withdrawn, E, D). For a B override or a C withdrawal, record it in Requirements changes and as a `Reconciled: <ID> ← spec-done confirmation` line (4f). For D, fix the criterion only after the canon answer, following it.
+Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the Step 3 answer resolved as "fix the criterion" (B overridden, C withdrawn, E, D). For a B override or a C withdrawal, record it in Requirements changes and as a `Reconciled: <ID> ← spec-done confirmation` line (4f). For D, fix the criterion only after the decision-records answer, following it.
 
 - Never renumber a criterion.
 - Carry each change to the documents that cite it (`document-hygiene.md §After a Change`).
 - Do not add a revision-history section to any document — git holds the history (`docs/settings/rules/document-hygiene.md`, one fact, one seat).
-- Put `## Requirements changes` at the top of the reply: per criterion ID, the full previous → new text, then one line with the grounds (file:line) and the class. When there are canon changes, the `## Canon changes` section follows it.
+- Put `## Requirements changes` at the top of the reply: per criterion ID, the full previous → new text, then one line with the grounds (file:line) and the class. When there are decision changes, the `## Decision changes` section follows it.
 
 #### 4b. Update Metadata
 
@@ -277,11 +277,11 @@ Apply, in `{spec_path}/requirements.md`: every A item, and every criterion the S
 
 #### 4c. Move Spec to Done
 
-- Move `docs/tasks/todo/<feature-name>/` to `docs/tasks/done/<feature-name>/`
+- Move `docs/specs/todo/<feature-name>/` to `docs/specs/done/<feature-name>/`
 
-#### 4d. Inception Sync (when the spec belongs to a plan)
+#### 4d. Plan Sync (when the spec belongs to a plan)
 
-If `spec.json` carries a `plan` block and `docs/inception/<parent>/units.md` keeps per-unit detail blocks, delete the completed unit's block — the Summary row and the done spec are the record. The edit is staged with the feature commit (4f); it is part of completing the unit.
+If `spec.json` carries a `plan` block and `docs/plans/<parent>/units.md` keeps per-unit detail blocks, delete the completed unit's block — the Summary row and the done spec are the record. The edit is staged with the feature commit (4f); it is part of completing the unit.
 
 #### 4e. Detect Commit Message Style
 
@@ -299,15 +299,15 @@ If `spec.json` carries a `plan` block and `docs/inception/<parent>/units.md` kee
 
 - Check `git status` for current working tree state
 - Stage changes relevant to this feature:
-  - The moved spec directory (`docs/tasks/done/<feature-name>/`)
+  - The moved spec directory (`docs/specs/done/<feature-name>/`)
   - Implementation code changes related to the feature's tasks
-  - Inception plan updates from 4d, when present
+  - Plan updates from 4d, when present
 - If unrelated unstaged changes exist, warn the user and exclude them
 - Commit with detected style, e.g.:
   ```
   <type>(<short-name>): <summary>
   ```
-- Kind `verify`: the commit holds only the spec directory and the 4d inception updates, with the message `docs(spec): verdict <feature-name>`
+- Kind `verify`: the commit holds only the spec directory and the 4d plan updates, with the message `docs(spec): verdict <feature-name>`
 - The requirements.md and design.md edits from 4a are part of this commit. Add one body line per reconciled criterion, pointing at the decision by section heading, not line number (line numbers go stale with edits). A B override or C withdrawal points at the Step 3 confirmation:
   ```
   Reconciled: 1.10 ← design.md §<section heading>
@@ -324,14 +324,14 @@ Runs only on GO, after the feature is committed (Step 4), and never blocks compl
 
 For a review beyond what this feature touched, point the user to `/sdd-steering`.
 
-### Step 6: Canon Sync (non-blocking, when a canon layer exists)
+### Step 6: Decision Sync (non-blocking, when decision records exist)
 
-If `docs/steering/product.md §Canon References` declares a canon root, follow `docs/settings/rules/canon-layer.md §Change Control` for this feature — like Step 5, only on GO, after Step 4, never blocking. What this step puts in the canon:
+If `docs/steering/product.md §Decision Records` declares a decisions root, follow `docs/settings/rules/decision-records.md §Change Control` for this feature — like Step 5, only on GO, after Step 4, never blocking. What this step puts in the decision records:
 
-1. **`Used by`**: for every registry ID this feature adopted (rows carrying `spec: <this-feature>` plus IDs its code references), append `code: <path Symbol>` in `<canon-root>/registry.md`. The `spec:` entry stays — the spec now lives in `done/`, so the script classifies it as implemented.
-2. **Orphans**: grep the enums / const catalogs this feature touched; an identifier with no registry row is reported. Norm → propose the row in the Canon changes section; implementation detail → ignore; unsure → an Open Question in the canon README. Never silently adopt or delete a norm.
-3. Run `bash docs/settings/scripts/check_canon.sh check` and report its findings.
-4. When this step changed the canon, present the Canon changes section and ask once — commit? On yes, commit as `docs(canon): sync after <feature-name>`; on no, revert (`canon-layer.md §Change Control` 5) and report what was not landed. Nothing changed → report "Canon current".
+1. **`Used by`**: for every registry ID this feature adopted (rows carrying `spec: <this-feature>` plus IDs its code references), append `code: <path Symbol>` in `<decisions-root>/registry.md`. The `spec:` entry stays — the spec now lives in `done/`, so the script classifies it as implemented.
+2. **Orphans**: grep the enums / const catalogs this feature touched; an identifier with no registry row is reported. Norm → propose the row in the Decision changes section; implementation detail → ignore; unsure → an Open Question in the decisions README. Never silently adopt or delete a norm.
+3. Run `bash docs/settings/scripts/check_decisions.sh check` and report its findings.
+4. When this step changed the decision records, present the Decision changes section and ask once — commit? On yes, commit as `docs(decisions): sync after <feature-name>`; on no, revert (`decision-records.md §Change Control` 5) and report what was not landed. Nothing changed → report "Decisions current".
 
 </instructions>
 
@@ -349,12 +349,12 @@ Provide output in the language specified in spec.json:
 
 ### If GO
 
-1. **Requirements changes** (when any criterion changed): at the top — per criterion ID, previous → new, grounds (file:line), class; `## Canon changes` follows when present
+1. **Requirements changes** (when any criterion changed): at the top — per criterion ID, previous → new, grounds (file:line), class; `## Decision changes` follows when present
 2. **Verification Summary**: Table of all checks — all passed, including one line `Criteria reconciled: n (confirmed m · closed by a run record e)`, the product-check report path, item 2 of the Step 3 message, every `user` scenario left `not run`, and for `verify` the tasks a `fails` removed (`spec-kinds.md` §6)
 3. **Completion Actions**: Confirm spec moved and commit created
 4. **Commit Details**: Show commit hash and message
 5. **Steering Sync**: One of — "Steering current — no update needed", "Steering updated (separate commit `<hash>`)", or "Steering update declined"
-6. **Canon Sync** (when a canon layer exists): "Canon current", or the Canon changes landed (commit hash) or declined and reverted, orphans routed, and `check_canon.sh` findings
+6. **Decision Sync** (when decision records exist): "Decisions current", or the Decision changes landed (commit hash) or declined and reverted, orphans routed, and `check_decisions.sh` findings
 
 **Format**: Concise Markdown, under 300 words (the Step 3 message is not counted)
 
@@ -384,7 +384,7 @@ Provide output in the language specified in spec.json:
 
 **Git Not Clean for Spec Move**:
 
-- **Warning**: If `docs/tasks/todo/<feature-name>/` has uncommitted modifications, include them in the commit
+- **Warning**: If `docs/specs/todo/<feature-name>/` has uncommitted modifications, include them in the commit
 
 ### Workflow Integration
 
@@ -396,6 +396,6 @@ Provide output in the language specified in spec.json:
 **After Successful Completion**:
 
 - Feature is finalized and committed
-- Spec is archived in `docs/tasks/done/<feature-name>/`
+- Spec is archived in `docs/specs/done/<feature-name>/`
 - Steering is updated in its own commit if the feature changed what it holds; otherwise left as-is
 - Ready to start next feature with `/sdd-spec-init "description"`

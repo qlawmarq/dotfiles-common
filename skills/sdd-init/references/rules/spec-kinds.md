@@ -14,7 +14,7 @@ Ask the questions in order; the first "yes" decides.
 | `chore` | A new state of the environment, dependencies, tooling, documents or data | Is the deliverable a state of the environment, dependencies, tooling, documents or data rather than a product behavior? |
 | `feature` | New product behavior | Does the product do something new for a person using it? |
 
-In an inception plan, a verification-gate unit is `verify`. `refactor` moves code; `chore` changes what surrounds it (dependencies, tooling, CI, documents, data).
+In a plan, a verification-gate unit is `verify`. `refactor` moves code; `chore` changes what surrounds it (dependencies, tooling, CI, documents, data).
 
 A batch of unrelated defects is one `fix` spec with several ledger rows. Work that mixes kinds — a fix that also restructures — is split into one spec per kind.
 

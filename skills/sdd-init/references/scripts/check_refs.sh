@@ -9,7 +9,7 @@
 #   check_refs.sh [opts] unused [--no-entry]           # scanned files no other file cites; entry files (AGENTS/README/SKILL.md, spec.json) listed apart
 #   opts: --root <dir> (default: git top)   --scan <dir|file> (repeatable; default: the SDD project layout under root)
 #         --map FROM=TO (repeatable; e.g. docs/settings=<dist>/references)   --include-records (also cite from done/ archive/ probe/ reviews/)   -h
-#         (`check` ignores dangling IDs of the canon README's open-question tables)
+#         (`check` ignores dangling IDs of the decisions README's open-question tables)
 #   kinds: link, path, section (`file §heading`), skill (/sdd-*), json:<field> (spec.json plan.parent / plan.unit_id), id:<family>
 set -u
 
@@ -29,14 +29,14 @@ esac; done
 [ -z "$ROOT" ] && ROOT=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
 cd "$ROOT" || exit 1
 
-# Canon root as in check_canon.sh: declared in product.md, else docs/canon
-CANON=$(grep -m1 -oE 'Canon root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Canon root:[[:space:]]*`?//; /^\[/d; s#/$##')
-[ -z "$CANON" ] && CANON="docs/canon"
+# Decisions root as in check_decisions.sh: declared in product.md, else docs/decisions
+DECISIONS=$(grep -m1 -oE 'Decisions root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Decisions root:[[:space:]]*`?//; /^\[/d; s#/$##')
+[ -z "$DECISIONS" ] && DECISIONS="docs/decisions"
 AUTO=0
 if [ -z "$SCANS" ]; then                                  # default scan = the live SDD project layout
-    [ -d docs/steering ] || [ -d docs/tasks ] || [ -d docs/inception ] || { echo "no SDD project layout under $ROOT — pass --scan" >&2; exit 1; }
+    [ -d docs/steering ] || [ -d docs/specs ] || [ -d docs/plans ] || { echo "no SDD project layout under $ROOT — pass --scan" >&2; exit 1; }
     AUTO=1
-    for p in AGENTS.md CLAUDE.md README.md docs/steering "$CANON" docs/inception docs/tasks; do [ -e "$p" ] && SCANS="$SCANS$p
+    for p in AGENTS.md CLAUDE.md README.md docs/steering "$DECISIONS" docs/plans docs/specs; do [ -e "$p" ] && SCANS="$SCANS$p
 "; done
 fi
 T=$(mktemp -d "${TMPDIR:-/tmp}/check_refs.XXXXXX") || exit 1
@@ -262,7 +262,7 @@ BEGIN {
         if (match(b, /^[^.-]+-[^\/]*\./)) { k = dirn(l) "/" substr(b, 1, index(b, "-") - 1) substr(b, match(b, /\.[^.]*$/)); VR[k] = VR[k] "\n" l }
         if (b == "SKILL.md") { while ((getline x < l) > 0) { if (x ~ /^name:/) { sub(/^name:[ \t]*/, "", x); gsub(/["' ]/, "", x); SK[x] = l; break } if (x ~ /^#/) break } close(l) }
         if (b == "spec.json" && basen(dirn(l)) !~ /[{<]/) SP[basen(dirn(l))] = l
-        if (b == "units.md" && basen(dirn(dirn(l))) == "inception") { pn = basen(dirn(l)); PL[pn] = l; n = 0; sm = 1; ic = 0   # plans: inception/<plan-id>/units.md
+        if (b == "units.md" && basen(dirn(dirn(l))) == "plans") { pn = basen(dirn(l)); PL[pn] = l; n = 0; sm = 1; ic = 0   # plans: plans/<plan-id>/units.md
             while ((getline x < l) > 0) { n++; if (x !~ /^\|/) { if (ic) sm = 0; continue }   # unit IDs: the ID column (else the first) of its first table, the Summary
                 if (!sm || x ~ /^\|[ \t\r:|-]+$/) continue; nc = split(x, cc, "|")
                 if (!ic) { for (i = nc; i > 1; i--) if (trim(cc[i]) == "ID") ic = i; if (!ic) ic = 2; continue }
@@ -271,15 +271,15 @@ BEGIN {
     }
     for (k in SP) if (k ~ /^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-/) { DD[k] = SP[k]; NDATE++ }
     for (k in PL) if (k ~ /^20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-/) { DD[k] = PL[k]; NDATE++ }
-    # canon README: the first table is the decision log (ID → its linked decision file); IDs of later tables (open questions)
+    # decisions README: the first table is the decision log (ID → its linked decision file); IDs of later tables (open questions)
     # are defined too, but a closed question leaves the table, so their families are not checked. Registry: DOMAIN-NN rows.
-    rd = CANON "/README.md"; n = 0; tb = 0; pr = ""
+    rd = DECISIONS "/README.md"; n = 0; tb = 0; pr = ""
     while ((getline x < rd) > 0) { n++; if (x !~ /^\|/) { pr = x; continue }; if (pr !~ /^\|/) tb++; pr = x; split(x, cc, "|"); u = trim(cc[2])
         if (u !~ /^[A-Za-z]+[0-9]+$/) continue; DS[rd ":" n ":" u] = 1; fm = u; sub(/[0-9]+$/, "", fm); FAM[fm] = 1; DEF[u] = rd
         if (tb > 1) { QF[fm] = 1; continue }
-        if (match(x, /\]\([^)#]+/)) { t = normp(joinp(CANON, substr(x, RSTART + 2, RLENGTH - 2))); if (t in F) DEF[u] = t } }
+        if (match(x, /\]\([^)#]+/)) { t = normp(joinp(DECISIONS, substr(x, RSTART + 2, RLENGTH - 2))); if (t in F) DEF[u] = t } }
     for (k in QF) printf "%s,", k > (T "/qfams")
-    close(rd); rg = CANON "/registry.md"; n = 0
+    close(rd); rg = DECISIONS "/registry.md"; n = 0
     while ((getline x < rg) > 0) { n++; if (x !~ /^\|/) continue; split(x, cc, "|"); u = trim(cc[2])
         if (u !~ /^[A-Z][A-Z0-9]*-[0-9]+$/) continue; DS[rg ":" n ":" u] = 1; DEF[u] = rg; fm = u; sub(/[0-9]+$/, "", fm); FAM[fm] = 1 }
     close(rg); for (k in FAM) NFAM++
@@ -291,7 +291,7 @@ BEGIN {
     for (i = 1; i <= NS; i++) print SRC[i] > (T "/sources")
 }
 AWK
-LC_ALL=C awk -v T="$T" -v AUTO="$AUTO" -v RECS="$RECORDS" -v CANON="$CANON" -v SKP="sdd-" -f "$T/refs.awk" < /dev/null > "$T/list"
+LC_ALL=C awk -v T="$T" -v AUTO="$AUTO" -v RECS="$RECORDS" -v DECISIONS="$DECISIONS" -v SKP="sdd-" -f "$T/refs.awk" < /dev/null > "$T/list"
 touch "$T/sources" "$T/qfams"
 
 # ---------- subcommands: all derive from the list ----------

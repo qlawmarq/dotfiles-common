@@ -22,12 +22,12 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (optional): The feature directory name in `docs/tasks/`
+1. **Feature name** (optional): The feature directory name in `docs/specs/`
 
 - **With a feature name** → the detailed single-spec report described below.
 - **Without one** → the list in §List All Specs. Do not ask the user which feature they meant; the list is the answer.
 
-For a cross-spec view that also covers dependencies, blockers, and the inception plan, use `/sdd-brief` — this skill stays focused on one spec's phase detail.
+For a cross-spec view that also covers dependencies, blockers, and the plan, use `/sdd-brief` — this skill stays focused on one spec's phase detail.
 
 ## Core Task
 
@@ -39,7 +39,7 @@ Steps 0–3 below produce the single-spec report. **If no feature name was given
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### Step 1: Load Spec Context
 
@@ -85,8 +85,8 @@ Write the report in that spec's `spec.json` `language`; in list mode, in `docs/s
 
 **Spec Not Found**:
 
-- **Message**: "No spec found for the specified feature. Check available specs in `docs/tasks/todo/` and `docs/tasks/done/`"
-- **Action**: List available spec directories from both `docs/tasks/todo/` and `docs/tasks/done/`
+- **Message**: "No spec found for the specified feature. Check available specs in `docs/specs/todo/` and `docs/specs/done/`"
+- **Action**: List available spec directories from both `docs/specs/todo/` and `docs/specs/done/`
 
 **Incomplete Spec**:
 
@@ -95,6 +95,6 @@ Write the report in that spec's `spec.json` `language`; in list mode, in `docs/s
 
 ### List All Specs
 
-When invoked with no feature name, read every `spec.json` under `docs/tasks/todo/` and `docs/tasks/done/` (they are small — read them all) and report one row per spec: feature name, kind, `phase`, approval state, and — where `tasks.md` exists — completed/total task counts. Sort `todo/` before `done/`. Then list the `user` scenarios whose record does not exist yet, from `bash docs/settings/scripts/check_completion.sh outstanding` — do not read the behaviors files for them.
+When invoked with no feature name, read every `spec.json` under `docs/specs/todo/` and `docs/specs/done/` (they are small — read them all) and report one row per spec: feature name, kind, `phase`, approval state, and — where `tasks.md` exists — completed/total task counts. Sort `todo/` before `done/`. Then list the `user` scenarios whose record does not exist yet, from `bash docs/settings/scripts/check_completion.sh outstanding` — do not read the behaviors files for them.
 
 If no specs exist at all, say so and point at `/sdd-plan` (large effort) or `/sdd-spec-init` (single feature).

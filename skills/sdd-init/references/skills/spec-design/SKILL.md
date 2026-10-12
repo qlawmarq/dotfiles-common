@@ -24,7 +24,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 2. **Auto-approve flag** (optional): `-y` to auto-approve the previous phase
 
 If inputs were provided with this skill invocation, use them directly.
@@ -41,7 +41,7 @@ Write technical design document for the specified feature based on approved requ
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### Step 1: Load Context
 
@@ -95,9 +95,9 @@ In spec.json:
 - Set `approvals.requirements.approved: true`
 - If `behaviors.md` exists: set `approvals.behaviors.approved: true` (add the key if missing)
 
-## Canon changes (only when a canon layer is declared)
+## Decision changes (only when decision records are declared)
 
-Design rarely produces canon-level content — architecture belongs in steering (`steering-principles.md §Admission`) or in design.md. But a product-level threshold or boundary the design had to settle is one: land it by `docs/settings/rules/canon-layer.md §Change Control`, with the canon changes at the top of the output; the commit is `docs(canon): design <feature-name>`. When there is nothing, write nothing — do not print an empty section.
+Design rarely produces decision content — architecture belongs in steering (`steering-principles.md §Admission`) or in design.md. But a product-level threshold or boundary the design had to settle is one: land it by `docs/settings/rules/decision-records.md §Change Control`, with the decision changes at the top of the output; the commit is `docs(decisions): design <feature-name>`. When there is nothing, write nothing — do not print an empty section.
 
 </instructions>
 

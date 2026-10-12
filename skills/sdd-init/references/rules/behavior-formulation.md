@@ -23,14 +23,14 @@ Use Gherkin structure. Keep the keywords (`Given`, `When`, `Then`, `And`, `But`)
 Every scenario cites the product purpose it serves — this is **forward traceability**:
 
 - `product.md §<section>` — a purpose, theme, or capability stated in steering
-- A canon decision, when `product.md` declares Canon References (see `concept-alignment.md` for lookup rules)
-- `registry.md #<ID>` — a canon registry entry, the authoritative seat for enumerable norms (`canon-layer.md §Registry`)
+- A decision record, when `product.md` declares Decision Records (see `concept-alignment.md` for lookup rules)
+- `registry.md #<ID>` — a registry entry, the authoritative seat for enumerable norms (`decision-records.md §Registry`)
 - `steering/behaviors.md #<invariant>` — an established cross-spec invariant
 
 Rules:
 
 - A scenario that serves **no citable purpose** is scope without a reason — raise it as a question, don't keep it.
-- A scenario (or the requirement behind it) that **contradicts** the cited canon, the product's Value Proposition, or an established invariant is a **Critical finding**: report it before design proceeds. Do not silently reword the scenario to fit.
+- A scenario (or the requirement behind it) that **contradicts** the cited decision record, the product's Value Proposition, or an established invariant is a **Critical finding**: report it before design proceeds. Do not silently reword the scenario to fit.
 - Do not stretch citations. "The product is about X, therefore anything adjacent to X" is not grounding.
 - One citation per scenario — the ID and one phrase, never the source's full text. A second citation only when the scenario sits at the junction of two decisions.
 

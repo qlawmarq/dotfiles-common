@@ -2,7 +2,7 @@
 name: sdd-grill
 description: >-
   Relentlessly interview the user to settle open decisions in an SDD project.
-  Builds a design tree from real gaps found in steering, inception, and specs,
+  Builds a design tree from real gaps found in steering, the plan, and specs,
   then works it in rounds until nothing is left silently assumed. Use only when the user asks for it by name.
 ---
 
@@ -11,7 +11,7 @@ description: >-
 <background_information>
 
 - **Mission**: Reach a shared understanding on the open decisions of an SDD project by interviewing the user, grounding every question in what the project's documents actually say, and landing what gets settled back into the right artifact.
-- **Why this exists**: The SDD skills each advance one spec through one phase, and each validates within its own boundaries. Nothing in the suite interrogates the project *across* its layers — where steering, the inception plan, and the specs quietly disagree, or where a spec was approved with an assumption nobody ever resolved. Those gaps do not surface on their own; they surface as rework. This skill goes looking for them and puts them to the user as decisions.
+- **Why this exists**: The SDD skills each advance one spec through one phase, and each validates within its own boundaries. Nothing in the suite interrogates the project *across* its layers — where steering, the plan, and the specs quietly disagree, or where a spec was approved with an assumption nobody ever resolved. Those gaps do not surface on their own; they surface as rework. This skill goes looking for them and puts them to the user as decisions.
 - **Success Criteria**:
   - The design tree is seeded from real, cited gaps — not from generic curiosity.
   - Every round asks the whole current frontier, each question carrying a recommended answer marked as a proposal.
@@ -27,7 +27,7 @@ description: >-
 1. **Topic** (optional positional): what to grill about. If omitted, derive the topic from the seeded gaps and confirm it with the user before Round 1.
 2. **`--scope=<area>`** (optional): where to root the tree.
    - `steering` — project-wide rules and product intent
-   - `inception` — unit boundaries, sizing, build order
+   - `plan` — unit boundaries, sizing, build order
    - `spec:<feature-name>` — one specification
    - `cross` — contradictions *between* layers (the default when no scope is given and no topic narrows it)
 
@@ -41,9 +41,9 @@ Do not open with questions. Open by finding out what is actually unsettled, then
 
 Confirm SDD is initialized (`docs/settings/` exists); if not, tell the user to run `/sdd-init` first and stop. Then sweep for gaps, using index-first retrieval and dispatching sub-agents for independent lookups:
 
-- **Unapproved and stalled work** — every `docs/tasks/*/*/spec.json`: which have `approvals.*.approved: false`, which sit in an early `phase` while their dependents wait, which dependency chains in the plan (`dependencies.md` Dependency Matrix, Build Order) are blocked.
+- **Unapproved and stalled work** — every `docs/specs/*/*/spec.json`: which have `approvals.*.approved: false`, which sit in an early `phase` while their dependents wait, which dependency chains in the plan (`dependencies.md` Dependency Matrix, Build Order) are blocked.
 - **Declared open questions** — the *Assumptions & Open Questions* sections of `requirements.md`, and any open points recorded in `design.md`. These are gaps the project already admitted; they are the highest-value seeds because someone deliberately deferred them.
-- **Cross-layer contradictions** — where a spec's requirements or design conflict with `docs/steering/`, or with the unit boundary and scope recorded for it in the inception plan.
+- **Cross-layer contradictions** — where a spec's requirements or design conflict with `docs/steering/`, or with the unit boundary and scope recorded for it in the plan.
 - **Theme alignment** — whether the behavior a spec describes actually serves the product intent in `docs/steering/product.md` and respects the invariants in `docs/steering/behaviors.md`. A spec can be perfectly consistent with itself and still be the wrong thing to build. The per-spec skills apply this check by `docs/settings/rules/concept-alignment.md §The Check`; here it runs *across* specs and layers, where the per-spec gates cannot see.
 - **Silent assumptions** — decisions the documents depend on but never state: unstated acceptance thresholds, undefined edge cases, scope boundaries nobody drew.
 
@@ -115,7 +115,7 @@ Do not act on the session until the user confirms you have reached a shared unde
 Once confirmed, route each settled decision to the seat the table in `docs/settings/rules/concept-alignment.md §Findings` names, under `dialogue-grounding.md` §"Where dialogue output lands". What is this skill's own:
 
 - A project-wide steering rule that warrants its own file is handed off to `/sdd-steering-custom`.
-- **Canon content lands here directly** (a canon-level decision or a registry norm, when `product.md §Canon References` declares a canon layer): follow `canon-layer.md §Change Control`, opening the landing plan with the canon changes; the commit is `docs(canon): grill <topic>`.
+- **Decision content lands here directly** (a decision record or a registry norm, when `product.md §Decision Records` declares decision records): follow `decision-records.md §Change Control`, opening the landing plan with the decision changes; the commit is `docs(decisions): grill <topic>`.
 
 Present the intended edits and get confirmation before writing.
 

@@ -22,7 +22,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 2. **--batch** (optional): Non-interactive batch mode flag
 
 If inputs were provided with this skill invocation, use them directly.
@@ -42,7 +42,7 @@ Interactive implementation task review for the specified feature based on approv
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language, `kind`, and metadata
@@ -67,7 +67,7 @@ Interactive implementation task review for the specified feature based on approv
 ## Important Constraints
 
 - Accept an acceptable risk; this is quality assurance, not a search for perfection.
-- **Confirm before filing**: check each finding against the source itself — quote the `file:line` (spec, steering, canon, code) it rests on, or for an absence what you searched, and run the test, probe or command for any claim about how code behaves. Report what you could not confirm as unconfirmed, not as a Critical Issue.
+- **Confirm before filing**: check each finding against the source itself — quote the `file:line` (spec, steering, decision records, code) it rests on, or for an absence what you searched, and run the test, probe or command for any claim about how code behaves. Report what you could not confirm as unconfirmed, not as a Critical Issue.
 
 </instructions>
 

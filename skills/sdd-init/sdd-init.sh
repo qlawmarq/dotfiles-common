@@ -144,31 +144,31 @@ mkdir -p docs/settings/rules \
          docs/settings/templates/specs \
          docs/settings/templates/steering \
          docs/settings/templates/steering-custom \
-         docs/settings/templates/inception \
-         docs/settings/templates/canon \
+         docs/settings/templates/plans \
+         docs/settings/templates/decisions \
          docs/settings/scripts \
          docs/steering \
-         docs/inception \
-         docs/tasks/done \
-         docs/tasks/todo
+         docs/plans \
+         docs/specs/done \
+         docs/specs/todo
 
 # === Step 2: Deploy Rules and Templates ===
 cp "$SRC"/rules/*.md docs/settings/rules/ 2>/dev/null || append_csv ERRORS "rules_copy_failed"
 cp "$SRC"/templates/specs/* docs/settings/templates/specs/ 2>/dev/null || append_csv ERRORS "specs_copy_failed"
 cp "$SRC"/templates/steering/* docs/settings/templates/steering/ 2>/dev/null || append_csv ERRORS "steering_tpl_copy_failed"
 cp "$SRC"/templates/steering-custom/* docs/settings/templates/steering-custom/ 2>/dev/null || append_csv ERRORS "steering_custom_copy_failed"
-cp "$SRC"/templates/inception/* docs/settings/templates/inception/ 2>/dev/null || append_csv ERRORS "inception_tpl_copy_failed"
-cp "$SRC"/templates/canon/* docs/settings/templates/canon/ 2>/dev/null || append_csv ERRORS "canon_tpl_copy_failed"
+cp "$SRC"/templates/plans/* docs/settings/templates/plans/ 2>/dev/null || append_csv ERRORS "plans_tpl_copy_failed"
+cp "$SRC"/templates/decisions/* docs/settings/templates/decisions/ 2>/dev/null || append_csv ERRORS "decisions_tpl_copy_failed"
 if [ -d "$SRC/scripts" ]; then
     cp "$SRC"/scripts/* docs/settings/scripts/ 2>/dev/null || append_csv ERRORS "scripts_copy_failed"
     chmod +x docs/settings/scripts/*.sh 2>/dev/null
 fi
-SCRIPTS_COUNT=$(find docs/settings/scripts -type f 2>/dev/null | wc -l | tr -d ' ')
 
-# Rules/templates retired upstream. Explicit list only — cp never removes, so a stale
+# Rules/templates/scripts retired upstream. Explicit list only — cp never removes, so a stale
 # rule would keep being loaded by skills that no longer reference it.
-RETIRED_RULES="ratification.md normative-registry.md change-propagation.md"
-RETIRED_TEMPLATES="canon/proposal.md inception/vision.md inception/story-map.md inception/inception.json"
+RETIRED_RULES="ratification.md normative-registry.md change-propagation.md canon-layer.md inception-decomposition.md"
+RETIRED_TEMPLATES="canon/proposal.md inception/vision.md inception/story-map.md inception/inception.json canon/README.md canon/decision.md canon/registry.md inception/units.md inception/dependencies.md"
+RETIRED_SCRIPTS="check_canon.sh"
 RETIRED_RULES_REMOVED=""
 for name in $RETIRED_RULES; do
     if [ -f "docs/settings/rules/$name" ]; then
@@ -180,7 +180,15 @@ for name in $RETIRED_TEMPLATES; do
         rm -f "docs/settings/templates/$name"; append_csv RETIRED_RULES_REMOVED "templates/$name"
     fi
 done
+for name in $RETIRED_SCRIPTS; do
+    if [ -f "docs/settings/scripts/$name" ]; then
+        rm -f "docs/settings/scripts/$name"; append_csv RETIRED_RULES_REMOVED "scripts/$name"
+    fi
+done
+# template directories left empty by the retirements above
+find docs/settings/templates -mindepth 1 -type d -empty -delete 2>/dev/null
 
+SCRIPTS_COUNT=$(find docs/settings/scripts -type f 2>/dev/null | wc -l | tr -d ' ')
 RULES_COUNT=$(find docs/settings/rules -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
 TEMPLATES_COUNT=$(find docs/settings/templates -type f 2>/dev/null | wc -l | tr -d ' ')
 
@@ -221,7 +229,7 @@ deploy_skill_set() {
 
 # Skills renamed/retired upstream. Explicit list only — never "delete anything
 # not in source", which would destroy user-authored skills in the same dir.
-RETIRED_SKILLS="sdd-ratify sdd-canon-propose sdd-canon-ratify"
+RETIRED_SKILLS="sdd-ratify sdd-canon-propose sdd-canon-ratify sdd-canon-update"
 RETIRED_REMOVED=""
 
 remove_retired_skills() {
@@ -288,6 +296,9 @@ case "$TARGET" in
         git check-ignore -q .agents/ 2>/dev/null && append_csv WARNINGS "agents_gitignored"
         ;;
 esac
+# project directories and declarations from before the current layout
+for d in docs/tasks docs/inception docs/canon; do [ -d "$d" ] && append_csv WARNINGS "legacy_dir:$d"; done
+grep -qE '^## Canon References|Canon root:' docs/steering/product.md 2>/dev/null && append_csv WARNINGS "legacy_product_md"
 
 # === Structured Report ===
 cat << EOF

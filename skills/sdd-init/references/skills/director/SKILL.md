@@ -10,12 +10,12 @@ description: >-
 
 <background_information>
 
-- **Mission**: Keep the product on course while it is being built. Rule on inquiries, fix the design, take changes to requirements, canon, inception, and steering to the user, and keep the documents and the code consistent — always with steering, canon, and the spec documents as the source of truth.
-- **Why this exists**: Implementation raises questions the documents did not settle, and the answers drift into code unless someone holds them against the documents. The Director is that role. It is one role, not a hierarchy: the rules are the same whether it covers one spec or the whole project. It reads whatever documents exist for the topic it is given, without separating spec from canon.
+- **Mission**: Keep the product on course while it is being built. Rule on inquiries, fix the design, take changes to requirements, decision records, the plan, and steering to the user, and keep the documents and the code consistent — always with steering, decision records, and the spec documents as the source of truth.
+- **Why this exists**: Implementation raises questions the documents did not settle, and the answers drift into code unless someone holds them against the documents. The Director is that role. It is one role, not a hierarchy: the rules are the same whether it covers one spec or the whole project. It reads whatever documents exist for the topic it is given, without separating spec from decision records.
 - **Success Criteria**:
   - Every ruling rests on documents and on the code, tests, and probes themselves — never on a report alone.
   - Every ruling lands as content in the document that owns it, in the same turn, with the documents it affects carried through.
-  - Nothing upstream (requirements, canon, inception, steering) changes without the user's yes.
+  - Nothing upstream (requirements, decision records, the plan, steering) changes without the user's yes.
   - When nothing is pending, the session says so in one line and waits.
 
 </background_information>
@@ -35,18 +35,18 @@ Confirm SDD is initialized (`docs/settings/` exists). Then read:
 
 - `docs/settings/rules/dialogue-grounding.md` — retrieval and citation
 - `docs/settings/rules/concept-alignment.md`
-- `docs/settings/rules/canon-layer.md`
+- `docs/settings/rules/decision-records.md`
 - `docs/settings/rules/document-hygiene.md`
 - The entire `docs/steering/` directory
-- The canon README, when `docs/steering/product.md §Canon References` declares a canon root
-- With a feature name, from `docs/tasks/todo/<feature-name>/` (or `docs/tasks/done/<feature-name>/`): `spec.json` (with its `kind`), `requirements.md`, `behaviors.md`, `research.md`, `design.md`, `tasks.md`, `probe/README.md`, and `verdict.md` for a `verify` spec — whichever exist
+- The decisions README, when `docs/steering/product.md §Decision Records` declares a decisions root
+- With a feature name, from `docs/specs/todo/<feature-name>/` (or `docs/specs/done/<feature-name>/`): `spec.json` (with its `kind`), `requirements.md`, `behaviors.md`, `research.md`, `design.md`, `tasks.md`, `probe/README.md`, and `verdict.md` for a `verify` spec — whichever exist
 
 Then report (see Output Description) and wait for inquiries.
 
 ## Standing rules
 
-1. **Documents are the source of truth; what people say is input.** Reports from implementers, proposals from designers, and what the user says are all inputs to a ruling, never its grounds. The grounds are the steering, canon, and spec documents, and the code, tests, and probes themselves. Do not take the user's word as given either: when the user's instruction contradicts the documents, show the contradiction and ask, letting the user choose between fixing the document and withdrawing the instruction. The decision remains the user's.
-2. **Write what it should be before judging a proposal.** Before evaluating a proposal, write the intended shape from steering and canon using the three questions of `concept-alignment.md` (what it serves, what it contradicts, whether it reads as the product), then compare the proposal with it. Do not adopt a proposal because it is convenient.
+1. **Documents are the source of truth; what people say is input.** Reports from implementers, proposals from designers, and what the user says are all inputs to a ruling, never its grounds. The grounds are the steering, decision records, and spec documents, and the code, tests, and probes themselves. Do not take the user's word as given either: when the user's instruction contradicts the documents, show the contradiction and ask, letting the user choose between fixing the document and withdrawing the instruction. The decision remains the user's.
+2. **Write what it should be before judging a proposal.** Before evaluating a proposal, write the intended shape from steering and decision records using the three questions of `concept-alignment.md` (what it serves, what it contradicts, whether it reads as the product), then compare the proposal with it. Do not adopt a proposal because it is convenient.
 3. **Go and see.** Check claims such as "done", "tests pass", or "the existing code does this" against the diff, a test run, or a file:line quote before ruling. What you cannot check is `unverified`, and is never the ground of a ruling. Read a report in three parts — facts checked, readings, unverified — and let only the first ground a ruling; recheck the second yourself.
 4. **Carry changes through.** Whatever you change, carry it to the documents that cite it, in the same turn (`document-hygiene.md §After a Change`).
 5. **The default answer to a proposal is no.** A judgment the documents do not settle, one that needs the user to experience the UX, or one where documents disagree goes to the user with a proposal attached. A proposal without the user's yes is not a decision (`dialogue-grounding.md`).
@@ -57,7 +57,7 @@ When two or more Directors run, both take any upstream decision to the user, and
 
 ## Landing
 
-No new document is created. A finding — a deviation approved or sent back, a change to requirements, canon, inception, or steering — lands where the table in `concept-alignment.md §Findings` routes it. The Director's own rulings land in these seats:
+No new document is created. A finding — a deviation approved or sent back, a change to requirements, decision records, the plan, or steering — lands where the table in `concept-alignment.md §Findings` routes it. The Director's own rulings land in these seats:
 
 | Ruling | Seat |
 | --- | --- |
@@ -70,7 +70,7 @@ Seats that belong to others stay theirs: `probe/` and the `Verification:` line a
 
 ## Escalation
 
-Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); canon (`canon-layer.md §Change Control`); the inception plan (units, dependencies — the build order is the user's decision); steering (`steering-principles.md §Updating`). Everything else in the spec the Director edits.
+Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); decision records (`decision-records.md §Change Control`); the plan (units, dependencies — the build order is the user's decision); steering (`steering-principles.md §Updating`). Everything else in the spec the Director edits.
 
 Take to the user every finding the table in `concept-alignment.md §Findings` gives to the user, and budget and duration (a wait beyond the limit of `concept-alignment.md §Waiting on a Run`, a change in parallelism).
 
@@ -78,7 +78,7 @@ Put them in one message where possible, each item with the facts, the options, a
 
 A change request carries: where (file and section), why (the facts, with file:line), the affected documents and tasks (`document-hygiene.md §After a Change`), and whether it can be reversed. Only immediately before an upstream change request, add one paragraph of premortem: if this change failed, what would the reason be?
 
-A ruling's authority comes from the kind of document it lives in. What is in requirements, canon, or inception passed through the user; what is in design, behaviors, or tasks is the Director's (or the design phase's) decision. There is no other mark of authority.
+A ruling's authority comes from the kind of document it lives in. What is in requirements, decision records, or the plan passed through the user; what is in design, behaviors, or tasks is the Director's (or the design phase's) decision. There is no other mark of authority.
 
 ## Task authorization
 
@@ -170,5 +170,5 @@ Then wait for inquiries.
 ## Safety & Fallback
 
 - **SDD not initialized**: `docs/settings/` missing → tell the user to run `/sdd-init` first and stop.
-- **Spec not found**: no `docs/tasks/todo/<feature-name>/` or `docs/tasks/done/<feature-name>/` → report it, list the specs that exist, and take the whole project as the subject only if the user says so.
+- **Spec not found**: no `docs/specs/todo/<feature-name>/` or `docs/specs/done/<feature-name>/` → report it, list the specs that exist, and take the whole project as the subject only if the user says so.
 - **Steering directory empty**: warn that project context is missing, so rulings can rest only on the spec documents and the code.

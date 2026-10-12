@@ -4,7 +4,7 @@
 
 Make conversation about an SDD project *grounded* — every claim traceable to a document, every question aimed at a real gap. These rules govern the read-and-discuss skills (`/sdd-brief`, `/sdd-grill`, `/sdd-director`), which differ from the rest of the SDD suite: the other skills advance a spec through its phases, while these answer questions, settle open decisions, and hold the product's direction across the whole project.
 
-The problem they exist to solve is scale. A mature SDD project accumulates steering, an inception plan, and dozens of specs — tens of thousands of lines across hundreds of files. Nobody, human or agent, can hold that in view at once. Answering "what did we decide about X?" by reading everything is impossible; answering it by guessing is worse. These rules define the third option: targeted retrieval through indexes, with citations.
+The problem they exist to solve is scale. A mature SDD project accumulates steering, a plan, and dozens of specs — tens of thousands of lines across hundreds of files. Nobody, human or agent, can hold that in view at once. Answering "what did we decide about X?" by reading everything is impossible; answering it by guessing is worse. These rules define the third option: targeted retrieval through indexes, with citations.
 
 ## The document map
 
@@ -13,9 +13,9 @@ Build the map at runtime from what actually exists. Do not assume any layer is p
 | Layer | Path | What it holds | How to read it |
 | --- | --- | --- | --- |
 | Steering | `docs/steering/` | Project-wide rules and context: `product.md` (why/what), `tech.md`, `structure.md`, plus custom files | Small enough to read fully when the topic is project-wide; otherwise read the file that owns the topic |
-| Canon (optional) | declared in `product.md §Canon References` | Product decisions: `decisions/` (the why), `registry.md` (enumerable norms) | `README.md` decision log and `registry.md` are the indexes; JIT-grep decisions by their `keywords` line. Committed text is in force; uncommitted edits bind nothing (`canon-layer.md`) |
-| Inception | `docs/inception/<plan-id>/` | `units.md`, `dependencies.md` — unit boundaries and build order | Read the `units.md` Summary first; `units.md` is often large, so target the relevant unit. The unit→spec map is each `spec.json` `plan` block |
-| Specs | `docs/tasks/todo/<feature>/`, `docs/tasks/done/<feature>/` | `spec.json`, `requirements.md`, `research.md`, `design.md`, `tasks.md` | `spec.json` is small — read all of them freely. The Markdown files are large; open only the ones the question touches |
+| Decision records (optional) | declared in `product.md §Decision Records` | Product decisions: decision files `d<NN>-<slug>.md` (the why), `registry.md` (enumerable norms) | `README.md` decision log and `registry.md` are the indexes; JIT-grep decisions by their `keywords` line. Committed text is in force; uncommitted edits bind nothing (`decision-records.md`) |
+| Plans | `docs/plans/<plan-id>/` | `units.md`, `dependencies.md` — unit boundaries and build order | Read the `units.md` Summary first; `units.md` is often large, so target the relevant unit. The unit→spec map is each `spec.json` `plan` block |
+| Specs | `docs/specs/todo/<feature>/`, `docs/specs/done/<feature>/` | `spec.json`, `requirements.md`, `research.md`, `design.md`, `tasks.md` | `spec.json` is small — read all of them freely. The Markdown files are large; open only the ones the question touches |
 | Settings | `docs/settings/rules/`, `docs/settings/templates/` | The methodology itself | Read a rule only when you need the technique it defines |
 
 If the project has documentation outside these paths, discover it (its root `README.md` or `AGENTS.md` usually names it), note whether it is authoritative or historical, and respect any stated read-only or change-control conventions. Never edit a directory the project describes as archival.
@@ -38,9 +38,9 @@ When a question needs several independent lookups, dispatch sub-agents to run th
 Every factual claim carries its source, as a repo-relative path plus the narrowest locator you have:
 
 - `docs/steering/product.md` — the section heading, when the file has sections
-- `docs/tasks/done/<feature-name>/design.md §Data Model`
-- `docs/tasks/todo/<feature-name>/spec.json` — `phase`, `approvals.requirements.approved`
-- `<canon-root>/registry.md #BIL-01` — a registry entry, by its immutable ID
+- `docs/specs/done/<feature-name>/design.md §Data Model`
+- `docs/specs/todo/<feature-name>/spec.json` — `phase`, `approvals.requirements.approved`
+- `<decisions-root>/registry.md #BIL-01` — a registry entry, by its immutable ID
 
 Distinguish three kinds of statement and label them when the difference matters:
 

@@ -24,7 +24,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (optional): The feature directory name in `docs/tasks/`
+1. **Feature name** (optional): The feature directory name in `docs/specs/`
 2. **Task numbers** (optional): Specific task numbers to validate (e.g., "1.1,1.2")
 
 If inputs were provided with this skill invocation, use them directly.
@@ -38,7 +38,7 @@ Validate implementation for feature(s) and task(s) based on approved specificati
 
 ### 0. Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### 1. Detect Validation Target
 
@@ -48,7 +48,7 @@ Validate implementation for feature(s) and task(s) based on approved specificati
 - Extract feature names and task numbers from each execution
 - Aggregate all implemented tasks by feature
 - Report detected implementations (e.g., "user-auth: 1.1, 1.2, 1.3")
-- If no history found, scan `docs/tasks/todo/` and `docs/tasks/done/` for features with completed tasks `[x]`
+- If no history found, scan `docs/specs/todo/` and `docs/specs/done/` for features with completed tasks `[x]`
 
 **If feature provided but no task numbers**:
 

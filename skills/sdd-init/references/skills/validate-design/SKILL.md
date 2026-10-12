@@ -22,7 +22,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 2. **--batch** (optional): Non-interactive batch mode flag
 
 If inputs were provided with this skill invocation, use them directly.
@@ -42,7 +42,7 @@ Interactive design quality review for the specified feature based on approved re
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language, `kind`, and metadata
@@ -54,7 +54,7 @@ Interactive design quality review for the specified feature based on approved re
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/design-review.md` for review criteria and process
-   - Read `docs/settings/rules/concept-alignment.md` §Resolving the Canon, §The Check, and, under §Findings, §Severity and §Finding Format for the concept & behavior alignment check (design-review criterion 0)
+   - Read `docs/settings/rules/concept-alignment.md` §Resolving Product Intent, §The Check, and, under §Findings, §Severity and §Finding Format for the concept & behavior alignment check (design-review criterion 0)
    - Read the kind's design template as the structure reference (`docs/settings/rules/spec-kinds.md` §4)
 
 4. **Execute Design Review** per `design-review.md` §Review Process:

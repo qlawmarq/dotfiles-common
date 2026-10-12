@@ -9,11 +9,11 @@ Steering (`docs/steering/`) is project memory: every file in it is loaded into e
 A line belongs in steering only when all four hold:
 
 1. **It guides future work** — a cross-cutting pattern, convention, or decision that new work must follow. Golden rule: if new code follows existing patterns, steering shouldn't need updating.
-2. **No other seat holds it.** Facts owned by code, configuration, a manifest (versions, dependencies), the canon, `AGENTS.md`/`CLAUDE.md`, the rules in `docs/settings/`, a spec, or another steering file are not copied here; when a reader needs one, name where it lives (`document-hygiene.md`).
+2. **No other seat holds it.** Facts owned by code, configuration, a manifest (versions, dependencies), the decision records, `AGENTS.md`/`CLAUDE.md`, the rules in `docs/settings/`, a spec, or another steering file are not copied here; when a reader needs one, name where it lives (`document-hygiene.md`).
 3. **It is not a catalog** — no file or directory listings, per-component descriptions, dependency lists, or implementation details. State the pattern and show one example.
 4. **It is not history** — no dates, change reasons, or "added after …" notes (`document-hygiene.md`, one fact, one seat).
 
-Never admitted: secrets (API keys, passwords, credentials, database URLs, internal hosts), agent-tooling directories (`.claude/`, `.cursor/`, `.gemini/`, …), and documentation of `docs/settings/` (methodology, not project knowledge). Pointing to `docs/tasks/` or another steering file is fine.
+Never admitted: secrets (API keys, passwords, credentials, database URLs, internal hosts), agent-tooling directories (`.claude/`, `.cursor/`, `.gemini/`, …), and documentation of `docs/settings/` (methodology, not project knowledge). Pointing to `docs/specs/` or another steering file is fine.
 
 **Bad** (catalog):
 
@@ -38,7 +38,7 @@ Never admitted: secrets (API keys, passwords, credentials, database URLs, intern
 
 One domain per file. A decision carries its rationale.
 
-- **product.md**: purpose, users, target use cases, core capabilities, value, scope, and Out of Scope when the product keeps one; where the canon lives, when one exists (its location, never its contents).
+- **product.md**: purpose, users, target use cases, core capabilities, value, scope, and Out of Scope when the product keeps one; where the decision records live, when they exist (their location, never their contents).
 - **tech.md**: architecture, key frameworks, and the technical decisions that shape code — not versions or dependency lists.
 - **structure.md**: organization patterns, directory roles, naming and import rules — not directory trees.
 - **behaviors.md**: cross-spec behavior invariants, one line each: `statement — Grounds: <citation> / Verify: <test or probe>`. An invariant from a spec is promoted only when it is **product-level** (the product's purpose or philosophy, not an implementation detail), **cross-spec** (a future spec could plausibly violate it), and **verified** (its evidence exists). Scenario bodies stay in the spec and the test suite.

@@ -6,7 +6,7 @@
 #
 #   check_completion.sh [--rules <dir>] <spec_path>   # FAIL: <file>: <what> per failure; NOT RUN: <scenario> per user scenario
 #                                                     #   without its record (not a failure); exit 1 on any failure, else 0
-#   check_completion.sh outstanding                   # user scenarios under docs/tasks/ whose record is missing, todo and done apart (exit 0)
+#   check_completion.sh outstanding                   # user scenarios under docs/specs/ whose record is missing, todo and done apart (exit 0)
 #   the forms checked — a routing line, a closure on an earlier answer, the headings of probe/user-run-<x>.md — are those
 #   /sdd-spec-done writes (its SKILL.md: Routing record, 2k Routing, Recording the answer)
 #   --rules <dir>: where spec-kinds.md and behavior-formulation.md are read (default: docs/settings/rules)
@@ -59,7 +59,7 @@ if [ "$ARG" = outstanding ]; then
     total=0
     for state in todo done; do
         echo "$state:"; n=0
-        for b in docs/tasks/$state/*/behaviors.md; do [ -f "$b" ] || continue
+        for b in docs/specs/$state/*/behaviors.md; do [ -f "$b" ] || continue
             d=${b%/behaviors.md}
             while IFS="$US" read -r ln sc tier ptr; do
                 [ "$tier" = user ] || continue
@@ -192,7 +192,7 @@ for n in $(runs_of routing); do
             x=${ua#probe/user-run-}; x=${x%.md}
             if [ "$x" = "$fr" ]; then want=$fk; else want="R$fr-$fk"; fi              # run x heads its own findings F<k>, another run's R<m>-F<k>
             if [ -z "$ua" ]; then fail "$rf:$ln: $id is $c without pointing at the user's answer (probe/user-run-<n>.md)"
-            elif [ -n "$os" ] && [ -z "$ub" ]; then fail "$rf:$ln: $id points at spec $os, which is not under docs/tasks/todo or done"
+            elif [ -n "$os" ] && [ -z "$ub" ]; then fail "$rf:$ln: $id points at spec $os, which is not under docs/specs/todo or done"
             elif [ -n "$os" ] && [ -z "$ea" ]; then fail "$rf:$ln: $id points at another spec's answer without the finding it answered there (\`$os/$ua (R<m>-F<k>)\`)"
             elif [ ! -f "$ub/$ua" ]; then fail "$rf:$ln: $id points at $up/$ua, which does not exist"
             elif ! LC_ALL=C grep -qE "^#+[[:space:]]+\`?$want\`?([^0-9A-Za-z-]|\$)" "$ub/$ua"; then fail "$rf:$ln: $up/$ua has no heading $want"; fi

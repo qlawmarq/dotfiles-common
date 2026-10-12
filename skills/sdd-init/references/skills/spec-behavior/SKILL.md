@@ -10,10 +10,10 @@ description: >-
 <background_information>
 
 - **Mission**: Turn approved requirements into concrete, product-grounded behavior scenarios (BDD Discovery → Formulation), so that what gets designed and built demonstrably serves the product's purpose — not just the spec's internal logic
-- **Why this exists**: Requirements trace *backward* to what the user asked for; nothing in that guarantees the resulting behavior serves what the product *is*. This phase adds the forward link: every scenario cites the product purpose it embodies, and contradictions with the product canon surface here — before design and implementation harden them
+- **Why this exists**: Requirements trace *backward* to what the user asked for; nothing in that guarantees the resulting behavior serves what the product *is*. This phase adds the forward link: every scenario cites the product purpose it embodies, and contradictions with the product intent surface here — before design and implementation harden them
 - **Success Criteria**:
   - Scenarios formulated as concrete examples (named actors, real values), each with `Grounds:` and `Verification:` lines
-  - Requirements that contradict the product canon reported as Critical findings, not silently accommodated
+  - Requirements that contradict the product intent reported as Critical findings, not silently accommodated
   - Open questions logged; scope-affecting ones resolved with the user before design
   - `behaviors.md` written; spec.json updated
 
@@ -24,7 +24,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 2. **Auto-approve flag** (optional): `-y` to auto-approve requirements
 
 If inputs were provided with this skill invocation, use them directly.
@@ -32,13 +32,13 @@ Otherwise, ask the user for the feature name.
 
 ## Core Task
 
-Formulate behavior scenarios for the specified feature from its approved requirements, grounded in the product canon, through a short example-driven dialogue with the user.
+Formulate behavior scenarios for the specified feature from its approved requirements, grounded in the product intent, through a short example-driven dialogue with the user.
 
 ## Execution Steps
 
 ### Step 0: Resolve Spec Path
 
-Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 **Kind gate**: read `kind` from `{spec_path}/spec.json`. If the kind does not produce behaviors (`docs/settings/rules/spec-kinds.md` §4), say "`<kind>` specs do not formulate behaviors (see `docs/settings/rules/spec-kinds.md`); next: `/sdd-spec-research <feature-name>`" and stop without changing spec.json.
 
@@ -47,20 +47,20 @@ Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then 
 - `{spec_path}/spec.json`, `requirements.md`, `behaviors.md` (if exists, for merge mode)
 - **Entire `docs/steering/` directory** — `product.md` and `behaviors.md` (invariant ledger) are the anchors here
 - `docs/settings/rules/behavior-formulation.md` — **governs this phase**
-- `docs/settings/rules/concept-alignment.md` — §Resolving the Canon, §The Check, and, under §Findings, §Severity and §Finding Format
+- `docs/settings/rules/concept-alignment.md` — §Resolving Product Intent, §The Check, and, under §Findings, §Severity and §Finding Format
 - `docs/settings/templates/specs/behaviors.md` for document structure
 
 **Validate requirements approval**: with `-y`, set `approvals.requirements.approved: true`; otherwise verify it is `true`; if not, stop and suggest `/sdd-spec-behavior <feature-name> -y`.
 
-### Step 2: Ground in the Canon
+### Step 2: Ground in Product Intent
 
-Following `concept-alignment.md`: identify the product purposes, themes, and Out of Scope items that this feature touches in `product.md`; if a `## Canon References` section is declared, grep the canon for the relevant topics (JIT — only what the feature touches). Collect established invariants from `docs/steering/behaviors.md` that apply.
+Following `concept-alignment.md`: identify the product purposes, themes, and Out of Scope items that this feature touches in `product.md`; if a `## Decision Records` section is declared, grep the decision records for the relevant topics (JIT — only what the feature touches). Collect established invariants from `docs/steering/behaviors.md` that apply.
 
 ### Step 3: Formulate Scenarios (Discovery dialogue)
 
 1. Draft scenarios per `behavior-formulation.md` — at most one per acceptance criterion, only where the example adds a boundary value, an interaction, or a reading easy to get wrong; concrete values, one behavior each, one-citation `Grounds:` and `Verification:` on every scenario.
-2. While drafting, collect what the examples expose: edge cases requirements never settled, thresholds with no value, behaviors that *cannot* be grounded, behaviors that conflict with canon or invariants.
-3. **Conflicts are findings, not editing problems**: a requirement or scenario contradicting the canon is reported in `concept-alignment.md` format. If the canon itself should change, file it as an Open Question in the canon README or hand it to `/sdd-canon-update` — never adjust canon from this phase or quietly reword the scenario to fit.
+2. While drafting, collect what the examples expose: edge cases requirements never settled, thresholds with no value, behaviors that *cannot* be grounded, behaviors that conflict with decision records or invariants.
+3. **Conflicts are findings, not editing problems**: a requirement or scenario contradicting the decision records is reported in `concept-alignment.md` format. If a decision record itself should change, file it as an Open Question in the decisions README or hand it to `/sdd-decision` — never adjust decision records from this phase or quietly reword the scenario to fit.
 4. Present the draft with your questions and iterate briefly with the user — concrete examples are easy to react to. Resolve scope-affecting questions; log the rest under Open Questions. Do not invent behaviors beyond the requirements (same discipline as `requirements-elicitation.md`).
 
 ### Step 4: Finalize
@@ -80,7 +80,7 @@ Following `concept-alignment.md`: identify the product purposes, themes, and Out
 Write behaviors.md and this output in spec.json `language`:
 
 1. **Scenario Summary**: scenario titles with the purpose each serves (one line each). End with one line `Scenarios: n / acceptance criteria: m` — a ratio at or above 1 is a sign the requirements are being restated, not exemplified.
-2. **Concept Findings**: canon conflicts found (in `concept-alignment.md` format) or "none — all scenarios grounded"
+2. **Concept Findings**: conflicts with decision records found (in `concept-alignment.md` format) or "none — all scenarios grounded"
 3. **Open Questions**: what remains logged, and what was resolved in dialogue
 4. **Document Status**: behaviors.md written, spec.json updated
 5. **Next Steps**: `/sdd-spec-research <feature-name>`
@@ -91,5 +91,5 @@ Write behaviors.md and this output in spec.json `language`:
 
 - **Missing requirements.md**: Stop. Suggest `/sdd-spec-requirements <feature-name>` first
 - **product.md missing or stub-only**: Warn that grounding will be weak; suggest `/sdd-steering` first. Proceed only if the user confirms, marking ungroundable scenarios explicitly
-- **Canon Reference lookup fails** (declared path missing): report the broken declaration as a finding; fall back to product.md alone
+- **Decision Records lookup fails** (declared path missing): report the broken declaration as a finding; fall back to product.md alone
 - **Template Missing**: use inline structure with warning, keeping Grounds/Verification lines mandatory

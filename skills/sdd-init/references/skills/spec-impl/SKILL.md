@@ -22,7 +22,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 2. **Task numbers** (optional): Specific task numbers to execute (e.g., "1.1" or "1,2,3")
 
 If inputs were provided with this skill invocation, use them directly.
@@ -36,7 +36,7 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### Step 1: Load Context
 

@@ -23,7 +23,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 2. **--batch** (optional): Non-interactive batch mode flag
 
 If inputs were provided with this skill invocation, use them directly.
@@ -43,7 +43,7 @@ Interactive requirements quality review for the specified feature, focused on de
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
@@ -52,7 +52,7 @@ Interactive requirements quality review for the specified feature, focused on de
 
 3. **Read Review Guidelines**:
    - Read `docs/settings/rules/requirements-review.md` for review criteria and process
-   - Read `docs/settings/rules/concept-alignment.md` §Resolving the Canon, §The Check, and, under §Findings, §Severity and §Finding Format for the forward-traceability (concept) check
+   - Read `docs/settings/rules/concept-alignment.md` §Resolving Product Intent, §The Check, and, under §Findings, §Severity and §Finding Format for the forward-traceability (concept) check
    - Read `docs/settings/rules/ears-format.md` to check acceptance-criteria conformance
    - Read the kind's requirements template as the structure reference (`docs/settings/rules/spec-kinds.md` §4)
 
@@ -64,7 +64,7 @@ Interactive requirements quality review for the specified feature, focused on de
 
 ## Important Constraints
 
-- **Confirm before filing**: check each finding against the source itself — quote the `file:line` (spec, steering, canon, code) it rests on, or for an absence what you searched, and run the test, probe or command for any claim about how code behaves. Report what you could not confirm as unconfirmed, not as a Critical Issue.
+- **Confirm before filing**: check each finding against the source itself — quote the `file:line` (spec, steering, decision records, code) it rests on, or for an absence what you searched, and run the test, probe or command for any claim about how code behaves. Report what you could not confirm as unconfirmed, not as a Critical Issue.
 
 </instructions>
 

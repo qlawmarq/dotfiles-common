@@ -4,15 +4,15 @@
 
 Keep every layer in step with the product's purpose: the spec documents, the code, and the product as it actually runs. A spec can pass every internal check (requirements ↔ design ↔ code) and still build the wrong thing, and a product can satisfy every spec and still fail what it promises. This file is the one definition of the check, what a finding is, and where it goes; how a change is carried to the documents that cite it is `document-hygiene.md §After a Change`.
 
-**The user** is the person these skills work for. A role an agent plays (a director, a product manager) is never the user: what it rules is never the user's decision. **The product's main uses** are what `product.md` says a person does with the product — under whatever heading it says so (in the template, Target Use Cases) — together with the canon it points to. A `product.md` that nowhere says what a person does with the product is itself a finding against steering.
+**The user** is the person these skills work for. A role an agent plays (a director, a product manager) is never the user: what it rules is never the user's decision. **The product's main uses** are what `product.md` says a person does with the product — under whatever heading it says so (in the template, Target Use Cases) — together with the decision records it points to. A `product.md` that nowhere says what a person does with the product is itself a finding against steering.
 
-## Resolving the Canon
+## Resolving Product Intent
 
 1. **Baseline (always)**: `docs/steering/product.md` — the product's purpose, themes, and core capabilities.
-2. **Canon layer (when declared)**: if `product.md` contains a `## Canon References` section, it names the canon root (structure and loading: `canon-layer.md`) and how to search it. For enumerable norms — catalogs, entity lists, guards — the canon's `registry.md` is the authoritative seat; cite entries by ID. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the canon. **Committed text binds**: an uncommitted canon edit or a README Open Question is not a decision — reliance on it is itself a finding.
+2. **Decision records (when declared)**: if `product.md` contains a `## Decision Records` section, it names the decisions root (structure and loading: `decision-records.md`) and how to search it. For enumerable norms — catalogs, entity lists, guards — the decision records' `registry.md` is the authoritative seat; cite entries by ID. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the decision records. **Committed text binds**: an uncommitted decision edit or a README Open Question is not a decision — reliance on it is itself a finding.
 3. **Established invariants**: `docs/steering/behaviors.md` — cross-spec behavior invariants distilled from completed features. Already loaded with steering.
 
-When `product.md` and a deeper canon disagree, the canon wins if `product.md` says so; otherwise flag the inconsistency itself as a finding.
+When `product.md` and the decision records disagree, the decision records win if `product.md` says so; otherwise flag the inconsistency itself as a finding.
 
 ## The Check
 
@@ -54,7 +54,7 @@ An answer that differs from what should happen is a finding. A `user` scenario w
 
 ## Findings
 
-A finding is a disagreement between two layers that a check, a review, a measurement, or use of the product brings up — whoever reports it: a reviewer, a test, a probe, the implementer, the user. (A test written first and failing until its code exists is not one.) The layers, upstream first: product intent (canon, steering) → the plan → requirements → the spec's other documents → code → the running product.
+A finding is a disagreement between two layers that a check, a review, a measurement, or use of the product brings up — whoever reports it: a reviewer, a test, a probe, the implementer, the user. (A test written first and failing until its code exists is not one.) The layers, upstream first: product intent (decision records, steering) → the plan → requirements → the spec's other documents → code → the running product.
 
 1. **Check it before it changes anything.** A claim about what the product does — the user's included — is run before any document changes (`evidence-discipline.md` §1), and sorted: is it about what the product does, or about how it is shown? Quoting what someone said is not a check.
 2. **State it in use** when it concerns product intent: what happens to a person using the product — how long they wait, what they can do meanwhile — not only a count or a mechanism.
@@ -62,25 +62,25 @@ A finding is a disagreement between two layers that a check, a review, a measure
 
 | What is wrong | Where it goes | The user decides |
 | --- | --- | --- |
-| Canon or steering | `canon-layer.md §Change Control` / `steering-principles.md §Updating`, or the process the project's root AGENTS.md declares | yes |
-| The plan — a boundary, the order, what a gate tests | The plan, re-cut (`inception-decomposition.md` §8) | yes |
+| Decision records or steering | `decision-records.md §Change Control` / `steering-principles.md §Updating`, or the process the project's root AGENTS.md declares | yes |
+| The plan — a boundary, the order, what a gate tests | The plan, re-cut (`plan-decomposition.md` §8) | yes |
 | Requirements | `requirements.md`, after the user's yes | yes |
 | The spec should not be built | Its `todo/` directory is deleted after the user's yes; git keeps it. Code it already landed stays or goes by the user's word | yes |
 | The open spec's behaviors, research, design or tasks | That document; approved text is re-approved (`dialogue-grounding.md`, "Approved artifacts are not edited silently") — by the user, or, where a Director holds the spec, by the Director's ruling (`/sdd-director` §Landing) | no — approved text: its re-approval |
 | Code, inside the open spec | A fix task in its tasks.md — or, when the code is right and the design is not, `design.md`, as in the row above. Never neither | no |
-| Code, outside the open spec | Reported to the user at once with the evidence, and filed as its own `fix` spec in `docs/tasks/todo/` unless the user has it fixed directly | no — reported |
+| Code, outside the open spec | Reported to the user at once with the evidence, and filed as its own `fix` spec in `docs/specs/todo/` unless the user has it fixed directly | no — reported |
 | Cannot tell which, or a judgment that needs the product running to be seen | The user, with the evidence | yes |
 
-4. **Close it, in writing**, in one of four ways: *changed* — what and where; *rejected* — it does not hold, with quoted evidence of the same kind as the finding's (a run answers a run); *stands* — left as it is, with the reason; *filed* — the wrong layer lies outside the open spec and the finding now sits where that layer keeps open items (a spec in `docs/tasks/todo/`, the canon's Open Questions). A completion check's findings are closed in `{spec_path}/reviews/routing-<n>.md`, one line per finding; any other, in the seat the table names and the report of the turn that closed it. "A consequence of the boundary", "out of scope" and "left for a later gate" are not closures, and text approved before a fact was measured does not close the finding that fact raises.
+4. **Close it, in writing**, in one of four ways: *changed* — what and where; *rejected* — it does not hold, with quoted evidence of the same kind as the finding's (a run answers a run); *stands* — left as it is, with the reason; *filed* — the wrong layer lies outside the open spec and the finding now sits where that layer keeps open items (a spec in `docs/specs/todo/`, the decision records' Open Questions). A completion check's findings are closed in `{spec_path}/reviews/routing-<n>.md`, one line per finding; any other, in the seat the table names and the report of the turn that closed it. "A consequence of the boundary", "out of scope" and "left for a later gate" are not closures, and text approved before a fact was measured does not close the finding that fact raises.
 5. **Who closes.** The user closes what the table gives to the user, and every *stands* except a Warning's. A product-check finding — whatever row of the table it falls under — is closed only by the user, or by a change to the code or to re-approved text that a later run of the check re-checks and no longer finds; for it, the user is shown the reviewer's own words (its `In use:` line, or `Conflict:` where there is none), not a summary, and the user's answer is saved in their words under `probe/` — evidence, not a note in a document's body. Nobody reclassifies a finding to change who closes it — the user's own choice excepted. A finding the user has closed no longer blocks completion. What was closed without the user is listed for the user, one line each, when the spec completes.
 6. **A finding raised again with no new fact** — in this spec or another — is closed by pointing at its earlier closure, when that closure was the user's.
 7. **When two checks disagree**, what a run shows outranks what a reading concludes.
 
-A product that satisfies every spec and still fails what it promises is a finding against the plan, where there is one, or against the requirements or the canon — to be revisited with the user, not recorded and passed on.
+A product that satisfies every spec and still fails what it promises is a finding against the plan, where there is one, or against the requirements or the decision records — to be revisited with the user, not recorded and passed on.
 
 ### Severity
 
-- **Contradiction** with product purpose, Out of Scope, canon decision, or an established invariant → **Critical (NO-GO)**; never reword canon to fit the artifact under review.
+- **Contradiction** with product purpose, Out of Scope, decision record, or an established invariant → **Critical (NO-GO)**; never reword a decision record to fit the artifact under review.
 - **Unsupported**: no citable purpose can be named → **Critical (NO-GO)** unless the user explicitly confirms it belongs.
 - **Weak grounding**: purpose citable but stretched or vague → **Warning** with a suggested tightening.
 
@@ -89,8 +89,8 @@ A product that satisfies every spec and still fails what it promises is a findin
 ```
 🔴 Critical (Concept): <title>
 Artifact: <requirement ID / scenario N / design section>
-Canon: <product.md section, decision ID, or behaviors.md invariant cited>
-Conflict: <what the artifact does vs. what the canon says>
+Grounds: <product.md section, decision ID, or behaviors.md invariant cited>
+Conflict: <what the artifact does vs. what the cited grounds say>
 In use: <what happens to a person using the product — when the finding concerns product intent>
 Action: <the row of the table above>
 ```

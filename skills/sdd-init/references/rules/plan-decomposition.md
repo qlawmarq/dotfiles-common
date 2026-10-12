@@ -1,8 +1,8 @@
-# Inception & Decomposition Rules
+# Plan Decomposition Rules
 
 How to decompose a large product goal into independently-shippable **Units of Work**, where each unit becomes one SDD spec. These rules exist because forcing a whole product into a single spec produces an unreadable requirements/design/tasks set — the context becomes too large to reason about well. Decomposition keeps each downstream spec small and self-contained, so its own context stays bounded.
 
-This file is the reference for `/sdd-plan`. Read it when running the Inception workflow.
+This file is the reference for `/sdd-plan`. Read it when running the planning workflow.
 
 ## Table of Contents
 
@@ -21,8 +21,8 @@ This file is the reference for `/sdd-plan`. Read it when running the Inception w
 
 - **A unit is a vertical slice, not a layer.** A good unit cuts through the whole stack (UI → logic → data) so it is observably valuable to a person using the product on its own. Slicing by architectural layer ("the database", "the API", "the frontend") is the anti-pattern — those pieces can't be demonstrated or shipped independently.
 - **Each unit must stand alone.** If you implemented only one unit and nothing else, it should still produce something testable and demonstrable — ideally a viable (if minimal) product. This is the single most important property; it is what lets each unit become its own spec without entangling the others.
-- **Patterns over exhaustiveness.** Inception defines *what the units are, where their boundaries lie, and how they depend on each other* — not the full requirements or design of each. Per-unit requirements (EARS), research, and design are deliberately deferred to each child spec's own flow. Resist the urge to fully specify a unit here; that re-creates the context-bloat problem you are trying to solve.
-- **The plan is external memory.** The Inception artifacts are written to disk so each downstream spec — running in its own fresh context — can read only the slice it needs.
+- **Patterns over exhaustiveness.** Planning defines *what the units are, where their boundaries lie, and how they depend on each other* — not the full requirements or design of each. Per-unit requirements (EARS), research, and design are deliberately deferred to each child spec's own flow. Resist the urge to fully specify a unit here; that re-creates the context-bloat problem you are trying to solve.
+- **The plan is external memory.** The plan artifacts are written to disk so each downstream spec — running in its own fresh context — can read only the slice it needs.
 
 ## 2. Finding boundaries (where to cut)
 
@@ -107,9 +107,9 @@ If any check fails, revise the decomposition rather than scaffolding specs you'l
 
 `units.md` stays the boundary map, never a log. A unit entry holds boundaries; the spec holds everything deeper (`document-hygiene.md`, one fact, one seat).
 
-- **Completed unit**: `/sdd-spec-done` syncs the plan (its Inception Sync step) — the done spec is the record.
-- **Boundary or ordering change** (a finding, a canon change, re-planning): edit `units.md` and `dependencies.md` together, with the user, then carry it down (`document-hygiene.md §After a Change`). A re-cut plan re-runs §7.
+- **Completed unit**: `/sdd-spec-done` syncs the plan (its Plan Sync step) — the done spec is the record.
+- **Boundary or ordering change** (a finding, a decision change, re-planning): edit `units.md` and `dependencies.md` together, with the user, then carry it down (`document-hygiene.md §After a Change`). A re-cut plan re-runs §7.
 - **A gate's verdict other than `holds`**: the units that depend on the gate (`dependencies.md` Dependency Matrix) do not start — or stop at their next task — until the plan is re-cut. A unit the re-cut drops has its `todo/` spec deleted; git keeps it.
-- **Status or decision content creeping into a unit entry**: a unit's status and current kind are its spec's (`spec.json` and its location); what canon or a spec decides is cited by ID (`document-hygiene.md`, one fact, one seat).
+- **Status or decision content creeping into a unit entry**: a unit's status and current kind are its spec's (`spec.json` and its location); what a decision record or a spec decides is cited by ID (`document-hygiene.md`, one fact, one seat).
 
 A `units.md` growing past ~500 lines signals that detail blocks are accumulating spec-phase content; move that content to the owning specs.

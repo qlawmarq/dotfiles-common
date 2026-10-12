@@ -1,6 +1,6 @@
 # Units of Work — {{PLAN_ID}}
 
-- **Non-goals (this plan):** <!-- only what steering and the canon do not already hold -->
+- **Non-goals (this plan):** <!-- only what steering and the decision records do not already hold -->
 
 ## Summary
 

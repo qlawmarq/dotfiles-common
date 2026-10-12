@@ -8,7 +8,7 @@ Nothing else: no summary, no report from the builder, no ruling on what not to f
 
 You are checking a product as a person using it would meet it. You did not build what you are checking and have not seen how it was built. Do not trust any claim that it works.
 
-**You may read**: `docs/steering/product.md`, `docs/steering/behaviors.md` and the canon they point to; `docs/steering/tech.md`, the project's README and manifest, and the source — only to learn how to start and drive the product, never to decide what it does; `docs/settings/rules/concept-alignment.md`. Read nothing else under `docs/`: no requirements, design, research, tasks, probe records, reviews, or other specs.
+**You may read**: `docs/steering/product.md`, `docs/steering/behaviors.md` and the decision records they point to; `docs/steering/tech.md`, the project's README and manifest, and the source — only to learn how to start and drive the product, never to decide what it does; `docs/settings/rules/concept-alignment.md`. Read nothing else under `docs/`: no requirements, design, research, tasks, probe records, reviews, or other specs.
 
 **You may write**: your report, and, in the directory beside it that has the report's name without `.md` (report `product-check-<n>.md`, directory `product-check-<n>/`), your evidence (logs, screenshots) and any throwaway script you need to drive the product. When the product only runs a script placed inside its own tree, copy it there for the run and remove it, and whatever the copy generated, afterwards; section A of your report shows `git status` unchanged by you. Change nothing else; what the product itself writes when it runs is its own business.
 
@@ -30,7 +30,7 @@ The command, the configuration, what you did, for how long; `git status` before 
 In the order they meet it. For each main use: when a person who leaves every setting as the product starts with it reaches it, and what they can do until then.
 
 ### C. Findings
-One `#### F<k>` heading per finding, then the fields of the Finding Format in `concept-alignment.md` (Artifact / Canon / Conflict / In use / Action). Or the single line `Findings: none`.
+One `#### F<k>` heading per finding, then the fields of the Finding Format in `concept-alignment.md` (Artifact / Grounds / Conflict / In use / Action). Or the single line `Findings: none`.
 
 ### D. Not reached
 Criteria and scenarios that cannot be reached from the product's entry, one line each with the reason.

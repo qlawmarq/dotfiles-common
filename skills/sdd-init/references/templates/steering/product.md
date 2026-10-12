@@ -14,15 +14,15 @@
 
 [What makes this product unique or valuable]
 
-## Canon References
+## Decision Records
 
 <!--
-Optional. If the product's philosophy lives in a deeper canon (decision docs + registry —
-docs/settings/rules/canon-layer.md), declare where it lives so SDD skills can resolve it.
-Delete this section if product.md is the sole canon.
+Optional. If the product's philosophy lives in deeper decision records (decision files + registry —
+docs/settings/rules/decision-records.md), declare where they live so SDD skills can resolve them.
+Delete this section if product.md is the product's only record of decisions.
 -->
 
-- Canon root: [path, default `docs/canon/` — `README.md` is the index]
-- Registry: [`<canon-root>/registry.md` — enumerable norms, cite by ID]
+- Decisions root: [path, default `docs/decisions/` — `README.md` is the index]
+- Registry: [`<decisions-root>/registry.md` — enumerable norms, cite by ID]
 - How to search: [e.g. grep by the `keywords` line; plain terms such as the name of a feature or an entity]
-- Authority: where this file and the canon disagree, the canon wins
+- Authority: where this file and the decision records disagree, the decision records win

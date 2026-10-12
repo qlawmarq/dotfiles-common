@@ -11,7 +11,7 @@ description: >-
 
 - **Mission**: Set up Spec-Driven Development infrastructure in the current project by deploying rules, templates, skills, and project configuration from user-level SDD resources
 - **Success Criteria**:
-  - All SDD directory structures created (`docs/settings/`, `docs/steering/`, `docs/tasks/`)
+  - All SDD directory structures created (`docs/settings/`, `docs/steering/`, `docs/specs/`)
   - Rules, templates, and scripts deployed to `docs/settings/`
   - SDD skills deployed to selected target(s): `.claude/skills/sdd-*/` and/or `.agents/skills/sdd-*/`
   - Steering stubs initialized in `docs/steering/`
@@ -66,8 +66,8 @@ echo "git_root=$([ -d .git ] && echo yes || echo no) sdd_exists=$([ -d docs/sett
 Process results:
 1. **`git_root=no`**: Stop with error — "SDD initialization must be run from the git repository root."
 2. **`sdd_exists=yes` AND `--force` not set**: Ask the user how to proceed:
-   - **Update** (default): Overwrite rules, templates, and skills; create only missing steering stubs; leave `docs/tasks/` untouched.
-   - **Full Reinitialize**: Overwrite everything except `docs/tasks/`.
+   - **Update** (default): Overwrite rules, templates, and skills; create only missing steering stubs; leave `docs/specs/` untouched.
+   - **Full Reinitialize**: Overwrite everything except `docs/specs/`.
    - **Cancel**: Abort.
 3. **`sdd_exists=yes` AND `--force` set**: Proceed with Update mode silently.
 4. **`sdd_exists=no`**: Proceed with fresh initialization.
@@ -122,17 +122,19 @@ Provide output in the language derived from `--lang`:
    - Skills: `skills_count` skills deployed (to target platform(s))
    - Scripts: `scripts_count` files deployed to `docs/settings/scripts/`
    - Steering stubs: `steering_created` / `steering_skipped`
-   - Retired skills removed: `retired_removed`; retired rules/templates removed: `retired_rules_removed` (mention only when not `none`)
+   - Retired skills removed: `retired_removed`; retired rules/templates/scripts removed: `retired_rules_removed` (mention only when not `none`)
    - AGENTS.md: `agents_md` status (created / updated / appended / appended:marker_warning / skipped / write_failed)
 3. **Configuration**: Language set to `lang_name` (`lang_code`)
 4. **Warnings** (if any):
    - `claude_gitignored`: "`.claude/` is excluded by .gitignore. Project-level SDD skills will not be version controlled."
    - `agents_gitignored`: "`.agents/` is excluded by .gitignore. Project-level SDD skills will not be version controlled."
    - `agents_md=appended:marker_warning`: "Inconsistent SDD markers detected. A new section was appended."
+   - `legacy_dir:<path>`: "`<path>` is a directory from the previous layout and no skill reads it. Move it with git: `docs/tasks` → `docs/specs`, `docs/inception` → `docs/plans`, `docs/canon` → `docs/decisions` (decision files directly under the root, links updated), then run `bash docs/settings/scripts/check_refs.sh check`."
+   - `legacy_product_md`: "`docs/steering/product.md` still declares `## Canon References` / `Canon root:`. Rename them to `## Decision Records` / `Decisions root:` so the scripts resolve the root."
 5. **Errors** (if any): Report from `errors` field
    - `agents_md_write_failed`: "AGENTS.md could not be written, so it has no SDD section. Make it writable and re-run `/sdd-init`."
 6. **Next Steps** (numbered action items):
-   - When `retired_removed` or `retired_rules_removed` is not `none`: "Retired skills and rules were removed. `bash docs/settings/scripts/check_refs.sh check` lists the references to them that remain in the project's documents."
+   - When `retired_removed` or `retired_rules_removed` is not `none`: "Retired skills, rules and scripts were removed. `bash docs/settings/scripts/check_refs.sh check` lists the references to them that remain in the project's documents."
    - Run `/sdd-steering` to generate project steering from codebase analysis
    - Run `/sdd-steering-custom` to add domain-specific steering (optional)
    - For a large/greenfield effort: run `/sdd-plan "product goal"` to decompose it into right-sized specs

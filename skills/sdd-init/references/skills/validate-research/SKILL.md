@@ -22,7 +22,7 @@ description: >-
 
 ## Input
 
-1. **Feature name** (required): the feature directory name in `docs/tasks/`
+1. **Feature name** (required): the feature directory name in `docs/specs/`
 2. **`--batch`** (optional): non-interactive. List the contested claims as open assumptions instead of asking; never NO-GO on them alone.
 
 If not provided, ask for the feature name.
@@ -33,7 +33,7 @@ Verify `research.md` independently. **Start from its claims and check them yours
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Error if neither exists.
+1. **Resolve Spec Path**: `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Error if neither exists.
 
 2. **Load Context**: `{spec_path}/spec.json` (language, `kind`), `research.md`, `requirements.md`, `behaviors.md` and `gap-analysis.md` (if they exist), `{spec_path}/probe/README.md` (if it exists), and `docs/settings/rules/evidence-discipline.md`.
 

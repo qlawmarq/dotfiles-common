@@ -24,7 +24,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 
 If inputs were provided with this skill invocation, use them directly.
 Otherwise, ask the user for the feature name.
@@ -35,11 +35,11 @@ Elicit complete, traceable requirements for the specified feature based on the p
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language, `kind`, and metadata
-   - Read `{spec_path}/requirements.md` for project description; when the description is a pointer to an inception unit (`units.md §U<N>`), read that unit's entry and the plan's non-goals at the head of `units.md` — together they are the scope brief
+   - Read `{spec_path}/requirements.md` for project description; when the description is a pointer to a plan unit (`units.md §U<N>`), read that unit's entry and the plan's non-goals at the head of `units.md` — together they are the scope brief
    - Read the entire `docs/steering/` directory
 
 3. **Read Guidelines**:
@@ -58,7 +58,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Present the draft together with your questions, and iterate with the user — a concrete draft is easier to react to than a long upfront questionnaire
    - When a gap affects scope, behavior, or acceptance criteria, **ask** before writing the affected requirement; only proceed on trivial/reversible gaps, and only by logging them as assumptions
    - Offer additions you think might be wanted as *proposals* ("Did you also want X? I'll leave it out unless you confirm"), defaulting to leaving them out
-   - Before finishing, give a short confirmation summary covering both what you included and **what you deliberately left out of scope**, and get the user's confirmation. When a canon layer is declared (`docs/steering/product.md §Canon References`), open that summary with the `## Canon changes` section from Step 8 — the same yes covers both
+   - Before finishing, give a short confirmation summary covering both what you included and **what you deliberately left out of scope**, and get the user's confirmation. When decision records are declared (`docs/steering/product.md §Decision Records`), open that summary with the `## Decision changes` section from Step 8 — the same yes covers both
 
 6. **Finalize Requirements** (write requirements.md now, after the Step 5 confirmation):
    - Keep the `## Project Description (Input)` section written at init above the template's sections (every kind).
@@ -72,9 +72,9 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Set `phase: "requirements-generated"`
    - Set `approvals.requirements.generated: true`
 
-8. **Canon changes** (only when a canon layer is declared; follow `docs/settings/rules/canon-layer.md §Change Control`):
-   - Draft time (Step 4): grep the canon JIT for the decisions and registry IDs the feature touches. Product-level decisions the user settled in dialogue, new enumerable norms, and registry IDs this feature adopts (`Used by` += `spec: <feature-dir-name>`) are edited into the canon working tree; requirements.md cites decisions/IDs and never copies them
-   - The canon changes open the Step 5 confirmation summary; after the user's yes the commit is `docs(canon): requirements <feature-name>`
+8. **Decision changes** (only when decision records are declared; follow `docs/settings/rules/decision-records.md §Change Control`):
+   - Draft time (Step 4): grep the decision records JIT for the decisions and registry IDs the feature touches. Product-level decisions the user settled in dialogue, new enumerable norms, and registry IDs this feature adopts (`Used by` += `spec: <feature-dir-name>`) are edited into the decision records in the working tree; requirements.md cites decision and registry IDs and never copies them
+   - The decision changes open the Step 5 confirmation summary; after the user's yes the commit is `docs(decisions): requirements <feature-name>`
 
 ## Important Constraints
 

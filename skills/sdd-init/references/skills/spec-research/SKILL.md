@@ -23,7 +23,7 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (required): The feature directory name in `docs/tasks/`
+1. **Feature name** (required): The feature directory name in `docs/specs/`
 2. **Auto-approve flag** (optional): `-y` to auto-approve the previous phase (requirements)
 
 If inputs were provided with this skill invocation, use them directly.
@@ -38,7 +38,7 @@ Investigate the existing codebase and research best practices to generate a stru
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/tasks/todo/<feature-name>/` first, then `docs/tasks/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
 
 ### Step 1: Load Context
 
@@ -130,7 +130,7 @@ Write research.md and this summary in spec.json `language` (e.g. `"ja"` means Ja
 **Spec Directory Not Found**:
 
 - **Stop Execution**: Feature directory must exist
-- **User Message**: "No spec directory found for `<feature-name>` in `docs/tasks/todo/` or `docs/tasks/done/`"
+- **User Message**: "No spec directory found for `<feature-name>` in `docs/specs/todo/` or `docs/specs/done/`"
 - **Suggested Action**: "Run `/sdd-spec-init <description>` to initialize a new specification"
 
 **Template Missing**:

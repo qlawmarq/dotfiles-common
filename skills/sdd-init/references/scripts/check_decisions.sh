@@ -1,12 +1,12 @@
 #!/bin/bash
-# Canon layer machine checks (rules: docs/settings/rules/canon-layer.md §Checks). Report-only:
+# Decision-records machine checks (rules: docs/settings/rules/decision-records.md §Checks). Report-only:
 # the exit code is the finding count (at most 255), not a stop signal. Generic — configure by arguments, do not edit.
 #
-#   check_canon.sh [--root <canon-root>] check              # (a) registry-ID resolution (b) link liveness (c) keywords line (d) enumerations outside registry
-#                                                            #   (e) banned terms from the TERM domain (f) canonical terms missing from every keywords line
-#   check_canon.sh [--root <canon-root>] used-by            # verify `Used by` entries, classify IDs, suggest doc-side refs
-#   check_canon.sh commit-scope                              # pre-commit helper: exit 2 when staged canon files are bundled with other files
-#   check_canon.sh [--root <canon-root>] terms-prh           # emit the TERM vocabulary as a prh rule file (stdout) for optional textlint integration
+#   check_decisions.sh [--root <decisions-root>] check      # (a) registry-ID resolution (b) link liveness (c) keywords line (d) enumerations outside registry
+#                                                           #   (e) banned terms from the TERM domain (f) canonical terms missing from every keywords line
+#   check_decisions.sh [--root <decisions-root>] used-by    # verify `Used by` entries, classify IDs, suggest doc-side refs
+#   check_decisions.sh commit-scope                         # pre-commit helper: exit 2 when staged decision files are bundled with other files
+#   check_decisions.sh [--root <decisions-root>] terms-prh  # emit the TERM vocabulary as a prh rule file (stdout) for optional textlint integration
 set -u
 
 ROOT=""; CMD=""
@@ -18,10 +18,10 @@ esac; done
 [ -z "$CMD" ] && { usage; exit 1; }
 cd "$(git rev-parse --show-toplevel 2>/dev/null || pwd)" || exit 1
 if [ -z "$ROOT" ]; then
-    ROOT=$(grep -m1 -oE 'Canon root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Canon root:[[:space:]]*`?//; /^\[/d; s#/$##')
-    [ -z "$ROOT" ] && ROOT="docs/canon"
+    ROOT=$(grep -m1 -oE 'Decisions root:[[:space:]]*`?[^` ]+' docs/steering/product.md 2>/dev/null | sed -E 's/Decisions root:[[:space:]]*`?//; /^\[/d; s#/$##')
+    [ -z "$ROOT" ] && ROOT="docs/decisions"
 fi
-REG="$ROOT/registry.md"; DEC="$ROOT/decisions"; FINDINGS=0
+REG="$ROOT/registry.md"; FINDINGS=0
 report() { FINDINGS=$((FINDINGS + 1)); echo "$1"; }
 # grep over the repo excluding seats where an ID is a citation, not a usage
 EXCL=(--exclude-dir=.git --exclude-dir=.claude --exclude-dir=.agents --exclude-dir=node_modules --exclude-dir=probe --exclude-dir=settings --exclude-dir=archive)
@@ -31,15 +31,17 @@ term_norm() { printf '%s' "$1" | awk -F'|' '{print $3}'; }
 term_canonical() { printf '%s' "$1" | sed -nE 's/^[^*]*\*\*([^*]+)\*\*.*/\1/p'; }
 term_banned() { printf '%s' "$1" | sed -nE 's/.*(禁止＝|banned=)//p' | tr '、，' ',,' | tr ',' '\n' | sed -E 's/^[[:space:]]+|[[:space:]]+$//g' | grep -v '^$'; }
 domains() { registry_ids | sed -E 's/-[0-9]+$//' | sort -u | tr '\n' '|' | sed 's/|$//'; }
+# decision files sit flat under the decisions root beside README.md and registry.md
+decision_files() { for f in "$ROOT"/*.md; do case "${f##*/}" in README.md|registry.md) continue ;; esac; [ -f "$f" ] && echo "$f"; done; }
 
 # ---------- commit-scope ----------
 if [ "$CMD" = "commit-scope" ]; then
     staged=$(git diff --cached --name-only)
-    canon=$(echo "$staged" | grep -E "^$ROOT/" || true); other=$(echo "$staged" | grep -vE "^$ROOT/" || true)
-    if [ -n "$canon" ] && [ -n "$other" ]; then echo "canon files are staged together with non-canon files — commit canon as its own docs(canon): commit"; echo "$other" | sed 's/^/  /'; exit 2; fi
+    decisions=$(echo "$staged" | grep -E "^$ROOT/" || true); other=$(echo "$staged" | grep -vE "^$ROOT/" || true)
+    if [ -n "$decisions" ] && [ -n "$other" ]; then echo "decision files are staged together with other files — commit decisions as their own docs(decisions): commit"; echo "$other" | sed 's/^/  /'; exit 2; fi
     exit 0
 fi
-[ -f "$REG" ] || { echo "no registry at $REG (canon root: $ROOT)"; exit 0; }
+[ -f "$REG" ] || { echo "no registry at $REG (decisions root: $ROOT)"; exit 0; }
 
 # ---------- terms-prh ----------
 if [ "$CMD" = "terms-prh" ]; then
@@ -67,7 +69,7 @@ if [ "$CMD" = "check" ]; then
         t=$(echo "$m" | sed -E 's/^\]\(//; s/\)$//; s/#.*$//'); case "$t" in http*|mailto*|"") continue ;; esac
         [ -e "$(dirname "$f")/$t" ] || echo "$f:$l: (b) broken link $t"
     done >> "$OUT"
-    for f in "$DEC"/*.md; do [ -f "$f" ] || continue                                        # (c) keywords line  (d) enumerations
+    decision_files | while IFS= read -r f; do                                  # (c) keywords line  (d) enumerations
         grep -qE '^- \*\*keywords\*\*:' "$f" || echo "$f:1: (c) missing keywords line" >> "$OUT"
         awk -v F="$f" '/^\|/{t++; if(t==7) print F":"NR": (d) table with 5+ rows — enumeration outside the registry?"} !/^\|/{t=0}
                         /^[0-9]+\. /{n++; if(n==5) print F":"NR": (d) list with 5+ items — enumeration outside the registry?"} !/^[0-9]+\. /{n=0}' "$f" >> "$OUT"
@@ -75,13 +77,13 @@ if [ "$CMD" = "check" ]; then
     term_rows | while IFS= read -r row; do                                                  # (e) banned terms  (f) keywords coverage of canonical terms
         norm=$(term_norm "$row"); cterm=$(term_canonical "$norm")
         term_banned "$norm" | while IFS= read -r t; do
-            for d in "$ROOT" docs/steering docs/inception docs/tasks/todo; do
+            for d in "$ROOT" docs/steering docs/plans docs/specs/todo; do
                 [ -d "$d" ] || continue
                 grep -rnF --include='*.md' -- "$t" "$d" 2>/dev/null
             done | grep -v '/archive/' | grep -vF "$REG:" | cut -d: -f1,2 | sed -E "s|$|: (e) banned term '$t' → use '$cterm'|"
         done
         if [ -n "$cterm" ]; then
-            grep -hE '^- \*\*keywords\*\*:' "$DEC"/*.md 2>/dev/null | grep -qF -- "$cterm" \
+            decision_files | while IFS= read -r f; do grep -hE '^- \*\*keywords\*\*:' "$f"; done 2>/dev/null | grep -qF -- "$cterm" \
                 || echo "$REG:1: (f) canonical term '$cterm' appears in no decision keywords line"
         fi
     done >> "$OUT"
@@ -103,13 +105,13 @@ if [ "$CMD" = "used-by" ]; then
         for tok in $(echo "$cell" | grep -oE '(code|spec|plan): *[^ ]+' | sed 's/: */:/'); do
             v=${tok#*:}; case "$tok" in
               code:*) [ -e "${v%% *}" ] && impl=$((impl+1)) || unres="$unres $tok" ;;
-              spec:*) if [ -d "docs/tasks/done/$v" ]; then impl=$((impl+1)); elif [ -d "docs/tasks/todo/$v" ]; then plan=$((plan+1)); else unres="$unres $tok"; fi ;;
-              plan:*) [ -f "docs/inception/${v%%/*}/units.md" ] && plan=$((plan+1)) || unres="$unres $tok" ;;
+              spec:*) if [ -d "docs/specs/done/$v" ]; then impl=$((impl+1)); elif [ -d "docs/specs/todo/$v" ]; then plan=$((plan+1)); else unres="$unres $tok"; fi ;;
+              plan:*) [ -f "docs/plans/${v%%/*}/units.md" ] && plan=$((plan+1)) || unres="$unres $tok" ;;
             esac
         done
         add=""                                                                                # doc-side references not yet in the cell
         # a spec binds itself to a norm in requirements/design/behaviors; probe, research and tasks are process records and do not make it a consumer
-        for d in $({ grep -rlw --include=requirements.md --include=design.md --include=behaviors.md "$id" docs/tasks; grep -rlw "$id" docs/inception; } 2>/dev/null | sed -E 's#^docs/tasks/(todo|done)/([^/]+)/.*#spec:\2#; s#^docs/inception/([^/]+)/.*#plan:\1#' | sort -u); do
+        for d in $({ grep -rlw --include=requirements.md --include=design.md --include=behaviors.md "$id" docs/specs; grep -rlw "$id" docs/plans; } 2>/dev/null | sed -E 's#^docs/specs/(todo|done)/([^/]+)/.*#spec:\2#; s#^docs/plans/([^/]+)/.*#plan:\1#' | sort -u); do
             echo "$cell" | grep -q "${d%%:*}: *${d#*:}" || add="$add $d"
         done
         [ -n "$add" ] && echo "$id: suggest adding$(echo "$add" | sed 's/:/: /g') to Used by"

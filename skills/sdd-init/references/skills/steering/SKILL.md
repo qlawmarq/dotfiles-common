@@ -55,7 +55,7 @@ Check `docs/steering/` status:
    - **Steering → Code**: Missing elements → Warning
    - **Code → Steering**: New patterns → Update candidate
    - **Existing lines**: facts that changed, or that now fail `§Admission` → Replace or delete candidate
-   - **behaviors.md**: Invariants whose `Grounds:` or `Verify:` pointers no longer resolve, or that a canon change has superseded → Warning
+   - **behaviors.md**: Invariants whose `Grounds:` or `Verify:` pointers no longer resolve, or that a decision change has superseded → Warning
    - **Custom files**: Check relevance
 4. Total the lines against `steering-principles.md §Budget`
 5. Propose, confirm, and commit per `§Updating`
