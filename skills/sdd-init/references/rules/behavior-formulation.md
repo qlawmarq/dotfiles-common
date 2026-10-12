@@ -48,7 +48,7 @@ Every scenario declares how it will be verified, by the first tier that fits:
 
 What an agent can observe is a `probe`, never `user`. A probe in a constructed configuration shows the mechanism; what the default configuration does is the product check's (`concept-alignment.md §Product Check`).
 
-A pointer writes test names and paths in backticks. Until its evidence exists, an `auto-test` or `probe` pointer reads `planned: <name>`. At completion no pointer is `planned:`, a `probe` pointer names a file that exists under this spec, and an `auto-test` pointer names a test that exists in the repository — never another spec's future run. A scenario without a Verification line is unfinished. Tools are not mandated — no Cucumber/Gherkin runner is required; the scenario text is the specification, the project's own test/probe infrastructure is the automation.
+A pointer writes test names and paths in backticks: an `auto-test` pointer is `` `name` `` or `` `path::name` `` (a name is looked up outside `docs/`, a path is a file in the repository; in `path::Suite::name` the last segment is the name); a `probe` pointer is a file under this spec's `probe/`. Until its evidence exists, an `auto-test` or `probe` pointer reads `planned: <name>`. At completion no pointer is `planned:`, a `probe` pointer names a file that exists under this spec, and an `auto-test` pointer names a test that exists in the repository — never another spec's future run. A scenario without a Verification line is unfinished. Tools are not mandated — no Cucumber/Gherkin runner is required; the scenario text is the specification, the project's own test/probe infrastructure is the automation.
 
 ## Promotion to `docs/steering/behaviors.md`
 

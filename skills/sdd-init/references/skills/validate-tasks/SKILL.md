@@ -59,6 +59,7 @@ Interactive implementation task review for the specified feature based on approv
    - Ensure there are no issues with consistency between documents, no overly burdensome tasks, and no ambiguous tasks or designs.
    - If `behaviors.md` exists: verify every scenario's `Verification:` is covered as its tier's Produced by column says — an uncovered scenario is a Critical issue, and so is a task for a `user` scenario.
    - Kind `verify` (structure: `docs/settings/templates/specs/tasks-verify.md`): verify every question in requirements.md has a run/record task and a judgment task — a question without both is a Critical issue.
+   - When the kind's completion checks (`docs/settings/rules/spec-kinds.md` §4) list `product-check`: verify a product-check task exists, generated last (`docs/settings/rules/concept-alignment.md §Product Check`) and its `_Requirements:` lists the criteria reachable from the product's entry — a missing product-check task or criterion is a Critical issue.
 
 5. **Provide Decision and Next Steps**:
    - Clear GO/NO-GO decision with rationale

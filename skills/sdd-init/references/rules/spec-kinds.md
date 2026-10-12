@@ -34,11 +34,11 @@ Templates live in `docs/settings/templates/specs/`; a phase reads `<doc>-<kind>.
 
 | Kind | Produces behaviors | Completion artifact | Completion checks | Commit type |
 |------|--------------------|---------------------|-------------------|-------------|
-| `feature` | yes | code | `criteria-audit`, `product-check` | `feat` |
-| `fix` | no | code + regression test | `criteria-audit`, `product-check` | `fix` |
-| `refactor` | no | code, behavior unchanged | `criteria-audit`, `product-check` | `refactor` |
+| `feature` | yes | code | `evidence`, `product-check`, `review` | `feat` |
+| `fix` | no | code + regression test | `evidence`, `product-check`, `review` | `fix` |
+| `refactor` | no | code, behavior unchanged | `evidence`, `product-check`, `review` | `refactor` |
 | `verify` | no | `verdict.md` + `probe/` records | `verdict` | `docs` |
-| `chore` | no | changed environment, tooling, documents or data | `criteria-audit` | `chore` |
+| `chore` | no | changed environment, tooling, documents or data | `evidence`, `review` | `chore` |
 
 Phase order: init → requirements → (behavior, when the kind produces behaviors) → research → design → tasks → impl → done. A kind that does not produce behaviors has no `approvals.behaviors` in spec.json and no `behaviors.md`.
 

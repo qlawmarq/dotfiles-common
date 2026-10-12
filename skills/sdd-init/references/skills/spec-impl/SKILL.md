@@ -55,17 +55,21 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 **Determine which tasks to execute**:
 
 - If task numbers were provided: Execute specified task numbers (e.g., "1.1" or "1,2,3")
-- Otherwise: Execute all pending tasks (unchecked `- [ ]` in tasks.md)
+- Otherwise: Execute all pending tasks (unchecked `- [ ]` in tasks.md); the product-check task runs after every other pending task (`docs/settings/rules/concept-alignment.md §Product Check`)
 
 ### Step 3: Execute Tasks
 
 #### Kind: verify
 
-Execute the tasks per design.md §Protocol. Write evidence to `{spec_path}/probe/` and the judgments to `{spec_path}/verdict.md` (structure: `docs/settings/templates/specs/verdict.md`). No TDD; product code is not modified. Of the Always steps only MARK COMPLETE applies. The Pre-Code Gate and TDD sections below apply to the other kinds unchanged.
+Execute the tasks per design.md §Protocol. Write evidence to `{spec_path}/probe/` and the judgments to `{spec_path}/verdict.md` (structure: `docs/settings/templates/specs/verdict.md`). No TDD; product code is not modified. Of the Always steps only MARK COMPLETE applies, and no `_Evidence:` line is written (the evidence is `verdict.md`'s `probe/` pointers). The Pre-Code Gate and TDD sections below apply to the other kinds unchanged.
 
 #### Kind: fix
 
 Per root cause, write the Regression Guard first and save its failing run to `probe/` before changing code; after the fix, re-run every Defect Ledger reproduction into `probe/`. A repair that departs from design §Root Cause is written into §Deviations from Diagnosis in the same turn.
+
+#### The product-check task
+
+The spec's last task when the kind's completion checks list `product-check` (`docs/settings/rules/spec-kinds.md` §4). Run it per `docs/settings/rules/concept-alignment.md §Product Check` and write the record from `docs/settings/templates/specs/product-check.md` to `{spec_path}/probe/product-check-<k>.md`; route each finding at once and write its `Route:` line. The Pre-Code Gate and TDD do not apply; the task's `_Evidence:` line names the record. When a later task of this spec changes code after the record, reopen this task (`- [ ]`) per `§Product Check`.
 
 #### Pre-Code Gate (before writing any code)
 
@@ -117,6 +121,7 @@ For each selected task, first judge whether the task involves **testable logic**
    - **SKIP** (if no refactoring needed): Mark review as complete and proceed to next major task
    - _Note: This is a bird's-eye review layer distinct from TDD's per-cycle Refactor step, which focuses on local improvements within individual test cycles_
 3. **MARK COMPLETE**: Update checkbox from `- [ ]` to `- [x]` in tasks.md
+   - When setting `[x]`, write the task's `_Evidence:` line (form: `docs/settings/rules/tasks-generation.md §Checkbox Format`; what counts and how tokens are written: `docs/settings/rules/behavior-formulation.md §Verification Mapping`), naming the tests run, the probe files, or the product-check record that show the task's criteria hold — what you observed, never the user's record
    - Work that waits on the user's observation is not complete until the user's record exists (`docs/settings/rules/concept-alignment.md §User Check`)
 
 ## Critical Constraints
@@ -135,7 +140,7 @@ For each selected task, first judge whether the task involves **testable logic**
 
 Provide brief summary in the language specified in spec.json:
 
-1. **Facts checked**: commands run and their output, file:line quotes, tests and their results — including the task numbers executed, the completed tasks marked in tasks.md, the remaining tasks count, and the findings routed (where each went)
+1. **Facts checked**: commands run and their output, file:line quotes, tests and their results — including the task numbers executed, the completed tasks marked in tasks.md, the `_Evidence:` line written (or, when stopping before marking complete, the line to be written), the remaining tasks count, and the findings routed (where each went)
 2. **Readings**: interpretations and inferences, marked as such
 3. **Unverified**: what was not checked
 
@@ -160,4 +165,4 @@ Provide brief summary in the language specified in spec.json:
 ### After All Tasks Completed
 
 - Optional validation: `/sdd-validate-impl <feature-name>` for mid-implementation quality check
-- **Finalize feature**: `/sdd-spec-done <feature-name>` to verify quality, move spec to done, and commit
+- **Finalize feature**: `/sdd-spec-done <feature-name>` to verify the completion record, review the change, move spec to done, and commit

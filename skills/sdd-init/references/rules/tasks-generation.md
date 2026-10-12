@@ -65,6 +65,7 @@ A detail bullet names the design block it realizes (for example `per design §<C
 - Coding tasks (implementation)
 - Testing tasks requiring separate execution (§6)
 - Technical setup tasks (infrastructure, configuration)
+- The product check, as the last task, when the kind's completion checks (`spec-kinds.md` §4) list `product-check` — its definition is `concept-alignment.md §Product Check`; its `_Requirements:` lists the criteria reachable from the product's entry, e.g. `- [ ] 4. Product check: walk the changed paths from the product's entry`
 
 **Exclude**:
 
@@ -74,7 +75,7 @@ A detail bullet names the design block it realizes (for example `per design §<C
 - Asking the user to look at the product for a `user` scenario — asked at completion (`concept-alignment.md §User Check`), never a task an agent completes
 - Marketing/business activities
 
-`verify`: tasks are per `tasks-verify.md`; §1's file-path avoidance (records go to `probe/…`), §2's integration ending and §5 do not apply. `chore`: the deliverable itself (documents, configuration, data) is the task's work; §5's exclusion of documentation tasks does not apply.
+`verify`: tasks are per `tasks-verify.md`; §1's file-path avoidance (records go to `probe/…`), §2's integration ending and §5 do not apply. `chore`: the deliverable itself (documents, configuration, data) is the task's work; §5's exclusion of documentation tasks does not apply. Neither has a product-check task.
 
 ### 6. TDD Test Deduplication
 
@@ -134,6 +135,15 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
 - [ ] 2.1 Sub-task...
 ```
 
+A completed task with a `_Requirements:` line also carries an `_Evidence:` line inside its block (the lines from its `- [x]` line up to the next line starting with `- [`), at the indentation of `_Requirements:`:
+
+```markdown
+  - _Requirements: 1.2, 3.5_
+  - _Evidence: `test_name`, `probe/run-1.md`, `probe/product-check-1.md`_
+```
+
+Implementation writes it when it marks the task `[x]`; task generation never does. Its backticked tokens take the pointer forms of `behavior-formulation.md §Verification Mapping`.
+
 ## Requirements Coverage
 
 **Mandatory Check**:
@@ -144,4 +154,4 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
 - Cross-reference every criterion ID with task mappings
 - If gaps found: Return to requirements or design phase
 
-Document any intentionally deferred requirements with rationale.
+A criterion no task cites is raised to the user at completion, to fix the criterion or add a task; nothing is deferred silently.

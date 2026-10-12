@@ -91,8 +91,8 @@ For each task, verify:
 #### Requirements Traceability
 
 - Identify EARS requirements related to the task
-- Search implementation for evidence of requirement coverage
-- If requirement not traceable to code, flag as "Requirement not implemented"
+- Read the `_Evidence:` line of each `[x]` task that cites the requirement (`docs/settings/rules/tasks-generation.md §Checkbox Format`) and run what it names
+- A `[x]` task without the line, or evidence that does not show the criterion, → flag as "Requirement not implemented" / "Evidence missing"
 
 #### Behavior Verification (if behaviors.md exists)
 
@@ -148,7 +148,7 @@ Provide output in the language specified in spec.json with:
 **If GO Decision**:
 
 - Implementation validated and ready for completion
-- Run `/sdd-spec-done <feature-name>` to finalize (lint/test/build check, move to done, commit)
+- Run `/sdd-spec-done <feature-name>` to finalize (completion record, independent review, move to done, commit)
 
 **If NO-GO Decision**:
 

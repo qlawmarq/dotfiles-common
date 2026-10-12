@@ -92,9 +92,9 @@ Otherwise hold it and say what is missing.
 
 ## Delegating work
 
-The Director does not run phase skills in its own context: every run brings the files and command output it reads into this session, which then has to be summarized (§After summarization or resume). Checking a report against the evidence (Standing rule 3) stays with the Director. Delegate the runs instead, via whatever delegation tool the host harness provides (with no sub-agents: `concept-alignment.md §Product Check`), writing each instruction as in §Giving instructions:
+The Director does not run phase skills in its own context: every run brings the files and command output it reads into this session, which then has to be summarized (§After summarization or resume). Checking a report against the evidence (Standing rule 3) stays with the Director. Delegate the runs instead, via whatever delegation tool the host harness provides (with no sub-agents: `concept-alignment.md §Independent Runs`), writing each instruction as in §Giving instructions:
 
-- **An implementation task**: dispatch one subagent per task, instructed to invoke the skill `/sdd-spec-impl <feature-name> <task-number>`, to stop before marking the task complete, and to return the three-part report. When you accept the work (§Task authorization), send the same subagent a message to set the `[x]` mark. Work sent back becomes a fix task (`concept-alignment.md §Findings`), dispatched like any other task.
+- **An implementation task**: dispatch one subagent per task, instructed to invoke the skill `/sdd-spec-impl <feature-name> <task-number>`, to stop before marking the task complete, and to return the three-part report, including the `_Evidence:` line to be written. When you accept the work (§Task authorization), send the same subagent a message to set the `[x]` mark and write that line. Work sent back becomes a fix task (`concept-alignment.md §Findings`), dispatched like any other task.
 - **Any other phase skill run without the user** (research, a validate skill): the same way, one subagent per run, with the feature name and, where the skill has it, `--batch`, since no user is there to answer.
 - **Phase skills that talk with the user** (requirements, behaviors, design, tasks) stay with the user in a session of their own.
 
