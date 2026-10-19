@@ -38,6 +38,7 @@
   "inputNeededNotifEnabled": false,
   "agentPushNotifEnabled": false,
   "cleanupPeriodDays": 365,
+  "idleCompaction": false,
   "env": {
     "CLAUDE_CODE_SUBAGENT_MODEL": "opus",
     "CLAUDE_CODE_SUBAGENT_MODEL_FORCE": "1"
