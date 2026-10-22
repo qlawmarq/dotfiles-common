@@ -40,6 +40,9 @@ Notes:
 - **hooks/**: Hook scripts
   - `platform/macos/`: macOS-specific notification hooks
   - `platform/linux/`: Linux-specific hooks (reserved for future use)
+- **install/**: Claude Code CLI install step shared by both dotfiles repositories
+  (native, Homebrew, npm, apt, dnf; one file per method under `methods/`). Sourced by
+  their claude module's `steps/cli.sh` and relies on their `lib/utils.sh` and `lib/menu.sh`.
 
 ### tmux Configuration
 
