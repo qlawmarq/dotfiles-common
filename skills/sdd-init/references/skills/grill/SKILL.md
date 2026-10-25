@@ -1,7 +1,7 @@
 ---
 name: sdd-grill
 description: >-
-  Relentlessly interview the user to settle open decisions in an SDD project.
+  Interview the user to settle the open decisions of an SDD project that its documents cannot settle.
   Builds a design tree from real gaps found in steering, the plan, and specs,
   then works it in rounds until nothing is left silently assumed. Use only when the user asks for it by name.
 ---
@@ -14,7 +14,7 @@ description: >-
 - **Why this exists**: The SDD skills each advance one spec through one phase, and each validates within its own boundaries. Nothing in the suite interrogates the project *across* its layers — where steering, the plan, and the specs quietly disagree, or where a spec was approved with an assumption nobody ever resolved. Those gaps do not surface on their own; they surface as rework. This skill goes looking for them and puts them to the user as decisions.
 - **Success Criteria**:
   - The design tree is seeded from real, cited gaps — not from generic curiosity.
-  - Every round asks the whole current frontier, each question carrying a recommended answer marked as a proposal.
+  - Every round asks only the questions §Working in rounds admits, each carrying a recommended answer marked as a proposal.
   - Facts were found by the agent; only decisions were asked of the user.
   - The session ends with a summary of what was settled, and settled items are routed to the artifacts that own them under the project's change control.
 
@@ -45,7 +45,7 @@ Confirm SDD is initialized (`docs/settings/` exists); if not, tell the user to r
 - **Declared open questions** — the *Assumptions & Open Questions* sections of `requirements.md`, and any open points recorded in `design.md`. These are gaps the project already admitted; they are the highest-value seeds because someone deliberately deferred them.
 - **Cross-layer contradictions** — where a spec's requirements or design conflict with `docs/steering/`, or with the unit boundary and scope recorded for it in the plan.
 - **Theme alignment** — whether the behavior a spec describes actually serves the product intent in `docs/steering/product.md` and respects the invariants in `docs/steering/behaviors.md`. A spec can be perfectly consistent with itself and still be the wrong thing to build. The per-spec skills apply this check by `docs/settings/rules/concept-alignment.md §The Check`; here it runs *across* specs and layers, where the per-spec gates cannot see.
-- **Silent assumptions** — decisions the documents depend on but never state: unstated acceptance thresholds, undefined edge cases, scope boundaries nobody drew.
+- **Silent assumptions** — decisions a document depends on but never states: an acceptance threshold, an edge case, a scope boundary. The citation is the sentence that cannot be carried out until the decision exists.
 
 Each seed becomes a node in the tree and must carry its citation. A gap you cannot cite is not a seed — it is a guess, and it does not belong in the tree.
 
@@ -57,9 +57,11 @@ Map the work as a **design tree**: every decision branches into the decisions th
 
 The **frontier** is every decision whose prerequisites are already settled — the questions you can ask *now* without guessing at answers you have not heard yet. A question whose answer depends on another question open in this round belongs to a *later* round, not this one.
 
+Which questions reach the user at all: `dialogue-grounding.md` §Facts are yours, decisions are the user's. What that section makes yours — facts, and how you run this session — goes in the round report as findings, never as questions.
+
 ## Working in rounds
 
-Ask the whole frontier in one round, then wait. Each round the user's answers reshape the tree — settled decisions push the frontier outward and unblock what depended on them. Recompute the frontier and ask the next round.
+Ask at most three questions in a round — the ones whose answers unblock the most downstream decisions — then wait; the rest of the frontier waits for a later round. When the user has set a pace for the session (one question at a time, an order of topics), follow it within the three unless the user asks for more. Each round the user's answers reshape the tree — settled decisions push the frontier outward and unblock what depended on them. Recompute the frontier and ask the next round.
 
 Format each question like this:
 
@@ -78,7 +80,7 @@ Give options when the decision has discernible alternatives; when it does not, s
 
 Between rounds, keep the tree visible: say briefly what the last round settled and what it unblocked. The user should never have to reconstruct where the session is.
 
-When a frontier question needs a fact, dispatch a sub-agent to find it and do not block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for its report. Ask the rest of the frontier now.
+When a frontier question needs a fact, dispatch a sub-agent to find it and do not block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for its report. Ask the rest of this round's questions now.
 
 ## The proposal rule
 
@@ -134,7 +136,7 @@ Present the intended edits and get confirmation before writing.
 Provide all output in the language resolved in §Language:
 
 1. **Stage 0 report**: the seeded gaps with citations, and the scope the session will cover.
-2. **Each round**: what the previous round settled, then the numbered frontier questions in the format above.
+2. **Each round**: what the previous round settled, then the round's numbered questions in the format above.
 3. **Closing summary**: the Settled / Still open sections defined in §"Ending the session", with a destination for each settled item.
 4. **Landing plan**: the edits you intend to make, presented for confirmation.
 

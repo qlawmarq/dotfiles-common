@@ -56,6 +56,8 @@ Finding facts is your job, never the user's. If a question can be answered by re
 
 Decisions are the opposite. Where the project genuinely has not chosen — a boundary, a trade-off, an acceptance threshold — that choice belongs to the user. Put it to them and wait.
 
+A question reaches the user only when the documents do not settle it, when it needs the user to experience the product, or when the documents disagree. What steering, the decision records, or the project's own evidence already settle is a fact: report it with its citation instead of asking. How you run the session — what to look up, what to verify first, the order of the work — is yours as well: state it, do not ask it. An answer you would draw from established practice is not a fact but a proposal, below.
+
 A recommendation is not a decision. When you suggest an answer, it is a **proposal**, and the default answer to an unconfirmed proposal is *no*. This is the same discipline `requirements-elicitation.md` applies to requirements, and for the same reason: an agent's instinct to be helpful is what silently converts "I suggested this" into "we decided this." Nothing becomes settled without an explicit user confirmation.
 
 ## Where dialogue output lands
