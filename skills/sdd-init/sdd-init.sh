@@ -42,33 +42,34 @@ if [ -z "$SRC" ] || [ -z "$SKILLS_SRC" ]; then
     exit 1
 fi
 
+case "$TARGET" in
+    claude) DESTS=".claude" ;;
+    agents) DESTS=".agents" ;;
+    all) DESTS=".claude .agents" ;;
+    *) echo "ERROR: --target must be claude, agents, or all" >&2; exit 1 ;;
+esac
+
 if [ ! -d "$SRC/rules" ] || [ ! -d "$SRC/templates" ]; then
     echo "ERROR: Source directory invalid — $SRC/rules/ or $SRC/templates/ not found" >&2
     exit 1
 fi
 
 # === Language Name Derivation ===
-get_language_name() {
-    case "$1" in
-        ja) echo "Japanese" ;;
-        en) echo "English" ;;
-        ko) echo "Korean" ;;
-        zh) echo "Chinese" ;;
-        fr) echo "French" ;;
-        de) echo "German" ;;
-        es) echo "Spanish" ;;
-        pt) echo "Portuguese" ;;
-        it) echo "Italian" ;;
-        ru) echo "Russian" ;;
-        *) echo "$1" ;;
-    esac
-}
-LANG_NAME=$(get_language_name "$LANG_CODE")
+case "$LANG_CODE" in
+    ja) LANG_NAME="Japanese" ;;
+    en) LANG_NAME="English" ;;
+    ko) LANG_NAME="Korean" ;;
+    zh) LANG_NAME="Chinese" ;;
+    fr) LANG_NAME="French" ;;
+    de) LANG_NAME="German" ;;
+    es) LANG_NAME="Spanish" ;;
+    pt) LANG_NAME="Portuguese" ;;
+    it) LANG_NAME="Italian" ;;
+    ru) LANG_NAME="Russian" ;;
+    *) LANG_NAME="$LANG_CODE" ;;
+esac
 
-# === Counters (string-based for bash 3.2 compat) ===
-RULES_COUNT=0
-TEMPLATES_COUNT=0
-SKILLS_COUNT=0
+# === Report Values ===
 STEERING_CREATED=""
 STEERING_SKIPPED=""
 DECISIONS_CREATED=""
@@ -77,16 +78,7 @@ AGENTS_MD_STATUS="skipped"
 WARNINGS=""
 ERRORS=""
 
-append_csv() {
-    local var_name="$1" value="$2"
-    local current
-    eval "current=\$$var_name"
-    if [ -z "$current" ]; then
-        eval "$var_name=\"$value\""
-    else
-        eval "$var_name=\"\${current},${value}\""
-    fi
-}
+append_csv() { printf -v "$1" '%s' "${!1:+${!1},}$2"; }
 
 # === Marker-based Injection ===
 inject_sdd_section() {
@@ -102,52 +94,41 @@ inject_sdd_section() {
         return
     fi
 
-    local has_begin=0 has_end=0
-    grep -qF "$begin" "$target_file" 2>/dev/null && has_begin=1
-    grep -qF "$end" "$target_file" 2>/dev/null && has_end=1
-
-    # Both markers present: replace content between them
-    if [ "$has_begin" -eq 1 ] && [ "$has_end" -eq 1 ]; then
-        local tmp
-        tmp=$(mktemp)
-        awk -v bm="$begin" -v em="$end" -v cf="$content_file" '
-            { l = $0; sub(/\r$/, "", l) }
-            l == bm {
-                print bm
-                while ((getline line < cf) > 0) print line
-                close(cf)
-                print em
-                skip = 1
-                next
-            }
-            l == em && skip { skip = 0; next }
-            !skip { print }
-        ' "$target_file" > "$tmp"
-        if ! cat "$tmp" > "$target_file"; then rm -f "$tmp"; echo "write_failed"; return; fi
-        rm -f "$tmp"
-        echo "updated"
-        return
-    fi
-
-    # Inconsistent markers: warn and append
-    if [ "$has_begin" -eq 1 ] || [ "$has_end" -eq 1 ]; then
-        { printf '\n%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } >> "$target_file" || { echo "write_failed"; return; }
-        echo "appended:marker_warning"
-        return
-    fi
-
-    # No markers: append
-    { printf '\n%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } >> "$target_file" || { echo "write_failed"; return; }
-    echo "appended"
+    # Replace each block from a whole-line BEGIN to the next whole-line END;
+    # lines of an unclosed BEGIN pass through unchanged. Exit: 0 replaced, 10 no markers, 11 stray markers
+    local tmp rc=0 status
+    tmp=$(mktemp) || { echo "write_failed"; return; }
+    awk -v bm="$begin" -v em="$end" -v cf="$content_file" '
+        function flush(  i) { for (i = 1; i <= n; i++) print buf[i]; n = 0 }
+        { l = $0; sub(/\r$/, "", l) }
+        l == bm { seen = 1; flush(); buf[n = 1] = $0; next }
+        l == em { seen = 1 }
+        l == em && n {
+            print bm
+            while ((getline line < cf) > 0) print line
+            close(cf)
+            print em
+            n = 0; done = 1; next
+        }
+        n { buf[++n] = $0; next }
+        { print }
+        END { flush(); exit done ? 0 : seen ? 11 : 10 }
+    ' "$target_file" > "$tmp" || rc=$?
+    case "$rc" in
+        0) cat "$tmp" > "$target_file" && status="updated" ;;
+        10) status="appended" ;;
+        11) status="appended:marker_warning" ;;
+    esac
+    rm -f "$tmp"
+    # No closed block: append (stray markers also warn)
+    case "$status" in
+        appended*) { printf '\n%s\n' "$begin"; cat "$content_file"; printf '%s\n' "$end"; } >> "$target_file" || status="" ;;
+    esac
+    echo "${status:-write_failed}"
 }
 
 # === Step 1: Directory Structure ===
 mkdir -p docs/settings/rules \
-         docs/settings/templates/specs \
-         docs/settings/templates/steering \
-         docs/settings/templates/steering-custom \
-         docs/settings/templates/plans \
-         docs/settings/templates/decisions \
          docs/settings/scripts \
          docs/steering \
          docs/plans \
@@ -159,39 +140,31 @@ for d in docs/plans docs/specs/done docs/specs/todo; do [ -n "$(ls -A "$d")" ] |
 
 # === Step 2: Deploy Rules and Templates ===
 cp "$SRC"/rules/*.md docs/settings/rules/ 2>/dev/null || append_csv ERRORS "rules_copy_failed"
-cp "$SRC"/templates/specs/* docs/settings/templates/specs/ 2>/dev/null || append_csv ERRORS "specs_copy_failed"
-cp "$SRC"/templates/steering/* docs/settings/templates/steering/ 2>/dev/null || append_csv ERRORS "steering_tpl_copy_failed"
-cp "$SRC"/templates/steering-custom/* docs/settings/templates/steering-custom/ 2>/dev/null || append_csv ERRORS "steering_custom_copy_failed"
-cp "$SRC"/templates/plans/* docs/settings/templates/plans/ 2>/dev/null || append_csv ERRORS "plans_tpl_copy_failed"
-cp "$SRC"/templates/decisions/* docs/settings/templates/decisions/ 2>/dev/null || append_csv ERRORS "decisions_tpl_copy_failed"
+for tpl in "$SRC"/templates/*/; do
+    [ -d "$tpl" ] || continue
+    tpl=$(basename "$tpl")
+    mkdir -p "docs/settings/templates/$tpl"
+    cp "$SRC/templates/$tpl"/* "docs/settings/templates/$tpl/" 2>/dev/null || append_csv ERRORS "templates_copy_failed:$tpl"
+done
 if [ -d "$SRC/scripts" ]; then
     cp "$SRC"/scripts/* docs/settings/scripts/ 2>/dev/null || append_csv ERRORS "scripts_copy_failed"
-    chmod +x docs/settings/scripts/*.sh 2>/dev/null
+    chmod +x docs/settings/scripts/*.sh 2>/dev/null || :
 fi
 
 # Rules/templates/scripts retired upstream. Explicit list only — cp never removes, so a stale
 # rule would keep being loaded by skills that no longer reference it.
-RETIRED_RULES="ratification.md normative-registry.md change-propagation.md canon-layer.md inception-decomposition.md"
-RETIRED_TEMPLATES="canon/proposal.md inception/vision.md inception/story-map.md inception/inception.json canon/README.md canon/decision.md canon/registry.md inception/units.md inception/dependencies.md steering/behaviors.md"
-RETIRED_SCRIPTS="check_canon.sh"
+RETIRED="rules/ratification.md rules/normative-registry.md rules/change-propagation.md rules/canon-layer.md rules/inception-decomposition.md
+    templates/canon/proposal.md templates/inception/vision.md templates/inception/story-map.md templates/inception/inception.json
+    templates/canon/README.md templates/canon/decision.md templates/canon/registry.md templates/inception/units.md
+    templates/inception/dependencies.md templates/steering/behaviors.md scripts/check_canon.sh"
 RETIRED_RULES_REMOVED=""
-for name in $RETIRED_RULES; do
-    if [ -f "docs/settings/rules/$name" ]; then
-        rm -f "docs/settings/rules/$name"; append_csv RETIRED_RULES_REMOVED "rules/$name"
+for name in $RETIRED; do
+    if [ -f "docs/settings/$name" ]; then
+        rm -f "docs/settings/$name"; append_csv RETIRED_RULES_REMOVED "$name"
+        # remove a template directory the retirement left empty
+        case "$name" in templates/*) rmdir "$(dirname "docs/settings/$name")" 2>/dev/null || : ;; esac
     fi
 done
-for name in $RETIRED_TEMPLATES; do
-    if [ -f "docs/settings/templates/$name" ]; then
-        rm -f "docs/settings/templates/$name"; append_csv RETIRED_RULES_REMOVED "templates/$name"
-    fi
-done
-for name in $RETIRED_SCRIPTS; do
-    if [ -f "docs/settings/scripts/$name" ]; then
-        rm -f "docs/settings/scripts/$name"; append_csv RETIRED_RULES_REMOVED "scripts/$name"
-    fi
-done
-# template directories left empty by the retirements above
-find docs/settings/templates -mindepth 1 -type d -empty -delete 2>/dev/null
 
 SCRIPTS_COUNT=$(find docs/settings/scripts -type f 2>/dev/null | wc -l | tr -d ' ')
 RULES_COUNT=$(find docs/settings/rules -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
@@ -204,88 +177,50 @@ if [ -f "docs/settings/templates/specs/init.json" ]; then
 fi
 
 # === Step 3: Steering Stubs ===
-for f in docs/settings/templates/steering/*.md; do
-    [ -f "$f" ] || continue
-    name=$(basename "$f")
-    if [ "$MODE" = "full" ] || [ ! -f "docs/steering/$name" ]; then
-        cp "$f" "docs/steering/$name"
-        append_csv STEERING_CREATED "$name"
+stub() {
+    [ -f "$1" ] || return 0
+    local name
+    name=$(basename "$1")
+    if [ "$4" = "yes" ] || [ ! -f "$2/$name" ]; then
+        cp "$1" "$2/$name"
+        append_csv "$3_CREATED" "$name"
     else
-        append_csv STEERING_SKIPPED "$name"
+        append_csv "$3_SKIPPED" "$name"
     fi
-done
+}
+
+OVERWRITE="no"; [ "$MODE" = "full" ] && OVERWRITE="yes"
+for f in docs/settings/templates/steering/*.md; do stub "$f" docs/steering STEERING "$OVERWRITE"; done
 
 # Decision stubs: the index and the registry. Never overwritten — they index decision
 # files that are not templates.
-for name in README.md registry.md; do
-    f="docs/settings/templates/decisions/$name"
-    [ -f "$f" ] || continue
-    if [ ! -f "docs/decisions/$name" ]; then
-        cp "$f" "docs/decisions/$name"
-        append_csv DECISIONS_CREATED "$name"
-    else
-        append_csv DECISIONS_SKIPPED "$name"
-    fi
-done
+for name in README.md registry.md; do stub "docs/settings/templates/decisions/$name" docs/decisions DECISIONS no; done
 
 # === Step 4: Deploy SDD Skills ===
 [ -d "$SKILLS_SRC/spec-init" ] || { append_csv ERRORS "skills_source_invalid"; SKILLS_SRC=""; }
-
-deploy_skill_set() {
-    local dest_base="$1"
-    [ -z "$SKILLS_SRC" ] && return
-    for skill_dir in "$SKILLS_SRC"/*/; do
-        [ -d "$skill_dir" ] || continue
-        local dir_name
-        dir_name=$(basename "$skill_dir")
-        [ -f "$skill_dir/SKILL.md" ] || continue
-        local deploy_name="sdd-${dir_name}"
-        mkdir -p "$dest_base/$deploy_name"
-        cp "$skill_dir/SKILL.md" "$dest_base/$deploy_name/SKILL.md"
-    done
-}
 
 # Skills renamed/retired upstream. Explicit list only — never "delete anything
 # not in source", which would destroy user-authored skills in the same dir.
 RETIRED_SKILLS="sdd-ratify sdd-canon-propose sdd-canon-ratify sdd-canon-update"
 RETIRED_REMOVED=""
 
-remove_retired_skills() {
-    local dest_base="$1"
-    local name
-    for name in $RETIRED_SKILLS; do
-        if [ -d "$dest_base/$name" ]; then
-            rm -rf "$dest_base/$name"
-            append_csv RETIRED_REMOVED "$dest_base/$name"
-        fi
-    done
-}
-
-case "$TARGET" in
-    claude)
-        deploy_skill_set ".claude/skills"
-        remove_retired_skills ".claude/skills"
-        ;;
-    agents)
-        deploy_skill_set ".agents/skills"
-        remove_retired_skills ".agents/skills"
-        ;;
-    all)
-        deploy_skill_set ".claude/skills"
-        deploy_skill_set ".agents/skills"
-        remove_retired_skills ".claude/skills"
-        remove_retired_skills ".agents/skills"
-        ;;
-esac
-
-# Count deployed skills
-if [ -n "$SKILLS_SRC" ]; then
-    for d in "$SKILLS_SRC"/*/; do
-        [ -d "$d" ] || continue
-        [ -f "$d/SKILL.md" ] || continue
+for d in $DESTS; do
+    SKILLS_COUNT=0
+    for skill_dir in ${SKILLS_SRC:+"$SKILLS_SRC"/*/}; do
+        [ -f "$skill_dir/SKILL.md" ] || continue
+        dest="$d/skills/sdd-$(basename "$skill_dir")"
+        mkdir -p "$dest"
+        cp "$skill_dir/SKILL.md" "$dest/SKILL.md"
         SKILLS_COUNT=$((SKILLS_COUNT + 1))
     done
-fi
+    for name in $RETIRED_SKILLS; do
+        if [ -d "$d/skills/$name" ]; then
+            rm -rf "$d/skills/$name"
+            append_csv RETIRED_REMOVED "$d/skills/$name"
+        fi
+    done
+    git check-ignore -q "$d/" 2>/dev/null && append_csv WARNINGS "${d#.}_gitignored"
+done
 
 # === Step 5: Update Config Files ===
 TEMPLATE_FILE="$SRC/templates/AGENTS.md"
@@ -302,18 +237,6 @@ else
 fi
 
 # === Warnings ===
-case "$TARGET" in
-    claude)
-        git check-ignore -q .claude/ 2>/dev/null && append_csv WARNINGS "claude_gitignored"
-        ;;
-    agents)
-        git check-ignore -q .agents/ 2>/dev/null && append_csv WARNINGS "agents_gitignored"
-        ;;
-    all)
-        git check-ignore -q .claude/ 2>/dev/null && append_csv WARNINGS "claude_gitignored"
-        git check-ignore -q .agents/ 2>/dev/null && append_csv WARNINGS "agents_gitignored"
-        ;;
-esac
 # project directories and declarations from before the current layout
 for d in docs/tasks docs/inception docs/canon; do [ -d "$d" ] && append_csv WARNINGS "legacy_dir:$d"; done
 grep -qE '^## Canon References|Canon root:' docs/steering/product.md 2>/dev/null && append_csv WARNINGS "legacy_product_md"
@@ -328,7 +251,7 @@ mode=${MODE}
 rules_count=${RULES_COUNT}
 templates_count=${TEMPLATES_COUNT}
 skills_count=${SKILLS_COUNT}
-scripts_count=${SCRIPTS_COUNT:-0}
+scripts_count=${SCRIPTS_COUNT}
 steering_created=${STEERING_CREATED:-none}
 steering_skipped=${STEERING_SKIPPED:-none}
 decisions_created=${DECISIONS_CREATED:-none}

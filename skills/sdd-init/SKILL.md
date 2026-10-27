@@ -67,7 +67,7 @@ Process results:
 1. **`git_root=no`**: Stop with error — "SDD initialization must be run from the git repository root."
 2. **`sdd_exists=yes` AND `--force` not set**: Ask the user how to proceed:
    - **Update** (default): Overwrite rules, templates, and skills; create only missing steering and decision stubs; leave `docs/specs/` untouched.
-   - **Full Reinitialize**: Overwrite everything except `docs/specs/` and `docs/decisions/`.
+   - **Full Reinitialize**: Same as Update, but also overwrite each steering file that has a stub with that stub, discarding its content.
    - **Cancel**: Abort.
 3. **`sdd_exists=yes` AND `--force` set**: Proceed with Update mode silently.
 4. **`sdd_exists=no`**: Proceed with fresh initialization.
