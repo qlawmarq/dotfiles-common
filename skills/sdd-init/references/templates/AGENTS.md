@@ -30,5 +30,5 @@ Phases, their order, and which phases a spec's kind runs: `docs/settings/rules/s
 - A phase starts only after the user approves the previous one; `-y` approves it on purpose.
 - Stay within the scope the user asked for; gather the context you need yourself, and ask only when essential information is missing or the request is critically ambiguous.
 - **Documents are the source of truth.** Carry every change to the documents that cite it, in the same turn, and state each fact in one seat (`docs/settings/rules/document-hygiene.md`).
-- **A long wait is the user's call.** Before waiting on a run beyond the limit, tell the user how long it would take and ask what would shorten it (`docs/settings/rules/concept-alignment.md §Waiting on a Run`).
+- **A long wait is the user's call** (`docs/settings/rules/concept-alignment.md §Waiting on a Run`).
 - For contradictions between layers (spec vs spec, steering vs plan) or a backlog of open decisions, suggest `/sdd-grill`.

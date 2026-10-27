@@ -11,7 +11,7 @@ description: >-
 <background_information>
 
 - **Mission**: Apply one decision change (concept decision, registry row, README index/open question) directly to the working tree, present it in full, and commit it as its own `docs(decisions):` commit. Protocol and drafting discipline: `docs/settings/rules/decision-records.md` — read it first; this file adds only the ad-hoc entry point.
-- **When to use**: the decision did not arise inside `/sdd-plan`, `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-done`, or `/sdd-grill` (those land their own decision changes). Also the scaffolding path when no decisions root exists yet.
+- **When to use**: the decision did not arise inside `/sdd-plan`, `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-done`, or `/sdd-grill` (those land their own decision changes).
 
 </background_information>
 
@@ -26,7 +26,7 @@ No input → list the decisions README's Open Questions and ask which one to lan
 
 ## Steps
 
-1. **Resolve the decisions root** (`decision-records.md §Structure`). If none exists, propose scaffolding `README.md`, `registry.md` from `docs/settings/templates/decisions/` and the `## Decision Records` section of `product.md` (form: `docs/settings/templates/steering/product.md`); create only after the user confirms.
+1. **Resolve the decisions root** (`decision-records.md §Structure`).
 2. **Locate what the change touches** — grep `keywords` lines and registry IDs JIT; never bulk-load. Name the affected decision items and IDs with paths.
 3. **Land it by `decision-records.md §Change Control`**, drafting under its §Drafting Discipline, with the decision changes at the top of the reply. Then ask once: commit?
 4. **On yes**: run `bash docs/settings/scripts/check_decisions.sh check` (report findings; they never block), then commit as `docs(decisions): <slug>`. On no: revert the edited files and report what was not landed.
@@ -44,5 +44,4 @@ Resolve the language from `docs/settings/templates/specs/init.json` `language`. 
 ## Safety & Fallback
 
 - **No SDD setup** (`docs/settings/` missing): point to `/sdd-init` and stop.
-- **Scaffold declined**: create nothing; say what was not created.
 - **Change is not a decision record**: say so and name the right seat — steering when it passes `steering-principles.md §Admission` (`/sdd-steering`), otherwise the spec artifact, code, or configuration that owns it.

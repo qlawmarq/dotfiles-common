@@ -71,6 +71,8 @@ TEMPLATES_COUNT=0
 SKILLS_COUNT=0
 STEERING_CREATED=""
 STEERING_SKIPPED=""
+DECISIONS_CREATED=""
+DECISIONS_SKIPPED=""
 AGENTS_MD_STATUS="skipped"
 WARNINGS=""
 ERRORS=""
@@ -149,8 +151,11 @@ mkdir -p docs/settings/rules \
          docs/settings/scripts \
          docs/steering \
          docs/plans \
+         docs/decisions \
          docs/specs/done \
          docs/specs/todo
+# git does not track an empty directory; mark the ones still empty
+for d in docs/plans docs/specs/done docs/specs/todo; do [ -n "$(ls -A "$d")" ] || : > "$d/.gitkeep"; done
 
 # === Step 2: Deploy Rules and Templates ===
 cp "$SRC"/rules/*.md docs/settings/rules/ 2>/dev/null || append_csv ERRORS "rules_copy_failed"
@@ -207,6 +212,19 @@ for f in docs/settings/templates/steering/*.md; do
         append_csv STEERING_CREATED "$name"
     else
         append_csv STEERING_SKIPPED "$name"
+    fi
+done
+
+# Decision stubs: the index and the registry. Never overwritten — they index decision
+# files that are not templates.
+for name in README.md registry.md; do
+    f="docs/settings/templates/decisions/$name"
+    [ -f "$f" ] || continue
+    if [ ! -f "docs/decisions/$name" ]; then
+        cp "$f" "docs/decisions/$name"
+        append_csv DECISIONS_CREATED "$name"
+    else
+        append_csv DECISIONS_SKIPPED "$name"
     fi
 done
 
@@ -313,6 +331,8 @@ skills_count=${SKILLS_COUNT}
 scripts_count=${SCRIPTS_COUNT:-0}
 steering_created=${STEERING_CREATED:-none}
 steering_skipped=${STEERING_SKIPPED:-none}
+decisions_created=${DECISIONS_CREATED:-none}
+decisions_skipped=${DECISIONS_SKIPPED:-none}
 retired_removed=${RETIRED_REMOVED:-none}
 retired_rules_removed=${RETIRED_RULES_REMOVED:-none}
 agents_md=${AGENTS_MD_STATUS}

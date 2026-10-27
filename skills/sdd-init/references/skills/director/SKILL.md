@@ -72,7 +72,7 @@ Seats that belong to others stay theirs: `probe/` and the `Verification:` line a
 
 Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); decision records (`decision-records.md §Change Control`); the plan (units, dependencies — the build order is the user's decision); steering (`steering-principles.md §Updating`). Everything else in the spec the Director edits.
 
-Take to the user every finding the table in `concept-alignment.md §Findings` gives to the user, and budget and duration (a wait beyond the limit of `concept-alignment.md §Waiting on a Run`, a change in parallelism).
+Take to the user every finding the table in `concept-alignment.md §Findings` gives to the user, and budget and duration (a long wait — `concept-alignment.md §Waiting on a Run` — or a change in parallelism).
 
 Put them in one message where possible, each item with the facts, the options, and a proposal. Tell the inquirer "waiting on the user" and what is being asked. When the user answers, land it (§Landing), carry it through (`document-hygiene.md §After a Change`), and return the result to the inquirer.
 

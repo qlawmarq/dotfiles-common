@@ -6,7 +6,7 @@
 
 | ID | Decision | Keywords | File |
 | --- | --- | --- | --- |
-| D01 | [one-line title] | [3–6 search terms] | [d01-slug.md](d01-slug.md) |
+| D01 | [one-line title] | [3–6 search terms] | [relative link to d01-slug.md] |
 
 ## Open Questions
 

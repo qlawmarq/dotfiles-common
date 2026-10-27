@@ -7,7 +7,6 @@ Start the product the way a person does: its real entry, its default configurati
 
 1. Walk the paths this spec changed: the criteria and scenarios that can be reached from the product's entry. What cannot be reached that way goes under D.
 2. Put what you met to the three questions of `concept-alignment.md §The Check`.
-3. Every command you run against the product carries the runner's timeout flag; your waiting stays inside `concept-alignment.md §Waiting on a Run`.
 
 A main use that a person can only perform through a debug hook or your own script, because the product gives them no way to do it, is a finding. A clean result is a normal outcome. Every claim needs evidence — the command and its output, a log excerpt, a screenshot. Route each finding at once by `concept-alignment.md §Findings` and write its `Route:` line. Evidence and throwaway scripts go in `probe/product-check-<k>/` beside this record; `git status` shows nothing changed by you apart from this record, that directory and tasks.md.
 
@@ -16,7 +15,7 @@ A main use that a person can only perform through a debug hook or your own scrip
 Whatever language you write in, keep these as they are: the section letters A. to E., the `#### P<k>` headings, the `Findings: none` line, and the `Route:` line with its closure words.
 
 ### A. Run
-Every command in a fenced code block, one per line with its timeout flag; the configuration; how long; `git status` before and after.
+Every command in a fenced code block, one per line; the configuration; how long; `git status` before and after.
 
 ### B. Walked
 What you did from the product's entry, in order, along the paths this spec changed; each item names the criterion and scenario IDs it covered, e.g. `(1.2, S3)`. The section ends with the three questions of `concept-alignment.md §The Check`, answered for what you met.

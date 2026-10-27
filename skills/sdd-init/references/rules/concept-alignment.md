@@ -35,7 +35,7 @@ Before a spec is completed, when its kind's completion checks include it (`spec-
 - **Entry that cannot be operated**: where the entry (a screen, a device) cannot be operated, the same default configuration is driven by the closest means the product offers, and the record says which.
 - **What is asked**: what the walk meets is held to the three questions of §The Check.
 - **Findings**: each is routed at once by the table of §Findings — a fix task, a report to the user, a `fix` spec — and its entry in the record carries a `Route:` line with a closure word of §Findings 4, or `open`, and where it went. One the user must decide is `Route: open — the user`, and goes into the `/sdd-spec-done` Step 3 message; `open` and `stands` are closed by the user's answer (`probe/user-run-<n>.md`, heading `## P<k>`). Where a Director holds the spec, the implementer reports the finding with its proposed route and the Director lands it (`/sdd-director` §Landing). P numbers continue across this spec's records.
-- **Time**: the waiting on the running product, all runs together, stays inside the limit of §Waiting on a Run.
+- **Time**: the waiting on the running product is held to §Waiting on a Run.
 - **Invalidation**: when code of this spec changes after the latest record, the product-check task is reopened (`[ ]`) and run again after the fix, adding a new record. Wherever it sits in tasks.md, the product-check task runs after every other open task of the spec.
 - **Independence**: the completion review re-walks, once, the paths of the latest record.
 
@@ -45,7 +45,7 @@ A run that must not inherit the session — the completion review, any audit a s
 
 ## Waiting on a Run
 
-Nobody waits on a run — a probe, a measurement, the product check — for longer than ten minutes on their own. A longer wait needs the user's word first: a duration the user approved with the run (a budget, a task that states it), another limit the user set, or the answer to being told how long it would take and asked what would shorten it — the user looking at the product themselves, a configuration or saved state the user accepts as standing for the default, or a run left in the background while the other work goes on. The limit is given as the runner's own timeout argument — the test runner's, the browser driver's, `timeout`, or, where none exists, a shell wrapper that kills the run (`perl -e 'alarm shift; exec @ARGV' <seconds> <command>`) — never only as an instruction in prose.
+A long wait is the user's call. Before waiting on a run — a probe, a measurement, the product check, a review — or on runs that add up, for long enough that the user would be left waiting for a report, tell the user how long it would take and what would shorten it: the user looking at the product themselves, a configuration or saved state the user accepts as standing for the default, or a run left in the background while the other work goes on. Go on only on the user's word; a duration the user approved with the run (a budget, a task that states it) is that word.
 
 ## User Check
 

@@ -11,10 +11,10 @@ description: >-
 
 - **Mission**: Set up Spec-Driven Development infrastructure in the current project by deploying rules, templates, skills, and project configuration from user-level SDD resources
 - **Success Criteria**:
-  - All SDD directory structures created (`docs/settings/`, `docs/steering/`, `docs/specs/`)
+  - Every layer's directory created: `docs/settings/`, `docs/steering/`, `docs/plans/`, `docs/decisions/`, `docs/specs/todo/`, `docs/specs/done/`
   - Rules, templates, and scripts deployed to `docs/settings/`
   - SDD skills deployed to selected target(s): `.claude/skills/sdd-*/` and/or `.agents/skills/sdd-*/`
-  - Steering stubs initialized in `docs/steering/`
+  - Steering stubs initialized in `docs/steering/`; the decision index and registry in `docs/decisions/`
   - AGENTS.md updated with SDD configuration section
   - Language configuration applied throughout
 
@@ -60,14 +60,14 @@ All mechanical file operations are done by `${SKILL_DIR}/sdd-init.sh`.
 Run a single shell command to gather all pre-flight information:
 
 ```bash
-echo "git_root=$([ -d .git ] && echo yes || echo no) sdd_exists=$([ -d docs/settings ] && echo yes || echo no)"
+echo "git_root=$([ -e .git ] && echo yes || echo no) sdd_exists=$([ -d docs/settings ] && echo yes || echo no)"
 ```
 
 Process results:
 1. **`git_root=no`**: Stop with error — "SDD initialization must be run from the git repository root."
 2. **`sdd_exists=yes` AND `--force` not set**: Ask the user how to proceed:
-   - **Update** (default): Overwrite rules, templates, and skills; create only missing steering stubs; leave `docs/specs/` untouched.
-   - **Full Reinitialize**: Overwrite everything except `docs/specs/`.
+   - **Update** (default): Overwrite rules, templates, and skills; create only missing steering and decision stubs; leave `docs/specs/` untouched.
+   - **Full Reinitialize**: Overwrite everything except `docs/specs/` and `docs/decisions/`.
    - **Cancel**: Abort.
 3. **`sdd_exists=yes` AND `--force` set**: Proceed with Update mode silently.
 4. **`sdd_exists=no`**: Proceed with fresh initialization.
@@ -122,6 +122,7 @@ Provide output in the language derived from `--lang`:
    - Skills: `skills_count` skills deployed (to target platform(s))
    - Scripts: `scripts_count` files deployed to `docs/settings/scripts/`
    - Steering stubs: `steering_created` / `steering_skipped`
+   - Decision stubs: `decisions_created` / `decisions_skipped`
    - Retired skills removed: `retired_removed`; retired rules/templates/scripts removed: `retired_rules_removed` (mention only when not `none`)
    - AGENTS.md: `agents_md` status (created / updated / appended / appended:marker_warning / skipped / write_failed)
 3. **Configuration**: Language set to `lang_name` (`lang_code`)
@@ -129,7 +130,7 @@ Provide output in the language derived from `--lang`:
    - `claude_gitignored`: "`.claude/` is excluded by .gitignore. Project-level SDD skills will not be version controlled."
    - `agents_gitignored`: "`.agents/` is excluded by .gitignore. Project-level SDD skills will not be version controlled."
    - `agents_md=appended:marker_warning`: "Inconsistent SDD markers detected. A new section was appended."
-   - `legacy_dir:<path>`: "`<path>` is a directory from the previous layout and no skill reads it. Move it with git: `docs/tasks` → `docs/specs`, `docs/inception` → `docs/plans`, `docs/canon` → `docs/decisions` (decision files directly under the root, links updated), then run `bash docs/settings/scripts/check_refs.sh check`."
+   - `legacy_dir:<path>`: "`<path>` is a directory from the previous layout and no skill reads it. Move its contents with git into the directory `/sdd-init` created: `docs/tasks/*` → `docs/specs/`, `docs/inception/*` → `docs/plans/`, `docs/canon/*` → `docs/decisions/` (over the stub README.md and registry.md; decision files directly under the root, links updated), then run `bash docs/settings/scripts/check_refs.sh check`."
    - `legacy_product_md`: "`docs/steering/product.md` still declares `## Canon References` / `Canon root:`. Rename them to `## Decision Records` / `Decisions root:` so the scripts resolve the root."
 5. **Errors** (if any): Report from `errors` field
    - `agents_md_write_failed`: "AGENTS.md could not be written, so it has no SDD section. Make it writable and re-run `/sdd-init`."
@@ -139,7 +140,6 @@ Provide output in the language derived from `--lang`:
    - Run `/sdd-steering-custom` to add domain-specific steering (optional)
    - For a large/greenfield effort: run `/sdd-plan "product goal"` to decompose it into right-sized specs
    - For a single piece of work (a feature, fix, refactor, verification or chore): run `/sdd-spec-init "description"` — it classifies the kind and picks the templates
-7. **Created Directory Structure**: Show the final tree
 
 **Format**: Concise Markdown, under 300 words
 
