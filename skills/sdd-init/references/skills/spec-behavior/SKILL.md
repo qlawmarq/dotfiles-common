@@ -45,7 +45,7 @@ Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then 
 ### Step 1: Load Context
 
 - `{spec_path}/spec.json`, `requirements.md`, `behaviors.md` (if exists, for merge mode)
-- **Entire `docs/steering/` directory** — `product.md` and `behaviors.md` (invariant ledger) are the anchors here
+- **Entire `docs/steering/` directory** — `product.md` is the anchor here
 - `docs/settings/rules/behavior-formulation.md` — **governs this phase**
 - `docs/settings/rules/concept-alignment.md` — §Resolving Product Intent, §The Check, and, under §Findings, §Severity and §Finding Format
 - `docs/settings/templates/specs/behaviors.md` for document structure
@@ -54,19 +54,19 @@ Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then 
 
 ### Step 2: Ground in Product Intent
 
-Following `concept-alignment.md`: identify the product purposes, themes, and Out of Scope items that this feature touches in `product.md`; if a `## Decision Records` section is declared, grep the decision records for the relevant topics (JIT — only what the feature touches). Collect established invariants from `docs/steering/behaviors.md` that apply.
+Following `concept-alignment.md §Resolving Product Intent`, find what this feature touches: in `product.md`, its purpose, main uses and the product decisions it holds; when the decision records are declared, the topics they hold (JIT grep) and the `INV` rows that apply.
 
 ### Step 3: Formulate Scenarios (Discovery dialogue)
 
 1. Draft scenarios per `behavior-formulation.md` — at most one per acceptance criterion, only where the example adds a boundary value, an interaction, or a reading easy to get wrong; concrete values, one behavior each, one-citation `Grounds:` and `Verification:` on every scenario.
-2. While drafting, collect what the examples expose: edge cases requirements never settled, thresholds with no value, behaviors that *cannot* be grounded, behaviors that conflict with decision records or invariants.
+2. While drafting, collect what the examples expose: edge cases requirements never settled, thresholds with no value, behaviors that *cannot* be grounded, behaviors that conflict with the product intent (`concept-alignment.md §Resolving Product Intent`).
 3. **Conflicts are findings, not editing problems**: a requirement or scenario contradicting the decision records is reported in `concept-alignment.md` format. If a decision record itself should change, file it as an Open Question in the decisions README or hand it to `/sdd-decision` — never adjust decision records from this phase or quietly reword the scenario to fit.
 4. Present the draft with your questions and iterate briefly with the user — concrete examples are easy to react to. Resolve scope-affecting questions; log the rest under Open Questions. Do not invent behaviors beyond the requirements (same discipline as `requirements-elicitation.md`).
 
 ### Step 4: Finalize
 
 - Write `{spec_path}/behaviors.md` following the template (merge if one existed)
-- List Promotion Candidates only if this feature establishes invariants that qualify per `steering-principles.md §File focus` ("none" is the common outcome)
+- List Promotion Candidates only if this feature establishes invariants that qualify per `behavior-formulation.md §Promotion` ("none" is the common outcome)
 - Update spec.json: set `phase: "behaviors-generated"`, `approvals.behaviors: {generated: true, approved: false}` (add the key if the spec predates it), `approvals.requirements.approved: true`
 
 ## Important Constraints

@@ -51,7 +51,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Read the project description and all steering context, and draft requirements covering **only** what is clearly grounded in that input
    - Focus on WHAT the system must do, not HOW
    - As you draft, collect every point where the input did not settle a choice (missing thresholds, unstated edge cases, ambiguous scope, conflicting hints) — these become your clarifying questions and your Open Questions log
-   - Check each candidate requirement against `docs/steering/product.md` (purpose, themes, Out of Scope) and `docs/steering/behaviors.md` invariants if present — a conflict is a clarifying question for the user, never something to accommodate silently
+   - Check each candidate requirement against product intent (`concept-alignment.md §Resolving Product Intent`) — a conflict is a clarifying question for the user, never something to accommodate silently
    - Do **not** fill these gaps with guesses or "reasonable" additions; an unconfirmed addition is gold-plating and is the main cause of rework this phase exists to prevent
 
 5. **Clarify through dialogue**:
@@ -78,7 +78,7 @@ Elicit complete, traceable requirements for the specified feature based on the p
 
 ## Important Constraints
 
-- **Use the project's canonical terms.** When the canon registry declares a `TERM` vocabulary, write requirements in its canonical terms; if the dialogue coins a new recurring term, surface it in the confirmation summary so the user can register it (or map it to an existing term) instead of letting a synonym take root.
+- **Use the project's canonical terms.** When the registry declares a `TERM` vocabulary, write requirements in its canonical terms; if the dialogue coins a new recurring term, surface it in the confirmation summary so the user can register it (or map it to an existing term) instead of letting a synonym take root.
 
 </instructions>
 

@@ -2,11 +2,11 @@
 
 ## Objective
 
-Keep the product's concept decisions in one place, drafted by the agent and approved by the human **as a diff inside the SDD phase that produced them** — never in a separate ceremony. Two accidents this prevents: an unread AI draft gaining canonical force, and the same enumerable norm living in several seats. Decision records are optional; a product whose philosophy fits in `docs/steering/product.md` does not need them.
+Keep the product decisions in one place, drafted by the agent and approved by the human **as a diff inside the SDD phase that produced them** — never in a separate ceremony. Two accidents this prevents: an unread AI draft gaining canonical force, and the same enumerable norm living in several seats. A product decision is a rule the product follows, a scope boundary, a threshold, a non-goal, or a behavior invariant. Decision records are optional; a product whose philosophy fits in `docs/steering/product.md` does not need them. What product.md keeps once it declares the records: `steering-principles.md §File focus`.
 
 ## Structure
 
-The root is declared in `docs/steering/product.md §Decision Records` (default `docs/decisions/`); never hardcode it. Templates: `docs/settings/templates/decisions/`.
+The records are declared when `docs/steering/product.md §Decision Records` names a decisions root (default `docs/decisions/`); the template's bracketed placeholder is not a declaration. Never hardcode the root. Templates: `docs/settings/templates/decisions/`.
 
 - `README.md` — index only: decision log (`ID | Decision | Keywords | File`) and Open Questions. No normative text.
 - `<id>-<slug>.md` (template `decision.md`) — one topic per file (a file beyond ~100 lines opens with a table of contents): `keywords` line (the JIT grep index), Background (why), Decision (numbered items), optional Consequences, Registry refs (IDs only).
@@ -42,13 +42,15 @@ Prose cites IDs and never restates a list; an enumeration outside the registry i
 
 **Controlled vocabulary.** When the product controls its terminology, the vocabulary lives here as the `TERM` domain — one row per concept. The Norm cell uses the fixed form `**<canonical term>** — <one-line definition>. 禁止＝<synonym>, <synonym>` (label `禁止＝` or `banned=`; this is what the checks parse). Adding, renaming, or re-banning a term is a Norm change and takes the R2 confirmation. `check_decisions.sh check` greps the live layers (`document-hygiene.md §After a Change`) for banned terms (e) and verifies each canonical term is reachable through some decision's `keywords` line (f); `check_decisions.sh terms-prh` emits the vocabulary as a [prh](https://github.com/prh/prh) rule file for optional textlint integration.
 
+**Behavior invariants.** The product's behavior invariants live here as the `INV` domain, one row per invariant. `Used by` names the spec that established it (`spec:`) and, when a test verifies it, that test (`code: <test file> <test name>`).
+
 ## Drafting Discipline
 
 Five heuristics: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and downstream references, don't recall; (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat (`document-hygiene.md`). Plus: never renumber items — a withdrawn item keeps its number with a one-line note — and never issue a number the source text did not have.
 
 ## Loading
 
-Always-loaded: `product.md §Decision Records` and the README index. Everything else is JIT — grep `keywords` lines, open only the files that hit.
+Always-loaded: `product.md §Decision Records` and the README index. A product-intent check also reads the registry's `INV` section. Everything else is JIT — grep `keywords` lines, open only the files that hit.
 
 ## Checks
 

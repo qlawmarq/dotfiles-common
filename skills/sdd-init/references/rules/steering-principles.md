@@ -38,10 +38,9 @@ Never admitted: secrets (API keys, passwords, credentials, database URLs, intern
 
 One domain per file. A decision carries its rationale.
 
-- **product.md**: purpose, users, target use cases, core capabilities, value, scope, and Out of Scope when the product keeps one; where the decision records live, when they exist (their location, never their contents).
+- **product.md**: the product's purpose, users, and main uses. Without declared decision records (`decision-records.md §Structure`), also its core capabilities, value, scope, and Out of Scope. With them, every product decision (`decision-records.md §Objective`) lives in the records; this file holds only their location, and a decision's ID where a reader needs it.
 - **tech.md**: architecture, key frameworks, and the technical decisions that shape code — not versions or dependency lists.
 - **structure.md**: organization patterns, directory roles, naming and import rules — not directory trees.
-- **behaviors.md**: cross-spec behavior invariants, one line each: `statement — Grounds: <citation> / Verify: <test or probe>`. An invariant from a spec is promoted only when it is **product-level** (the product's purpose or philosophy, not an implementation detail), **cross-spec** (a future spec could plausibly violate it), and **verified** (its evidence exists). Scenario bodies stay in the spec and the test suite.
 - **Custom files**: one specialized domain each (API, testing, security, …), under the same rules and budget as the core files.
 
 ---
@@ -49,8 +48,9 @@ One domain per file. A decision carries its rationale.
 ## Updating
 
 - A line whose fact changed is replaced; a line another seat now holds is deleted, or reduced to a pointer where a reader needs it (§Admission 2); any other line that fails §Admission is deleted. A line is added only when it passes §Admission. "No update needed" is the expected outcome for most changes.
+- Once the decision records are declared, a product decision still written in `product.md` is moved into them under `decision-records.md §Change Control` and deleted here after that commit.
 - A proposal that adds lines states the current §Budget count; if it would exceed the budget, §Budget says what to do.
-- Facts derived from code (`tech.md`, `structure.md`) are shown as one diff and confirmed together. Policy — everything in `product.md`, plus the `behaviors.md` invariants — is never derived from code, however obvious the change looks: present it one item at a time, each with its grounds, and get an answer for each.
+- Facts derived from code (`tech.md`, `structure.md`) are shown as one diff and confirmed together. Policy — everything in `product.md` — is never derived from code, however obvious the change looks: present it one item at a time, each with its grounds, and get an answer for each.
 - Nothing is written before the user confirms. Confirmed edits land in their own `docs(steering):` commit, never bundled with another commit.
 - A section the user wrote is not removed or rewritten without asking.
 - A confirmed change is carried down by `document-hygiene.md §After a Change`.

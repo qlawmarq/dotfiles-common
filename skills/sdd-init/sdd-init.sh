@@ -172,7 +172,7 @@ fi
 # Rules/templates/scripts retired upstream. Explicit list only — cp never removes, so a stale
 # rule would keep being loaded by skills that no longer reference it.
 RETIRED_RULES="ratification.md normative-registry.md change-propagation.md canon-layer.md inception-decomposition.md"
-RETIRED_TEMPLATES="canon/proposal.md inception/vision.md inception/story-map.md inception/inception.json canon/README.md canon/decision.md canon/registry.md inception/units.md inception/dependencies.md"
+RETIRED_TEMPLATES="canon/proposal.md inception/vision.md inception/story-map.md inception/inception.json canon/README.md canon/decision.md canon/registry.md inception/units.md inception/dependencies.md steering/behaviors.md"
 RETIRED_SCRIPTS="check_canon.sh"
 RETIRED_RULES_REMOVED=""
 for name in $RETIRED_RULES; do

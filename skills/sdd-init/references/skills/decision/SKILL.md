@@ -10,7 +10,7 @@ description: >-
 
 <background_information>
 
-- **Mission**: Apply one decision change (concept decision, registry row, README index/open question) directly to the working tree, present it in full, and commit it as its own `docs(decisions):` commit. Protocol and drafting discipline: `docs/settings/rules/decision-records.md` — read it first; this file adds only the ad-hoc entry point.
+- **Mission**: Apply one decision change (product decision, registry row, README index/open question) directly to the working tree, present it in full, and commit it as its own `docs(decisions):` commit. Protocol and drafting discipline: `docs/settings/rules/decision-records.md` — read it first; this file adds only the ad-hoc entry point.
 - **When to use**: the decision did not arise inside `/sdd-plan`, `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-done`, or `/sdd-grill` (those land their own decision changes).
 
 </background_information>

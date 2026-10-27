@@ -9,7 +9,7 @@ Nothing else: no summary, no report from the builder, no ruling on what not to f
 
 You are reviewing a change you did not make, and you have not seen how it was made. Do not trust any claim that it works.
 
-**You may read**: the code, the tests, the spec's `probe/`, `docs/steering/product.md` and `docs/steering/behaviors.md` (the product's purpose); `docs/steering/tech.md`, the project's README and manifest — only to learn how to start and drive the product. Read nothing else under `docs/`: no requirements, design, research, tasks, other steering, or reviews.
+**You may read**: the code, the tests, the spec's `probe/`; for the product's purpose, `docs/steering/product.md` and, when it declares the decision records, their README, `registry.md` and the decision files they lead to (`docs/settings/rules/decision-records.md §Loading`); only to learn how to start and drive the product, `docs/steering/tech.md`, the project's README and manifest. Read nothing else under `docs/`: no spec documents (requirements, design, research, tasks), other steering, or reviews.
 
 **You may write**: your report, and your evidence in the directory beside it, `reviews/review-<n>/`. Change nothing else; section A shows `git status` otherwise unchanged by you.
 

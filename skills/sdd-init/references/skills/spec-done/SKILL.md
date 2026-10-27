@@ -19,7 +19,7 @@ description: >-
   - Spec moved from `docs/specs/todo/` to `docs/specs/done/`
   - Changes committed with project-consistent commit message
   - Steering checked against what the feature changed (`docs/settings/rules/steering-principles.md`)
-  - When decision records exist: `Used by` updated for the registry IDs this feature implemented, orphan identifiers reported, `check_decisions.sh check` run (non-blocking), decision changes committed separately
+  - When the decision records are declared: `Used by` updated for the registry IDs this feature implemented, promotion candidates proposed as `INV` rows, orphan identifiers reported, `check_decisions.sh check` run (non-blocking), decision changes committed separately
 
 </background_information>
 
@@ -180,18 +180,19 @@ From `git log --oneline -20`: Conventional Commits (`feat:`, `fix:`, `chore:`, e
 
 ### Step 5: Steering Sync Check (non-blocking)
 
-Runs only on GO, after the feature is committed (Step 4), and never blocks completion. Apply `docs/settings/rules/steering-principles.md §Admission` and `§Updating` to what this feature changed, against the steering loaded in Step 1; promotion candidates for `behaviors.md` come from the spec's `behaviors.md` §Promotion Candidates.
+Runs only on GO, after the feature is committed (Step 4), and never blocks completion. Apply `docs/settings/rules/steering-principles.md §Admission` and `§Updating` to what this feature changed, against the steering loaded in Step 1. When the decision records are not declared (`docs/settings/rules/decision-records.md §Structure`), the spec's `behaviors.md` §Promotion Candidates are proposed as `product.md` lines (`docs/settings/rules/behavior-formulation.md §Promotion`).
 
 **Nothing to change**: report "Steering current — no update needed" and finish without touching steering. **Changes**: propose, confirm, and commit per `§Updating` as `docs(steering): sync after <feature-name>`, in the commit style detected in Step 4e. Declined: leave steering untouched; it can be synced anytime with `/sdd-steering`. For a review beyond what this feature touched, point the user to `/sdd-steering`.
 
-### Step 6: Decision Sync (non-blocking, when decision records exist)
+### Step 6: Decision Sync (non-blocking, when decision records are declared)
 
-If `docs/steering/product.md §Decision Records` declares a decisions root, follow `docs/settings/rules/decision-records.md §Change Control` for this feature — like Step 5, only on GO, after Step 4, never blocking. What this step puts in the decision records:
+If the decision records are declared (`docs/settings/rules/decision-records.md §Structure`), follow `docs/settings/rules/decision-records.md §Change Control` for this feature — like Step 5, only on GO, after Step 4, never blocking. What this step puts in the decision records:
 
 1. **`Used by`**: for every registry ID this feature adopted (rows carrying `spec: <this-feature>` plus IDs its code references), append `code: <path Symbol>` in `<decisions-root>/registry.md`. The `spec:` entry stays — the spec now lives in `done/`, so the script classifies it as implemented.
-2. **Orphans**: grep the enums / const catalogs this feature touched; an identifier with no registry row is reported. Norm → propose the row in the Decision changes section; implementation detail → ignore; unsure → an Open Question in the decisions README. Never silently adopt or delete a norm.
-3. Run `bash docs/settings/scripts/check_decisions.sh check` and report its findings.
-4. When this step changed the decision records, present the Decision changes section and ask once — commit? On yes, commit as `docs(decisions): sync after <feature-name>`; on no, revert (`decision-records.md §Change Control` 5) and report what was not landed. Nothing changed → report "Decisions current".
+2. **Invariants**: propose the spec's `behaviors.md` §Promotion Candidates as rows of the `INV` domain in `<decisions-root>/registry.md` (`docs/settings/rules/behavior-formulation.md §Promotion`).
+3. **Orphans**: grep the enums / const catalogs this feature touched; an identifier with no registry row is reported. Norm → propose the row in the Decision changes section; implementation detail → ignore; unsure → an Open Question in the decisions README. Never silently adopt or delete a norm.
+4. Run `bash docs/settings/scripts/check_decisions.sh check` and report its findings.
+5. When this step changed the decision records, present the Decision changes section and ask once — commit? On yes, commit as `docs(decisions): sync after <feature-name>`; on no, revert (`decision-records.md §Change Control` 5) and report what was not landed. Nothing changed → report "Decisions current".
 
 </instructions>
 

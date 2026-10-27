@@ -6,7 +6,7 @@ Behavior formulation turns approved requirements into **concrete example scenari
 
 - **EARS acceptance criteria** (requirements.md) = the *rules* — abstract, complete, testable statements
 - **Scenarios** (behaviors.md) = the *examples* — concrete situations with named actors and real values that make the rules vivid and falsifiable
-- **Behavior invariants** (`docs/steering/behaviors.md`) = the durable, cross-spec ledger distilled from completed specs
+- **Behavior invariants** = the durable, cross-spec ledger distilled from completed specs: the registry's `INV` domain, or `product.md` without decision records (§Promotion)
 
 A spec can be internally consistent (requirements ↔ design ↔ code) and still drift from what the product *is*. Scenarios prevent this by forcing every behavior to name the product purpose it serves.
 
@@ -23,14 +23,13 @@ Use Gherkin structure. Keep the keywords (`Given`, `When`, `Then`, `And`, `But`)
 Every scenario cites the product purpose it serves — this is **forward traceability**:
 
 - `product.md §<section>` — a purpose, theme, or capability stated in steering
-- A decision record, when `product.md` declares Decision Records (see `concept-alignment.md` for lookup rules)
+- A decision record, when the decision records are declared (`decision-records.md §Structure`; lookup rules: `concept-alignment.md`)
 - `registry.md #<ID>` — a registry entry, the authoritative seat for enumerable norms (`decision-records.md §Registry`)
-- `steering/behaviors.md #<invariant>` — an established cross-spec invariant
 
 Rules:
 
 - A scenario that serves **no citable purpose** is scope without a reason — raise it as a question, don't keep it.
-- A scenario (or the requirement behind it) that **contradicts** the cited decision record, the product's Value Proposition, or an established invariant is a **Critical finding**: report it before design proceeds. Do not silently reword the scenario to fit.
+- A scenario (or the requirement behind it) that **contradicts** product intent (`concept-alignment.md §The Check` 2) is a **Critical finding**: report it before design proceeds. Do not silently reword the scenario to fit.
 - Do not stretch citations. "The product is about X, therefore anything adjacent to X" is not grounding.
 - One citation per scenario — the ID and one phrase, never the source's full text. A second citation only when the scenario sits at the junction of two decisions.
 
@@ -50,6 +49,6 @@ What an agent can observe is a `probe`, never `user`. A probe in a constructed c
 
 A pointer writes test names and paths in backticks: an `auto-test` pointer is `` `name` `` or `` `path::name` `` (a name is looked up outside `docs/`, a path is a file in the repository; in `path::Suite::name` the last segment is the name); a `probe` pointer is a file under this spec's `probe/`. Until its evidence exists, an `auto-test` or `probe` pointer reads `planned: <name>`. At completion no pointer is `planned:`, a `probe` pointer names a file that exists under this spec, and an `auto-test` pointer names a test that exists in the repository — never another spec's future run. A scenario without a Verification line is unfinished. Tools are not mandated — no Cucumber/Gherkin runner is required; the scenario text is the specification, the project's own test/probe infrastructure is the automation.
 
-## Promotion to `docs/steering/behaviors.md`
+## Promotion
 
-At feature completion, `/sdd-spec-done` proposes the spec's Promotion Candidates under `steering-principles.md §File focus` (criteria and line format) and `§Updating`.
+A spec lists an invariant as a Promotion Candidate only when it is **product-level** (the product's purpose or philosophy, not an implementation detail), **cross-spec** (a future spec could plausibly violate it), and **verified** (its evidence exists). Scenario bodies stay in the spec and the test suite. At feature completion, `/sdd-spec-done` proposes the candidates as `INV` rows when the decision records are declared (`decision-records.md §Structure`), otherwise as `product.md` lines under `steering-principles.md §Updating`, without the Verify pointer, which stays in the spec.

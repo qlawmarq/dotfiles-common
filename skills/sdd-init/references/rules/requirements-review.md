@@ -31,7 +31,7 @@ This is the criterion most directly tied to the rework the user is trying to pre
 
 ### 2. Forward Traceability — the concept-alignment check (Critical)
 
-A requirement can trace perfectly to user input and still take the product somewhere it isn't meant to go. Apply `concept-alignment.md` §Resolving Product Intent, §The Check and the Severity and Finding Format of §Findings (read them): does each requirement serve a citable product purpose, and does any requirement contradict `product.md`, the decision records, or a `steering/behaviors.md` invariant? Contradictions and unsupported requirements are Critical (NO-GO) per that rule.
+A requirement can trace perfectly to user input and still take the product somewhere it isn't meant to go. Apply `concept-alignment.md` §Resolving Product Intent, §The Check and the Severity and Finding Format of §Findings (read them): does each requirement serve a citable product purpose, and does any requirement contradict `product.md` or the decision records (an `INV` row included)? Contradictions and unsupported requirements are Critical (NO-GO) per that rule.
 
 ### 3. Scope Conformance (Critical)
 
@@ -82,7 +82,7 @@ Acknowledge 1-2 well-grounded, well-formed aspects to keep feedback balanced.
 ### Step 4: Decide GO/NO-GO
 
 - **GO**: every requirement traces to a legitimate source, none contradicts the product intent, scope is explicitly bounded, criteria are testable and unambiguous, no unconfirmed invented features remain.
-- **NO-GO**: one or more requirements are unsourced/invented, contradict the product intent or an established behavior invariant, scope is unbounded or violated, or pervasive ambiguity makes the requirements untestable. Invented features and concept conflicts are a NO-GO by default — confirm with the user or remove before proceeding.
+- **NO-GO**: one or more requirements are unsourced/invented, contradict the product intent, scope is unbounded or violated, or pervasive ambiguity makes the requirements untestable. Invented features and concept conflicts are a NO-GO by default — confirm with the user or remove before proceeding.
 
 ## Output Format
 

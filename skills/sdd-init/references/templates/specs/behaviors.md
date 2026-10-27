@@ -23,7 +23,7 @@
 
 ## Promotion Candidates
 
-<!-- Invariants proposed for docs/steering/behaviors.md at /sdd-spec-done; criteria and line format:
-docs/settings/rules/steering-principles.md §File focus. -->
+<!-- Invariants proposed at /sdd-spec-done; criteria and where they go:
+docs/settings/rules/behavior-formulation.md §Promotion. -->
 
 - {{INVARIANT_STATEMENT}} — Grounds: {{CITATION}} / Verify: {{TEST_OR_PROBE}}

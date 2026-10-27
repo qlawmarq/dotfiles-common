@@ -28,4 +28,4 @@
 
 ## Code Organization Principles
 
-[Key architectural patterns and dependency rules]
+[Dependency rules between directories]

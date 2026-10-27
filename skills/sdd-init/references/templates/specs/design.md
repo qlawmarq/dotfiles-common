@@ -26,9 +26,9 @@
 - Success criteria
 
 ### Non-Goals
-- Explicitly excluded functionality
-- Future considerations outside current scope
-- Integration points deferred
+Only what this design defers that `requirements.md §Out of Scope` does not already hold — an integration point, a component left out.
+
+- [What this design defers]
 
 ### Assumptions
 Omit the section when there are none.
