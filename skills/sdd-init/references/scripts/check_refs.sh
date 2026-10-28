@@ -292,8 +292,8 @@ BEGIN {
     for (k in DEF) { fm = k; sub(/[0-9]+$/, "", fm); nm = substr(k, length(fm) + 1); DN[fm, nm + 0] = k }
     for (i = 1; i <= NS; i++) { f = SRC[i]; b = basen(f)
         if (b == "spec.json") { jsonfile(f); continue }
-        n = 0; while ((getline L < f) > 0) { n++; if (index(L, "`") || index(L, "](") || index(L, "§") || index(L, "/") || NFAM || NDATE) scanline(f, n, L) }
-        close(f) }
+        n = 0; while ((getline L < f) > 0) LB[++n] = L; close(f)   # read whole and closed first, so loadheads(f) from a self-citation reads f afresh
+        for (j = 1; j <= n; j++) { L = LB[j]; if (index(L, "`") || index(L, "](") || index(L, "§") || index(L, "/") || NFAM || NDATE) scanline(f, j, L) } }
     for (i = 1; i <= NS; i++) print SRC[i] > (T "/sources")
 }
 AWK
