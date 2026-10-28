@@ -40,13 +40,13 @@ Line: **a set whose members downstream cites by name is registry; a classificati
 
 Prose cites IDs and never restates a list; an enumeration outside the registry is a Warning (check d).
 
-**Controlled vocabulary.** When the product controls its terminology, the vocabulary lives here as the `TERM` domain — one row per concept. The Norm cell uses the fixed form `**<canonical term>** — <one-line definition>. 禁止＝<synonym>, <synonym>` (label `禁止＝` or `banned=`; this is what the checks parse). Adding, renaming, or re-banning a term is a Norm change and takes the R2 confirmation. `check_decisions.sh check` greps the live layers (`document-hygiene.md §After a Change`) for banned terms (e) and verifies each canonical term is reachable through some decision's `keywords` line (f); `check_decisions.sh terms-prh` emits the vocabulary as a [prh](https://github.com/prh/prh) rule file for optional textlint integration.
+**Controlled vocabulary.** When the product controls its terminology, the vocabulary lives here as the `TERM` domain — one row per concept. The Norm cell uses the fixed form `**<canonical term>** — <one-line definition>. 禁止＝<synonym>, <synonym>` (label `禁止＝` or `banned=`; this is what the checks parse). Adding, renaming, or re-banning a term is a Norm change and takes the R2 confirmation. `check_decisions.sh check` greps the decisions root, steering, plans and `docs/specs/todo/` for banned terms (e) and verifies each canonical term is reachable through some decision's `keywords` line (f); `check_decisions.sh terms-prh` emits the vocabulary as a [prh](https://github.com/prh/prh) rule file for optional textlint integration.
 
 **Behavior invariants.** The product's behavior invariants live here as the `INV` domain, one row per invariant. `Used by` names the spec that established it (`spec:`) and, when a test verifies it, that test (`code: <test file> <test name>`).
 
 ## Drafting Discipline
 
-Five heuristics: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and downstream references, don't recall; (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat (`document-hygiene.md`). Plus: never renumber items — a withdrawn item keeps its number with a one-line note — and never issue a number the source text did not have.
+Five heuristics: (1) merge into an existing seat before creating a new one; (2) write grounds from measurement — grep the code and the documents that cite it, don't recall, and cite an outside fact from `docs/reference/` (`evidence-discipline.md §5`); (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat (`document-hygiene.md`). Plus: never renumber items — a withdrawn item keeps its number with a one-line note — and never issue a number the source text did not have.
 
 ## Loading
 

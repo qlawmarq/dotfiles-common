@@ -11,7 +11,7 @@ description: >-
 
 - **Mission**: Set up Spec-Driven Development infrastructure in the current project by deploying rules, templates, skills, and project configuration from user-level SDD resources
 - **Success Criteria**:
-  - Every layer's directory created: `docs/settings/`, `docs/steering/`, `docs/plans/`, `docs/decisions/`, `docs/specs/todo/`, `docs/specs/done/`
+  - Every layer's directory created: `docs/settings/`, `docs/steering/`, `docs/plans/`, `docs/decisions/`, `docs/specs/todo/`, `docs/specs/done/`, `docs/reference/`
   - Rules, templates, and scripts deployed to `docs/settings/`
   - SDD skills deployed to selected target(s): `.claude/skills/sdd-*/` and/or `.agents/skills/sdd-*/`
   - Steering stubs initialized in `docs/steering/`; the decision index and registry in `docs/decisions/`

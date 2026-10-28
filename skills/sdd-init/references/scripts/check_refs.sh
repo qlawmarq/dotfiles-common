@@ -10,7 +10,7 @@
 #   opts: --root <dir> (default: git top)   --scan <dir|file> (repeatable; default: the SDD project layout under root)
 #         --map FROM=TO (repeatable; e.g. docs/settings=<dist>/references)   --include-records (also cite from done/ archive/ probe/ reviews/)   -h
 #         (`check` ignores dangling IDs of the decisions README's open-question tables)
-#   kinds: link, path, section (`file §heading`), skill (/sdd-*), json:<field> (spec.json plan.parent / plan.unit_id), id:<family>
+#   kinds: link, path, section (`file §heading`), skill (/sdd-*), json:<field> (spec.json plan.parent / plan.unit_id), id:<family>, id:spec (YYYY-MM-DD-slug); an ID or a YYYY-MM-DD-slug inside a URL is not read
 set -u
 
 ROOT=""; CMD=""; TARGET=""; RECORDS=0; NOENTRY=0; SCANS=""; MAPS=""
@@ -36,7 +36,7 @@ AUTO=0
 if [ -z "$SCANS" ]; then                                  # default scan = the live SDD project layout
     [ -d docs/steering ] || [ -d docs/specs ] || [ -d docs/plans ] || { echo "no SDD project layout under $ROOT — pass --scan" >&2; exit 1; }
     AUTO=1
-    for p in AGENTS.md CLAUDE.md README.md docs/steering "$DECISIONS" docs/plans docs/specs; do [ -e "$p" ] && SCANS="$SCANS$p
+    for p in AGENTS.md CLAUDE.md README.md docs/steering "$DECISIONS" docs/plans docs/specs docs/reference; do [ -e "$p" ] && SCANS="$SCANS$p
 "; done
 fi
 T=$(mktemp -d "${TMPDIR:-/tmp}/check_refs.XXXXXX") || exit 1
@@ -164,10 +164,15 @@ function pathlike(t) {
     return match(t, /\.[a-z][a-z0-9]*$/) && (substr(t, RSTART + 1) in EXT)
 }
 function cleantok(t) { sub(/^[(\["']+/, "", t); sub(/[)\]"',.;:]+$/, "", t); sub(/:[0-9]+(-[0-9]+)?$/, "", t); sub(/#.*$/, "", t); return t }
+function nourl(s,  o, u, st) {                         # a URL (printable ASCII, up to a closing quote or bracket) → one space
+    o = ""; while (match(s, /https?:\/\/[!-~]*/)) { st = RSTART; u = substr(s, st, RLENGTH); if (match(u, /[]`"'|)>]/)) u = substr(u, 1, RSTART - 1)
+        o = o substr(s, 1, st - 1) " "; s = substr(s, st + length(u)) }
+    return o s
+}
 function sectext(s,  i) { sub(/^[ \t]*/, "", s)
     if (substr(s, 1, 3) == "「") { s = substr(s, 4); i = index(s, "」"); if (i) s = substr(s, 1, i - 1) }
     else if (s ~ /^"/) { s = substr(s, 2); sub(/".*$/, "", s) } else sub(/[`|\002\003].*$/, "", s); sub(/[ \t]*-->.*$/, "", s); return trim(s) }
-function scanline(f, l, L,  s, s2, lk, tgt, after, c, fp, i, n, tk, t, st, anc, p, pc, nc, nn, tok, fam, off, en, nm, u) {
+function scanline(f, l, L,  s, s2, lk, tgt, after, c, fp, i, n, tk, t, st, anc, p, pc, nc, nn, tok, fam, off, en, nm, u, M) {
     # 1. Markdown links (relative targets) — a link directly followed by §… is a section reference to the target
     s = L; s2 = ""
     while (match(s, /\[[^]]*\]\([^) ]+( "[^"]*")?\)/)) {
@@ -209,20 +214,21 @@ function scanline(f, l, L,  s, s2, lk, tgt, after, c, fp, i, n, tk, t, st, anc, 
         sub(/-+$/, "", tok); nm = substr(tok, 2)
         emit(f, l, "skill", tok, (nm in SK) ? SK[nm] : "", (nm in SK) ? "ok" : "dangling")
     }
-    # 5. IDs: a defined family (prefix + number) not glued to other word characters
-    if (NFAM) { s = L; off = 0
+    # 5. IDs: a defined family (prefix + number) not glued to other word characters, outside URLs
+    M = nourl(L)
+    if (NFAM) { s = M; off = 0
         while (match(s, /[A-Za-z]+-?[0-9]+/)) {
             tok = substr(s, RSTART, RLENGTH); p = off + RSTART; en = p + RLENGTH; s = substr(s, RSTART + RLENGTH); off = en - 1
-            pc = p > 1 ? substr(L, p - 1, 1) : ""; nc = substr(L, en, 1); nn = substr(L, en + 1, 1)
+            pc = p > 1 ? substr(M, p - 1, 1) : ""; nc = substr(M, en, 1); nn = substr(M, en + 1, 1)
             if (pc ~ /[A-Za-z0-9_\/.-]/ || nc ~ /[A-Za-z0-9_]/ || (nc ~ /[-.]/ && nn ~ /[A-Za-z0-9]/)) continue
             fam = tok; sub(/[0-9]+$/, "", fam); if (!(fam in FAM) || (f ":" l ":" tok) in DS) continue
             u = tok; if (!(u in DEF)) { nm = tok; sub(/^[A-Za-z]+-?/, "", nm); if ((fam SUBSEP nm + 0) in DN) u = DN[fam, nm + 0] }   # U07 = U7
             sub(/-$/, "", fam); emit(f, l, "id:" fam, tok, (u in DEF) ? u "@" DEF[u] : "", (u in DEF) ? "ok" : "dangling")
         } }
-    if (NDATE) { s = L; off = 0                        # spec / plan directory names (YYYY-MM-DD-slug)
+    if (NDATE) { s = M; off = 0                        # spec / plan directory names (YYYY-MM-DD-slug)
         while (match(s, /20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[a-z0-9][a-z0-9-]*/)) {
             tok = substr(s, RSTART, RLENGTH); p = off + RSTART; en = p + RLENGTH; s = substr(s, RSTART + RLENGTH); off = en - 1
-            pc = p > 1 ? substr(L, p - 1, 1) : ""; nc = substr(L, en, 1); nn = substr(L, en + 1, 1)
+            pc = p > 1 ? substr(M, p - 1, 1) : ""; nc = substr(M, en, 1); nn = substr(M, en + 1, 1)
             if (pc ~ /[A-Za-z0-9_.-]/ || (nc == "." && nn ~ /[a-z]/) || nc ~ /[<{*A-Z_]/) continue
             sub(/-+$/, "", tok); emit(f, l, "id:spec", tok, (tok in DD) ? tok "@" DD[tok] : "", (tok in DD) ? "ok" : "dangling")
         } }
@@ -314,8 +320,9 @@ refs)
                 while ((getline m < M) > 0) { i = index(m, "="); f = substr(m, 1, i - 1); if (i && (Q == f || index(Q, f "/") == 1)) { Q = substr(m, i + 1) substr(Q, length(f) + 1); sub(/^\.\//, "", Q); break } } }
         { t = $4; if ($2 ~ /^id:|^json:unit_id/) { id = t; sub(/@.*/, "", id); sub(/^[^@]*@/, "", t) } else id = ""
           h = ""; if (index(t, "#")) { h = substr(t, index(t, "#") + 1); t = substr(t, 1, index(t, "#") - 1) }; sub(/ \(\+[0-9]+\)$/, "", h)
+          lb = sub(/^§/, "", h)                         # a section label (§5, §c1) matches only as a whole label
           if (Q ~ /^\//) hit = ($2 == "skill" && $3 == Q)
-          else if (sec != "") hit = (t == Q || (Q !~ /\// && t ~ ("(^|/)" Q "$"))) && $2 == "section" && h != "" && (index(sec, h) == 1 || index(h, sec) == 1)
+          else if (sec != "") hit = (t == Q || (Q !~ /\// && t ~ ("(^|/)" Q "$"))) && $2 == "section" && h != "" && (lb ? index(sec, h) == 1 && substr(sec, length(h) + 1, 1) !~ /[a-z0-9.]/ : index(sec, h) == 1 || index(h, sec) == 1)
           else hit = ($3 == Q || id == Q || t == Q || index(t, Q "/") == 1) && $5 == "ok"
           if (hit) { n++; print $1 "\t" $2 "\t" $3 } }
         END { printf "refs: %d citation(s) of %s\n", n, Q (sec != "" ? " §" sec : "") > "/dev/stderr" }' "$T/list" ;;

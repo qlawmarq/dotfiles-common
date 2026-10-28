@@ -9,4 +9,4 @@ Rules: `docs/settings/rules/decision-records.md §Registry`.
 | ID | Norm | Grounds | Used by |
 | --- | --- | --- | --- |
 | BIL-01 | [normative statement, 1–2 lines] | [relative link to the decision item] | — |
-| BIL-02 | [normative statement] | [relative link to the decision item] | code: [path] [Symbol] spec: 2026-01-01-invoicing |
+| BIL-02 | [normative statement] | [relative link to the decision item] | code: [path] [Symbol] spec: [feature-dir-name] |

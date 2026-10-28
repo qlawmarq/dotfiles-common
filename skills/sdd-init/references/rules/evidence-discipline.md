@@ -6,7 +6,7 @@ A wrong research finding becomes an unchallengeable design premise: `/sdd-spec-d
 
 The failure mode is not sloppiness — it is **answering an empirical question by reasoning instead of measuring**. A research document full of citations and `file:line` references reads as authoritative whether or not anything was ever run.
 
-This file is the single seat for the claim format, the measurement rule, the `probe/` convention, and the assumption register. `/sdd-spec-research` and `/sdd-validate-research` read it; the research template and those skills name its sections (one fact, one seat: `document-hygiene.md`).
+This file is the single seat for the claim format, the measurement rule, the `probe/` convention, the assumption register, and the reference material in `docs/reference/`. `/sdd-spec-research` and `/sdd-validate-research` read it; the research template and those skills name its sections (one fact, one seat: `document-hygiene.md`).
 
 ## 1. Questions that must be measured, not reasoned
 
@@ -28,7 +28,7 @@ Every finding in `research.md` is one claim with four tag lines. Keep the tag na
 ```
 #### C<n>: <the claim, one or two lines>
 - Type: measured | sourced | inferred | unverified
-- Verification: <probe/<file> | test name | command + its output | URL + retrieval date | none>
+- Verification: <probe/<file> | test name | command + its output | URL + retrieval date | docs/reference/<file> §C<n> | none>
 - Confidence: high | medium | low
 - Load-bearing: <what breaks in the design if this is wrong — blank if nothing does>
 ```
@@ -58,3 +58,14 @@ A `Load-bearing` claim that could not be verified does not disappear. When the u
 ```
 
 The signpost is the point: an unverified premise that is written down with a way to notice it failing is a managed risk, while the same premise left implicit is the accident this discipline exists to prevent.
+
+## 5. Reference material
+
+`docs/reference/` holds facts about the world outside the project — precedents, best practices, external methods and lenses, markets, literature, the behavior of external products. A fact goes here when decision records, steering, a plan, or more than one spec cite it; a fact only one spec uses stays in its `research.md`. A file stays while at least one document outside `docs/reference/` cites it, records included; one that `check_refs.sh unused --include-records` lists is deleted. An external method or lens is written as sourced questions.
+
+- **Nothing about this product.** A sentence that names this product, its decisions or open questions, a plan unit, or a spec — a verdict, a severity, an adoption, a "should" about them — belongs in the citing document, which also writes the inference toward the product (a decision's Background, an `inferred` claim in `research.md`). A sourced external recommendation is an outside fact, and so is a comparison of external works against stated conditions ("N precedents meet conditions a–g"). Status and progress go to the decisions README Open Questions or the plans; the list of a file's citers is derived (`check_refs.sh refs`), and a per-file "non-normative" line restates this section (`document-hygiene.md §Scaffolding`).
+- **Format.** One topic per file, `<topic-slug>.md`, without an ID, opening with a `keywords` line and the question it answers in one line. Claims take the §2 format without `Load-bearing` — that is the citer's to say. There is no expiry; the date is the retrieval date in `Verification`.
+- **Reproducers** go in `docs/reference/probe/<topic-slug>/`; §3 applies.
+- **Citing.** `docs/reference/<file> §C<n>` (or `§<heading>`), never an abbreviation — that is the form `check_refs.sh` resolves. A `research.md` claim that cites one is typed no higher than the cited claim; the section is not a reproducer, so `measured` still needs one in the claim's own `Verification` (§2).
+- **Writing.** Grep the `keywords` lines before researching and extend a file that exists. Write it in the same turn as the document that cites it. It is a live layer (`document-hygiene.md §After a Change`). No approval gate; the citing document has one.
+- **Loading.** Never always-loaded, no index file directly in `docs/reference/`: grep the `keywords` lines and open only the cited section.

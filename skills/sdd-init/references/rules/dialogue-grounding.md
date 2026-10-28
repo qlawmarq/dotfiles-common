@@ -16,6 +16,7 @@ Build the map at runtime from what actually exists. Do not assume any layer is p
 | Decision records (optional) | declared in `product.md §Decision Records` (`decision-records.md §Structure`) | Product decisions: decision files `d<NN>-<slug>.md` (the why), `registry.md` (enumerable norms) | `README.md` decision log and `registry.md` are the indexes; JIT-grep decisions by their `keywords` line. Committed text is in force; uncommitted edits bind nothing (`decision-records.md`) |
 | Plans | `docs/plans/<plan-id>/` | `units.md`, `dependencies.md` — unit boundaries and build order | Read the `units.md` Summary first; `units.md` is often large, so target the relevant unit. The unit→spec map is each `spec.json` `plan` block |
 | Specs | `docs/specs/todo/<feature>/`, `docs/specs/done/<feature>/` | `spec.json`, `requirements.md`, `research.md`, `design.md`, `tasks.md` | `spec.json` is small — read all of them freely. The Markdown files are large; open only the ones the question touches |
+| Reference | `docs/reference/` | Facts about the world outside the project that the other layers cite | `evidence-discipline.md §5` |
 | Settings | `docs/settings/rules/`, `docs/settings/templates/` | The methodology itself | Read a rule only when you need the technique it defines |
 
 If the project has documentation outside these paths, discover it (its root `README.md` or `AGENTS.md` usually names it), note whether it is authoritative or historical, and respect any stated read-only or change-control conventions. Never edit a directory the project describes as archival.
@@ -66,6 +67,7 @@ A conversation that evaporates when the session ends has produced nothing. Whate
 
 - **Read-only dialogue** (`/sdd-brief`) writes nothing. It answers and cites.
 - **What is settled lands where `concept-alignment.md §Findings` routes it** — the seat its table names for the layer that changes, under the procedure that row names, never quietly; a project-wide rule enters steering only when it passes `steering-principles.md §Admission`. The seats of `/sdd-director`'s own rulings are in its SKILL.md §Landing.
+- **A fact about the world outside the project that the output cites** lands per `evidence-discipline.md §5`.
 - **Approved artifacts are not edited silently.** If a spec's `spec.json` shows a phase approved, changing what it says is a re-approval, not an edit. Surface the change and get explicit confirmation before writing.
 - **Change control wins.** If the project documents a process for changing a class of decision — a required separate session, a review gate, an issue-first convention — follow it, even when you have the answer in hand. Record the outcome in whatever intake the process defines and stop there. Check the project's root `AGENTS.md` for such conventions before writing to any layer.
 - **Always leave a record.** Even when nothing can be written to a canonical document, end the session with a summary of what was settled and what remains open, so the reasoning survives the session.

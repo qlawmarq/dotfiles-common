@@ -9,7 +9,7 @@ Steering (`docs/steering/`) is project memory: every file in it is loaded into e
 A line belongs in steering only when all four hold:
 
 1. **It guides future work** — a cross-cutting pattern, convention, or decision that new work must follow. Golden rule: if new code follows existing patterns, steering shouldn't need updating.
-2. **No other seat holds it.** Facts owned by code, configuration, a manifest (versions, dependencies), the decision records, `AGENTS.md`/`CLAUDE.md`, the rules in `docs/settings/`, a spec, or another steering file are not copied here; when a reader needs one, name where it lives (`document-hygiene.md`).
+2. **No other seat holds it.** Facts owned by code, configuration, a manifest (versions, dependencies), the decision records, `docs/reference/`, `AGENTS.md`/`CLAUDE.md`, the rules in `docs/settings/`, a spec, or another steering file are not copied here; when a reader needs one, name where it lives (`document-hygiene.md`).
 3. **It is not a catalog** — no file or directory listings, per-component descriptions, dependency lists, or implementation details. State the pattern and show one example.
 4. **It is not history** — no dates, change reasons, or "added after …" notes (`document-hygiene.md`, one fact, one seat).
 
@@ -59,4 +59,4 @@ One domain per file. A decision carries its rationale.
 
 ## Budget
 
-100-200 lines per file, and 600 lines total across `docs/steering/` — every file is loaded into every session, so the set has a budget, not just each file. Over budget, propose cuts or moving a file out of always-loaded memory into JIT reference; report it, never block on it.
+100-200 lines per file, and 600 lines total across `docs/steering/` — every file is loaded into every session, so the set has a budget, not just each file. Over budget, propose cuts or moving a file out of always-loaded memory; report it, never block on it.

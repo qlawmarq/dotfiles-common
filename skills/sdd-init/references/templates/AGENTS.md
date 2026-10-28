@@ -5,6 +5,7 @@
 - Steering: `docs/steering/` — project memory; load all of it. What it holds and how it changes: `docs/settings/rules/steering-principles.md`
 - Plans (large-scale decomposition): `docs/plans/`
 - Specs: `docs/specs/`
+- Reference (outside-world facts the other layers cite): `docs/reference/` — do not load it; how it is written and read: `docs/settings/rules/evidence-discipline.md §5`
 - Decision records (optional): declared under `## Decision Records` in `docs/steering/product.md`
 
 ## Language

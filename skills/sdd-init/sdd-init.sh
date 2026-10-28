@@ -134,9 +134,10 @@ mkdir -p docs/settings/rules \
          docs/plans \
          docs/decisions \
          docs/specs/done \
-         docs/specs/todo
+         docs/specs/todo \
+         docs/reference
 # git does not track an empty directory; mark the ones still empty
-for d in docs/plans docs/specs/done docs/specs/todo; do [ -n "$(ls -A "$d")" ] || : > "$d/.gitkeep"; done
+for d in docs/plans docs/specs/done docs/specs/todo docs/reference; do [ -n "$(ls -A "$d")" ] || : > "$d/.gitkeep"; done
 
 # === Step 2: Deploy Rules and Templates ===
 cp "$SRC"/rules/*.md docs/settings/rules/ 2>/dev/null || append_csv ERRORS "rules_copy_failed"
