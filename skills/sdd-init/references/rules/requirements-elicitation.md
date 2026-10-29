@@ -20,7 +20,7 @@ When information is missing or ambiguous, you have three options, and only one o
 
 1. **Ask** — if the gap affects *scope, behavior, or acceptance criteria*, stop and ask the user a clarifying question. These are the gaps that cause rework, so they are always worth a question. Do not write the affected requirement until the answer arrives.
 2. **Log** — if the gap is genuinely trivial and reversible (a wording choice, a default that is easy to change later), you may proceed, but record the assumption explicitly in the **Assumptions & Open Questions** section and label the requirement as provisional. Never bury an assumption silently inside a requirement as if it were a confirmed need.
-3. **Propose** — when you can see a reasonable option the user may not have considered, offer it as a *proposal* for them to accept or reject ("Did you also want X? I'll leave it out unless you confirm"). A proposal is a question, not a decision. The default answer to an unconfirmed proposal is **no** — leave it out.
+3. **Propose** — when you can see a reasonable option the user may not have considered, offer it as a *proposal* for them to accept or reject ("Did you also want X? I'll leave it out unless you confirm"); it stays out until they accept it (`dialogue-grounding.md` §Facts are yours, decisions are the user's).
 
 The test for "ask vs. log": *if I guessed wrong here, would the user have to redo design or implementation work?* If yes, ask. When in doubt, ask — a clarifying question costs a sentence; a wrong scope assumption costs a phase.
 

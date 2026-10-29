@@ -9,7 +9,7 @@ Keep every layer in step with the product's purpose: the spec documents, the cod
 ## Resolving Product Intent
 
 1. **Baseline (always)**: `docs/steering/product.md` — the product's purpose and main uses, and the product decisions it holds (`steering-principles.md §File focus`).
-2. **Decision records (when declared — `decision-records.md §Structure`)**: `product.md` names the decisions root (structure and loading: `decision-records.md`) and how to search it. For enumerable norms — catalogs, entity lists, guards — the decision records' `registry.md` is the authoritative seat; cite entries by ID. Look up cited decisions **JIT** — grep by the declared keywords for the topics the spec touches. Never bulk-load the decision records. **Committed text binds**: an uncommitted decision edit or a README Open Question is not a decision — reliance on it is itself a finding.
+2. **Decision records** (when declared): the topics the spec touches, looked up as `decision-records.md §Loading` says and cited as `§Registry` says. Relying on text that is not in force (`decision-records.md §Structure`) is itself a finding.
 3. **Established invariants (when declared)**: the `INV` domain of `registry.md` (`decision-records.md §Registry`, read as `§Loading` says).
 
 When `product.md` and the decision records disagree, the disagreement is a finding against steering (the seat: `steering-principles.md §File focus`).
@@ -68,7 +68,7 @@ A finding is a disagreement between two layers that a check, a review, a measure
 
 | What is wrong | Where it goes | The user decides |
 | --- | --- | --- |
-| Decision records or steering | `decision-records.md §Change Control` / `steering-principles.md §Updating`, or the process the project's root AGENTS.md declares | yes |
+| Decision records or steering | `decision-records.md §Change Control`, or the process the project's root AGENTS.md declares | yes |
 | The plan — a boundary, the order, what a gate tests | The plan, re-cut (`plan-decomposition.md` §8) | yes |
 | Requirements | `requirements.md`, after the user's yes | yes |
 | The spec should not be built | Its `todo/` directory is deleted after the user's yes; git keeps it. Code it already landed stays or goes by the user's word | yes |

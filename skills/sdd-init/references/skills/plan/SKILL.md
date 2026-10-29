@@ -41,7 +41,7 @@ The decomposition method — where to cut boundaries, how to size and split unit
 
 ## Operating principle: bounded context
 
-This skill is itself prone to the context bloat it's meant to cure. Keep plan artifacts at the level of *boundaries, scope, and dependencies*, not full per-unit requirements or design. Write patterns and one-liners, not exhaustive detail. The detail belongs in each child spec, generated later in its own fresh context. If you find yourself writing EARS acceptance criteria or interface signatures during planning, stop — that work is `/sdd-spec-requirements` and `/sdd-spec-design`, run per unit.
+Keep plan artifacts at the level `plan-decomposition.md` §1 (Patterns over exhaustiveness) sets. If you find yourself writing EARS acceptance criteria or interface signatures during planning, stop — that work is `/sdd-spec-requirements` and `/sdd-spec-design`, run per unit.
 
 ## Workflow
 
@@ -95,7 +95,7 @@ Read `plan-decomposition.md` (§5, §6). Then:
 
 Write `docs/plans/<plan-id>/dependencies.md` from `docs/settings/templates/plans/dependencies.md` (matrix + integration points + the ordered build sequence).
 
-**Gate 4**: Review the build order and dependency matrix with the user. Run the §7 quality checklist. When decision records are declared (`docs/steering/product.md §Decision Records`), open the Gate 4 presentation with the decision changes, following `docs/settings/rules/decision-records.md §Change Control`: product decisions and non-goals that the decision records lack (a non-goal that lands there leaves the head of `units.md`), and registry IDs the units adopt (`Used by` += `plan: <plan-id>/U<n>`). Their commit, on GO and before Stage 5, is `docs(decisions): plan <plan-id>`.
+**Gate 4**: Review the build order and dependency matrix with the user. Run the §7 quality checklist. When decision records are declared (`docs/steering/product.md §Decision Records`), the Gate 4 presentation also lists the decision changes: product decisions and non-goals that the decision records lack (a non-goal that lands there leaves the head of `units.md`), and registry IDs the units adopt (`Used by` += `plan: <plan-id>/U<n>`). On GO, before Stage 5, they land by `docs/settings/rules/decision-records.md §Change Control` as `docs(decisions): plan <plan-id>`.
 
 ### Stage 5 — Scaffold child specs
 

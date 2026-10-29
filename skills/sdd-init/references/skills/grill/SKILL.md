@@ -84,9 +84,7 @@ When a frontier question needs a fact, dispatch a sub-agent to find it and do no
 
 ## The proposal rule
 
-Every `➡️` is a **proposal, not a decision** (`dialogue-grounding.md`, "Facts are yours, decisions are the user's"). Nothing enters the settled set because you suggested it and the user did not object — only because they said yes.
-
-This matters more here than in ordinary conversation. `requirements-elicitation.md` forbids inventing capabilities the user did not ask for, because gold-plating is the main source of rework in an SDD project. A grilling session generates proposals fast, which makes it an efficient way to smuggle unrequested scope into a spec. Do not let a proposal graduate to a decision without an explicit answer, and when the user's answer is ambiguous, ask again rather than resolving it in your own favor.
+Every `➡️` is a **proposal, not a decision** (`dialogue-grounding.md`, "Facts are yours, decisions are the user's"). A grilling session generates proposals fast, which makes it an efficient way to smuggle unrequested scope into a spec: when the user's answer is ambiguous, ask again rather than resolving it in your own favor.
 
 ## Ending the session
 
@@ -117,7 +115,7 @@ Do not act on the session until the user confirms you have reached a shared unde
 Once confirmed, route each settled decision to the seat the table in `docs/settings/rules/concept-alignment.md §Findings` names, under `dialogue-grounding.md` §"Where dialogue output lands". What is this skill's own:
 
 - A project-wide steering rule that warrants its own file is handed off to `/sdd-steering-custom`.
-- **Decision content lands here directly** (a decision record or a registry norm, when `product.md §Decision Records` declares decision records): follow `decision-records.md §Change Control`, opening the landing plan with the decision changes; the commit is `docs(decisions): grill <topic>`.
+- **Decision content lands here directly** (a decision record or a registry norm, when `product.md §Decision Records` declares decision records): land it by `decision-records.md §Change Control`; the commit is `docs(decisions): grill <topic>`.
 
 Present the intended edits and get confirmation before writing.
 

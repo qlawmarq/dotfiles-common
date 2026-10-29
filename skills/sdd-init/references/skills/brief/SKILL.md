@@ -46,7 +46,8 @@ A topic lookup. The answer lives somewhere specific and the work is finding it.
 1. Grep for the user's own domain term across `docs/steering/`, `docs/plans/`, and `docs/specs/` — and across the decisions root when `product.md §Decision Records` declares one, since that is where product decisions actually live. Use the vocabulary they used; follow the terms the documents use for each other.
 2. Follow cross-references between layers. A decision recorded in steering is usually applied in a spec, and a spec usually cites the steering or unit that constrains it — the fastest path between layers is the reference the documents already contain.
 3. Report the decision, where it is recorded, and — when it matters — where it is *applied*. Note supersession: if a later spec or steering file changed an earlier decision, say which is current.
-4. **Report what is in force, not what is drafted.** In the decision records, committed text is the decision (`docs/settings/rules/decision-records.md`); uncommitted working-tree edits and README Open Questions are not — check `git status -- <decisions-root>` and say plainly when the honest answer is "edited, not yet committed" or "still an open question".
+4. **Report what is in force, not what is drafted** (`docs/settings/rules/decision-records.md §Structure`): check `git status -- <decisions-root>` and say plainly when the honest answer is "edited, not yet committed" or "still an open question".
+5. **Asked where a line of steering or the decision records came from**: hand the line to `docs/settings/templates/decisions/change-review.md` as an independent run (`docs/settings/rules/concept-alignment.md §Independent Runs`) and answer from its table, leaving out each row whose quote `bash docs/settings/scripts/session_record.sh verify` cannot find. With no session record (`bash docs/settings/scripts/session_record.sh dump`), say so and answer from the documents and `git log`.
 
 ### Shape B — "Where does the project stand?"
 
@@ -67,7 +68,7 @@ A backlog of unresolved decisions. Collect, do not resolve.
 
 1. *Assumptions & Open Questions* sections across `requirements.md` files, and the Open Questions of specs' `behaviors.md` files.
 2. Specs with `approvals.*.approved: false` — work waiting on human review.
-3. When the decision records are declared: their README's Open Questions table, and any uncommitted decision edits (`git status -- <decisions-root>`) — drafted content that binds nothing until committed.
+3. When the decision records are declared: their README's Open Questions table, and any uncommitted decision edits (`git status -- <decisions-root>`).
 4. Any decision intake the project maintains, if its root `AGENTS.md` documents one.
 
 Order by what unblocks the most: a decision that several specs depend on outranks one confined to a single spec. Then hand off — `/sdd-grill` is the skill that actually works through them with the user.

@@ -15,7 +15,7 @@ Conduct interactive quality review of technical design documents to ensure they 
 ## Scope & Non-Goals
 
 - Scope: Evaluate the quality of the design document against project context and standards to decide GO/NO-GO.
-- Non-Goals: Do not perform implementation-level design, deep technology research, or finalize technology choices. Defer such items to the design phase iteration.
+- Non-Goals: Do not perform implementation-level design, deep technology research, or finalize technology choices. Defer research to `/sdd-spec-research` and the rest to the design phase iteration.
 
 ## Core Review Criteria
 

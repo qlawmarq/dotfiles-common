@@ -14,7 +14,7 @@ description: >-
   - Comprehensive understanding of existing codebase patterns and components
   - Clear identification of missing capabilities and integration challenges
   - Multiple viable implementation approaches evaluated
-  - Technical research needs identified for design phase
+  - Technical research needs identified for `/sdd-spec-research`
 
 </background_information>
 
@@ -83,7 +83,7 @@ Write gap-analysis.md and this summary in spec.json `language`:
 
 ### Next Phase: Research & Discovery
 
-Phase order: `docs/settings/rules/spec-kinds.md` §4. Gap analysis surfaces "Research Needed" items; the research phase resolves them and `/sdd-validate-research` checks that they were actually resolved rather than assumed. Research comes before design; do not skip it.
+Phase order: `docs/settings/rules/spec-kinds.md` §4.
 
 **If Gap Analysis Complete**:
 

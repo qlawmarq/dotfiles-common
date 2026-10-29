@@ -47,34 +47,22 @@ Elicit complete, traceable requirements for the specified feature based on the p
    - Read `docs/settings/rules/ears-format.md` for EARS syntax rules and `docs/settings/rules/document-hygiene.md`
    - Read `docs/settings/rules/spec-kinds.md` §4–§5 for the kind's requirements template and what this kind elicits; read that template for document structure (note the Out of Scope and Assumptions & Open Questions sections)
 
-4. **Draft from grounded input only**:
-   - Read the project description and all steering context, and draft requirements covering **only** what is clearly grounded in that input
-   - Focus on WHAT the system must do, not HOW
-   - As you draft, collect every point where the input did not settle a choice (missing thresholds, unstated edge cases, ambiguous scope, conflicting hints) — these become your clarifying questions and your Open Questions log
-   - Check each candidate requirement against product intent (`concept-alignment.md §Resolving Product Intent`) — a conflict is a clarifying question for the user, never something to accommodate silently
-   - Do **not** fill these gaps with guesses or "reasonable" additions; an unconfirmed addition is gold-plating and is the main cause of rework this phase exists to prevent
+4. **Draft** per `requirements-elicitation.md` §How to run the clarification dialogue (1–2). Check each candidate requirement against product intent (`concept-alignment.md §Resolving Product Intent`) — a conflict is a clarifying question for the user, never something to accommodate silently.
 
-5. **Clarify through dialogue**:
-   - Present the draft together with your questions, and iterate with the user — a concrete draft is easier to react to than a long upfront questionnaire
-   - When a gap affects scope, behavior, or acceptance criteria, **ask** before writing the affected requirement; only proceed on trivial/reversible gaps, and only by logging them as assumptions
-   - Offer additions you think might be wanted as *proposals* ("Did you also want X? I'll leave it out unless you confirm"), defaulting to leaving them out
-   - Before finishing, give a short confirmation summary covering both what you included and **what you deliberately left out of scope**, and get the user's confirmation. When decision records are declared (`docs/steering/product.md §Decision Records`), open that summary with the `## Decision changes` section from Step 8 — the same yes covers both
+5. **Clarify** per the same section (3–4) and §No assumptions — the ask-vs-assume gate, ending with its confirmation summary. When decision records are declared, the summary also lists the decision changes of Step 8.
 
 6. **Finalize Requirements** (write requirements.md now, after the Step 5 confirmation):
    - Keep the `## Project Description (Input)` section written at init above the template's sections (every kind).
    - Group related functionality into logical requirement areas
-   - Check that every requirement traces to user input or steering — if a requirement has no legitimate source, remove it or raise it as a proposal
-   - Fill the **Out of Scope** section with what you deliberately excluded, and the **Assumptions & Open Questions** section with anything still unresolved
-   - Tag requirements with MoSCoW priority traceable to user intent
-   - Apply EARS format to all acceptance criteria
+   - Trace, scope and prioritize per `requirements-elicitation.md` (§The core principle, §Scope discipline); acceptance criteria per `ears-format.md`
 
 7. **Update Metadata**:
    - Set `phase: "requirements-generated"`
    - Set `approvals.requirements.generated: true`
 
-8. **Decision changes** (only when decision records are declared; follow `docs/settings/rules/decision-records.md §Change Control`):
-   - Draft time (Step 4): grep the decision records JIT for the decisions and registry IDs the feature touches. Product-level decisions the user settled in dialogue, new enumerable norms, and registry IDs this feature adopts (`Used by` += `spec: <feature-dir-name>`) are edited into the decision records in the working tree; requirements.md cites decision and registry IDs and never copies them
-   - The decision changes open the Step 5 confirmation summary; after the user's yes the commit is `docs(decisions): requirements <feature-name>`
+8. **Decision records** (only when declared):
+   - Draft time (Step 4): grep the decision records JIT for the decisions and registry IDs the feature touches. Product-level decisions the user settled in dialogue, new enumerable norms, and registry IDs this feature adopts (`Used by` += `spec: <feature-dir-name>`) land after the Step 5 yes by `docs/settings/rules/decision-records.md §Change Control`; requirements.md cites decision and registry IDs and never copies them
+   - The commit is `docs(decisions): requirements <feature-name>`
 
 ## Important Constraints
 

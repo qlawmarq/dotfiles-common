@@ -64,7 +64,7 @@ Generate implementation tasks for the specified feature based on approved requir
 
 - Read `docs/settings/rules/tasks-generation.md` for principles and `docs/settings/rules/document-hygiene.md`
 - If `sequential` is **false**: Read `docs/settings/rules/tasks-parallel-analysis.md` for parallel judgement criteria
-- Read the kind's tasks template (`docs/settings/rules/spec-kinds.md` §4) as a format reference only; copy none of its content into the output — no `{{PLACEHOLDER}}` macros (e.g. `{{NUMBER}}`, `{{TASK_DESCRIPTION}}`), no `## Task Format Template` heading, no blockquote annotations.
+- Read the kind's tasks template (`docs/settings/rules/spec-kinds.md` §4) as a format reference only.
 
 **Output structure**: The generated `tasks.md` must start with `# Implementation Plan`, followed by `## Tasks` containing only the generated task list. No template sections, placeholders, or formatting examples.
 

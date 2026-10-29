@@ -2,8 +2,6 @@
 
 How to decompose a large product goal into independently-shippable **Units of Work**, where each unit becomes one SDD spec. These rules exist because forcing a whole product into a single spec produces an unreadable requirements/design/tasks set — the context becomes too large to reason about well. Decomposition keeps each downstream spec small and self-contained, so its own context stays bounded.
 
-This file is the reference for `/sdd-plan`. Read it when running the planning workflow.
-
 ## Table of Contents
 
 1. Principles

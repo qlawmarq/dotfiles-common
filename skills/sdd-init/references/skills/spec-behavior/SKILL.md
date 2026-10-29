@@ -54,11 +54,11 @@ Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then 
 
 ### Step 2: Ground in Product Intent
 
-Following `concept-alignment.md §Resolving Product Intent`, find what this feature touches: in `product.md`, its purpose, main uses and the product decisions it holds; when the decision records are declared, the topics they hold (JIT grep) and the `INV` rows that apply.
+Find what this feature touches, as `concept-alignment.md §Resolving Product Intent` says.
 
 ### Step 3: Formulate Scenarios (Discovery dialogue)
 
-1. Draft scenarios per `behavior-formulation.md` — at most one per acceptance criterion, only where the example adds a boundary value, an interaction, or a reading easy to get wrong; concrete values, one behavior each, one-citation `Grounds:` and `Verification:` on every scenario.
+1. Draft scenarios per `behavior-formulation.md` (§Scenario Format, §Grounding Discipline, §Verification Mapping).
 2. While drafting, collect what the examples expose: edge cases requirements never settled, thresholds with no value, behaviors that *cannot* be grounded, behaviors that conflict with the product intent (`concept-alignment.md §Resolving Product Intent`).
 3. **Conflicts are findings, not editing problems**: a requirement or scenario contradicting the decision records is reported in `concept-alignment.md` format. If a decision record itself should change, file it as an Open Question in the decisions README or hand it to `/sdd-decision` — never adjust decision records from this phase or quietly reword the scenario to fit.
 4. Present the draft with your questions and iterate briefly with the user — concrete examples are easy to react to. Resolve scope-affecting questions; log the rest under Open Questions. Do not invent behaviors beyond the requirements (same discipline as `requirements-elicitation.md`).

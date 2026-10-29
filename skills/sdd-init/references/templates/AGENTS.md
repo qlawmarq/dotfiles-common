@@ -2,7 +2,7 @@
 
 ## Paths
 
-- Steering: `docs/steering/` — project memory; load all of it. What it holds and how it changes: `docs/settings/rules/steering-principles.md`
+- Steering: `docs/steering/` — project memory; load all of it. What it holds: `docs/settings/rules/steering-principles.md`
 - Plans (large-scale decomposition): `docs/plans/`
 - Specs: `docs/specs/`
 - Reference (outside-world facts the other layers cite): `docs/reference/` — do not load it; how it is written and read: `docs/settings/rules/evidence-discipline.md §5`
@@ -10,7 +10,7 @@
 
 ## Language
 
-- Think in English. Respond and write documents in the language the invocation names (`--lang`); else, for work on a spec, in its `spec.json` `language`; else in {{DEFAULT_LANGUAGE_NAME}}.
+- Think in English. Respond and write documents in the language the invocation names (`--lang`); else, for work on a spec, in its `spec.json` `language`; else in `docs/settings/templates/specs/init.json` `language`.
 
 ## Workflow
 

@@ -42,7 +42,7 @@ Candidate patterns considered, with the claims that inform the comparison.
 | Hexagonal | Ports & adapters around the core domain | Clear boundaries, testable core | Adapter layer build-out | `C3`, steering principle X |
 
 ## Recommendation
-Provisional. What the design should do, one line each, naming the claims it rests on. `/sdd-spec-design` moves each line into design.md §Design Decisions and deletes it here; when the section is empty, it is removed. Claims stay.
+Provisional. What the design should do, one line each, naming the claims it rests on.
 - `<recommendation>` — based on `C<n>`, `C<n>`; alternative not taken: `<one phrase>`
 
 ## Risks & Mitigations

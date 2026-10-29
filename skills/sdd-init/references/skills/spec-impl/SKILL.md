@@ -55,7 +55,7 @@ Execute implementation tasks for the specified feature using Test-Driven Develop
 **Determine which tasks to execute**:
 
 - If task numbers were provided: Execute specified task numbers (e.g., "1.1" or "1,2,3")
-- Otherwise: Execute all pending tasks (unchecked `- [ ]` in tasks.md); the product-check task runs after every other pending task (`docs/settings/rules/concept-alignment.md §Product Check`)
+- Otherwise: Execute all pending tasks (unchecked `- [ ]` in tasks.md); the product-check task last (`docs/settings/rules/concept-alignment.md §Product Check`)
 
 ### Step 3: Execute Tasks
 
@@ -69,7 +69,7 @@ Per root cause, write the Regression Guard first and save its failing run to `pr
 
 #### The product-check task
 
-The spec's last task when the kind's completion checks list `product-check` (`docs/settings/rules/spec-kinds.md` §4). Run it per `docs/settings/rules/concept-alignment.md §Product Check` and write the record from `docs/settings/templates/specs/product-check.md` to `{spec_path}/probe/product-check-<k>.md`; route each finding at once and write its `Route:` line. The Pre-Code Gate and TDD do not apply; the task's `_Evidence:` line names the record. When a later task of this spec changes code after the record, reopen this task (`- [ ]`) per `§Product Check`.
+The spec's last task when the kind's completion checks list `product-check` (`docs/settings/rules/spec-kinds.md` §4). Run it per `docs/settings/rules/concept-alignment.md §Product Check`, the record in the form of `docs/settings/templates/specs/product-check.md`. The Pre-Code Gate and TDD do not apply; the task's `_Evidence:` line names the record. When a later task of this spec changes code after the record, reopen this task (`- [ ]`) per `§Product Check`.
 
 #### Pre-Code Gate (before writing any code)
 

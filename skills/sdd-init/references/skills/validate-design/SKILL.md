@@ -57,10 +57,7 @@ Interactive design quality review for the specified feature based on approved re
    - Read `docs/settings/rules/concept-alignment.md` §Resolving Product Intent, §The Check, and, under §Findings, §Severity and §Finding Format for the concept & behavior alignment check (design-review criterion 0)
    - Read the kind's design template as the structure reference (`docs/settings/rules/spec-kinds.md` §4)
 
-4. **Execute Design Review** per `design-review.md` §Review Process:
-   - If `research.md` exists, verify that its key findings are reflected in the design — and, per design-review criterion 5, that no major design decision silently rests on a claim typed `unverified` or lacking a reproducer
-   - **Recompute** per `design-review.md` criterion 6, in batch mode too
-   - **Non-functional coverage** per design-review criterion 7
+4. **Execute Design Review** per `design-review.md` §Review Process (every criterion); if `research.md` exists, also verify that its key findings are reflected in the design.
 
 5. **Provide Decision and Next Steps**:
    - Clear GO/NO-GO decision with rationale

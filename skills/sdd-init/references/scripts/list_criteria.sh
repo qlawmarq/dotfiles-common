@@ -8,8 +8,7 @@ set -u
 
 usage() { sed -n 2,6p "$0" >&2; exit 2; }
 
-# Requirement heading: `### Requirement N: ...`, `### N. ...`, `### N ...` (numeric IDs only; `Requirement A` is not picked).
-# Criteria: `M. text` under `#### Acceptance Criteria`. Scanning stops at the first `## ` heading after a requirement heading.
+# Forms read: docs/settings/rules/ears-format.md §Requirement IDs.
 list_criteria() {
     awk '
         /^## / { if (seen) exit; next }

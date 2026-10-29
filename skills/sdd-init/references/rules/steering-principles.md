@@ -1,6 +1,6 @@
 # Steering Principles
 
-Steering (`docs/steering/`) is project memory: every file in it is loaded into every session. This file is the one definition of what steering holds and how it changes; skills and templates name the section they apply (one fact, one seat: `document-hygiene.md`).
+Steering (`docs/steering/`) is project memory: every file in it is loaded into every session. This file is the one definition of what steering holds; skills and templates name the section they apply (one fact, one seat: `document-hygiene.md`).
 
 ---
 
@@ -50,10 +50,8 @@ One domain per file. A decision carries its rationale.
 - A line whose fact changed is replaced; a line another seat now holds is deleted, or reduced to a pointer where a reader needs it (§Admission 2); any other line that fails §Admission is deleted. A line is added only when it passes §Admission. "No update needed" is the expected outcome for most changes.
 - Once the decision records are declared, a product decision still written in `product.md` is moved into them under `decision-records.md §Change Control` and deleted here after that commit.
 - A proposal that adds lines states the current §Budget count; if it would exceed the budget, §Budget says what to do.
-- Facts derived from code (`tech.md`, `structure.md`) are shown as one diff and confirmed together. Policy — everything in `product.md` — is never derived from code, however obvious the change looks: present it one item at a time, each with its grounds, and get an answer for each.
-- Nothing is written before the user confirms. Confirmed edits land in their own `docs(steering):` commit, never bundled with another commit.
-- A section the user wrote is not removed or rewritten without asking.
-- A confirmed change is carried down by `document-hygiene.md §After a Change`.
+- Policy — everything in `product.md` — is never derived from code, however obvious the change looks.
+- A change lands by `decision-records.md §Change Control`.
 
 ---
 

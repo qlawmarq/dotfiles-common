@@ -119,7 +119,7 @@ Analyze the gap between requirements and existing codebase to inform implementat
 
 ### 4. Out-of-Scope for Gap Analysis
 
-- Defer deep research activities to the design phase.
+- Defer deep research activities to `/sdd-spec-research`.
 - Record unknowns as concise "Research Needed" items only.
 
 ### 5. Implementation Complexity & Risk
@@ -139,7 +139,7 @@ Analyze the gap between requirements and existing codebase to inform implementat
 - Requirement-to-Asset Map with gaps tagged (Missing / Unknown / Constraint)
 - Options A/B/C with short rationale and trade-offs
 - Effort (S/M/L/XL) and Risk (High/Medium/Low) with one-line justification each
-- Recommendations for design phase:
+- Recommendations for research and design:
   - Preferred approach and key decisions
   - Research items to carry forward
 

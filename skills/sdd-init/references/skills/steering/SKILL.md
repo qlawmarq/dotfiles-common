@@ -43,7 +43,7 @@ Check `docs/steering/` status:
    - Read the README and build manifests
    - Search for patterns in the codebase
 3. Extract what passes `§Admission`, into the files `§File focus` assigns
-4. Propose the files (following the templates), confirm, write, and commit per `steering-principles.md §Updating`
+4. Propose the files (following the templates); land what the user accepts by `decision-records.md §Change Control`
 
 ---
 
@@ -57,7 +57,7 @@ Check `docs/steering/` status:
    - **Existing lines**: facts that changed, or that now fail `§Admission` → Replace or delete candidate
    - **Custom files**: Check relevance
 4. Total the lines against `steering-principles.md §Budget`
-5. Propose, confirm, and commit per `§Updating`
+5. Propose the changes; land what the user accepts by `decision-records.md §Change Control`
 6. Report: Updates, warnings, recommendations
 
 </instructions>
@@ -77,8 +77,6 @@ Chat summary only.
 - product.md: [Brief description]
 - tech.md: [Key stack]
 - structure.md: [Organization]
-
-Confirmed and committed per steering-principles.md §Updating.
 ```
 
 ### Sync:
@@ -102,7 +100,3 @@ Confirmed and committed per steering-principles.md §Updating.
 ## Safety & Fallback
 
 - **Uncertainty**: Report both states, ask user
-
-## Notes
-
-- Templates and principles are external for customization

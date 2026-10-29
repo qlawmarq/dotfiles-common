@@ -41,7 +41,7 @@ One entry per decision that shaped this design, including decisions settled duri
 
 ### D1: [title]
 - Decision: [what was chosen] — based on `C<n>`
-- Rejected: [option] — [one-phrase reason] (one line per option; the comparison itself stays in research.md §Architecture Pattern Evaluation)
+- Rejected: [option] — [one-phrase reason] (one line per option)
 - Consequences: [what this costs or forecloses, the negative included]
 
 ## Architecture
@@ -227,4 +227,3 @@ Include a Mermaid flowchart showing migration phases when schema/data movement i
 ## Supporting References (Optional)
 - Create this section only when keeping the information in the main body would hurt readability (e.g., very long type definitions, vendor option matrices, exhaustive schema tables).
 - Link to the supporting references from the main text instead of inlining large snippets.
-- Background research notes and comparisons live in `research.md`.

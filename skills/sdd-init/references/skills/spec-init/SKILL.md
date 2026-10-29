@@ -35,7 +35,7 @@ Generate a unique feature name from the project description and initialize the s
 
 ## Execution Steps
 
-0. **Classify Kind**: If `--kind` was given, use it. Otherwise read `docs/settings/rules/spec-kinds.md`, then: (a) if the request meets §2 No spec needed, recommend implementing it directly and stop — go on to (b) only if the user says they want a spec; (b) classify the request, state the kind with a one-line reason, and ask the user to confirm.
+0. **Classify Kind**: If `--kind` was given, use it. Otherwise read `docs/settings/rules/spec-kinds.md`, then: (a) if the request meets §2 No spec needed, act as §2 says and stop unless the user wants a spec; (b) classify the request, state the kind with a one-line reason, and ask the user to confirm.
 1. **Generate Date-Prefixed Name**: Create feature name in `YYYY-MM-DD-[feature-name]` format using today's date (e.g., `2026-02-02-add-auth`).
 2. **Check Uniqueness**: Verify `docs/specs/todo/` and `docs/specs/done/` for naming conflicts
 3. **Create Directory**: `docs/specs/todo/[date-prefixed-feature-name]/`

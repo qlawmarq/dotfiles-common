@@ -226,13 +226,8 @@ done
 # === Step 5: Update Config Files ===
 TEMPLATE_FILE="$SRC/templates/AGENTS.md"
 if [ -f "$TEMPLATE_FILE" ]; then
-    CONFIG_TMP=$(mktemp)
-    sed "s|{{DEFAULT_LANGUAGE_NAME}}|${LANG_NAME}|g" "$TEMPLATE_FILE" > "$CONFIG_TMP"
-
-    AGENTS_MD_STATUS=$(inject_sdd_section "AGENTS.md" "$CONFIG_TMP")
+    AGENTS_MD_STATUS=$(inject_sdd_section "AGENTS.md" "$TEMPLATE_FILE")
     [ "$AGENTS_MD_STATUS" = "write_failed" ] && append_csv ERRORS "agents_md_write_failed"
-
-    rm -f "$CONFIG_TMP"
 else
     append_csv ERRORS "agents_md_template_not_found"
 fi

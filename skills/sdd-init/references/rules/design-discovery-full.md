@@ -79,4 +79,4 @@ Start with official sources (documentation, GitHub), then recent articles, then 
 
 ## Output
 
-Findings go to `research.md` in the claim form of `evidence-discipline.md` §2 — one claim per finding, each with its evidence, and each Design Decision naming the claims it rests on. The template governs the sections; do not invent your own.
+Findings go to `research.md` in the claim form of `evidence-discipline.md` §2 — one claim per finding, each with its evidence. The template governs the sections; do not invent your own.

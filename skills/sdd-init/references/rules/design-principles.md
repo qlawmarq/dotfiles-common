@@ -9,42 +9,33 @@
 
 ### 2. Design vs Implementation
 
-- **Focus on WHAT, not HOW**
 - Define interfaces and contracts, not code
 - Specify behavior through pre/post conditions
 - Document architectural decisions, not algorithms
 
-### 3. Visual Communication
-
-- **Simple features**: Basic component diagram or none
-- **Medium complexity**: Architecture + data flow
-- **High complexity**: Multiple diagrams (architecture, sequence, state)
-- **Always pure Mermaid**: No styling, just structure
-
-### 4. Component Design Rules
+### 3. Component Design Rules
 
 - **Single Responsibility**: One clear purpose per component
 - **Clear Boundaries**: Explicit domain ownership
 - **Dependency Direction**: Follow architectural layers
 - **Interface Segregation**: Minimal, focused interfaces
 - **Team-safe Interfaces**: Design boundaries that allow parallel implementation without merge conflicts
-- **Research Traceability**: the options weighed live in `research.md`; the boundary decision lives here and cites its claim as `(C<n>)`
 
-### 5. Data Modeling Standards
+### 4. Data Modeling Standards
 
 - **Domain First**: Start with business concepts
 - **Consistency Boundaries**: Clear aggregate roots
 - **Normalization**: Balance between performance and integrity
 - **Evolution**: Plan for schema changes
 
-### 6. Error Handling Philosophy
+### 5. Error Handling Philosophy
 
 - **Fail Fast**: Validate early and clearly
 - **Graceful Degradation**: Partial functionality over complete failure
 - **User Context**: Actionable error messages
 - **Observability**: Comprehensive logging and monitoring
 
-### 7. Integration Patterns
+### 6. Integration Patterns
 
 - **Loose Coupling**: Minimize dependencies
 - **Contract First**: Define interfaces before implementation
@@ -66,7 +57,6 @@
 - **Traceable**: Requirements to components mapping
 - **Complete**: All aspects covered for implementation
 - **Consistent**: Uniform terminology throughout
-- **Focused**: Keep design.md centered on architecture and contracts; move investigation logs and lengthy comparisons to `research.md`
 
 ## Section Authoring Guidance
 

@@ -70,7 +70,7 @@ Seats that belong to others stay theirs: `probe/` and the `Verification:` line a
 
 ## Escalation
 
-Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); decision records (`decision-records.md §Change Control`); the plan (units, dependencies — the build order is the user's decision); steering (`steering-principles.md §Updating`). Everything else in the spec the Director edits.
+Never edit before the user's yes: `requirements.md` (change request first, edit after the yes); decision records and steering (`decision-records.md §Change Control`); the plan (units, dependencies — the build order is the user's decision). Everything else in the spec the Director edits.
 
 Take to the user every finding the table in `concept-alignment.md §Findings` gives to the user, and budget and duration (a long wait — `concept-alignment.md §Waiting on a Run` — or a change in parallelism).
 

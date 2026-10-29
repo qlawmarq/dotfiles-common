@@ -13,7 +13,7 @@ Build the map at runtime from what actually exists. Do not assume any layer is p
 | Layer | Path | What it holds | How to read it |
 | --- | --- | --- | --- |
 | Steering | `docs/steering/` | Project-wide rules and context: `product.md` (why/what), `tech.md`, `structure.md`, plus custom files | Small enough to read fully when the topic is project-wide; otherwise read the file that owns the topic |
-| Decision records (optional) | declared in `product.md §Decision Records` | Product decisions; its files: `decision-records.md §Structure` | `README.md` decision log and `registry.md` are the indexes; JIT-grep decisions by their `keywords` line. Committed text is in force; uncommitted edits bind nothing (`decision-records.md`) |
+| Decision records (optional) | declared in `product.md §Decision Records` | Product decisions; its files: `decision-records.md §Structure` | `decision-records.md §Loading`; what is in force: `decision-records.md §Structure` |
 | Plans | `docs/plans/<plan-id>/` | `units.md`, `dependencies.md` — unit boundaries and build order | Read the `units.md` Summary first; `units.md` is often large, so target the relevant unit. The unit→spec map is each `spec.json` `plan` block |
 | Specs | `docs/specs/todo/<feature>/`, `docs/specs/done/<feature>/` | `spec.json` and the documents its kind produces (`spec-kinds.md §4`) | `spec.json` is small — read all of them freely. The Markdown files are large; open only the ones the question touches |
 | Reference | `docs/reference/` | Facts about the world outside the project that the other layers cite | `evidence-discipline.md §5` |
@@ -59,7 +59,7 @@ Decisions are the opposite. Where the project genuinely has not chosen — a bou
 
 A question reaches the user only when the documents do not settle it, when it needs the user to experience the product, or when the documents disagree. What steering, the decision records, or the project's own evidence already settle is a fact: report it with its citation instead of asking. How you run the session — what to look up, what to verify first, the order of the work — is yours as well: state it, do not ask it. An answer you would draw from established practice is not a fact but a proposal, below.
 
-A recommendation is not a decision. When you suggest an answer, it is a **proposal**, and the default answer to an unconfirmed proposal is *no*. This is the same discipline `requirements-elicitation.md` applies to requirements, and for the same reason: an agent's instinct to be helpful is what silently converts "I suggested this" into "we decided this." Nothing becomes settled without an explicit user confirmation.
+A recommendation is not a decision. When you suggest an answer, it is a **proposal**, and the default answer to an unconfirmed proposal is *no*: nothing becomes settled without an explicit user confirmation.
 
 ## Where dialogue output lands
 

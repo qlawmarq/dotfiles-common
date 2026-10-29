@@ -40,7 +40,7 @@ description: >-
    - Follow template structure if available
    - Apply principles from `docs/settings/rules/steering-principles.md` and `docs/settings/rules/document-hygiene.md`
 
-5. **Propose, confirm, and create** `docs/steering/{name}.md` per `steering-principles.md §Updating`
+5. **Propose** `docs/steering/{name}.md`; land what the user accepts by `decision-records.md §Change Control`
 
 Templates: `docs/settings/templates/steering-custom/` — each states its purpose in its `[Purpose: …]` line.
 

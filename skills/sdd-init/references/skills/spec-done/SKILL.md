@@ -80,7 +80,7 @@ The `review` check belongs to Step 3, after 2d. A non-zero exit is **Critical**:
 Runs only when 2a–2c raised no Critical in this run; otherwise it is not run, and the NO-GO report says so.
 
 - **Dispatch**: one new sub-agent that does not inherit this conversation (`concept-alignment.md §Independent Runs`). Hand it `docs/settings/templates/specs/completion-review.md` and only what that file's comment lists. Where to get them: the diff is `git diff <base> -- . ':!docs'` plus the working tree, `<base>` being the commit that approved tasks.md (`git log -S'"approved": true' -- {spec_path}/spec.json`); the criteria are the output of `bash docs/settings/scripts/list_criteria.sh {spec_path}/requirements.md`. Before dispatching, tell the user in one line that the review is starting and how long it is expected to take; a long one waits for the user's word (`§Waiting on a Run`).
-- **Re-run** (n > 1): also hand over every `F<k>` of an earlier `routing-<m>.md` still `open`, or `changed` without a later `not reproduced`, as `R<m>-F<k>` with its `Conflict:` line copied from that report, and the fix's diff — never your answer to it. The review's scope is the fix. From the third run on with findings still open, raise it with the user as an upstream problem (requirements, plan or design) before dispatching again.
+- **Re-run** (n > 1): the earlier findings that file's comment names are every `F<k>` of an earlier `routing-<m>.md` still `open`, or `changed` without a later `not reproduced` — never your answer to them. The review's scope is the fix. From the third run on with findings still open, raise it with the user as an upstream problem (requirements, plan or design) before dispatching again.
 - **Incomplete report**: a report that does not have exactly one of the two — `#### F<k>` headings, or the `Findings: none` line — goes back to the same reviewer.
 - **Re-checks**: for each line of its C. Re-checks, `not reproduced` closes the `changed` line in `routing-<m>.md` (append `; re-checked in review-<n>.md`); `reproduced` sets it back to `open` there, and it is routed again as below, on that line.
 - **Warnings**: the report's D. Warnings go into this run's report as **Warning**; they get no routing line.
@@ -118,7 +118,7 @@ For each assumption declared in `design.md`, check whether its signpost actually
 **The message to the user (one, before GO)**: the details stay in the report files; each item takes 1–3 lines.
 
 1. **What needs the user's decision**
-   - Every review finding routed to the user (2d): its `Conflict:` line word for word, then one line with your proposed answer (for a stale criterion: previous → new text; with the refutation, when you hold one). A finding in the 'Decision records or steering' row is presented under the procedure that row names for the layer it changes — `decision-records.md §Change Control` for the decision records, `steering-principles.md §Updating` for steering — and committed on that answer as that procedure says.
+   - Every review finding routed to the user (2d): its `Conflict:` line word for word, then one line with your proposed answer (for a stale criterion: previous → new text; with the refutation, when you hold one). A finding in the 'Decision records or steering' row lands on that answer by the procedure that row names.
    - The latest product-check record's findings with `Route: open — the user`: its `In use:` line — its `Conflict:` line where there is none — word for word, then your proposed answer; and its E. Questions for the user.
    - Every criterion no `[x]` task cites (2b): fix the criterion, or add a task.
    - In a run where 2a–2c passed: every `user` scenario of behaviors.md without its `probe/user-S<N>.md` — what to do and what should happen (`concept-alignment.md §User Check`), and whether the spec may complete with S<N> `not run`.
@@ -147,9 +147,9 @@ After the answer, a finding left to be fixed is **Critical**: "Finding open" —
 
 #### 4a. Reconcile Requirements
 
-Apply, in `{spec_path}/requirements.md`, every criterion the Step 3 answer resolved as "fix the criterion"; record each in Requirements changes and as a `Reconciled: <ID>` line (4f). For a finding in the 'Decision records or steering' row, fix the criterion only after the decision answer, following it. Never renumber a criterion. Carry each change to the documents that cite it (`document-hygiene.md §After a Change`). Do not add a revision-history section to any document — git holds the history (`docs/settings/rules/document-hygiene.md`, one fact, one seat).
+Apply, in `{spec_path}/requirements.md`, every criterion the Step 3 answer resolved as "fix the criterion"; record each in Requirements changes and as a `Reconciled: <ID>` line (4f). For a finding in the 'Decision records or steering' row, fix the criterion only after the decision answer, following it. Never renumber a criterion. Carry each change to the documents that cite it (`document-hygiene.md §After a Change`).
 
-Put `## Requirements changes` at the top of the reply: per criterion ID, the full previous → new text, then one line with the grounds (file:line) and the finding ID. When there are decision changes, the `## Decision changes` section follows it.
+Put `## Requirements changes` at the top of the reply: per criterion ID, the full previous → new text, then one line with the grounds (file:line) and the finding ID.
 
 #### 4b. Update Metadata
 
@@ -182,17 +182,17 @@ From `git log --oneline -20`: Conventional Commits (`feat:`, `fix:`, `chore:`, e
 
 Runs only on GO, after the feature is committed (Step 4), and never blocks completion. Apply `docs/settings/rules/steering-principles.md §Admission` and `§Updating` to what this feature changed, against the steering loaded in Step 1. When the decision records are not declared (`docs/settings/rules/decision-records.md §Structure`), the spec's `behaviors.md` §Promotion Candidates are proposed as `product.md` lines (`docs/settings/rules/behavior-formulation.md §Promotion`).
 
-**Nothing to change**: report "Steering current — no update needed" and finish without touching steering. **Changes**: propose, confirm, and commit per `§Updating` as `docs(steering): sync after <feature-name>`, in the commit style detected in Step 4e. Declined: leave steering untouched; it can be synced anytime with `/sdd-steering`. For a review beyond what this feature touched, point the user to `/sdd-steering`.
+**Nothing to change**: report "Steering current — no update needed" and finish without touching steering. **Changes**: propose them; land what the user accepts by `docs/settings/rules/decision-records.md §Change Control` as `docs(steering): sync after <feature-name>`. Declined: it can be synced anytime with `/sdd-steering`. For a review beyond what this feature touched, point the user to `/sdd-steering`.
 
 ### Step 6: Decision Sync (non-blocking, when decision records are declared)
 
-If the decision records are declared (`docs/settings/rules/decision-records.md §Structure`), follow `docs/settings/rules/decision-records.md §Change Control` for this feature — like Step 5, only on GO, after Step 4, never blocking. What this step puts in the decision records:
+If the decision records are declared (`docs/settings/rules/decision-records.md §Structure`), follow `docs/settings/rules/decision-records.md §Change Control` for this feature — like Step 5, only on GO, after Step 4, never blocking. Propose items 2–3 below in the same message as the Step 5 proposal, and land what the user accepts of them. What this step puts in the decision records:
 
 1. **`Used by`**: for every registry ID this feature adopted (rows carrying `spec: <this-feature>` plus IDs its code references), append `code: <path Symbol>` in `<decisions-root>/registry.md`. The `spec:` entry stays — the spec now lives in `done/`, so the script classifies it as implemented.
 2. **Invariants**: propose the spec's `behaviors.md` §Promotion Candidates as rows of the `INV` domain in `<decisions-root>/registry.md` (`docs/settings/rules/behavior-formulation.md §Promotion`).
-3. **Orphans**: grep the enums / const catalogs this feature touched; an identifier with no registry row is reported. Norm → propose the row in the Decision changes section; implementation detail → ignore; unsure → an Open Question in the decisions README. Never silently adopt or delete a norm.
+3. **Orphans**: grep the enums / const catalogs this feature touched; an identifier with no registry row is reported. Norm → propose the row; implementation detail → ignore; unsure → an Open Question in the decisions README. Never silently adopt or delete a norm.
 4. Run `bash docs/settings/scripts/check_decisions.sh check` and report its findings.
-5. When this step changed the decision records, present the Decision changes section and ask once — commit? On yes, commit as `docs(decisions): sync after <feature-name>`; on no, revert (`decision-records.md §Change Control` 5) and report what was not landed. Nothing changed → report "Decisions current".
+5. The commit is `docs(decisions): sync after <feature-name>`. Nothing changed → report "Decisions current".
 
 </instructions>
 
@@ -208,11 +208,11 @@ Provide output in the language specified in spec.json.
 
 **If GO** (concise Markdown, under 300 words; the Step 3 message is not counted):
 
-1. **Requirements changes** (when any criterion changed): at the top, as in 4a; `## Decision changes` follows when present
+1. **Requirements changes** (when any criterion changed): at the top, as in 4a
 2. **Verification Summary**: Table of all checks — all passed, including one line `Review: n findings (closed by the user m · rejected r · fixed f)`, the review report path, the product-check record path, item 2 of the Step 3 message, every `user` scenario left `not run`, and for `verify` the tasks a `fails` removed (`spec-kinds.md` §6)
 3. **Completion Actions**: Confirm spec moved and commit created, with the commit hash and message
 4. **Steering Sync**: One of — "Steering current — no update needed", "Steering updated (separate commit `<hash>`)", or "Steering update declined"
-5. **Decision Sync**: "No decision records declared — skipped", "Decisions current", or the Decision changes landed (commit hash) or declined and reverted, orphans routed, and `check_decisions.sh` findings
+5. **Decision Sync**: "No decision records declared — skipped", "Decisions current", or the `decision-records.md §Change Control` report (or declined and reverted), orphans routed, and `check_decisions.sh` findings
 
 ## Safety & Fallback
 

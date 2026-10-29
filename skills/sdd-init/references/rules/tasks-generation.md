@@ -36,9 +36,8 @@ A detail bullet names the design block it realizes (for example `per design §<C
 - Validate core functionality early in sequence
 - Respect the architecture boundaries the design defines
 - Honor interface contracts documented in design.md
-- Use major task summaries sparingly—omit detail bullets if the work is fully captured by child tasks.
 
-**End with integration tasks** to wire everything together.
+**End with integration tasks** to wire everything together, before the product-check task (§5).
 
 ### 3. Flexible Task Sizing
 
@@ -56,7 +55,6 @@ A detail bullet names the design block it realizes (for example `per design §<C
 
 - `_Requirements: X.X, Y.Y_` — criterion IDs; `ears-format.md` §Requirement IDs holds their form, how they are cited, and the stop when requirements.md has none.
 - For cross-cutting requirements, list every relevant criterion ID.
-- Reference components/interfaces from design.md when helpful (e.g., `_Contracts: AuthService API`)
 
 ### 5. Code-Only Focus
 
@@ -109,10 +107,6 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
 - Major tasks increment: 1, 2, 3, 4, 5...
 - Sub-tasks reset per major task: 1.1, 1.2, then 2.1, 2.2...
 - Never repeat major task numbers
-
-### Parallel Analysis (default)
-
-- Assume parallel analysis is enabled unless explicitly disabled (e.g. `--sequential` flag); conditions, marking, and grouping: `docs/settings/rules/tasks-parallel-analysis.md`.
 
 ### Checkbox Format
 

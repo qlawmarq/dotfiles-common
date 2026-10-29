@@ -1,4 +1,4 @@
-# Normative Registry
+# Registry
 
 Rules: `docs/settings/rules/decision-records.md §Registry`.
 

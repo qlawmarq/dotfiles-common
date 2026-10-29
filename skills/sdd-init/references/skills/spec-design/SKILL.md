@@ -67,7 +67,7 @@ Use the research results in `research.md` as design input. Discovery and externa
 
 1. **If `research.md` was loaded in Step 1**:
    - Extract key findings: architecture patterns, technology decisions, integration points, risks, and design recommendations
-   - Note which claims are typed `unverified` or carry no reproducer. Any of these the design ends up depending on goes in the design's Assumptions section, with what fails if it is wrong and the signpost that would reveal it — a premise carried silently is the failure this exists to prevent
+   - Note which claims are typed `unverified` or carry no reproducer; any the design depends on goes in the design's Assumptions section, in the template's form
    - Retain these findings for Step 3
 
 2. **If `research.md` does not exist**:
@@ -81,7 +81,6 @@ Using the template and principles loaded in Step 1 and the research findings fro
 - **Follow the kind's design template structure and generation instructions strictly**
 - **Move, don't copy**: for each line of research.md §Recommendation, write a `D<n>` entry in design.md §Design Decisions (adopted or overturned, with the rejected options and consequences), then delete that line from research.md; delete the section when it is empty. `C<n>` claims stay where they are.
 - **Satisfy the behavior scenarios**: if `behaviors.md` exists, every scenario must be realizable by the design — walk each scenario through the designed components and report, in the command output, any scenario no component realizes — do not add a mapping table to design.md. A scenario the design cannot produce is a design gap; a design behavior that contradicts a scenario's `Grounds:` is concept drift — stop and report, don't design around it
-- **Integrate all discovery findings**: Use researched information (APIs, patterns, technologies) throughout component definitions, architecture decisions, and integration points
 - **Stop on contradiction**: if a research claim conflicts with what the code or the environment actually shows, do not design around the discrepancy — stop and report it. The claim, not the design, is what needs fixing. Re-investigation belongs to `/sdd-spec-research`
 - If existing design.md found in Step 1, use it as reference context (merge mode)
 - Ensure the sections carrying research-derived content reflect it, and reference supporting details from `research.md`
@@ -95,9 +94,9 @@ In spec.json:
 - Set `approvals.requirements.approved: true`
 - If `behaviors.md` exists: set `approvals.behaviors.approved: true` (add the key if missing)
 
-## Decision changes (only when decision records are declared)
+## Decision records (only when declared)
 
-Design rarely produces decision content — architecture belongs in steering (`steering-principles.md §Admission`) or in design.md. But a product-level threshold or boundary the design had to settle is one: land it by `docs/settings/rules/decision-records.md §Change Control`, with the decision changes at the top of the output; the commit is `docs(decisions): design <feature-name>`. When there is nothing, write nothing — do not print an empty section.
+Design rarely produces decision content — architecture belongs in steering (`steering-principles.md §Admission`) or in design.md. But a product-level threshold or boundary the design had to settle is one: land it by `docs/settings/rules/decision-records.md §Change Control`; the commit is `docs(decisions): design <feature-name>`.
 
 </instructions>
 

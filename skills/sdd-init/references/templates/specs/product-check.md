@@ -3,7 +3,7 @@
 <!-- The implementer's record of the product check (docs/settings/rules/concept-alignment.md §Product Check).
 Written by the implementer in the spec's last task, at `{spec_path}/probe/product-check-<k>.md`. -->
 
-Start the product the way a person does: its real entry, its default configuration. If you cannot operate that entry (a screen, a device), drive the same default configuration by the closest means the product offers, and say which.
+Start the product from its entry in its default configuration, as `concept-alignment.md §Product Check` (What is walked, Entry that cannot be operated) says; say which means you used.
 
 1. Walk the paths this spec changed: the criteria and scenarios that can be reached from the product's entry. What cannot be reached that way goes under D.
 2. Put what you met to the three questions of `concept-alignment.md §The Check`.

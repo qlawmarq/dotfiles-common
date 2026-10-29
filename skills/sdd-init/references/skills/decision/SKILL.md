@@ -10,7 +10,7 @@ description: >-
 
 <background_information>
 
-- **Mission**: Apply one decision change (product decision, registry row, README index/open question) directly to the working tree, present it in full, and commit it as its own `docs(decisions):` commit. Protocol and drafting discipline: `docs/settings/rules/decision-records.md` — read it first; this file adds only the ad-hoc entry point.
+- **Mission**: Land one decision change (product decision, registry row, README index/open question) by `docs/settings/rules/decision-records.md §Change Control` — read that file first; this file adds only the ad-hoc entry point.
 - **When to use**: the decision did not arise inside `/sdd-plan`, `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-done`, or `/sdd-grill` (those land their own decision changes).
 
 </background_information>
@@ -27,19 +27,14 @@ No input → list the decisions README's Open Questions and ask which one to lan
 ## Steps
 
 1. **Resolve the decisions root** (`decision-records.md §Structure`).
-2. **Locate what the change touches** — grep `keywords` lines and registry IDs JIT; never bulk-load. Name the affected decision items and IDs with paths.
-3. **Land it by `decision-records.md §Change Control`**, drafting under its §Drafting Discipline, with the decision changes at the top of the reply. Then ask once: commit?
-4. **On yes**: run `bash docs/settings/scripts/check_decisions.sh check` (report findings; they never block), then commit as `docs(decisions): <slug>`. On no: revert the edited files and report what was not landed.
-
-## Constraints
-
-- Add no scope: every change traces to the description, a cited gap, or a cited source.
+2. **Locate what the change touches** — grep `keywords` lines and registry IDs (`decision-records.md §Loading`). Name the affected decision items and IDs with paths.
+3. **Land it by `decision-records.md §Change Control`**, drafting under its §Drafting Discipline. Before the commit, run `bash docs/settings/scripts/check_decisions.sh check` and report its findings; they never block. The commit is `docs(decisions): <slug>`.
 
 </instructions>
 
 ## Output Description
 
-Resolve the language from `docs/settings/templates/specs/init.json` `language`. Report: the Decision changes section, R2 confirmations taken, check findings, and the commit hash (or "not landed" with the reason). Concise Markdown.
+Resolve the language from `docs/settings/templates/specs/init.json` `language`. Report: the `decision-records.md §Change Control` report and the check findings. Concise Markdown.
 
 ## Safety & Fallback
 
