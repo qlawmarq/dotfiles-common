@@ -107,7 +107,7 @@ If any check fails, revise the decomposition rather than scaffolding specs you'l
 
 - **Completed unit**: `/sdd-spec-done` syncs the plan (its Plan Sync step) — the done spec is the record.
 - **Boundary or ordering change** (a finding, a decision change, re-planning): edit `units.md` and `dependencies.md` together, with the user, then carry it down (`document-hygiene.md §After a Change`). A re-cut plan re-runs §7.
-- **A gate's verdict other than `holds`**: the units that depend on the gate (`dependencies.md` Dependency Matrix) do not start — or stop at their next task — until the plan is re-cut. A unit the re-cut drops has its `todo/` spec deleted; git keeps it.
+- **A gate's verdict other than `holds`**: the units that depend on the gate (`dependencies.md` Dependency Matrix) do not start — or stop at their next task — until the plan is re-cut. A unit the re-cut drops has its `todo/` spec deleted.
 - **Status or decision content creeping into a unit entry**: a unit's status and current kind are its spec's (`spec.json` and its location); what a decision record or a spec decides is cited by ID (`document-hygiene.md`, one fact, one seat).
 
 A `units.md` growing past ~500 lines signals that detail blocks are accumulating spec-phase content; move that content to the owning specs.

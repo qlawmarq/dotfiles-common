@@ -47,7 +47,6 @@ Verification artifacts live in `{spec_path}/probe/`. This is the physical seat f
 - **`probe/README.md` is the index**: file → configuration → what the result showed → which `C<n>` it supports.
 - **No hardcoded paths.** A probe never writes the spec directory's or the repository's path. A script derives its own directory from its location and references other probe files relative to it; when it needs the repository root, it asks git at run time (`git rev-parse --show-toplevel`). It then runs from anywhere, so its opening comment states only what it runs and what it requires. File names in `probe/README.md` are relative to `probe/`. If a script needs a temporary patch to production code, say so, and **restore afterwards**.
 - Keep measurements that support a claim. Discard exploratory runs that support nothing.
-- When a measurement is later invalidated, **do not delete it** — move it to a clearly separated section stating that no value may be drawn from it, and where the current answer is.
 
 ## 4. Assumption register
 

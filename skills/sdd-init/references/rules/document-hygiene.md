@@ -13,7 +13,7 @@ Brevity is not the goal — a fact stated once, in the right place, is. Delete t
 
 ## After a Change
 
-The live layers are every document that is not a record. A record — a done spec, an archive, a run's result once a document cites it — is not edited; a later record is added beside it, and what the result now means is said in the document that cites it.
+The live layers are every document that is not a record. A record — a done spec, an archive, a run's result once a document cites it — is not edited; a later record is added beside it, and what the result now means is said in the document that cites it. An ID a record cites never names anything else.
 
 Whoever changes a document, or the code or product it describes, carries the change, in the same turn, to every document in the live layers that cites the changed item — `bash docs/settings/scripts/check_refs.sh refs <item>` lists what it can resolve; grep the ID, number or term for the rest. Code that implements the changed item follows through a tracked change — in this workflow a fix task or a `fix` spec (`concept-alignment.md §Findings`) — never as a silent edit. A follower that is the user's to change goes to the user in the same turn.
 

@@ -30,13 +30,13 @@ A measured fact is held to the same questions as a document: a probe result, a r
 
 Before a spec is completed, when its kind's completion checks include it (`spec-kinds.md` §4), the product itself is run and looked at. A passing test, a constructed configuration, or a count read from a log does not by itself show what a person using the product meets, and the look is not put off to a later spec.
 
-- **Who and record**: the implementer, as the spec's last task. The record is `{spec_path}/probe/product-check-<k>.md`, k being 1 + the largest existing k, in the form of `docs/settings/templates/specs/product-check.md`. A re-run adds a new record; an earlier record is never edited.
+- **Who and record**: the implementer, as the spec's last task. The record is `{spec_path}/probe/product-check-<k>.md`, k being 1 + the largest existing k, in the form of `docs/settings/templates/specs/product-check.md`. A re-run adds a new record.
 - **What is walked**: from the product's entry, in its default configuration, the spec's criteria and scenarios that the entry reaches — for `refactor`, the behaviors it must preserve. Of the product's main uses, only those this spec touched.
 - **Entry that cannot be operated**: where the entry (a screen, a device) cannot be operated, the same default configuration is driven by the closest means the product offers, and the record says which.
 - **What is asked**: what the walk meets is held to the three questions of §The Check.
-- **Findings**: each is routed at once by the table of §Findings — a fix task, a report to the user, a `fix` spec — and its entry in the record carries a `Route:` line with a closure word of §Findings 4, or `open`, and where it went. One the user must decide is `Route: open — the user`, and goes into the `/sdd-spec-done` Step 3 message; `open` and `stands` are closed by the user's answer (`probe/user-run-<n>.md`, heading `## P<k>`). Where a Director holds the spec, the implementer reports the finding with its proposed route and the Director lands it (`/sdd-director` §Landing). P numbers continue across this spec's records.
+- **Findings**: each is routed at once by the table of §Findings — a fix task, a report to the user, a `fix` spec — and its entry in the record carries a `Route:` line with a closure word of §Findings 4, or `open`, and where it went. One the user must decide is `Route: open — the user`, and goes into the `/sdd-spec-done` Step 3 message; `open` and `stands` are closed by the user's answer (`probe/user-run-<n>.md`, heading `## P<k>`). Where a Director holds the spec, the implementer reports the finding with its proposed route and the Director lands it (`/sdd-director` §Landing).
 - **Time**: the waiting on the running product is held to §Waiting on a Run.
-- **Invalidation**: when code of this spec changes after the latest record, the product-check task is reopened (`[ ]`) and run again after the fix, adding a new record. Wherever it sits in tasks.md, the product-check task runs after every other open task of the spec.
+- **Invalidation**: when code of this spec changes after the latest record, the product-check task is reopened (`[ ]`) and run again after the fix. Wherever it sits in tasks.md, the product-check task runs after every other open task of the spec.
 - **Independence**: the completion review re-walks, once, the paths of the latest record.
 
 ## Independent Runs
@@ -71,7 +71,7 @@ A finding is a disagreement between two layers that a check, a review, a measure
 | Decision records or steering | `decision-records.md §Change Control`, or the process the project's root AGENTS.md declares | yes |
 | The plan — a boundary, the order, what a gate tests | The plan, re-cut (`plan-decomposition.md` §8) | yes |
 | Requirements | `requirements.md`, after the user's yes | yes |
-| The spec should not be built | Its `todo/` directory is deleted after the user's yes; git keeps it. Code it already landed stays or goes by the user's word | yes |
+| The spec should not be built | Its `todo/` directory is deleted after the user's yes. Code it already landed stays or goes by the user's word | yes |
 | The open spec's behaviors, research, design or tasks | That document; approved text is re-approved (`dialogue-grounding.md`, "Approved artifacts are not edited silently") — by the user, or, where a Director holds the spec, by the Director's ruling (`/sdd-director` §Landing) | no — approved text: its re-approval |
 | Code, inside the open spec | A fix task in its tasks.md — or, when the code is right and the design is not, `design.md`, as in the row above. Never neither | no |
 | Code, outside the open spec | Reported to the user at once with the evidence, and filed as its own `fix` spec in `docs/specs/todo/` unless the user has it fixed directly | no — reported |

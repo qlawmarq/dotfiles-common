@@ -41,7 +41,7 @@ Every factual claim carries its source, as a repo-relative path plus the narrowe
 - `docs/steering/product.md` — the section heading, when the file has sections
 - `docs/specs/done/<feature-name>/design.md §Data Model`
 - `docs/specs/todo/<feature-name>/spec.json` — `phase`, `approvals.requirements.approved`
-- `<decisions-root>/registry.md #BIL-01` — a registry entry, by its immutable ID
+- `<decisions-root>/registry.md #BIL-01` — a registry entry, by its ID
 
 Distinguish three kinds of statement and label them when the difference matters:
 

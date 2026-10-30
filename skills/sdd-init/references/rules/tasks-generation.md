@@ -106,7 +106,6 @@ Unit tests naturally covered by the TDD cycle (Red-Green-Refactor) in the implem
 
 - Major tasks increment: 1, 2, 3, 4, 5...
 - Sub-tasks reset per major task: 1.1, 1.2, then 2.1, 2.2...
-- Never repeat major task numbers
 
 ### Checkbox Format
 

@@ -31,7 +31,7 @@ Line: **a set whose members downstream cites by name is registry; a classificati
 
 `| ID | Norm | Grounds | Used by |`
 
-- **ID** `<DOMAIN>-<NN>` — immutable; never renumber; a retired ID is never reused.
+- **ID** `<DOMAIN>-<NN>`.
 - **Norm** — 1–2 lines; longer is prose (put it in a decision file and cite the ID).
 - **Grounds** — a relative Markdown link to the decision item or spec it derives from (the link check verifies it resolves).
 - **Used by** — fixed vocabulary, space-separated: `code: <path Symbol>` · `spec: <feature-dir-name>` (directory *name*, not path — specs move from `todo/` to `done/`) · `plan: <plan-id/Un>` · `—`. Written at the phase that adopts the ID (plan / requirements / spec-done). `check_decisions.sh used-by` verifies each entry resolves and classifies: `code:` present or `spec:` in `done/` = implemented; `spec:` in `todo/` or `plan:` = planned; `—` = unadopted.
@@ -44,7 +44,7 @@ Prose cites IDs and never restates a list; an enumeration outside the registry i
 
 ## Drafting Discipline
 
-Five heuristics: (1) merge into an existing seat before creating a new one; (2) propose grounds from measurement — grep the code and the documents that cite it, don't recall, and cite an outside fact from `docs/reference/` (`evidence-discipline.md §5`); (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat (`document-hygiene.md`). Plus: never renumber items — a withdrawn item keeps its number with a one-line note — and never issue a number the source text did not have.
+Five heuristics: (1) merge into an existing seat before creating a new one; (2) propose grounds from measurement — grep the code and the documents that cite it, don't recall, and cite an outside fact from `docs/reference/` (`evidence-discipline.md §5`); (3) do not record a policy declaration that specifies nothing concrete; (4) when a draft needs an exception or exemption note, first look for a form that makes it unnecessary; (5) one fact, one seat (`document-hygiene.md`).
 
 ## Loading
 

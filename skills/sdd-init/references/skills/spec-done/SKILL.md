@@ -89,7 +89,7 @@ Runs only when 2a–2c raised no Critical in this run; otherwise it is not run, 
 
 - `rejected` — with the refuting quote (`§Findings` 5).
 - `changed — fix task <N>` — a fix task added to tasks.md for a finding in the 'Code, inside the open spec' row: NO-GO, re-checked by the next review's C.
-- `changed — product-check task reopened` — for a finding against the product-check record itself (its claims did not reproduce): NO-GO, a new record follows the fix.
+- `changed — product-check task reopened` — for a finding against the product-check record itself (its claims did not reproduce): NO-GO.
 
 Every other finding goes to Step 3 and is closed by the user's answer. A finding raised again with no new fact is closed by pointing at the user's earlier closure (`§Findings` 6), written `F<k> — <closure> — probe/user-run-<x>.md (R<p>-F<q>)`, with the other spec's directory name in front when the answer lies there (`<spec-dir-name>/probe/user-run-<x>.md`).
 
@@ -147,7 +147,7 @@ After the answer, a finding left to be fixed is **Critical**: "Finding open" —
 
 #### 4a. Reconcile Requirements
 
-Apply, in `{spec_path}/requirements.md`, every criterion the Step 3 answer resolved as "fix the criterion"; record each in Requirements changes and as a `Reconciled: <ID>` line (4f). For a finding in the 'Decision records or steering' row, fix the criterion only after the decision answer, following it. Never renumber a criterion. Carry each change to the documents that cite it (`document-hygiene.md §After a Change`).
+Apply, in `{spec_path}/requirements.md`, every criterion the Step 3 answer resolved as "fix the criterion"; record each in Requirements changes and as a `Reconciled: <ID>` line (4f). For a finding in the 'Decision records or steering' row, fix the criterion only after the decision answer, following it. Carry each change to the documents that cite it (`document-hygiene.md §After a Change`).
 
 Put `## Requirements changes` at the top of the reply: per criterion ID, the full previous → new text, then one line with the grounds (file:line) and the finding ID.
 
