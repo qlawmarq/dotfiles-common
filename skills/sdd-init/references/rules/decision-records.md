@@ -33,7 +33,7 @@ Line: **a set whose members downstream cites by name is registry; a classificati
 
 - **ID** `<DOMAIN>-<NN>`.
 - **Norm** — 1–2 lines; longer is prose (put it in a decision file and cite the ID).
-- **Grounds** — a relative Markdown link to the decision item or spec it derives from (the link check verifies it resolves).
+- **Grounds** — a relative Markdown link to the decision or spec it derives from (the link check verifies it resolves).
 - **Used by** — fixed vocabulary, space-separated: `code: <path Symbol>` · `spec: <feature-dir-name>` (directory *name*, not path — specs move from `todo/` to `done/`) · `plan: <plan-id/Un>` · `—`. Written at the phase that adopts the ID (plan / requirements / spec-done). `check_decisions.sh used-by` verifies each entry resolves and classifies: `code:` present or `spec:` in `done/` = implemented; `spec:` in `todo/` or `plan:` = planned; `—` = unadopted.
 
 Prose cites IDs and never restates a list; an enumeration outside the registry is a Warning (check d).
