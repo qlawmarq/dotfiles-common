@@ -42,8 +42,8 @@ Do not open with questions. Open by finding out what is actually unsettled, then
 Confirm SDD is initialized (`docs/settings/` exists); if not, tell the user to run `/sdd-init` first and stop. Then sweep for gaps, using index-first retrieval and dispatching sub-agents for independent lookups:
 
 - **Unapproved and stalled work** — every `docs/specs/*/*/spec.json`: which have `approvals.*.approved: false`, which sit in an early `phase` while their dependents wait, which dependency chains in the plan (`dependencies.md` Dependency Matrix, Build Order) are blocked.
-- **Declared open questions** — the *Assumptions & Open Questions* sections of `requirements.md`, and the Open Questions of each spec's `behaviors.md`. These are gaps the project already admitted; they are the highest-value seeds because someone deliberately deferred them.
-- **Cross-layer contradictions** — where a spec's requirements or design conflict with `docs/steering/`, or with the unit boundary and scope recorded for it in the plan.
+- **Declared open questions** — the *Assumptions & Open Questions* sections of `requirements.md`, the Open Questions of each spec's `behaviors.md`, and, when `product.md §Decision Records` declares the decision records, the Open Questions of their README. These are gaps the project already admitted; they are the highest-value seeds because someone deliberately deferred them.
+- **Cross-layer contradictions** — where two documents disagree: a spec's requirements or design against `docs/steering/`, against the unit boundary and scope recorded for it in the plan, or against another spec.
 - **Theme alignment** — whether the behavior a spec describes actually serves the product intent and respects its invariants (`docs/settings/rules/concept-alignment.md §Resolving Product Intent`). A spec can be perfectly consistent with itself and still be the wrong thing to build. The per-spec skills apply this check by `docs/settings/rules/concept-alignment.md §The Check`; here it runs *across* specs and layers, where the per-spec gates cannot see.
 - **Silent assumptions** — decisions a document depends on but never states: an acceptance threshold, an edge case, a scope boundary. The citation is the sentence that cannot be carried out until the decision exists.
 
@@ -55,7 +55,7 @@ If the sweep finds nothing unsettled in scope, say so and stop. Manufacturing qu
 
 Map the work as a **design tree**: every decision branches into the decisions that hang off it. Some questions cannot be asked yet because their answer depends on one still open.
 
-The **frontier** is every decision whose prerequisites are already settled — the questions you can ask *now* without guessing at answers you have not heard yet. A question whose answer depends on another question open in this round belongs to a *later* round, not this one.
+The **frontier** is every decision whose prerequisites are already settled — the questions you can ask *now* without guessing at answers you have not heard yet. A question whose answer depends on another question open in this round belongs to a *later* round, not this one. An Open Question registered in the decisions README that the question depends on is an unsettled prerequisite as well; when it lies outside `--scope`, the question goes under Still open with it named.
 
 Which questions reach the user at all: `dialogue-grounding.md` §Facts are yours, decisions are the user's. What that section makes yours — facts, and how you run this session — goes in the round report as findings, never as questions.
 
@@ -67,6 +67,7 @@ Format each question like this:
 
 ```
 ❓ **Q1** — **<short title>**
+Serves: <the purpose the behavior advances, cited as a Grounds: line is — or `not written — proposed: <purpose>`>
 
 <why this matters: the concrete consequence of getting it wrong, and the citation for the gap>
 
@@ -75,6 +76,8 @@ Format each question like this:
 
 ➡️ **Proposal: <A/B/…>** — <your reasoning>
 ```
+
+`Serves:` is written for a question that shapes behavior — what the product does or how it is shown — and omitted for one that is mechanical or internal (as `docs/settings/rules/concept-alignment.md §The Check` scales by exposure). Its value is what §The Check 1 asks for, cited as `docs/settings/rules/behavior-formulation.md §Grounding Discipline` cites. When nothing in force says it, write `not written — proposed: <purpose>`; that purpose is itself a proposal under §The proposal rule.
 
 Give options when the decision has discernible alternatives; when it does not, state the question plainly and still give a proposal. Number questions continuously across rounds (Q1, Q2, … Q7) so the user and the closing summary can refer back to them.
 
@@ -85,6 +88,8 @@ When a frontier question needs a fact, dispatch a sub-agent to find it and do no
 ## The proposal rule
 
 Every `➡️` is a **proposal, not a decision** (`dialogue-grounding.md`, "Facts are yours, decisions are the user's"). A grilling session generates proposals fast, which makes it an efficient way to smuggle unrequested scope into a spec: when the user's answer is ambiguous, ask again rather than resolving it in your own favor.
+
+Reason from the purpose: the reasoning says how each option serves what `Serves:` names before anything else. A user report — a review, a ticket, a count of them — is evidence of a symptom, sorted as `docs/settings/rules/concept-alignment.md §Findings` 1 sorts it; why a product behaves as it does, this one or another, is settled by its maker's stated intent or its measured behavior, never by the count. A number in the reasoning says what was counted and where (`docs/settings/rules/evidence-discipline.md §1`).
 
 ## Ending the session
 

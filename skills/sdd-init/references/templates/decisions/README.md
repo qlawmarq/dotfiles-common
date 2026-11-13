@@ -12,6 +12,6 @@
 
 Gaps found mid-work are filed here.
 
-| # | Question | Raised by | Date |
-| --- | --- | --- | --- |
-| Q1 | [question] | [spec / session] | YYYY-MM-DD |
+| # | Question | Serves | Raised by | Date |
+| --- | --- | --- | --- | --- |
+| Q1 | [question] | [decision or product.md section (docs/settings/rules/concept-alignment.md §The Check 1), or —] | [spec / session] | YYYY-MM-DD |
