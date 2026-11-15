@@ -1,15 +1,18 @@
 #!/bin/bash
-# Session record for the change review (docs/settings/rules/decision-records.md §Change Control). The kit's only harness-specific
-# file: reads Claude Code (~/.claude/projects/<path, non-alphanumerics as ->/*.jsonl), Gemini CLI
+# Session record for the change review (docs/settings/rules/decision-records.md §Change Control). The harness-specific
+# readers: Claude Code (~/.claude/projects/<path, non-alphanumerics as ->/*.jsonl), Gemini CLI
 # (~/.gemini/tmp/<sha256 of path>/chats/*.json) and Codex (${CODEX_HOME:-~/.codex}/*sessions/**/rollout-*.jsonl, by its
-# session_meta cwd) transcripts of the git top and the current directory. Generic — do not edit.
+# session_meta cwd) transcripts of the git top and the current directory. A structured question the agent put through the
+# harness's question tool is an AGENT turn and its answer a USER turn (Claude Code AskUserQuestion, whose answer is the result
+# that opens "Your questions have been answered"; Gemini CLI ask_user; Codex request_user_input is not read — its record form is
+# unverified). Generic — do not edit.
 #
 #   session_record.sh dump                      # USER and AGENT turns in time order, each under `===== USER|AGENT <timestamp> <session>`;
 #                                               #   no record → stderr `no session record: <reason>`, exit 3
 #   session_record.sh verify <record> <quotes>  # quotes: report B of docs/settings/templates/decisions/change-review.md (DOC: as
 #                                               #   committed); prints each quote not found; exit code = their count (at most 255)
 set -u
-case "${1:-}" in dump|verify) ;; -h|--help) sed -n 2,10p "$0"; exit 0 ;; *) sed -n 2,10p "$0" >&2; exit 1 ;; esac
+case "${1:-}" in dump|verify) ;; -h|--help) sed -n 2,12p "$0"; exit 0 ;; *) sed -n 2,12p "$0" >&2; exit 1 ;; esac
 command -v python3 >/dev/null 2>&1 || { echo "no session record: python3 not found" >&2; exit 3; }
 exec python3 -I - "$(git rev-parse --show-toplevel 2>/dev/null || pwd)" "$PWD" "$@" <<'PY'
 import glob, hashlib, json, os, re, subprocess, sys
@@ -25,7 +28,7 @@ def ts(s):
 
 def text(content):
     if isinstance(content, str): return content
-    if isinstance(content, list):  # Claude Code keeps only `text` blocks (tool results are not turns)
+    if isinstance(content, list):  # Claude Code keeps only `text` blocks (tool results are not turns; claude() adds the question tool's answer)
         return "\n".join(b["text"] for b in content if isinstance(b, dict) and isinstance(b.get("text"), str) and b.get("type", "text") == "text")
     return ""
 
@@ -34,12 +37,31 @@ def load(line):
     except ValueError: return {}
     return e if isinstance(e, dict) else {}
 
+def asked(args):  # the question tool's input, as the agent's words
+    out, qs = [], args.get("questions") if isinstance(args, dict) else None
+    for q in qs if isinstance(qs, list) else []:
+        if not isinstance(q, dict): continue
+        out.append(str(q.get("question", "")))
+        opts = q.get("options")
+        out.extend((f"- {o.get('label', '')} — {o.get('description', '')}" if o.get("description") else f"- {o.get('label', '')}") if isinstance(o, dict) else f"- {o}" for o in (opts if isinstance(opts, list) else []))
+    return "\n".join(out)
+
 def claude(project):
     d = os.path.expanduser("~/.claude/projects/" + re.sub(r"[^A-Za-z0-9]", "-", project))
+    questions = set()
     for path in sorted(glob.glob(os.path.join(d, "*.jsonl")), key=os.path.getmtime):  # a resumed copy, written later, names the session
         for e in map(load, open(path, encoding="utf-8", errors="replace")):
             if e.get("type") not in ("user", "assistant") or e.get("isSidechain") or e.get("isMeta"): continue
-            t = text((e.get("message") or {}).get("content"))
+            content = (e.get("message") or {}).get("content")
+            parts = [text(content)]
+            for b in content if isinstance(content, list) else []:
+                if not isinstance(b, dict): continue
+                if e["type"] == "assistant" and b.get("type") == "tool_use" and b.get("name") == "AskUserQuestion" and isinstance(b.get("id"), str):
+                    questions.add(b["id"]); parts.append(asked(b.get("input")))
+                elif e["type"] == "user" and b.get("type") == "tool_result" and b.get("tool_use_id") in questions:
+                    r = b.get("content"); r = r if isinstance(r, str) else text(r)
+                    if r.startswith("Your questions have been answered"): parts.append(r)  # a rejected question has no answer
+            t = "\n".join(p for p in parts if p)
             if t.lstrip().startswith(("<command-name>", "<command-message>")): t = "\n".join(a.strip() for a in CMD_ARGS.findall(t))
             if e.get("timestamp") and t.strip() and not t.lstrip().startswith(SKIP):
                 yield ts(e["timestamp"]), "USER" if e["type"] == "user" else "AGENT", t, e.get("uuid"), path
@@ -54,6 +76,14 @@ def gemini(project):
             # an @file reference inlines the file into `content`; `displayContent` is what the user typed
             t = text(m.get("displayContent") or m.get("content")) if m["type"] == "user" else text(m.get("content"))
             if t.strip(): yield ts(m["timestamp"]), "USER" if m["type"] == "user" else "AGENT", t, m.get("id"), path
+            for c in (m.get("toolCalls") or []) if m["type"] == "gemini" else []:
+                if not isinstance(c, dict) or c.get("name") != "ask_user" or not isinstance(c.get("id"), str): continue
+                when = c.get("timestamp") if isinstance(c.get("timestamp"), str) else m["timestamp"]
+                if asked(c.get("args")).strip(): yield ts(when), "AGENT", asked(c.get("args")), c["id"] + ":q", path
+                for r in c.get("result") if isinstance(c.get("result"), list) else []:
+                    fr = r.get("functionResponse") if isinstance(r, dict) else None; resp = fr.get("response") if isinstance(fr, dict) else None
+                    out = resp.get("output") if isinstance(resp, dict) else None
+                    if isinstance(out, str) and out.strip(): yield ts(when), "USER", f"Answered: {out}", c["id"] + ":a", path
 
 def codex(project):
     for path in glob.glob(os.path.join(os.environ.get("CODEX_HOME") or os.path.expanduser("~/.codex"), "*sessions", "**", "rollout-*.jsonl"), recursive=True):
