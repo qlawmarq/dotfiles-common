@@ -12,7 +12,7 @@
 #   session_record.sh verify <record> <quotes>  # quotes: report B of docs/settings/templates/decisions/change-review.md (DOC: as
 #                                               #   committed); prints each quote not found; exit code = their count (at most 255)
 set -u
-case "${1:-}" in dump|verify) ;; -h|--help) sed -n 2,12p "$0"; exit 0 ;; *) sed -n 2,12p "$0" >&2; exit 1 ;; esac
+case "${1:-}" in dump|verify) ;; -h|--help) awk 'NR == 1 { next } !/^#/ { exit } { print }' "$0"; exit 0 ;; *) awk 'NR == 1 { next } !/^#/ { exit } { print }' "$0" >&2; exit 1 ;; esac
 command -v python3 >/dev/null 2>&1 || { echo "no session record: python3 not found" >&2; exit 3; }
 exec python3 -I - "$(git rev-parse --show-toplevel 2>/dev/null || pwd)" "$PWD" "$@" <<'PY'
 import glob, hashlib, json, os, re, subprocess, sys

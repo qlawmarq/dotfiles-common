@@ -6,7 +6,7 @@
 #   exit 2: bad arguments or missing file
 set -u
 
-usage() { sed -n 2,6p "$0" >&2; exit 2; }
+usage() { awk 'NR == 1 { next } !/^#/ { exit } { print }' "$0" >&2; exit 2; }
 
 # Forms read: docs/settings/rules/ears-format.md §Requirement IDs.
 list_criteria() {
@@ -28,7 +28,7 @@ list_criteria() {
 }
 
 case "${1:-}" in
-    -h|--help) sed -n 2,6p "$0"; exit 0 ;;
+    -h|--help) awk 'NR == 1 { next } !/^#/ { exit } { print }' "$0"; exit 0 ;;
     *)
         [ $# -eq 1 ] || usage
         [ -f "$1" ] || { echo "no such file: $1" >&2; usage; }

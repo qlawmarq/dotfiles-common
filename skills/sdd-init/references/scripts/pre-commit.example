@@ -1,3 +1,3 @@
 #!/bin/sh
-# Optional git hook: copy to .git/hooks/pre-commit (chmod +x). Flags a decision change bundled with other files.
+# Optional git hook: copy to .git/hooks/pre-commit (chmod +x). Blocks a commit that bundles a decision change with other files (`git commit --no-verify` overrides it).
 exec bash docs/settings/scripts/check_decisions.sh commit-scope

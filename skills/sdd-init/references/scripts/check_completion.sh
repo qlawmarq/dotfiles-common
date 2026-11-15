@@ -26,7 +26,7 @@
 #   exit 2: bad arguments, no spec.json, or a rule table that cannot be read
 set -u
 
-usage() { sed -n 2,26p "$0"; }
+usage() { awk 'NR == 1 { next } !/^#/ { exit } { print }' "$0"; }
 SCRIPTS=$(cd "$(dirname "$0")" && pwd -P)                    # list_criteria.sh lies beside this script
 RULES=""; ARG=""; SKIP=""
 while [ $# -gt 0 ]; do case "$1" in

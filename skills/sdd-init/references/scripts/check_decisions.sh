@@ -1,6 +1,6 @@
 #!/bin/bash
-# Decision-records machine checks (rules: docs/settings/rules/decision-records.md §Checks). Report-only:
-# the exit code is the finding count (at most 255), not a stop signal. Generic — configure by arguments, do not edit.
+# Decision-records machine checks (rules: docs/settings/rules/decision-records.md §Checks). `check` and
+# `used-by` report only: their exit code is the finding count (at most 255), not a stop signal. Generic — configure by arguments, do not edit.
 #
 #   check_decisions.sh [--root <decisions-root>] check      # (a) registry-ID resolution (b) link liveness (c) keywords line (d) enumerations outside registry
 #                                                           #   (e) banned terms from the TERM domain (f) canonical terms missing from every keywords line
@@ -11,7 +11,7 @@
 set -u
 
 ROOT=""; CMD=""
-usage() { sed -n 2,9p "$0"; }
+usage() { awk 'NR == 1 { next } !/^#/ { exit } { print }' "$0"; }
 while [ $# -gt 0 ]; do case "$1" in
     --root) [ $# -ge 2 ] || { echo "--root needs a value" >&2; usage >&2; exit 1; }; ROOT="$2"; shift 2 ;;
     check|used-by|commit-scope|terms-prh) CMD="$1"; shift ;; -h|--help) usage; exit 0 ;; *) echo "unknown arg: $1" >&2; exit 1 ;;

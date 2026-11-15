@@ -6,15 +6,15 @@
 #                                                      #   status: ok | dangling | ambiguous (several same-named files) | external (outside the scan)
 #   check_refs.sh [opts] check                         # dangling references as `file:line: kind: raw`, then `check: N finding(s)` per kind
 #   check_refs.sh [opts] refs <target>                 # who cites <target>: a path, `path §section`, an ID, or /skill-name
-#   check_refs.sh [opts] unused [--no-entry]           # scanned files no other file cites; entry files (AGENTS/README/SKILL.md, spec.json) listed apart
-#   opts: --root <dir> (default: git top)   --scan <dir|file> (repeatable; default: the SDD project layout under root)
+#   check_refs.sh [opts] unused [--no-entry]           # scanned files no other file cites; entry files (AGENTS/CLAUDE/GEMINI/README/SKILL.md, spec.json) listed apart
+#   opts: --root <dir> (default: git top)   --scan <dir|file> (repeatable, relative to root; default: the SDD project layout under root)
 #         --map FROM=TO (repeatable; e.g. docs/settings=<dist>/references)   --include-records (also cite from done/ archive/ probe/ reviews/)   -h
 #         (`check` ignores dangling IDs of the decisions README's open-question tables)
-#   kinds: link, path, section (`file §heading`), skill (/sdd-*), json:<field> (spec.json plan.parent / plan.unit_id), id:<family>, id:spec (YYYY-MM-DD-slug); an ID or a YYYY-MM-DD-slug inside a URL is not read
+#   kinds: link, path, section (`file §heading`), skill (/sdd-*), json:<field> (spec.json plan.parent / plan.unit_id), id:<family> (an `<ID>:` heading of the citing spec's own documents first), id:spec (YYYY-MM-DD-slug); an ID or a YYYY-MM-DD-slug inside a URL is not read
 set -u
 
 ROOT=""; CMD=""; TARGET=""; RECORDS=0; NOENTRY=0; SCANS=""; MAPS=""
-usage() { sed -n 2,13p "$0"; }
+usage() { awk 'NR == 1 { next } !/^#/ { exit } { print }' "$0"; }
 while [ $# -gt 0 ]; do case "$1" in
     --root|--scan|--map) [ $# -ge 2 ] || { echo "$1 needs a value" >&2; usage >&2; exit 1; } ;; esac; case "$1" in
     --root) ROOT="$2"; shift 2 ;; --scan) SCANS="$SCANS$2
@@ -36,12 +36,15 @@ AUTO=0
 if [ -z "$SCANS" ]; then                                  # default scan = the live SDD project layout
     [ -d docs/steering ] || [ -d docs/specs ] || [ -d docs/plans ] || { echo "no SDD project layout under $ROOT — pass --scan" >&2; exit 1; }
     AUTO=1
-    for p in AGENTS.md CLAUDE.md README.md docs/steering "$DECISIONS" docs/plans docs/specs docs/reference; do [ -e "$p" ] && SCANS="$SCANS$p
+    for p in AGENTS.md CLAUDE.md GEMINI.md README.md docs/steering "$DECISIONS" docs/plans docs/specs docs/reference; do [ -e "$p" ] && SCANS="$SCANS$p
 "; done
 fi
 T=$(mktemp -d "${TMPDIR:-/tmp}/check_refs.XXXXXX") || exit 1
 trap 'rm -rf "$T"' EXIT
-printf '%s' "$SCANS" | sed -E 's#^\./##; s#/+$##' | grep -v '^$' > "$T/scans"
+printf '%s' "$SCANS" | grep -v '^$' > "$T/scans0"
+while IFS= read -r p; do case "$p" in /*|..|../*|*/..|*/../*) echo "--scan takes a path under the root, relative to it and without '..' ($ROOT): $p" >&2; exit 1 ;; esac
+    [ -e "$p" ] || { echo "--scan: no such path under the root ($ROOT): $p" >&2; exit 1; }; done < "$T/scans0"
+sed -E 's#/+$##; s#^\./##; s#^$#.#' "$T/scans0" > "$T/scans"
 printf '%s' "$MAPS" | sed -E 's#/+=#=#; s#/+$##' | grep -v '^$' > "$T/maps"
 # every file and directory under root, minus .git, node_modules and nested repositories (worktrees, clones) that hold no scan path
 find . -path ./.git -prune -o -name node_modules -prune -o -name .git -print | sed -E 's#^\./##; s#/\.git$##' > "$T/nested"
@@ -56,6 +59,7 @@ find . \( -name .git -o -name node_modules \) -prune -o -type d -print | sed 's#
 # ---------- extract + resolve (one awk pass; byte-wise, so multibyte text is matched as bytes) ----------
 cat > "$T/refs.awk" <<'AWK'
 function dirn(p,  i) { i = match(p, /\/[^\/]*$/); return i ? substr(p, 1, i - 1) : "." }
+function specdir(p,  d) { d = dirn(p); while (d != "." && !((d "/spec.json") in F)) d = dirn(d); return d }   # the spec directory holding p, else "."
 function basen(p,  n, a) { sub(/\/+$/, "", p); n = split(p, a, "/"); return a[n] }
 function joinp(d, p) { return d == "." ? p : d "/" p }
 function normp(p,  n, a, i, k, st, out) {              # collapse . and ..; "\001" when it climbs above the root
@@ -222,6 +226,7 @@ function scanline(f, l, L,  s, s2, lk, tgt, after, c, fp, i, n, tk, t, st, anc, 
             pc = p > 1 ? substr(M, p - 1, 1) : ""; nc = substr(M, en, 1); nn = substr(M, en + 1, 1)
             if (pc ~ /[A-Za-z0-9_\/.-]/ || nc ~ /[A-Za-z0-9_]/ || (nc ~ /[-.]/ && nn ~ /[A-Za-z0-9]/)) continue
             fam = tok; sub(/[0-9]+$/, "", fam); if (!(fam in FAM) || (f ":" l ":" tok) in DS) continue
+            sd = specdir(f); if ((sd SUBSEP tok) in LOC) { sub(/-$/, "", fam); emit(f, l, "id:" fam, tok, tok "@" LOC[sd, tok], "ok"); continue }   # the spec's own ID first
             u = tok; if (!(u in DEF)) { nm = tok; sub(/^[A-Za-z]+-?/, "", nm); if ((fam SUBSEP nm + 0) in DN) u = DN[fam, nm + 0] }   # U07 = U7
             sub(/-$/, "", fam); emit(f, l, "id:" fam, tok, (u in DEF) ? u "@" DEF[u] : "", (u in DEF) ? "ok" : "dangling")
         } }
@@ -289,6 +294,9 @@ BEGIN {
     while ((getline x < rg) > 0) { n++; if (x !~ /^\|/) continue; split(x, cc, "|"); u = trim(cc[2])
         if (u !~ /^[A-Z][A-Z0-9]*-[0-9]+$/) continue; DS[rg ":" n ":" u] = 1; DEF[u] = rg; fm = u; sub(/[0-9]+$/, "", fm); FAM[fm] = 1 }
     close(rg); for (k in FAM) NFAM++
+    for (l in F) if (l ~ /\.md$/ && (dirn(l) "/spec.json") in F) { n = 0   # spec-local IDs: a `### <ID>:` heading in a spec's own documents (design D<n>, research C<n>)
+        while ((getline x < l) > 0) { n++; if (match(x, /^#+ [A-Za-z]+[0-9]+:/)) { u = substr(x, RSTART, RLENGTH); sub(/^#+ /, "", u); sub(/:$/, "", u); LOC[dirn(l), u] = l; DS[l ":" n ":" u] = 1 } }
+        close(l) }
     for (k in DEF) { fm = k; sub(/[0-9]+$/, "", fm); nm = substr(k, length(fm) + 1); DN[fm, nm + 0] = k }
     for (i = 1; i <= NS; i++) { f = SRC[i]; b = basen(f)
         if (b == "spec.json") { jsonfile(f); continue }
@@ -330,7 +338,7 @@ unused)
     paste "$T/list" <(tgt < "$T/list") | LC_ALL=C awk -F'\t' -v NOENTRY="$NOENTRY" -v SRCS="$T/sources" '
         $5 == "ok" { s = $1; sub(/:[0-9]+$/, "", s); if (s != $6) IN[$6] = 1 }
         END { while ((getline f < SRCS) > 0) { if (f in IN) continue; b = f; sub(/.*\//, "", b)
-                  if (b ~ /^(AGENTS|CLAUDE|README|SKILL)\.md$|^spec\.json$/) ent[++ne] = f; else { print f; n++ } }
+                  if (b ~ /^(AGENTS|CLAUDE|GEMINI|README|SKILL)\.md$|^spec\.json$/) ent[++ne] = f; else { print f; n++ } }
               if (!NOENTRY && ne) { print ""; print "entry files (not cited, expected):"; for (i = 1; i <= ne; i++) print "  " ent[i] }
               printf "unused: %d file(s)%s\n", n, NOENTRY ? "" : sprintf(", %d entry file(s)", ne) > "/dev/stderr" }' ;;
 esac
