@@ -25,7 +25,7 @@ description: >-
 ## Input
 
 1. **Topic** (optional positional): what to grill about. If omitted, derive the topic from the seeded gaps and confirm it with the user before Round 1.
-2. **`--scope=<area>`** (optional): where to root the tree.
+2. **`--scope=<area>`** (optional): where to root the tree (an out-of-scope finding: `docs/settings/rules/dialogue-grounding.md §Scope discipline`).
    - `steering` — project-wide rules and product intent
    - `plan` — unit boundaries, sizing, build order
    - `spec:<feature-name>` — one specification
@@ -49,7 +49,7 @@ Confirm SDD is initialized (`docs/settings/` exists); if not, tell the user to r
 
 Each seed becomes a node in the tree and must carry its citation. A gap you cannot cite is not a seed — it is a guess, and it does not belong in the tree.
 
-If the sweep finds nothing unsettled in scope, say so and stop. Manufacturing questions to look thorough wastes the user's time.
+If the sweep finds nothing unsettled in scope, say so, cite what you checked, offer a wider scope, and stop. Manufacturing questions to look thorough wastes the user's time.
 
 ## The design tree
 
@@ -67,7 +67,7 @@ Format each question like this:
 
 ```
 ❓ **Q1** — **<short title>**
-Serves: <the purpose the behavior advances, cited as a Grounds: line is — or `not written — proposed: <purpose>`>
+Serves: <the purpose the behavior advances, cited as a Grounds: line is>
 
 <why this matters: the concrete consequence of getting it wrong, and the citation for the gap>
 
@@ -77,7 +77,7 @@ Serves: <the purpose the behavior advances, cited as a Grounds: line is — or `
 ➡️ **Proposal: <A/B/…>** — <your reasoning>
 ```
 
-`Serves:` is written for a question that shapes behavior — what the product does or how it is shown — and omitted for one that is mechanical or internal (as `docs/settings/rules/concept-alignment.md §The Check` scales by exposure). Its value is what §The Check 1 asks for, cited as `docs/settings/rules/behavior-formulation.md §Grounding Discipline` cites. When nothing in force says it, write `not written — proposed: <purpose>`; that purpose is itself a proposal under §The proposal rule.
+`Serves:` is written for a question that shapes behavior — what the product does or how it is shown — and omitted for one that is mechanical or internal (as `docs/settings/rules/concept-alignment.md §The Check` scales by exposure). Its value is what §The Check 1 asks for, cited as `docs/settings/rules/behavior-formulation.md §Grounding Discipline` cites. When nothing in force says it, the purpose is itself the first question, with your reading of it as the proposal; the questions that shape behavior wait for its answer, and that question carries no `Serves:` line.
 
 Give options when the decision has discernible alternatives; when it does not, state the question plainly and still give a proposal. Number questions continuously across rounds (Q1, Q2, … Q7) so the user and the closing summary can refer back to them.
 
@@ -89,7 +89,7 @@ When a frontier question needs a fact, dispatch a sub-agent to find it and do no
 
 Every `➡️` is a **proposal, not a decision** (`dialogue-grounding.md`, "Facts are yours, decisions are the user's"). A grilling session generates proposals fast, which makes it an efficient way to smuggle unrequested scope into a spec: when the user's answer is ambiguous, ask again rather than resolving it in your own favor.
 
-Reason from the purpose: the reasoning says how each option serves what `Serves:` names before anything else. A user report — a review, a ticket, a count of them — is evidence of a symptom, sorted as `docs/settings/rules/concept-alignment.md §Findings` 1 sorts it; why a product behaves as it does, this one or another, is settled by its maker's stated intent or its measured behavior, never by the count. A number in the reasoning says what was counted and where (`docs/settings/rules/evidence-discipline.md §1`).
+Reason from the purpose: the reasoning says how each option serves what `Serves:` names before anything else. A user report — a review, a ticket, a count of them — is evidence of a symptom, sorted as `docs/settings/rules/concept-alignment.md §Findings` 1 sorts it; why a product behaves as it does, this one or another, is settled by its maker's stated intent or its measured behavior, never by the count. A number in the reasoning says what was counted and where (`docs/settings/rules/evidence-discipline.md §1`). Consistency with what is in force is a condition an option meets, not the reason to prefer it.
 
 ## Ending the session
 
@@ -124,15 +124,11 @@ Once confirmed, route each settled decision to the seat the table in `docs/setti
 
 Present the intended edits and get confirmation before writing.
 
-## Important constraints
-
-- Keep the tree inside `--scope`; note an out-of-scope finding in one line and move on.
-
 </instructions>
 
 ## Tool Guidance
 
-- **Search** file names and contents to locate open-question sections and cross-layer contradictions — do not open large `design.md` / `research.md` files whole.
+- Retrieve per `docs/settings/rules/dialogue-grounding.md §Index-first retrieval`.
 
 ## Output Description
 
@@ -147,7 +143,6 @@ Provide all output in the language resolved in §Language:
 
 ## Safety & Fallback
 
-- **No gaps found in scope**: report that the scope looks settled, cite what you checked, and offer a wider scope rather than inventing questions.
 - **Scope too large to sweep**: if the project has many specs, sweep `spec.json` files for all of them (they are small) but limit the deep gap-reading to the specs the topic touches, and say which ones you covered.
 - **User stops mid-session**: produce the closing summary for what was settled so far and list the unvisited branches, so the session is resumable.
 - **Change control blocks a write**: record the outcome in the intake the process defines, tell the user which decisions are waiting on that process, and do not edit the governed files.
