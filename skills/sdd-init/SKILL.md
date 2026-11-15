@@ -130,6 +130,8 @@ Provide output in the language derived from `--lang`:
    - `claude_gitignored`: "`.claude/` is excluded by .gitignore. Project-level SDD skills will not be version controlled."
    - `agents_gitignored`: "`.agents/` is excluded by .gitignore. Project-level SDD skills will not be version controlled."
    - `agents_md=appended:marker_warning`: "Inconsistent SDD markers detected. A new section was appended."
+   - `claude_md_no_import`: "No import of `AGENTS.md` was found in `CLAUDE.md`, `.claude/CLAUDE.md` or `CLAUDE.local.md`. Claude Code reads those instead of `AGENTS.md`, so without an import the SDD section is not loaded. Import it: a line `@AGENTS.md` in `CLAUDE.md` or `CLAUDE.local.md`, `@../AGENTS.md` in `.claude/CLAUDE.md`."
+   - `gemini_no_agents_md`: "Gemini CLI reads `GEMINI.md` unless `context.fileName` in its `settings.json` names `AGENTS.md`, so the SDD section is not loaded. Add `AGENTS.md` to `context.fileName`."
    - `legacy_dir:<path>`: "`<path>` is a directory from the previous layout and no skill reads it. Move its contents with git into the directory `/sdd-init` created: `docs/tasks/*` → `docs/specs/`, `docs/inception/*` → `docs/plans/`, `docs/canon/*` → `docs/decisions/` (over the stub README.md and registry.md; decision files directly under the root, links updated), then run `bash docs/settings/scripts/check_refs.sh check`."
    - `legacy_product_md`: "`docs/steering/product.md` still declares `## Canon References` / `Canon root:`. Rename them to `## Decision Records` / `Decisions root:` so the scripts resolve the root."
 5. **Errors** (if any): Report from `errors` field

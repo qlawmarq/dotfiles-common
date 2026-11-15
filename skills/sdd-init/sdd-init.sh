@@ -233,6 +233,22 @@ else
 fi
 
 # === Warnings ===
+# harnesses that do not load AGENTS.md as found: Claude Code reads a CLAUDE.md instead unless it imports @AGENTS.md;
+# Gemini CLI reads GEMINI.md unless context.fileName names AGENTS.md
+# (project root only; an import is relative to the file that holds it, or absolute, and is not read in code)
+imports_agents() { awk -v a="$2" -v b="$3" -v c="@$PWD/AGENTS.md" '/^[[:space:]]*(```|~~~)/ { fence = !fence; next } fence { next }
+    { gsub(/`[^`]*`/, ""); n = split($0, w, /[[:space:]]+/); for (i = 1; i <= n; i++) if (w[i] == a || w[i] == b || w[i] == c) { found = 1; exit } }
+    END { exit !found }' "$1"; }
+CLAUDE_FOUND=""; CLAUDE_OK=""
+for f in CLAUDE.md CLAUDE.local.md .claude/CLAUDE.md; do
+    [ -e "$f" ] || continue; CLAUDE_FOUND=1
+    case "$f" in .claude/*) i1="@../AGENTS.md"; i2="$i1" ;; *) i1="@AGENTS.md"; i2="@./AGENTS.md" ;; esac
+    if [ "$f" -ef AGENTS.md ] || imports_agents "$f" "$i1" "$i2"; then CLAUDE_OK=1; fi
+done
+[ -n "$CLAUDE_FOUND" ] && [ -z "$CLAUDE_OK" ] && append_csv WARNINGS "claude_md_no_import"
+if [ -e GEMINI.md ] || [ -d .gemini ]; then
+    grep -qs 'AGENTS\.md' .gemini/settings.json "$HOME/.gemini/settings.json" || append_csv WARNINGS "gemini_no_agents_md"
+fi
 # project directories and declarations from before the current layout
 for d in docs/tasks docs/inception docs/canon; do [ -d "$d" ] && append_csv WARNINGS "legacy_dir:$d"; done
 grep -qE '^## Canon References|Canon root:' docs/steering/product.md 2>/dev/null && append_csv WARNINGS "legacy_product_md"
