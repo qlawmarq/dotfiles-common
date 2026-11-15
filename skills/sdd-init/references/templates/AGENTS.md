@@ -4,7 +4,7 @@
 
 - Steering: `docs/steering/` — project memory; load all of it. What it holds: `docs/settings/rules/steering-principles.md`
 - Plans (large-scale decomposition): `docs/plans/`
-- Specs: `docs/specs/`
+- Specs: `docs/specs/todo/<feature-name>/`, moved to `docs/specs/done/<feature-name>/` when completed. A feature name resolves to the first of the two that exists; neither is an error.
 - Reference (outside-world facts the other layers cite): `docs/reference/` — do not load it; how it is written and read: `docs/settings/rules/evidence-discipline.md §5`
 - Decision records (optional): declared under `## Decision Records` in `docs/steering/product.md`
 
@@ -14,7 +14,7 @@
 
 ## Workflow
 
-Phases, their order, and which phases a spec's kind runs: `docs/settings/rules/spec-kinds.md` §4. Each skill's description says what it does; square brackets mark an optional step.
+Phases, their order, and which phases a spec's kind runs: `docs/settings/rules/spec-kinds.md` §4. Each skill's description says what it does; square brackets mark an optional step. `/sdd-<name>` names the skill `sdd-<name>`; where the harness invokes skills in another form (Codex: `$sdd-<name>`), use that form.
 
 1. [`/sdd-plan`] — an effort too large for one spec; the specs it scaffolds start at 3
 2. `/sdd-spec-init`

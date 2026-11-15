@@ -43,7 +43,7 @@ Interactive requirements quality review for the specified feature, focused on de
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: `{spec_path}` is the feature directory `AGENTS.md §Paths` resolves.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata

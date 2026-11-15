@@ -53,7 +53,7 @@ A design can integrate perfectly with the architecture and still build the wrong
 
 ### 5. Premise Soundness
 
-A design is only as sound as what it assumes. Where `research.md` exists, check that no major decision rests on a claim typed `unverified` or carrying no reproducer without that being **declared** in the design's Assumptions section with its impact and signpost. An undeclared premise is the finding; a declared one is a managed risk and is acceptable.
+A design is only as sound as what it assumes. Where `research.md` exists, check that every claim `evidence-discipline.md §4` carries into the design's Assumptions section is **declared** there with its impact and signpost. An undeclared premise is the finding; a declared one is a managed risk and is acceptable.
 
 ### 6. Recomputation
 
@@ -132,4 +132,4 @@ Engage on designer's perspective, alternatives, clarifications, and necessary ch
 ## Review Guidelines
 
 1. **Actionable Feedback**: Ensure all suggestions are implementable
-2. **Grounded Claims**: Before raising an issue about how code, tests or probes behave, check it against the source — run it or quote the `file:line` — never infer it from names or reasoning alone
+2. **Grounded Claims**: Before raising an issue about how code, tests or probes behave, run it (`evidence-discipline.md §1`) — never infer it from names, a `file:line` quote or reasoning alone

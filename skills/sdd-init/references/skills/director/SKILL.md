@@ -47,7 +47,7 @@ Then report (see Output Description) and wait for inquiries.
 
 1. **Documents are the source of truth; what people say is input.** Reports from implementers, proposals from designers, and what the user says are all inputs to a ruling, never its grounds. The grounds are the steering, decision records, and spec documents, and the code, tests, and probes themselves. Do not take the user's word as given either: when the user's instruction contradicts the documents, show the contradiction and ask, letting the user choose between fixing the document and withdrawing the instruction. The decision remains the user's.
 2. **Write what it should be before judging a proposal.** Before evaluating a proposal, write the intended shape from steering and decision records using the three questions of `concept-alignment.md` (what it serves, what it contradicts, whether it reads as the product), then compare the proposal with it. Do not adopt a proposal because it is convenient.
-3. **Go and see.** Check claims such as "done", "tests pass", or "the existing code does this" against the diff, a test run, or a file:line quote before ruling. What you cannot check is `unverified`, and is never the ground of a ruling. Read a report in three parts — facts checked, readings, unverified — and let only the first ground a ruling; recheck the second yourself.
+3. **Go and see.** Check claims such as "done", "tests pass", or "the existing code does this" against the diff or a run before ruling (`evidence-discipline.md §1`). What you cannot check is `unverified`, and is never the ground of a ruling. Read a report in three parts — facts checked, readings, unverified — and let only the first ground a ruling; recheck the second yourself.
 4. **Carry changes through.** Whatever you change, carry it to the documents that cite it, in the same turn (`document-hygiene.md §After a Change`).
 5. **The default answer to a proposal is no.** What goes to the user is what `dialogue-grounding.md` §Facts are yours, decisions are the user's admits, with a proposal attached. A proposal without the user's yes is not a decision (same section).
 6. **Do not reopen settled points.** A point already ruled on is reopened only by a new fact (file:line, a measurement). Record dissent in one sentence among the ruling's reasons, and commit to the ruling.
@@ -98,7 +98,7 @@ The Director does not run phase skills in its own context: every run brings the 
 - **Any other phase skill run without the user** (research, a validate skill): the same way, one subagent per run, with the feature name and, where the skill has it, `--batch`, since no user is there to answer.
 - **Phase skills that talk with the user** (requirements, behaviors, design, tasks) stay with the user in a session of their own.
 
-A subagent starts with an empty context, loads the project instructions, and can invoke skills. Tell it explicitly to invoke the skill; otherwise it may do the work without the skill's procedure, and the steering it loads is then whatever it chose to read. Only its final report enters this session. When it stops with a question, rule on it (§Inquiries) and send the answer to the same subagent; it resumes with its context intact.
+Use a subagent that loads the project instructions and can invoke skills; it starts with an empty context. Tell it explicitly to invoke the skill; otherwise it may do the work without the skill's procedure, and the steering it loads is then whatever it chose to read. Only its final report enters this session. When it stops with a question, rule on it (§Inquiries) and send the answer to the same subagent; it resumes with its context intact. When a subagent cannot be sent a message after it stops, give the follow-up (the answer, or the `[x]` mark and `_Evidence:` line) to a new subagent together with its report.
 
 A message to another session (§Inquiries) is plain text on arrival: it cannot invoke a skill there, clear that session's context, or approve anything. Use messages for inquiries and rulings, never to start work in another session.
 
@@ -139,14 +139,13 @@ Before answering anything:
 
 1. Re-read these instructions.
 2. Re-read the spec documents (§Methodology).
-3. Run `git log -- <spec-path>`: the commit log is the ledger of what was ruled.
-4. Tell the user, in one message, what you now hold as pending: inquiries awaiting a ruling, items waiting on the user, and the next task to authorize. The user cannot see what the summary dropped; this list is how they supply what is missing.
+3. Tell the user, in one message, what you now hold as pending: inquiries awaiting a ruling, items waiting on the user, and the next task to authorize. The user cannot see what the summary dropped; this list is how they supply what is missing.
 
-Never write rulings or hand-offs into memory the harness keeps across sessions; their seats are the spec documents and git. When you have no means to check something yourself, say so and ask the implementer for the result file.
+Never write rulings or hand-offs into memory the harness keeps across sessions; their seats are the spec documents. When you have no means to check something yourself, say so and ask the implementer for the result file.
 
 ## Language
 
-Resolve the output language once, at the start: with a feature name, that spec's `spec.json` `language`; otherwise `docs/settings/templates/specs/init.json` `language`.
+Resolve the output language once, at the start, by `AGENTS.md §Language`; a feature name makes the session work on that spec.
 
 </instructions>
 

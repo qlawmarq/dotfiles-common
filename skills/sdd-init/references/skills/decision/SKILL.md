@@ -11,7 +11,7 @@ description: >-
 <background_information>
 
 - **Mission**: Land one decision change (product decision, registry row, README index/open question) by `docs/settings/rules/decision-records.md §Change Control` — read that file first; this file adds only the ad-hoc entry point.
-- **When to use**: the decision did not arise inside `/sdd-plan`, `/sdd-spec-requirements`, `/sdd-spec-design`, `/sdd-spec-done`, or `/sdd-grill` (those land their own decision changes).
+- **When to use**: the decision did not arise inside the run of a skill that lands its own decision changes by §Change Control.
 
 </background_information>
 

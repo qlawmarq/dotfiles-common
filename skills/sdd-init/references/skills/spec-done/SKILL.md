@@ -37,7 +37,7 @@ Verify the completed feature: its completion record, lint/test/build, and one in
 
 ### Step 0: Resolve Spec Path
 
-Look for the feature directory in `docs/specs/todo/<feature-name>/` **only**. If it is in `docs/specs/done/` instead, stop with "Feature already completed"; if it is in neither, stop with "Feature not found. Check available specs with `/sdd-spec-status`".
+Look for the feature directory in `docs/specs/todo/<feature-name>/` **only**. If it is in `docs/specs/done/` instead, stop with "Feature already completed"; if it is in neither, stop with "Feature not found. Check available specs with `/sdd-brief`".
 
 ### Step 1: Load Context
 
@@ -79,7 +79,7 @@ The `review` check belongs to Step 3, after 2d. A non-zero exit is **Critical**:
 
 Runs only when 2a–2c raised no Critical in this run; otherwise it is not run, and the NO-GO report says so.
 
-- **Dispatch**: one new sub-agent that does not inherit this conversation (`concept-alignment.md §Independent Runs`). Hand it `docs/settings/templates/specs/completion-review.md` and only what that file's comment lists. Where to get them: the diff is `git diff <base> -- . ':!docs'` plus the working tree, `<base>` being the commit that approved tasks.md (`git log -S'"approved": true' -- {spec_path}/spec.json`); the criteria are the output of `bash docs/settings/scripts/list_criteria.sh {spec_path}/requirements.md`. Before dispatching, tell the user in one line that the review is starting and how long it is expected to take; a long one waits for the user's word (`§Waiting on a Run`).
+- **Dispatch**: one new sub-agent that does not inherit this conversation (`concept-alignment.md §Independent Runs`). Hand it `docs/settings/templates/specs/completion-review.md` and only what that file's comment lists. Where to get them: the diff is `git diff <base> -- . ':!docs'` plus the untracked files outside `docs/` (`git ls-files -o --exclude-standard -- . ':!docs'`), `<base>` being the last commit before implementation began: `HEAD` when none of the implementation is committed, else the commit the user names; the criteria are the output of `bash docs/settings/scripts/list_criteria.sh {spec_path}/requirements.md`. Before dispatching, tell the user in one line that the review is starting and how long it is expected to take; a long one waits for the user's word (`§Waiting on a Run`).
 - **Re-run** (n > 1): the earlier findings that file's comment names are every `F<k>` of an earlier `routing-<m>.md` still `open`, or `changed` without a later `not reproduced` — never your answer to them. The review's scope is the fix. From the third run on with findings still open, raise it with the user as an upstream problem (requirements, plan or design) before dispatching again.
 - **Incomplete report**: a report that does not have exactly one of the two — `#### F<k>` headings, or the `Findings: none` line — goes back to the same reviewer.
 - **Re-checks**: for each line of its C. Re-checks, `not reproduced` closes the `changed` line in `routing-<m>.md` (append `; re-checked in review-<n>.md`); `reproduced` sets it back to `open` there, and it is routed again as below, on that line.

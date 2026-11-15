@@ -38,7 +38,7 @@ Formulate behavior scenarios for the specified feature from its approved require
 
 ### Step 0: Resolve Spec Path
 
-Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+`{spec_path}` is the feature directory `AGENTS.md §Paths` resolves.
 
 **Kind gate**: read `kind` from `{spec_path}/spec.json`. If the kind does not produce behaviors (`docs/settings/rules/spec-kinds.md` §4), say "`<kind>` specs do not formulate behaviors (see `docs/settings/rules/spec-kinds.md`); next: `/sdd-spec-research <feature-name>`" and stop without changing spec.json.
 

@@ -34,7 +34,7 @@ Analyze implementation gap for the specified feature based on approved requireme
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+1. **Resolve Spec Path**: `{spec_path}` is the feature directory `AGENTS.md §Paths` resolves.
 
 2. **Load Context**:
    - Read `{spec_path}/spec.json` for language and metadata
@@ -47,7 +47,6 @@ Analyze implementation gap for the specified feature based on approved requireme
 4. **Execute Gap Analysis**:
    - Follow gap-analysis.md framework for thorough investigation
    - Analyze existing codebase using search and read tools
-   - Search the web for external dependency research if needed
    - Evaluate multiple implementation approaches (extend/new/hybrid)
 
 5. **Generate Analysis Document**:

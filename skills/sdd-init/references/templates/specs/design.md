@@ -116,7 +116,7 @@ Summarize external dependency findings here; deeper investigation (API signature
 ```
 [ComponentName].[method]([input]: [InputType]) → [OutputType] | [ErrorType]
 ```
-(state each once — in the docstring when the language has one, otherwise here)
+(state each once)
 - Preconditions:
 - Postconditions:
 - Invariants:

@@ -50,7 +50,7 @@ Verification artifacts live in `{spec_path}/probe/`. This is the physical seat f
 
 ## 4. Assumption register
 
-A `Load-bearing` claim that could not be verified does not disappear. When the user decides to proceed without measuring it, it is carried into `design.md` (Assumptions / Risks) as:
+A `Load-bearing` claim typed `inferred` or `unverified`, or one that `/sdd-validate-research` could not reproduce or found its source not to support (its checks 1–2), does not disappear. When the user decides to proceed without measuring it, it is carried into the Assumptions section of `design.md` as:
 
 ```
 - <claim> (C<n>) — impact: <what fails if it is wrong> / signpost: <the observable sign that it has broken>

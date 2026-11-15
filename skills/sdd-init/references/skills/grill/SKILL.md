@@ -111,7 +111,7 @@ Render the headings and body in the project's configured language (see §Languag
 
 ## Language
 
-Resolve the output language once, at the start: with `--scope=spec:<feature-name>`, that spec's `spec.json` `language`; otherwise `docs/settings/templates/specs/init.json` `language`.
+Resolve the output language once, at the start, by `AGENTS.md §Language`; `--scope=spec:<feature-name>` makes the session work on that spec.
 
 ## Landing the outcome
 

@@ -10,7 +10,7 @@ research.md holds the measured current structure and guard coverage; this file h
 <!-- Two or three sentences: what is restructured, why, and what stays fixed. -->
 
 ### Assumptions
-Omit when every claim this design rests on is measured.
+Omit the section when there are none.
 
 - `<claim>` (`C<n>`) — impact: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 

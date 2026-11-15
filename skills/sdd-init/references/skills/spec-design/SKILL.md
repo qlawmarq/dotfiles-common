@@ -41,7 +41,7 @@ Write technical design document for the specified feature based on approved requ
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: `{spec_path}` is the feature directory `AGENTS.md §Paths` resolves.
 
 ### Step 1: Load Context
 
@@ -67,7 +67,7 @@ Use the research results in `research.md` as design input. Discovery and externa
 
 1. **If `research.md` was loaded in Step 1**:
    - Extract key findings: architecture patterns, technology decisions, integration points, risks, and design recommendations
-   - Note which claims are typed `unverified` or carry no reproducer; any the design depends on goes in the design's Assumptions section, in the template's form
+   - Note the claims `docs/settings/rules/evidence-discipline.md §4` carries into the design's Assumptions section; they go there in the template's form
    - Retain these findings for Step 3
 
 2. **If `research.md` does not exist**:

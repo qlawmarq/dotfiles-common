@@ -33,7 +33,7 @@ Verify `research.md` independently. **Start from its claims and check them yours
 
 ## Execution Steps
 
-1. **Resolve Spec Path**: `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Error if neither exists.
+1. **Resolve Spec Path**: `{spec_path}` is the feature directory `AGENTS.md §Paths` resolves.
 
 2. **Load Context**: `{spec_path}/spec.json` (language, `kind`), `research.md`, `requirements.md`, `behaviors.md` and `gap-analysis.md` (if they exist), `{spec_path}/probe/README.md` (if it exists), and `docs/settings/rules/evidence-discipline.md`.
 

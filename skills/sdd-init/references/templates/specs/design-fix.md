@@ -10,7 +10,7 @@ measurements; this file holds the cause, the change and the guard. Kind rules: d
 <!-- Two or three sentences: the defects, the components touched, and the shape of the repair. -->
 
 ### Assumptions
-Omit when every claim this design rests on is measured.
+Omit the section when there are none.
 
 - `<claim>` (`C<n>`) — impact: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 

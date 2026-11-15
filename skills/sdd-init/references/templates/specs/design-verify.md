@@ -10,7 +10,7 @@ Verdict vocabulary and the over-claim rule: docs/settings/rules/spec-kinds.md.
 <!-- Two or three sentences: the questions, the environment the runs use, and what is left untouched. -->
 
 ### Assumptions
-Omit when every claim this design rests on is measured.
+Omit the section when there are none.
 
 - `<claim>` (`C<n>`) — impact: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 

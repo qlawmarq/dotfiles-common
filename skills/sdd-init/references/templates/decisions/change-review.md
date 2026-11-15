@@ -1,6 +1,6 @@
 # Change Review
 
-<!-- Provenance run: this file; the session record (`bash docs/settings/scripts/session_record.sh dump`, saved outside the repository); and `git diff HEAD -- <changed files>`, or the statements asked about. Consistency run: this file; the same diff; the decisions `README.md` and `registry.md`; the decision files whose `keywords` line matches a term of the changed text (`decision-records.md §Loading`); and `docs/steering/` — as committed. -->
+<!-- Provenance run: this file; the session record (`bash docs/settings/scripts/session_record.sh dump`, saved outside the repository); `git diff HEAD -- <changed files>`, or the statements asked about; and, for the D, R and F sources, `docs/steering/`, the decision records, the code, configuration and manifests, and `docs/reference/` — as committed. Consistency run: this file; the same diff; the decisions `README.md` and `registry.md`; the decision files whose `keywords` line matches a term of the changed text (`decision-records.md §Loading`); and `docs/steering/` — as committed. -->
 
 You did not write this text. Propose no wording. The provenance run does steps 1–4 and reports A–C; the consistency run does steps 1, 5 and 6 and reports D.
 

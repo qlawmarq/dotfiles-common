@@ -10,7 +10,7 @@ research.md holds the measurements; this file holds the decisions and the stages
 <!-- Two or three sentences: the target state, the reach of the change, and how completion is judged. -->
 
 ### Assumptions
-Omit when every claim this design rests on is measured.
+Omit the section when there are none.
 
 - `<claim>` (`C<n>`) — impact: `<what fails if it is wrong>` / signpost: `<the observable sign that it has broken>`
 

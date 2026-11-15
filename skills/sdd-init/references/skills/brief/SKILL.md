@@ -87,7 +87,7 @@ Order by what unblocks the most: a decision that several specs depend on outrank
 
 ## Output Description
 
-Provide output in the project's configured language, resolved in this order: if `--scope=spec:<feature-name>`, that spec's `spec.json` `language`; otherwise `docs/settings/templates/specs/init.json` `language`.
+Provide output in the language `AGENTS.md §Language` resolves; `--scope=spec:<feature-name>` makes the answer work on that spec.
 
 - **Shape A**: the answer, its citation, where it is applied, and current-vs-superseded if relevant.
 - **Shape B**: a compact table — spec | kind | phase | approvals | depends on | progress — plus the `user` scenarios not yet run, a short prose read of what is in flight, blocked, and stalled, and the recommended next action.

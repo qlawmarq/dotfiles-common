@@ -2,7 +2,7 @@
 name: sdd-validate-impl
 description: >-
   Validate implementation against requirements, design, and tasks.
-  Checks test coverage, requirements traceability, and design alignment.
+  Checks tests, requirements traceability, and design alignment.
 ---
 
 # Implementation Validation
@@ -12,7 +12,7 @@ description: >-
 - **Mission**: Verify that implementation aligns with approved requirements, design, and tasks
 - **Success Criteria**:
   - All specified tasks marked as completed
-  - Tests exist and pass for implemented functionality
+  - Tests pass for implemented functionality
   - Requirements traceability confirmed (EARS requirements covered)
   - Design structure reflected in implementation
   - No regressions in existing functionality
@@ -38,7 +38,7 @@ Validate implementation for feature(s) and task(s) based on approved specificati
 
 ### 0. Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: `{spec_path}` is the feature directory `AGENTS.md §Paths` resolves.
 
 ### 1. Detect Validation Target
 
@@ -81,12 +81,11 @@ For each task, verify:
 - Checkbox is `[x]` in tasks.md
 - If not completed, flag as "Task not marked complete"
 
-#### Test Coverage Check
+#### Test Check
 
-- Tests exist for task-related functionality
 - Tests pass (no failures or errors)
 - Run the project's test command (its build configuration, else `docs/steering/tech.md` (§Common Commands)) in the shell
-- If tests fail or don't exist, flag as "Test coverage issue"
+- If tests fail, flag as "Test failure"
 
 #### Requirements Traceability
 
@@ -114,7 +113,6 @@ For each task, verify:
 ## Important Constraints
 
 - **Non-blocking warnings**: Design deviations are warnings unless critical
-- **Test-first focus**: Test coverage is mandatory for GO decision
 - **Traceability required**: All requirements must be traceable to implementation
 - **Behavior evidence required**: When behaviors.md exists, unverified or contradicted scenarios block GO
 

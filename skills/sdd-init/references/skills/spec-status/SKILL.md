@@ -22,12 +22,9 @@ description: >-
 ## Input
 
 This skill expects:
-1. **Feature name** (optional): The feature directory name in `docs/specs/`
+1. **Feature name**: The feature directory name in `docs/specs/`
 
-- **With a feature name** → the detailed single-spec report described below.
-- **Without one** → the list in §List All Specs. Do not ask the user which feature they meant; the list is the answer.
-
-For a cross-spec view that also covers dependencies, blockers, and the plan, use `/sdd-brief` — this skill stays focused on one spec's phase detail.
+Without one, point at `/sdd-brief`, the report across every spec, with dependencies, blockers, and the plan; do not ask the user which feature they meant. This skill stays focused on one spec's phase detail.
 
 ## Core Task
 
@@ -35,11 +32,9 @@ Generate status report for the specified feature showing progress across all pha
 
 ## Execution Steps
 
-Steps 0–3 below produce the single-spec report. **If no feature name was given, skip all of them** and produce the list described under "List All Specs" in Safety & Fallback instead.
-
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: `{spec_path}` is the feature directory `AGENTS.md §Paths` resolves.
 
 ### Step 1: Load Spec Context
 
@@ -67,7 +62,7 @@ Write the report per Output Description.
 
 ## Output Description
 
-Write the report in that spec's `spec.json` `language`; in list mode, in `docs/settings/templates/specs/init.json` `language`.
+Write the report in that spec's `spec.json` `language`.
 
 **Report Structure**:
 
@@ -92,9 +87,3 @@ Write the report in that spec's `spec.json` `language`; in list mode, in `docs/s
 
 - **Warning**: Identify which files are missing
 - **Suggested Action**: Point to next phase command
-
-### List All Specs
-
-When invoked with no feature name, read every `spec.json` under `docs/specs/todo/` and `docs/specs/done/` (they are small — read them all) and report one row per spec: feature name, kind, `phase`, approval state, and — where `tasks.md` exists — completed/total task counts. Sort `todo/` before `done/`. Then list the `user` scenarios whose record does not exist yet, from `bash docs/settings/scripts/check_completion.sh outstanding` — do not read the behaviors files for them.
-
-If no specs exist at all, say so and point at `/sdd-plan` (large effort) or `/sdd-spec-init` (single feature).

@@ -38,7 +38,7 @@ Investigate the existing codebase and research best practices to generate a stru
 
 ### Step 0: Resolve Spec Path
 
-**Resolve Spec Path**: Look for the feature directory in `docs/specs/todo/<feature-name>/` first, then `docs/specs/done/<feature-name>/`. Use whichever exists. If neither exists, report an error.
+**Resolve Spec Path**: `{spec_path}` is the feature directory `AGENTS.md §Paths` resolves.
 
 ### Step 1: Load Context
 
