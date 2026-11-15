@@ -1,6 +1,6 @@
 # Change Review
 
-<!-- Provenance run: this file; the session record (`bash docs/settings/scripts/session_record.sh dump`, saved outside the repository); and `git diff HEAD -- <changed files>`, or the statements asked about. Consistency run: this file; the same diff; the decisions `README.md` and `registry.md`; and `docs/steering/` — as committed. -->
+<!-- Provenance run: this file; the session record (`bash docs/settings/scripts/session_record.sh dump`, saved outside the repository); and `git diff HEAD -- <changed files>`, or the statements asked about. Consistency run: this file; the same diff; the decisions `README.md` and `registry.md`; the decision files whose `keywords` line matches a term of the changed text (`decision-records.md §Loading`); and `docs/steering/` — as committed. -->
 
 You did not write this text. Propose no wording. The provenance run does steps 1–4 and reports A–C; the consistency run does steps 1, 5 and 6 and reports D.
 
@@ -25,8 +25,8 @@ For a provenance question: steps 1–2 without D for each statement, plus the us
 
 ## Consistency
 
-5. For each claim, list every row of the decisions `README.md` (decision log and Open Questions) and `registry.md`, and every line of `docs/steering/`, whose topic it touches — or `none`.
-6. For each pair: **contradicts**; **stale** — the row or line still lists as open, or as a candidate, what the claim decides; or **consistent**.
+5. For each claim, list every row of the decisions `README.md` (decision log and Open Questions) and `registry.md`, every item of the decision files handed to this run, and every line of `docs/steering/`, whose topic it touches — or `none`.
+6. For each pair: **contradicts**; **stale** — the row, item or line still lists as open, or as a candidate, what the claim decides; or **consistent**.
 
 ## Report
 
@@ -36,4 +36,4 @@ B. Each quote on its own line, character for character: `<#>⇥USER|AGENT⇥<tim
 C. Each pair of step 4, both quotes with speaker and timestamp, or `Conflicts: none`.
 
 Consistency:
-D. Each pair of step 6 that is not consistent: the claim, the row ID or section, the verdict, and the words of both that decide it — or `Conflicts: none`.
+D. Each pair of step 6 that is not consistent: the claim, the row ID, decision item or section, the verdict, and the words of both that decide it — or `Conflicts: none`.
