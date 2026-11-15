@@ -52,7 +52,7 @@ Always-loaded: `product.md §Decision Records` and the README index. A product-i
 
 ## Checks
 
-`docs/settings/scripts/check_decisions.sh check` (registry-ID resolution, link liveness, `keywords` presence, enumerations outside the registry, banned terms from the `TERM` domain, canonical-term keywords coverage) reports and never blocks; run it in `/sdd-spec-done` and `/sdd-decision`. `commit-scope` is an optional pre-commit hook (`docs/settings/scripts/pre-commit.example`) that flags a decision change bundled with other files. Do not edit the script per project — configure by arguments; `/sdd-init` overwrites it.
+`docs/settings/scripts/check_decisions.sh check` (registry-ID resolution, link liveness, `keywords` presence, enumerations outside the registry, banned terms from the `TERM` domain, canonical-term keywords coverage, Decision or Consequences items deferring to a question the README no longer lists as open) reports and never blocks; run it in `/sdd-spec-done` and `/sdd-decision`. `commit-scope` is an optional pre-commit hook (`docs/settings/scripts/pre-commit.example`) that flags a decision change bundled with other files. Do not edit the script per project — configure by arguments; `/sdd-init` overwrites it.
 
 ## Adoption
 

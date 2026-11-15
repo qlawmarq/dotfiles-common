@@ -4,6 +4,7 @@
 #
 #   check_decisions.sh [--root <decisions-root>] check      # (a) registry-ID resolution (b) link liveness (c) keywords line (d) enumerations outside registry
 #                                                           #   (e) banned terms from the TERM domain (f) canonical terms missing from every keywords line
+#                                                           #   (g) Decision/Consequences items deferring to a question no longer in the README's Open Questions
 #   check_decisions.sh [--root <decisions-root>] used-by    # verify `Used by` entries, classify IDs, suggest doc-side refs
 #   check_decisions.sh commit-scope                         # pre-commit helper: exit 2 when staged decision files are bundled with other files
 #   check_decisions.sh [--root <decisions-root>] terms-prh  # emit the TERM vocabulary as a prh rule file (stdout) for optional textlint integration
@@ -69,10 +70,13 @@ if [ "$CMD" = "check" ]; then
         t=$(echo "$m" | sed -E 's/^\]\(//; s/\)$//; s/#.*$//'); case "$t" in http*|mailto*|"") continue ;; esac
         [ -e "$(dirname "$f")/$t" ] || echo "$f:$l: (b) broken link $t"
     done >> "$OUT"
-    decision_files | while IFS= read -r f; do                                  # (c) keywords line  (d) enumerations
+    OPENQ=" $(grep -oE '^\| *Q[0-9]+ *\|' "$ROOT/README.md" 2>/dev/null | tr -d '| ' | sort -u | tr '\n' ' ')"
+    decision_files | while IFS= read -r f; do                                  # (c) keywords line  (d) enumerations  (g) closed open questions
         grep -qE '^- \*\*keywords\*\*:' "$f" || echo "$f:1: (c) missing keywords line" >> "$OUT"
         awk -v F="$f" '/^\|/{t++; if(t==7) print F":"NR": (d) table with 5+ rows — enumeration outside the registry?"} !/^\|/{t=0}
                         /^[0-9]+\. /{n++; if(n==5) print F":"NR": (d) list with 5+ items — enumeration outside the registry?"} !/^[0-9]+\. /{n=0}' "$f" >> "$OUT"
+        LC_ALL=C awk -v F="$f" -v OPEN="$OPENQ" '/^## /{sec=$0} sec ~ /^## (Decision|Consequences)/ { s=" " $0; while (match(s, /[^A-Za-z0-9_]Q[0-9]+/)) { q=substr(s, RSTART+1, RLENGTH-1); s=substr(s, RSTART+RLENGTH)
+                        if (index(OPEN, " " q " ") == 0) print F":"NR": (g) " q " is no longer an open question — the item still defers to it" } }' "$f" >> "$OUT"
     done
     term_rows | while IFS= read -r row; do                                                  # (e) banned terms  (f) keywords coverage of canonical terms
         norm=$(term_norm "$row"); cterm=$(term_canonical "$norm")
